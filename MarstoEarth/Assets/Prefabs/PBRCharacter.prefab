@@ -2751,17 +2751,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: 
   characterStat:
-    dmg: 10
+    dmg: 40
     atkSpd: 0
-    speed: 4
+    speed: 5
     def: 5
     duration: 0
-    hp: 55
-    maxHP: 70
+    hp: 50
+    maxHP: 50
     range: 8
-  prefabModel: {fileID: 0}
   anim: {fileID: 2836004473841745626}
   ai: {fileID: 6663956704135425338}
+  col: {fileID: 6844819672251864469}
 --- !u!136 &6844819672251864469
 CapsuleCollider:
   m_ObjectHideFlags: 0

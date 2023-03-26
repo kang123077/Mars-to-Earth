@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Character;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class SpawnManager :Singleton<SpawnManager>
 { 
@@ -15,6 +12,10 @@ public class SpawnManager :Singleton<SpawnManager>
         playerTransform = player.gameObject.transform;
     }
 
-
+    public static void DropOptanium(Vector3 postion)
+    {
+        Item.Item optanium= Instantiate(ResourceManager.Instance.items[0],postion,Quaternion.identity);
+        Debug.Log("옵타니움"+optanium);
+    }
     
 }

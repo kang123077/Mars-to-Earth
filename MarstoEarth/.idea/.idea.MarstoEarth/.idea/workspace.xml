@@ -12,6 +12,8 @@
     <setting file="file://$USER_HOME$/Defence/Assets/Scripts/Character/AgentAI.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Character/Monster.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Character/Player.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Item/Item.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Item/ItemInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../../카카오톡 받은 파일/FlashController.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -90,6 +92,7 @@
       <workItem from="1679484973271" duration="55098000" />
       <workItem from="1679662706103" duration="21971000" />
       <workItem from="1679735964189" duration="22992000" />
+      <workItem from="1679801813039" duration="48848000" />
     </task>
     <servers />
   </component>

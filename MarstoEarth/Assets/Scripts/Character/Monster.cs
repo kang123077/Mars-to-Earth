@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using Item;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -24,9 +25,10 @@ namespace Character
         private Vector3 lastPosition;
         private float travelDistance;
         private int patrolIdx;
+        private bool isAttacking;
         
-        
-        private bool attacked;
+        private float optanium;
+        private float experience;
         private IEnumerator StuckCheck()
         {
             while (true)
@@ -41,7 +43,7 @@ namespace Character
                     positions.RemoveAt(0);
                     if (travelDistance < 1f)
                     {
-                        if (!attacked){
+                        if (!isAttacking){
                          trackingPermission = false;
                         target = null;
                         
@@ -65,7 +67,6 @@ namespace Character
             }
            
         }
-        
         protected override void Awake()
         {
             base.Awake();
@@ -76,11 +77,12 @@ namespace Character
             positions = new List<float>();
             trackingPermission = true;
             colliders = new Collider[1];
-
             lastPosition = transform.position;
             patrolIdx = Random.Range(0, 4);
             ai.SetDestination(patrolPoints[patrolIdx]);
+            
             ai.speed = characterStat.speed;
+            ai.stoppingDistance = characterStat.range;
             
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
         }
@@ -94,7 +96,7 @@ namespace Character
             
             if (target)
             {
-                if(attacked)
+                if(isAttacking)
                     return;
                 Vector3 targetPosition = target.position;
                 float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
@@ -105,8 +107,7 @@ namespace Character
                         var position = thisCurTransform.position;
                         position.y = targetPosition.y;
                         thisCurTransform.forward = targetPosition - position;
-                        ai.SetDestination(position);
-                        anim.SetBool(attacking, attacked = true);
+                        anim.SetBool(attacking, isAttacking = true);
                     }
                     else
                         ai.SetDestination(target.position);
@@ -126,14 +127,16 @@ namespace Character
                 }
             }
         }
+        // ReSharper disable Unity.PerformanceAnalysis
         protected override IEnumerator Die()
         {
             StopCoroutine(StuckCheckCoroutine);
+            SpawnManager.DropOptanium(thisCurTransform.position);
             return base.Die();
         }
         protected override void Attack()
         {
-            anim.SetBool(attacking,attacked = false );
+            anim.SetBool(attacking,isAttacking = false );
             
             positions.Clear();
             travelDistance = 0;
@@ -148,6 +151,11 @@ namespace Character
             
         }
 
-        
+        protected override void Hit(Transform attacker, float dmg,float penetrate=0)
+        {
+            base.Hit(attacker, dmg, penetrate);
+            target = SpawnManager.Instance.playerTransform;
+        }
+
     }
 }
