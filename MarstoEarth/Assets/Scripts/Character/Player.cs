@@ -9,11 +9,24 @@ namespace Character
         private static readonly int Z = Animator.StringToHash("z");
 
         private static readonly int onTarget = Animator.StringToHash("onTarget");
-        private float EXP;
-        private float optanium;
+        private float _EXP;
+        public float EXP
+        {
+            get => _EXP;
+            set
+            {
+                float curValue=value;
+                while (curValue>=100) {
+                    curValue -= 100;
+                    level++;
+                };
+                _EXP = curValue;
+            }
+        }
+        
+        public float optanium { get; set; }
 
         private Collider[] itemColliders;
-        private Item.Item getItem;
         protected override void Awake()
         {
             base.Awake();
@@ -34,9 +47,8 @@ namespace Character
             mainCam.transform.position = position + new Vector3(0, 25, -27.5f);
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
-                itemColliders[0].TryGetComponent(out getItem);
-                // ReSharper disable once Unity.NoNullPropagation
-                getItem?.Use(this);
+                itemColliders[0].TryGetComponent(out Item.Item getItem);
+                getItem.Use(this);
             }
             
             #region AttackMan
@@ -44,7 +56,7 @@ namespace Character
                 anim.SetTrigger(attacking);
             if (!target)
             {
-                int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, characterStat.range, colliders,
+                int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders,
                     1 << 6);
                 if (size > 0)
                 {
@@ -61,7 +73,7 @@ namespace Character
                     anim.SetBool(onTarget, target);
                 }
             }
-            else if (Vector3.Distance(target.position, thisCurTransform.position) > characterStat.range + .5f)
+            else if (Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
                 anim.SetBool(onTarget, target = null);
             #endregion
             #region MovingMan
@@ -79,7 +91,7 @@ namespace Character
                     inputDir.z = -Mathf.Sin(radian) * movingMag;
                 }
 
-                thisCurTransform.position += inputDir * (Time.deltaTime * characterStat.speed);
+                thisCurTransform.position += inputDir * (Time.deltaTime * speed);
                 Vector3 horizonPosition = default;
                 Vector3 targetPosition = default;
                 if (target)
@@ -98,40 +110,16 @@ namespace Character
             anim.SetFloat(Z, characterDir.z);
             #endregion
             
-
         }
 
         protected override void Attack()
         {
-            ai.velocity -= thisCurTransform.forward * 2;
             if (!target)
                 return;
             base.Attack();
-            if (targetCharacter.characterStat.hp <= 0)
+            if (targetCharacter.hp <= 0)
                 anim.SetBool(onTarget, target = null);
         }
 
-        public void ApplyItemEffects(Item.Item item)
-        {
-            switch (item.itemInfo.type)
-            {
-                case Item.ItemType.Heal:
-                    characterStat.hp += item.itemInfo.itemValue;
-                    break;
-                case Item.ItemType.Shield:
-                    characterStat.def += item.itemInfo.itemValue;
-                    break;
-                case Item.ItemType.EXP:
-                    EXP += item.itemInfo.itemValue;
-                    break;
-                case Item.ItemType.Optanium:
-                    optanium += item.itemInfo.itemValue;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            Debug.Log("아이템 사용함");
-            Debug.Log(EXP);
-        }
     }
 }
