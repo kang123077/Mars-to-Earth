@@ -11,7 +11,22 @@ namespace Item
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Player player)
         {
-            player.ApplyItemEffects(this);
+            switch (itemInfo.type)
+            {
+                case ItemType.Heal:
+                    player.hp += itemInfo.itemValue;
+                    break;
+                case ItemType.Shield:
+                    player.def += itemInfo.itemValue;
+                    break;
+                case ItemType.EXP:
+                    player.EXP += itemInfo.itemValue;
+                    break;
+                case ItemType.Optanium:
+                    player.optanium += itemInfo.itemValue;
+                    break;
+            }
+            Debug.Log("아이템 사용 이팩트");
             Destroy(gameObject);
         }
         

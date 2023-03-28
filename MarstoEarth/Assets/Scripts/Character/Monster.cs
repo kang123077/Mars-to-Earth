@@ -81,8 +81,8 @@ namespace Character
             patrolIdx = Random.Range(0, 4);
             ai.SetDestination(patrolPoints[patrolIdx]);
             
-            ai.speed = characterStat.speed;
-            ai.stoppingDistance = characterStat.range;
+            ai.speed = speed;
+            ai.stoppingDistance = range;
             
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
         }
@@ -91,7 +91,7 @@ namespace Character
         {
             if(dying)
                 return; 
-            anim.SetFloat("z",ai.velocity.magnitude*(1/characterStat.speed));
+            anim.SetFloat("z",ai.velocity.magnitude*(1/speed));
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
             
             if (target)
@@ -102,7 +102,7 @@ namespace Character
                 float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
                 if (targetDistance <= sightLength * 1.5f)
                 {
-                    if (targetDistance<=characterStat.range)
+                    if (targetDistance<=range)
                     {
                         var position = thisCurTransform.position;
                         position.y = targetPosition.y;
@@ -140,7 +140,7 @@ namespace Character
             
             positions.Clear();
             travelDistance = 0;
-            int size = Physics.OverlapSphereNonAlloc(transform.position, characterStat.range+1, colliders, 1 << 3);
+            int size = Physics.OverlapSphereNonAlloc(transform.position, range+1, colliders, 1 << 3);
             if (target&&size > 0&&
                 Vector3.Dot(transform.forward, (colliders[0].transform.position - transform.position).normalized) >
                 Mathf.Cos((viewingAngle-10) * Mathf.Deg2Rad))

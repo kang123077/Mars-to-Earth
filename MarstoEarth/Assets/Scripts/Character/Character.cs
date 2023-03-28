@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace Character
 {
-    [Serializable]
-    
     public abstract class Character : MonoBehaviour
     {
         
         [SerializeField] private string characterName;
-        [SerializeField] protected internal StatInfo characterStat;
+        [SerializeField] private StatInfo characterStat;
+        
         [SerializeField] protected Animator anim;
         [SerializeField] protected NavMeshAgent ai;
         [SerializeField] protected Collider col;
@@ -25,7 +24,26 @@ namespace Character
         private float nockBackResist ;
         protected bool dying;
         protected int level;
-
+        
+        public float dmg { get; set; }
+        public float atkSpd { get; set; }
+        public float speed { get; set; }
+        public float def { get; set; }
+        public float duration { get; set; }
+        public float range { get; set; }
+        private float _hp;
+        protected internal float hp
+        {
+            get => _hp;
+            set
+            {
+                if (value > characterStat.maxHP)
+                    value = characterStat.maxHP;
+                if (value <= 0)
+                    StartCoroutine(Die());
+                _hp = value;
+            } 
+        }
         private static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
 
@@ -35,10 +53,16 @@ namespace Character
             if(!mainCam)
                 mainCam= Camera.main;
             target = null;
-            characterStat = Instantiate(characterStat);
             anim.SetFloat(movingSpeed,1+characterStat.speed*0.3f);
             thisCurTransform = transform;
             nockBackResist = characterStat.maxHP * 0.1f;
+            dmg = characterStat.dmg;
+            atkSpd = characterStat.atkSpd;
+            speed = characterStat.speed;
+            def = characterStat.def;
+            duration = characterStat.duration;
+            hp = characterStat.maxHP;
+            range = characterStat.range;
         }
 
         protected virtual void Start()
@@ -68,16 +92,14 @@ namespace Character
             if(dying)
                 return; 
             
-            float def = characterStat.def * (100 - penetrate) * 0.01f;
-            dmg= dmg - def<=0?0:dmg - def;
-            characterStat.hp -= dmg;
-            hpBar.value = characterStat.hp / characterStat.maxHP;
+            float penetratedDef = def * (100 - penetrate) * 0.01f;
+            dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
+            hp -= dmg;
+            hpBar.value = hp / characterStat.maxHP;
             Vector3 horizonPosition = thisCurTransform.position;
             Vector3 attackerPosition = attacker.position;
             horizonPosition.y = attackerPosition.y;
             
-            if (characterStat.hp <= 0)
-                StartCoroutine(Die());
             ai.velocity += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
             thisCurTransform.forward =
                 Vector3.RotateTowards(thisCurTransform.forward, attackerPosition - horizonPosition, 80, 30);

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 40
   atkSpd: 0
-  speed: 4
+  speed: 6
   def: 0
   duration: 0
   hp: 55

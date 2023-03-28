@@ -10,7 +10,6 @@ namespace Character
         public float speed;
         public float def;
         public float duration;
-        public float hp;
         public float maxHP;
         public float range;
     }
