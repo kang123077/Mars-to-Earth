@@ -14,19 +14,14 @@ namespace Character
         private static readonly Vector3[] FourDirection = 
             {Vector3.forward,Vector3.right,Vector3.back,Vector3.left };
         private Vector3[] patrolPoints;
-
         [SerializeField] private float sightLength;
-        [SerializeField] private float viewingAngle;
-        
         private List<float> positions;
         private Coroutine StuckCheckCoroutine;
-        
         private bool trackingPermission;
         private Vector3 lastPosition;
         private float travelDistance;
         private int patrolIdx;
         private bool isAttacking;
-        
         private float optanium;
         private float experience;
         private IEnumerator StuckCheck()
@@ -34,7 +29,7 @@ namespace Character
             while (true)
             {
                 yield return new WaitForSeconds(0.2f);
-                float curMoveDistance = Vector3.Distance(lastPosition, transform.position);
+                float curMoveDistance = Vector3.Distance(lastPosition, ((Component)this).transform.position);
                 travelDistance += curMoveDistance;
                 positions.Add(curMoveDistance);
                 if (positions.Count >= 10)
@@ -47,7 +42,6 @@ namespace Character
                          trackingPermission = false;
                         target = null;
                         
-                        Debug.Log("끼어서 타겟제거");
                         int randIdx ;
                         do randIdx = Random.Range(0, 4);
                         while (patrolIdx == randIdx);
@@ -63,7 +57,7 @@ namespace Character
                         trackingPermission = true;
                     }
                 }
-                lastPosition = transform.position;
+                lastPosition = ((Component)this).transform.position;
             }
            
         }
@@ -72,12 +66,12 @@ namespace Character
             base.Awake();
             patrolPoints = new Vector3[4];
             for (int i = 0; i < patrolPoints.Length; i++)
-                patrolPoints[i]=  transform.position + FourDirection[i] * (sightLength * 2);
+                patrolPoints[i]=  thisCurTransform.position + FourDirection[i] * (sightLength * 2);
             
             positions = new List<float>();
             trackingPermission = true;
             colliders = new Collider[1];
-            lastPosition = transform.position;
+            lastPosition = thisCurTransform.position;
             patrolIdx = Random.Range(0, 4);
             ai.SetDestination(patrolPoints[patrolIdx]);
             
@@ -85,13 +79,15 @@ namespace Character
             ai.stoppingDistance = range;
             
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
+            
+            anim.SetFloat(movingSpeed,1+speed*0.3f);
         }
 
         protected  void Update()
         {
             if(dying)
                 return; 
-            anim.SetFloat("z",ai.velocity.magnitude*(1/speed));
+            anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
             
             if (target)
@@ -140,9 +136,9 @@ namespace Character
             
             positions.Clear();
             travelDistance = 0;
-            int size = Physics.OverlapSphereNonAlloc(transform.position, range+1, colliders, 1 << 3);
+            int size = Physics.OverlapSphereNonAlloc(((Component)this).transform.position, range+1, colliders, 1 << 3);
             if (target&&size > 0&&
-                Vector3.Dot(transform.forward, (colliders[0].transform.position - transform.position).normalized) >
+                Vector3.Dot(((Component)this).transform.forward, (colliders[0].transform.position - ((Component)this).transform.position).normalized) >
                 Mathf.Cos((viewingAngle-10) * Mathf.Deg2Rad))
             {
                 base.Attack();
