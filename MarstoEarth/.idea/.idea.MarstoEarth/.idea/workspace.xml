@@ -3,11 +3,17 @@
   <component name="ChangeListManager">
     <list default="true" id="b8906554-44b2-4bd9-9321-49c3a99fa184" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MarstoEarth/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarstoEarth/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/Miles/Animators/SciFiWarrior.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Miles/Animators/SciFiWarrior.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/Monster_kamikaze/Animation/robotSphere@anim_open_GoToRoll.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Monster_kamikaze/Animation/robotSphere@anim_open_GoToRoll.fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/Monster_kamikaze/Animation/robotSphereAnmCont.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Monster_kamikaze/Animation/robotSphereAnmCont.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Cr-42.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Cr-42.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/HPCharacter.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/HPCharacter.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGameScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/M_CR-45.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/M_CR-45.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/M_CR-45.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/M_CR-45.asset.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Monster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Monster.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/StatInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/StatInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/miles.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/miles.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,6 +22,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Character/M_Kamikaze.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Character/Monster.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Character/Player.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Item/Item.cs" root0="FORCE_HIGHLIGHTING" />
@@ -101,7 +108,7 @@
       <workItem from="1679735964189" duration="22992000" />
       <workItem from="1679801813039" duration="48848000" />
       <workItem from="1679930383356" duration="20390000" />
-      <workItem from="1680002745942" duration="4840000" />
+      <workItem from="1680002745942" duration="35842000" />
     </task>
     <servers />
   </component>

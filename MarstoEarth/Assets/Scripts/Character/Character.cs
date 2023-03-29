@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 namespace Character
 {
     public abstract class Character : MonoBehaviour
@@ -9,7 +7,6 @@ namespace Character
         [SerializeField] private string characterName;
         [SerializeField] private StatInfo characterStat;
         [SerializeField] protected Animator anim;
-        [SerializeField] protected NavMeshAgent ai;
         [SerializeField] protected Collider col;
         
         protected Camera mainCam;
@@ -18,7 +15,7 @@ namespace Character
         protected Transform target;
         protected Character targetCharacter;
         protected Collider[] colliders;
-        private float nockBackResist ;
+        protected float nockBackResist ;
         protected bool dying;
         protected int level;
         public float dmg { get; set; }
@@ -28,7 +25,7 @@ namespace Character
         public float duration { get; set; }
         
         public float range { get; set; }
-        public float viewingAngle { get; set; }
+        public float viewAngle { get; set; }
         private float _hp;
         protected internal float hp
         {
@@ -61,7 +58,7 @@ namespace Character
             duration = characterStat.duration;
             hp = characterStat.maxHP;
             range = characterStat.range;
-            viewingAngle = characterStat.viewAngle;
+            viewAngle = characterStat.viewAngle;
         }
 
         protected virtual void Start()
@@ -72,34 +69,30 @@ namespace Character
         protected virtual void Attack()
         {
             target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform,characterStat.dmg,0);
+            targetCharacter.Hit(thisCurTransform,dmg,0);
+            
         }
         protected virtual IEnumerator Die()
         {
             dying = true;
             Destroy(hpBar.gameObject);
             Destroy(col);
-            ai.ResetPath();
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);
             Destroy(gameObject);
         }
 
-        protected virtual void Hit(Transform attacker, float dmg,float penetrate=0)
+        protected internal virtual void Hit(Transform attacker, float dmg,float penetrate=0)
         {
             if(dying)
                 return; 
-            
+            Debug.Log("처맞"+dmg);
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
             hpBar.value = hp / characterStat.maxHP;
-            Vector3 horizonPosition = thisCurTransform.position;
-            Vector3 attackerPosition = attacker.position;
-            horizonPosition.y = attackerPosition.y;
             
-            ai.velocity += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
-            }
+        }
     }
 }

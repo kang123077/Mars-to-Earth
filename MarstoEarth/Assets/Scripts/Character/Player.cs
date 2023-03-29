@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Character
@@ -6,7 +5,7 @@ namespace Character
     public class Player : Character
     {
         private RaycastHit hitInfo;
-        private Vector3 mouseDiretion;
+        private Vector3 mouseDir;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
 
@@ -49,14 +48,17 @@ namespace Character
             if (dying)
                 return;
             Vector3 position = thisCurTransform.position;
+            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo,Mathf.Infinity,layerMask:1<<0);
+            mouseDir = hitInfo.point - position;
+            
             mainCam.transform.position = position + new Vector3(0, 25, -27.5f);
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
                 getItem.Use(this);
             }
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo,Mathf.Infinity,layerMask:1<<0);
-            mouseDiretion = hitInfo.point - thisCurTransform.position;
+            
+            
             #region AttackMan
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
@@ -69,10 +71,12 @@ namespace Character
                     float minCoLength = 1000;
                     for (int i = 0; i < size; i++)
                     {
-                        if (Vector3.Dot( mouseDiretion, (colliders[i].transform.position - thisCurTransform.position).normalized) >
-                            Mathf.Cos(viewingAngle * Mathf.Deg2Rad))
+                        float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position,
+                            Vector3.up);
+                        
+                        if ((angle<0?-angle:angle) < viewAngle)
                         {
-                            float coLeng = Vector3.Distance(colliders[i].transform.position, thisCurTransform.position);
+                            float coLeng = Vector3.Distance(colliders[i].transform.position, position);
                             if (minCoLength > coLeng)
                             {
                                 minCoLength = coLeng;
@@ -83,11 +87,15 @@ namespace Character
                     anim.SetBool(onTarget, target);
                 }
             }
-            else if (Vector3.Distance(target.position, thisCurTransform.position) > range + .5f||
-                     !(Vector3.Dot( target.position-thisCurTransform.position, mouseDiretion) >
-                       Mathf.Cos((viewingAngle+1) * Mathf.Deg2Rad)))
+            else  
             {
-                anim.SetBool(onTarget, target = null);
+                float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
+                if ((angle < 0 ? -angle : angle) > viewAngle||Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
+                {
+                    anim.SetBool(onTarget, target = null);
+                    thisCurTransform.forward =
+                        Vector3.RotateTowards(thisCurTransform.forward, mouseDir, Time.deltaTime * 10, 10);
+                }
             }
             #endregion
             #region MovingMan
@@ -107,9 +115,8 @@ namespace Character
                 thisCurTransform.position += inputDir * (Time.deltaTime * speed);
             }
             thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, target? target.position - position:
-                    mouseDiretion, 6 * Time.deltaTime, 0);
-
+                Vector3.RotateTowards(thisCurTransform.forward, target? target.position-position :
+                    mouseDir, 6 * Time.deltaTime, 0);
             Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + inputDir));
             anim.SetFloat(X, characterDir.x);
             anim.SetFloat(Z, characterDir.z);
