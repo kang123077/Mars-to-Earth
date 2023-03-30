@@ -19,4 +19,4 @@ MonoBehaviour:
   duration: 0
   maxHP: 55
   range: 8
-  viewAngle: 50
+  viewAngle: 70

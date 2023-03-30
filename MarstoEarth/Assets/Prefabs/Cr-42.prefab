@@ -1823,9 +1823,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7447000374892006506}
   - component: {fileID: 7447000374884787196}
+  - component: {fileID: 7819512584892019719}
   - component: {fileID: 5308588560238885115}
   - component: {fileID: 24098328086448473}
-  - component: {fileID: 1563197621}
   m_Layer: 6
   m_Name: Cr-42
   m_TagString: Untagged
@@ -1870,6 +1870,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &7819512584892019719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7447000374892040586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 000229bb779653346a96f56927fa8d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: cr-42
+  characterStat:
+    dmg: 20
+    atkSpd: 2
+    speed: 3
+    def: 5
+    duration: 0
+    hp: 50
+    maxHP: 50
+    range: 3
+  anim: {fileID: 7447000374884787196}
+  ai: {fileID: 5308588560238885115}
+  col: {fileID: 24098328086448473}
+  sightLength: 8
+  viewingAngle: 80
 --- !u!195 &5308588560238885115
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1906,26 +1933,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1563197621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7447000374892040586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1008d8e3bd72425a84d01c2a8ae5201c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterName: 
-  characterStat: {fileID: 11400000, guid: 89a1d0573580e674389cf51c4813060a, type: 2}
-  anim: {fileID: 7447000374884787196}
-  col: {fileID: 24098328086448473}
-  ai: {fileID: 5308588560238885115}
-  sightLength: 8
-  optanium: 0
-  experience: 0
 --- !u!1 &7447000374892040588
 GameObject:
   m_ObjectHideFlags: 0
