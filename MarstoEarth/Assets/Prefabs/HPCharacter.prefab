@@ -2157,7 +2157,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!136 &8675458328526890443
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2187,7 +2187,6 @@ MonoBehaviour:
   characterName: 
   characterStat: {fileID: 11400000, guid: d80ea9e1da3385e4898781836e2c3783, type: 2}
   anim: {fileID: 7673487250857332701}
-  ai: {fileID: 5485203287468621803}
   col: {fileID: 8675458328526890443}
 --- !u!1 &7673487251499248762
 GameObject:

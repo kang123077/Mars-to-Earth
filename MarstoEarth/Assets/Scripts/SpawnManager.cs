@@ -12,6 +12,12 @@ public class SpawnManager :Singleton<SpawnManager>
         playerTransform = player.gameObject.transform;
     }
 
+    public  void spawnMonster()
+    {
+        //인게임 매니저에서 현재 스테이지에 따라 스탯 
+        //
+    }
+
     public static void DropOptanium(Vector3 postion)
     {
         Item.Item optanium= Instantiate(ResourceManager.Instance.items[0],postion,Quaternion.identity);
