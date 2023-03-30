@@ -870,15 +870,16 @@ GameObject:
   m_Component:
   - component: {fileID: 1543216753092788333}
   - component: {fileID: 1576668041}
-  - component: {fileID: 1576668042}
   - component: {fileID: 4233715495651908633}
+  - component: {fileID: 12770826359698686}
+  - component: {fileID: 6115731967689003954}
   m_Layer: 6
   m_Name: PT_Medieval_Plague_Doctor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1543216753092788333
 Transform:
   m_ObjectHideFlags: 0
@@ -918,34 +919,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1576668042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1543216753092369487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 000229bb779653346a96f56927fa8d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterName: 
-  characterStat:
-    dmg: 0
-    atkSpd: 0
-    speed: 2
-    def: 0
-    duration: 0
-    hp: 0
-    maxHP: 0
-    range: 3
-  prefabModel: {fileID: 0}
-  prefabHpBar: {fileID: 3813842686939207013, guid: 262fba7752f08a9498529ff26e8f78b6, type: 3}
-  anim: {fileID: 0}
-  ai: {fileID: 1576668041}
-  sightLength: 10
-  viewingAngle: 80
 --- !u!136 &4233715495651908633
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -960,6 +933,46 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &12770826359698686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543216753092369487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d8b08b13cff37a44ad6bf68831bbdde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: 
+  characterStat: {fileID: 11400000, guid: 89a1d0573580e674389cf51c4813060a, type: 2}
+  anim: {fileID: 6115731967689003954}
+  col: {fileID: 4233715495651908633}
+  ai: {fileID: 1576668041}
+  sightLength: 8
+  optanium: 0
+  experience: 0
+--- !u!95 &6115731967689003954
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543216753092369487}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: de9aad9333db56a40a2d75f009a903e5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1543216753092369489
 GameObject:
   m_ObjectHideFlags: 0

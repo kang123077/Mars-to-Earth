@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe362b65159445338108f6252fa3718b, type: 3}
-  m_Name: M_CR-45
+  m_Name: M_CR-42
   m_EditorClassIdentifier: 
   dmg: 10
   atkSpd: 0
@@ -19,4 +19,4 @@ MonoBehaviour:
   duration: 0
   maxHP: 50
   range: 2
-  viewAngle: 160
+  viewAngle: 80
