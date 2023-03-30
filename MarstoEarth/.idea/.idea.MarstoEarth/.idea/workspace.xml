@@ -2,36 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b8906554-44b2-4bd9-9321-49c3a99fa184" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Skill.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Skill/SPC.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Skill/SPC.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Skill/Skill.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Skill/Skill.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MarstoEarth/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MarstoEarth/.idea/workspace.xml" afterDir="false" />
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/B_Doctor/PT_Medieval_Plague_Doctor.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/B_Doctor/PT_Medieval_Plague_Doctor.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/HPCharacter.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/HPCharacter.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGameScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Console.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Console.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Console.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Console.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/M_CR-45.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/M_CR-45.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Monster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Monster.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SpawnManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SpawnManager.cs" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Miles/Animators/SciFiWarrior.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Miles/Animators/SciFiWarrior.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Monster_kamikaze/Animation/robotSphere@anim_open_GoToRoll.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Monster_kamikaze/Animation/robotSphere@anim_open_GoToRoll.fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Monster_kamikaze/Animation/robotSphereAnmCont.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Monster_kamikaze/Animation/robotSphereAnmCont.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Cr-42.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Cr-42.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/HPCharacter.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/HPCharacter.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/InGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/InGameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/M_CR-45.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/M_CR-45.asset.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Monster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Monster.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/StatInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/StatInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character/miles.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character/miles.asset" afterDir="false" />
->>>>>>> 03a7e896ba574be499fda3cd9c47bea131f81603
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,11 +16,6 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-<<<<<<< HEAD
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4746c126b0b54f3b834845974d1a9190159000/82/cd09b53c/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
-=======
->>>>>>> 03a7e896ba574be499fda3cd9c47bea131f81603
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Character/M_Kamikaze.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Character/Monster.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Character/Player.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Item/Item.cs" root0="FORCE_HIGHLIGHTING" />
@@ -129,13 +101,7 @@
       <workItem from="1679735964189" duration="22992000" />
       <workItem from="1679801813039" duration="48848000" />
       <workItem from="1679930383356" duration="20390000" />
-<<<<<<< HEAD
-      <workItem from="1680002745942" duration="45979000" />
-      <workItem from="1680102334485" duration="12620000" />
-      <workItem from="1680146090004" duration="19896000" />
-=======
-      <workItem from="1680002745942" duration="35842000" />
->>>>>>> 03a7e896ba574be499fda3cd9c47bea131f81603
+      <workItem from="1680002745942" duration="4840000" />
     </task>
     <servers />
   </component>
@@ -144,17 +110,6 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
