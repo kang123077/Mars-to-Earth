@@ -1,4 +1,4 @@
-using Skill;
+using System;
 using UnityEngine;
 
 namespace Character
@@ -6,8 +6,7 @@ namespace Character
     public class Player : Character
     {
         private RaycastHit hitInfo;
-        private Vector3 mouseDir;
-        public Vector3 inputDir { get; set; }
+        private Vector3 mouseDiretion;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
 
@@ -49,46 +48,15 @@ namespace Character
         {
             if (dying)
                 return;
-            
             Vector3 position = thisCurTransform.position;
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo,Mathf.Infinity,layerMask:1<<0);
-            mouseDir = hitInfo.point - position;
-            float xInput = Input.GetAxis("Horizontal");
-            float zInput = Input.GetAxis("Vertical");
-            Vector3 inputDir;
-            inputDir = new Vector3(xInput, 0, zInput);
-            foreach (Skill.SPC buff in Buffs) 
-                buff.Activation(this);
-            
             mainCam.transform.position = position + new Vector3(0, 25, -27.5f);
-            
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
                 getItem.Use(this);
             }
-            
-            #region MovingMan
-
-            var vector3 = inputDir;
-            if (xInput != 0 || zInput != 0)
-            {
-                if (xInput != 0 && zInput != 0)
-                {
-                    
-                    vector3.x *=  0.7f;
-                    vector3.z *=  0.7f;
-                }
-                thisCurTransform.position += vector3 * (Time.deltaTime * speed);
-            }
-            thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, target? target.position-position :
-                    mouseDir, 6 * Time.deltaTime, 0);
-            Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + vector3));
-            anim.SetFloat(X, characterDir.x);
-            anim.SetFloat(Z, characterDir.z);
-            #endregion
-            
+            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo,Mathf.Infinity,layerMask:1<<0);
+            mouseDiretion = hitInfo.point - thisCurTransform.position;
             #region AttackMan
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
@@ -101,12 +69,10 @@ namespace Character
                     float minCoLength = 1000;
                     for (int i = 0; i < size; i++)
                     {
-                        float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position,
-                            Vector3.up);
-                        
-                        if ((angle<0?-angle:angle) < viewAngle)
+                        if (Vector3.Dot( mouseDiretion, (colliders[i].transform.position - thisCurTransform.position).normalized) >
+                            Mathf.Cos(viewingAngle * Mathf.Deg2Rad))
                         {
-                            float coLeng = Vector3.Distance(colliders[i].transform.position, position);
+                            float coLeng = Vector3.Distance(colliders[i].transform.position, thisCurTransform.position);
                             if (minCoLength > coLeng)
                             {
                                 minCoLength = coLeng;
@@ -117,39 +83,37 @@ namespace Character
                     anim.SetBool(onTarget, target);
                 }
             }
-            else  
+            else if (Vector3.Distance(target.position, thisCurTransform.position) > range + .5f||
+                     !(Vector3.Dot( target.position-thisCurTransform.position, mouseDiretion) >
+                       Mathf.Cos((viewingAngle+1) * Mathf.Deg2Rad)))
             {
-                float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
-                if ((angle < 0 ? -angle : angle) > viewAngle||Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
-
-                {
-                    anim.SetBool(onTarget, target = null);
-                    thisCurTransform.forward =
-                        Vector3.RotateTowards(thisCurTransform.forward, mouseDir, Time.deltaTime * 10, 10);
-                }
+                anim.SetBool(onTarget, target = null);
             }
             #endregion
             #region MovingMan
-            xInput = Input.GetAxis("Horizontal");
-            zInput = Input.GetAxis("Vertical");
-            inputDir = new Vector3(xInput, 0, zInput);
+            float xInput = Input.GetAxis("Horizontal");
+            float zInput = Input.GetAxis("Vertical");
+            Vector3 inputDir = new Vector3(xInput, 0, zInput);
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput != 0 && zInput != 0)
                 {
-                    anim.SetBool(onTarget, target = null);
-                    thisCurTransform.forward =
-                        Vector3.RotateTowards(thisCurTransform.forward, mouseDir, Time.deltaTime * 10, 10);
+                    float angle = Vector3.SignedAngle(Vector3.right, inputDir, Vector3.up);
+                    float radian = angle * Mathf.Deg2Rad;
+                    float movingMag = inputDir.x * (1 / Mathf.Cos(radian)) * 0.7f;
+                    inputDir.x = Mathf.Cos(radian) * movingMag;
+                    inputDir.z = -Mathf.Sin(radian) * movingMag;
                 }
+                thisCurTransform.position += inputDir * (Time.deltaTime * speed);
             }
             thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, target? target.position-position :
-                    mouseDir, 6 * Time.deltaTime, 0);
-            characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + inputDir));
+                Vector3.RotateTowards(thisCurTransform.forward, target? target.position - position:
+                    mouseDiretion, 6 * Time.deltaTime, 0);
+
+            Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + inputDir));
             anim.SetFloat(X, characterDir.x);
             anim.SetFloat(Z, characterDir.z);
             #endregion
-            
             
         }
 
