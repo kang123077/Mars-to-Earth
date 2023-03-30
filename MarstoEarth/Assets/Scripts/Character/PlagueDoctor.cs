@@ -6,7 +6,9 @@ namespace Character
     public class PlagueDoctor : Monster
     {
         // Start is called before the first frame update
+
         protected override void Start()
+
         {
             base.Start();
             SpawnManager.Instance.player.AddBuff(new Skill.SPC(10,0,
