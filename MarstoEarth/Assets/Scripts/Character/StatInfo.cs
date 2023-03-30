@@ -12,6 +12,5 @@ namespace Character
         public float duration;
         public float maxHP;
         public float range;
-        public float viewAngle;
     }
 }

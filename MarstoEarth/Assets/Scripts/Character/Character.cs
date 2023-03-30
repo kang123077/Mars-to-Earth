@@ -1,13 +1,17 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 namespace Character
 {
     public abstract class Character : MonoBehaviour
     {
+        
         [SerializeField] private string characterName;
         [SerializeField] private StatInfo characterStat;
+        
         [SerializeField] protected Animator anim;
+        [SerializeField] protected NavMeshAgent ai;
         [SerializeField] protected Collider col;
         
         protected Camera mainCam;
@@ -16,19 +20,17 @@ namespace Character
         protected Transform target;
         protected Character targetCharacter;
         protected Collider[] colliders;
-        protected float nockBackResist ;
+
+        private float nockBackResist ;
         protected bool dying;
         protected int level;
-
-        protected List<Skill.SPC> Buffs;
+        
         public float dmg { get; set; }
         public float atkSpd { get; set; }
         public float speed { get; set; }
         public float def { get; set; }
         public float duration { get; set; }
-        
         public float range { get; set; }
-        public float viewAngle { get; set; }
         private float _hp;
         protected internal float hp
         {
@@ -40,9 +42,9 @@ namespace Character
                 if (value <= 0)
                     StartCoroutine(Die());
                 _hp = value;
-            }
+            } 
         }
-        protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
+        private static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
 
 
@@ -50,10 +52,10 @@ namespace Character
         {
             if(!mainCam)
                 mainCam= Camera.main;
-            thisCurTransform = transform;
             target = null;
+            anim.SetFloat(movingSpeed,1+characterStat.speed*0.3f);
+            thisCurTransform = transform;
             nockBackResist = characterStat.maxHP * 0.1f;
-            
             dmg = characterStat.dmg;
             atkSpd = characterStat.atkSpd;
             speed = characterStat.speed;
@@ -61,9 +63,6 @@ namespace Character
             duration = characterStat.duration;
             hp = characterStat.maxHP;
             range = characterStat.range;
-            viewAngle = characterStat.viewAngle;
-            
-            Buffs = new List<Skill.SPC>();
         }
 
         protected virtual void Start()
@@ -74,41 +73,36 @@ namespace Character
         protected virtual void Attack()
         {
             target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform,dmg,0);
-            
+            targetCharacter.Hit(thisCurTransform,characterStat.dmg,0);
         }
         protected virtual IEnumerator Die()
         {
             dying = true;
             Destroy(hpBar.gameObject);
             Destroy(col);
+            ai.ResetPath();
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);
             Destroy(gameObject);
         }
 
-        protected internal virtual void Hit(Transform attacker, float dmg,float penetrate=0)
+        protected virtual void Hit(Transform attacker, float dmg,float penetrate=0)
         {
             if(dying)
                 return; 
-            Debug.Log("처맞"+dmg);
+            
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
             hpBar.value = hp / characterStat.maxHP;
-        }
-
-        public void AddBuff(Skill.SPC buff)
-        {
-            buff.Apply(this);
-            Buffs.Add(buff);
-        }
-
-        public void RemoveBuff(Skill.SPC buff)
-        {
-            buff.Remove(this);
-            Buffs.Remove(buff);
+            Vector3 horizonPosition = thisCurTransform.position;
+            Vector3 attackerPosition = attacker.position;
+            horizonPosition.y = attackerPosition.y;
+            
+            ai.velocity += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
+            thisCurTransform.forward =
+                Vector3.RotateTowards(thisCurTransform.forward, attackerPosition - horizonPosition, 80, 30);
         }
     }
 }
