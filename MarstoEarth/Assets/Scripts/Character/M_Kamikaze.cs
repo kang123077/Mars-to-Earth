@@ -15,7 +15,7 @@ namespace Character
         public void Roll()
         {
             attackReady = true;
-            ai.speed = speed * 20;
+            ai.speed = speed * 30;
         }
         protected void Update()
         {
@@ -42,8 +42,11 @@ namespace Character
                     ai.SetDestination(target.position);
                     if (targetDistance > sightLength * 2f||targetDistance<=range&&attackReady)
                     {
-                        target.gameObject.TryGetComponent(out targetCharacter);
-                        targetCharacter.Hit(thisCurTransform,dmg,0);
+                        if (targetDistance <= range && attackReady)
+                        {
+                            target.gameObject.TryGetComponent(out targetCharacter);
+                            targetCharacter.Hit(thisCurTransform,dmg,0);
+                        }
                         anim.SetBool(attacking, isAttacking = false);
                         ai.speed = speed;
                         attackReady = false;

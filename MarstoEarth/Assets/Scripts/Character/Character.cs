@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 namespace Character
 {
@@ -18,6 +19,8 @@ namespace Character
         protected float nockBackResist ;
         protected bool dying;
         protected int level;
+
+        protected List<Skill.SPC> Buffs;
         public float dmg { get; set; }
         public float atkSpd { get; set; }
         public float speed { get; set; }
@@ -59,6 +62,8 @@ namespace Character
             hp = characterStat.maxHP;
             range = characterStat.range;
             viewAngle = characterStat.viewAngle;
+            
+            Buffs = new List<Skill.SPC>();
         }
 
         protected virtual void Start()
@@ -92,7 +97,18 @@ namespace Character
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
             hpBar.value = hp / characterStat.maxHP;
-            
+        }
+
+        public void AddBuff(Skill.SPC buff)
+        {
+            buff.Apply(this);
+            Buffs.Add(buff);
+        }
+
+        public void RemoveBuff(Skill.SPC buff)
+        {
+            buff.Remove(this);
+            Buffs.Remove(buff);
         }
     }
 }

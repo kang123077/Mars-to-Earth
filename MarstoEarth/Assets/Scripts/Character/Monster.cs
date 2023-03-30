@@ -80,13 +80,10 @@ namespace Character
             patrolIdx = Random.Range(0, 4);
            
             ai.SetDestination(patrolPoints[patrolIdx]);
-            
             ai.speed = speed;
             ai.stoppingDistance = range;
-            
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
             anim.SetFloat(movingSpeed,1+speed*0.1f);
-            
         }
 
         
