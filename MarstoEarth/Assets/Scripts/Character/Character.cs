@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ namespace Character
     public abstract class Character : MonoBehaviour
     {
         [SerializeField] private string characterName;
-        [SerializeField] private StatInfo characterStat;
+        [SerializeField] protected StatInfo characterStat;
         [SerializeField] protected Animator anim;
         [SerializeField] protected Collider col;
         
@@ -19,6 +20,7 @@ namespace Character
         protected float nockBackResist ;
         protected bool dying;
         protected int level;
+        private Vector3 impact;
 
         protected List<Skill.SPC> Buffs;
         public float dmg { get; set; }
@@ -75,7 +77,6 @@ namespace Character
         {
             target.gameObject.TryGetComponent(out targetCharacter);
             targetCharacter.Hit(thisCurTransform,dmg,0);
-            
         }
         protected virtual IEnumerator Die()
         {
@@ -88,6 +89,16 @@ namespace Character
             Destroy(gameObject);
         }
 
+        protected virtual void BaseUpdate()
+        {
+            if (impact.magnitude > 0.2f)
+            {
+                transform.Translate(impact * Time.deltaTime);
+                impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+            }
+            foreach (Skill.SPC buff in Buffs) 
+                buff.Activation(this);
+        }
         protected internal virtual void Hit(Transform attacker, float dmg,float penetrate=0)
         {
             if(dying)
@@ -96,7 +107,13 @@ namespace Character
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
+            
             hpBar.value = hp / characterStat.maxHP;
+            
+            Vector3 horizonPosition = thisCurTransform.position;
+            Vector3 attackerPosition = attacker.position;
+            horizonPosition.y = attackerPosition.y;
+            impact += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
         }
 
         public void AddBuff(Skill.SPC buff)

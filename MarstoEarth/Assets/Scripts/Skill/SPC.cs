@@ -2,6 +2,14 @@
 using UnityEngine;
 namespace Skill
 {
+    public enum conditionType
+    {
+        atkUp,
+        atkDown,
+        cunfusion,
+        restraint,
+        faint
+    }
     public class SPC 
     {
         public int amount;

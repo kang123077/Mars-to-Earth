@@ -11,13 +11,13 @@ namespace Skill
     
     public abstract class Skill
     {
-        public int skillId;
-        public string name;
-        public string description;
-        public UsableCharacter usableCharacter; 
-        protected UnityEngine.UI.Image icon;
-        protected float coolDown;
-        protected Character.StatInfo statInfo;
+        public int skillId { get; }
+        public string name { get; }
+        public string description { get; }
+        public UsableCharacter usableCharacter { get; } 
+        protected UnityEngine.UI.Image icon { get; }
+        protected float coolDown { get; set; }
+        [SerializeField]protected Character.StatInfo statInfo;
         public abstract void Use();
     }
     

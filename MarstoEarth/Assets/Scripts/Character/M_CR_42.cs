@@ -8,9 +8,7 @@ namespace Character
         {
             if(dying)
                 return; 
-            anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
-            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
-
+            BaseUpdate();
             
             if (target)
             {
