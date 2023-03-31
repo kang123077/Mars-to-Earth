@@ -55,7 +55,7 @@ namespace Character
             thisCurTransform = transform;
             target = null;
             nockBackResist = characterStat.maxHP * 0.1f;
-            
+            impact = Vector3.zero;
             dmg = characterStat.dmg;
             atkSpd = characterStat.atkSpd;
             speed = characterStat.speed;
@@ -75,6 +75,7 @@ namespace Character
 
         protected virtual void Attack()
         {
+            if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
             targetCharacter.Hit(thisCurTransform,dmg,0);
         }
@@ -91,10 +92,10 @@ namespace Character
 
         protected virtual void BaseUpdate()
         {
-            if (impact.magnitude > 0.2f)
+            if (impact.magnitude > 0.1f)
             {
-                transform.Translate(impact * Time.deltaTime);
-                impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+                transform.position += impact * Time.deltaTime;
+                impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
             foreach (Skill.SPC buff in Buffs) 
                 buff.Activation(this);
@@ -103,17 +104,17 @@ namespace Character
         {
             if(dying)
                 return; 
-            Debug.Log("처맞"+dmg);
+            Debug.Log("처맞"+attacker+"한테맞음");
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
             
             hpBar.value = hp / characterStat.maxHP;
-            
             Vector3 horizonPosition = thisCurTransform.position;
             Vector3 attackerPosition = attacker.position;
             horizonPosition.y = attackerPosition.y;
             impact += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
+            
         }
 
         public void AddBuff(Skill.SPC buff)
