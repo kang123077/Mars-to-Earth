@@ -15,7 +15,6 @@ namespace Skill
             this.layerMask = layerMask;
             if (Time.time >= lastUsedTime + skillInfo.coolDown)
             {
-                
                 if (skillInfo.targetType == TargetType.Target)
                 {
                     GetTarget();
@@ -26,7 +25,6 @@ namespace Skill
                     Activate();
                     GetTarget();
                 }
-                lastUsedTime = Time.time;
             }
         }
         protected abstract void Activate();
