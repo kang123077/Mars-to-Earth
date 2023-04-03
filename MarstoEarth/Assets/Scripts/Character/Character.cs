@@ -69,10 +69,13 @@ namespace Character
             viewAngle = characterStat.viewAngle;
             
             Buffs = new List<Skill.SPC>();
+            registActives = new List<Skill.Skill>();
         }
 
         protected virtual void Start()
         {
+
+            registActives.Add(ResourceManager.Instance.skills[0]);
             hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
         }
 
@@ -134,16 +137,12 @@ namespace Character
             Buffs.Remove(buff);
         }
 
-        public void PlaySkillClip(AnimationClip clip)
+        public void PlaySkillClip(int clipLayer, String clipName)
         {
-            anim.Play(clip.name);
-            StartCoroutine(WaitForAnimation(clip));
+            anim.SetLayerWeight(2, 1);
+            anim.Play(clipName,clipLayer,0);
         }
-        private IEnumerator WaitForAnimation(AnimationClip clip)
-        {
-            yield return new WaitForSeconds(clip.length);
-            anim.Play(anim.GetCurrentAnimatorStateInfo(0).fullPathHash, -1, 0f);
-        }
+ 
 
         public void AddAqSkill(Skill.Skill aqSkill)
         {

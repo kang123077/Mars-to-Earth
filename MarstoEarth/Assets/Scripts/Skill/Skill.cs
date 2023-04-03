@@ -8,12 +8,18 @@ namespace Skill
         float lastUsedTime;
         protected Character.Character caster;
         protected LayerMask layerMask;
-
-        public void Use(Character.Character caster, LayerMask layerMask)
+        protected Skill()
         {
+            lastUsedTime = Time.time;
+        }
+
+
+        public virtual void Use(Character.Character caster, LayerMask layerMask)
+        {   
             this.caster = caster;
             this.layerMask = layerMask;
-            if (Time.time >= lastUsedTime + skillInfo.coolDown)
+            //Time.time >= lastUsedTime + skillInfo.coolDown
+            if (true)
             {
                 if (skillInfo.targetType == TargetType.Target)
                 {
