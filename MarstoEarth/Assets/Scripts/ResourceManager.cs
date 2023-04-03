@@ -7,13 +7,20 @@ public class ResourceManager : Singleton<ResourceManager>
 {
     public UnityEngine.UI.Slider hpBar;
     public List<Item.Item> items;
-    public List<SkillInfo> skillInfos;
+
     public List<Skill.Skill> skills;
     protected override void Awake()
     {
         base.Awake();
-        Resources.LoadAll<SkillInfo>("SkillsStat");
+        skills = new List<Skill.Skill>();
+        SkillInfo[] skillInfos = Resources.LoadAll<SkillInfo>("SkillsStat");
+        foreach(SkillInfo skillInfo in skillInfos)
+        {
+            skills.Add(new Smash(skillInfo));
+        }
+
         DontDestroyOnLoad(gameObject);
+
     }
 
 

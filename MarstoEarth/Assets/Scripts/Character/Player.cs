@@ -128,9 +128,10 @@ namespace Character
                 }
             }
             #endregion
+
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                Debug.Log("Á¢±Ù");
+
                 registActives[0].Use(this, 3);
             }else if (Input.GetKeyDown(KeyCode.E))
             {

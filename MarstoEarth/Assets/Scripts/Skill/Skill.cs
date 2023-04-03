@@ -9,21 +9,20 @@ namespace Skill
         float lastUsedTime;
         protected Character.Character caster;
         protected LayerMask layerMask;
-
         protected Skill()
         {
-            lastUsedTime=Time.time;
-            skillInfo = ResourceManager.Instance.skillInfos[0];
+            lastUsedTime = Time.time;
         }
-        public void Use(Character.Character caster, LayerMask layerMask)
-        {
-            //lastUsedTime = Time.time;
+
+
+        public virtual void Use(Character.Character caster, LayerMask layerMask)
+        {   
             this.caster = caster;
             this.layerMask = layerMask;
-            Debug.Log("use접근");
+            //Time.time >= lastUsedTime + skillInfo.coolDown
+
             if (true)
             {
-                
                 if (skillInfo.targetType == TargetType.Target)
                 {
                     GetTarget();
@@ -34,7 +33,6 @@ namespace Skill
                     Activate();
                     GetTarget();
                 }
-                lastUsedTime = Time.time;
             }
         }
         protected abstract void Activate();

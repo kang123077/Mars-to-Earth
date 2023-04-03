@@ -5,31 +5,31 @@ namespace Skill
 {
     public class Smash : Skill
     {
-        public Smash() : base() { }
+
+        public Smash(SkillInfo skillInfo) : base ()
+        {
+            this.skillInfo = skillInfo;
+        }
         protected override void Activate()
         {
-            Debug.Log("½ÇÇà");
-            // Àç»ıÇÒ ¾Ö´Ï¸ŞÀÌ¼Ç È£Ãâ
-            caster.PlaySkillClip(skillInfo.animationClip);
-            caster.AddBuff(new SPC(1, 0, (caster) =>
-            {
-                caster.transform.position = Vector3.MoveTowards(caster.transform.position, caster.target.position, Time.deltaTime);
-            }));
+            Debug.Log("Target position: " + caster.target.position);
+            Debug.Log("ìŠ¤í‚¬ ë°œë™ : " + skillInfo.name);
+            // ì¬ìƒí•  ì• ë‹ˆë©”ì´ì…˜ í˜¸ì¶œ
+            caster.PlaySkillClip(2, "Jump");
+
+            // ì¼ì • ë²”ìœ„ ë‚´ì˜ ì ë“¤ì—ê²Œ ë°ë¯¸ì§€ë¥¼ ì£¼ëŠ” ë¡œì§ êµ¬í˜„
+
         }
         protected override bool GetTarget()
         {
             if (!caster.target)
                 return false;
-
-
-
             return true;
 
         }
-
         public void GiveDemage()
         {
-            // ÀÏÁ¤ ¹üÀ§ ³»ÀÇ Àûµé¿¡°Ô µ¥¹ÌÁö¸¦ ÁÖ´Â ·ÎÁ÷ ±¸Çö
+
             Collider[] colliders = Physics.OverlapSphere(caster.target.position, skillInfo.range, LayerMask.GetMask("Monster"));
             foreach (Collider collider in colliders)
             {
