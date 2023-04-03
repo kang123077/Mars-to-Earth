@@ -102,6 +102,8 @@ namespace Character
             }
             foreach (Skill.SPC buff in Buffs) 
                 buff.Activation(this);
+
+
         }
         protected internal virtual void Hit(Transform attacker, float dmg,float penetrate=0)
         {
@@ -130,6 +132,17 @@ namespace Character
         {
             buff.Remove(this);
             Buffs.Remove(buff);
+        }
+
+        public void PlaySkillClip(AnimationClip clip)
+        {
+            anim.Play(clip.name);
+            StartCoroutine(WaitForAnimation(clip));
+        }
+        private IEnumerator WaitForAnimation(AnimationClip clip)
+        {
+            yield return new WaitForSeconds(clip.length);
+            anim.Play(anim.GetCurrentAnimatorStateInfo(0).fullPathHash, -1, 0f);
         }
 
         public void AddAqSkill(Skill.Skill aqSkill)
