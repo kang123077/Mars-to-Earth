@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Character
 {
+
     public class Player : Character
     {
         [SerializeField]private GameObject bulletPrefab;
@@ -33,6 +34,7 @@ namespace Character
         public float optanium { get; set; }
 
         private Collider[] itemColliders;
+
         protected override void Awake()
         {
             base.Awake();
@@ -86,7 +88,7 @@ namespace Character
             anim.SetFloat(Z, characterDir.z);
             #endregion
             
-            #region AttackMan
+            #region Targeting
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
             if (!target)
@@ -126,7 +128,18 @@ namespace Character
                 }
             }
             #endregion
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                registActives[0].Use();
+            }else if (Input.GetKeyDown(KeyCode.E))
+            {
+                registActives[1].Use();
+            }else if (Input.GetKeyDown(KeyCode.E))
+            {
+                registActives[2].Use();
+            }
             
+
         }
 
         protected override void Attack()

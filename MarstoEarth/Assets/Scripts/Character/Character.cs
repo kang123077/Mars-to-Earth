@@ -6,6 +6,10 @@ namespace Character
 {
     public abstract class Character : MonoBehaviour
     {
+
+        protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
+        protected static readonly int attacking = Animator.StringToHash("attacking");
+
         [SerializeField] private string characterName;
         [SerializeField] protected StatInfo characterStat;
         [SerializeField] protected Animator anim;
@@ -21,8 +25,6 @@ namespace Character
         protected bool dying;
         protected int level;
         private Vector3 impact;
-
-        protected List<Skill.SPC> Buffs;
         public float dmg { get; set; }
         public float atkSpd { get; set; }
         public float speed { get; set; }
@@ -44,10 +46,11 @@ namespace Character
                 _hp = value;
             }
         }
-        protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
-        protected static readonly int attacking = Animator.StringToHash("attacking");
 
-
+        protected List<Skill.SPC> Buffs;
+        protected List<Skill.Skill> aqSkills;
+        protected List<Skill.Skill> registActives;
+        protected List<Skill.Skill> registPassives;
         protected virtual void Awake()
         {
             if(!mainCam)
@@ -128,5 +131,36 @@ namespace Character
             buff.Remove(this);
             Buffs.Remove(buff);
         }
+
+        public void AddAqSkill(Skill.Skill aqSkill)
+        {
+            aqSkills.Add(aqSkill);
+        }
+
+        public void RemoveAqSkill(Skill.Skill aqSkill)
+        {
+            aqSkills.Remove(aqSkill);
+        }
+
+        public void AddActive(Skill.Skill aqSkill)
+        {
+            registActives.Add(aqSkill);
+        }
+
+        public void RemoveActive(Skill.Skill aqSkill)
+        {
+            registActives.Remove(aqSkill);
+        }
+
+        public void AddPassive(Skill.Skill aqSkill)
+        {
+            registPassives.Add(aqSkill);
+        }
+
+        public void RemovePassive(Skill.Skill aqSkill)
+        {
+            registPassives.Remove(aqSkill);
+        }
+
     }
 }

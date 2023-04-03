@@ -11,12 +11,12 @@ namespace Skill
         public LayerMask layerMask; //안부딪힐 오브젝트 태그
         public float dmg;
         private float lifeTime = 3; // 생존시간
-        [SerializeField] private float speed = 25; // 탄속
+        [SerializeField] private float speed = 35; // 탄속
         private readonly Collider[] colliders = new Collider[1];
 
         private void OnEnable()
         {
-            transform.position =attacker.position+ new Vector3(0,0.5f,0.5f);
+            transform.position =attacker.position+ new Vector3(0,1f,0.5f);
             transform.forward = attacker.forward;
             lifeTime = 3;
         }
