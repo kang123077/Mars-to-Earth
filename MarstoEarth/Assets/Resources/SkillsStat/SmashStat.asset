@@ -17,6 +17,7 @@ MonoBehaviour:
   description: "\uC801\uC744 \uD5A5\uD574 \uB0B4\uB824\uCC0D\uB294\uB2E4"
   skillType: 0
   usableCharacter: 0
+  animationClip: {fileID: 7400000, guid: c09541f4236345c4fa4e4745793a59f3, type: 3}
   targetType: 0
   icon: {fileID: 0}
   dmg: 200

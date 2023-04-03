@@ -69,6 +69,7 @@ namespace Character
             viewAngle = characterStat.viewAngle;
             
             Buffs = new List<Skill.SPC>();
+            registActives.Add(new Skill.Smash());
         }
 
         protected virtual void Start()

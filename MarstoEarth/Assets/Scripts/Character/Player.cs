@@ -130,13 +130,14 @@ namespace Character
             #endregion
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                registActives[0].Use();
+                Debug.Log("Á¢±Ù");
+                registActives[0].Use(this, 3);
             }else if (Input.GetKeyDown(KeyCode.E))
             {
-                registActives[1].Use();
+                //registActives[1].Use();
             }else if (Input.GetKeyDown(KeyCode.E))
             {
-                registActives[2].Use();
+                //registActives[2].Use();
             }
             
 
