@@ -13,7 +13,7 @@ namespace Character
         protected Camera mainCam;
         protected UnityEngine.UI.Slider hpBar;
         protected Transform thisCurTransform;
-        protected Transform target;
+        public Transform target;
         protected Character targetCharacter;
         protected Collider[] colliders;
         protected float nockBackResist ;
