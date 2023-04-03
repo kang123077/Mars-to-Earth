@@ -2,10 +2,18 @@
 using UnityEngine;
 namespace Skill
 {
+    public enum conditionType
+    {
+        atkUp,
+        atkDown,
+        cunfusion,
+        restraint,
+        faint
+    }
     public class SPC 
     {
-        public int amount;
-        public float duration;
+        private int amount;
+        private float duration;
         public UnityEngine.UI.Image icon;
         
         private float currentTime;
@@ -18,12 +26,15 @@ namespace Skill
             this.amount = amount;
             Apply = apply;
             Remove = remove;
+            Dots = (character) => { };
         }
         public SPC(float duration, int amount, Action<Character.Character> dots)
         {
             currentTime = this.duration=duration;
             this.amount = amount;
             Dots = dots;
+            Apply = (character) => { };
+            Remove = (character) => { };
         }
         
         public void Activation(Character.Character character)

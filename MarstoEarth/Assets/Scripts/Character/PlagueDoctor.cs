@@ -5,25 +5,19 @@ namespace Character
 {
     public class PlagueDoctor : Monster
     {
-        // Start is called before the first frame update
 
         protected override void Start()
-
         {
             base.Start();
             SpawnManager.Instance.player.AddBuff(new Skill.SPC(10,0,
                 (player) =>((Player)player).inputDir *= -1));
         }
 
-        // Update is called once per frame
         void Update()
         {
             if(dying)
                 return; 
-            anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
-            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
-
-            
+            BaseUpdate();
             if (target)
             {
                 if(isAttacking)

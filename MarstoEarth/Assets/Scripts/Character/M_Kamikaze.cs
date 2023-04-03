@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 namespace Character
@@ -12,29 +13,33 @@ namespace Character
             ai.stoppingDistance = 0.1f;
         }
 
+        private void OnDestroy()
+        {
+            if (Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength*0.5f, colliders, 1 << 3) <= 0) return;
+            target.gameObject.TryGetComponent(out targetCharacter);
+            targetCharacter.Hit(thisCurTransform,characterStat.maxHP*0.5f,0);
+        }
+
         public void Roll()
         {
             attackReady = true;
+            def += 20;
             ai.speed = speed * 30;
         }
         protected void Update()
         {
             if(dying)
                 return; 
-            anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
-            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
-
+            BaseUpdate();
             
             if (target)
             {
-                
                 Vector3 targetPosition = target.position;
                 if (!isAttacking)
                 {
                     anim.SetBool(attacking, isAttacking = true);
                     ai.speed = speed;
                 }
-
                 if (attackReady)
                 {
                     float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
@@ -49,6 +54,7 @@ namespace Character
                         }
                         anim.SetBool(attacking, isAttacking = false);
                         ai.speed = speed;
+                        def -= 20;
                         attackReady = false;
                         target = null;
                     }
