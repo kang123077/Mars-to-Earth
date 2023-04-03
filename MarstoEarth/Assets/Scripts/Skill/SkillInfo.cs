@@ -22,7 +22,7 @@ namespace Skill
         PassiveSkill,
     }
     [CreateAssetMenu(fileName = "New SkillInfo", menuName = "SkillInfo")]
-    public class SkillInfo : ScriptableObject
+    public class SkillInfo:ScriptableObject
     {
         public int skillId;
         public string skillName;

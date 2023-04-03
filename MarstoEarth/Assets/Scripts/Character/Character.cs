@@ -70,6 +70,7 @@ namespace Character
             
             Buffs = new List<Skill.SPC>();
             registActives = new List<Skill.Skill>();
+
         }
 
         protected virtual void Start()

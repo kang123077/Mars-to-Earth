@@ -7,6 +7,7 @@ public class ResourceManager : Singleton<ResourceManager>
 {
     public UnityEngine.UI.Slider hpBar;
     public List<Item.Item> items;
+
     public List<Skill.Skill> skills;
     protected override void Awake()
     {
@@ -17,6 +18,7 @@ public class ResourceManager : Singleton<ResourceManager>
         {
             skills.Add(new Smash(skillInfo));
         }
+
         DontDestroyOnLoad(gameObject);
 
     }

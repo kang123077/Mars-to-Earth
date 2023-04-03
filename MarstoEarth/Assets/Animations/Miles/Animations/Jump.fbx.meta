@@ -506,6 +506,7 @@ ModelImporter:
       events:
       - time: 0.77431875
         functionName: GiveDemage
+
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: ff3c2c92779537245b8d9eb4d0136a78, type: 3}
         floatParameter: 0

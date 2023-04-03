@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Skill
 {
     public abstract class Skill
     {
-        protected SkillInfo skillInfo;
+        public SkillInfo skillInfo;        
         float lastUsedTime;
         protected Character.Character caster;
         protected LayerMask layerMask;
@@ -19,6 +20,7 @@ namespace Skill
             this.caster = caster;
             this.layerMask = layerMask;
             //Time.time >= lastUsedTime + skillInfo.coolDown
+
             if (true)
             {
                 if (skillInfo.targetType == TargetType.Target)
@@ -35,6 +37,5 @@ namespace Skill
         }
         protected abstract void Activate();
         protected abstract bool GetTarget();
-
     }
 }

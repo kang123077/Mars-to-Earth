@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Skill
@@ -12,11 +13,12 @@ namespace Skill
         protected override void Activate()
         {
             Debug.Log("Target position: " + caster.target.position);
-            Debug.Log("½ºÅ³ ¹ßµ¿ : " + skillInfo.name);
-            // Àç»ıÇÒ ¾Ö´Ï¸ŞÀÌ¼Ç È£Ãâ
+            Debug.Log("ìŠ¤í‚¬ ë°œë™ : " + skillInfo.name);
+            // ì¬ìƒí•  ì• ë‹ˆë©”ì´ì…˜ í˜¸ì¶œ
             caster.PlaySkillClip(2, "Jump");
 
-            // ÀÏÁ¤ ¹üÀ§ ³»ÀÇ Àûµé¿¡°Ô µ¥¹ÌÁö¸¦ ÁÖ´Â ·ÎÁ÷ ±¸Çö
+            // ì¼ì • ë²”ìœ„ ë‚´ì˜ ì ë“¤ì—ê²Œ ë°ë¯¸ì§€ë¥¼ ì£¼ëŠ” ë¡œì§ êµ¬í˜„
+
         }
         protected override bool GetTarget()
         {
@@ -27,6 +29,7 @@ namespace Skill
         }
         public void GiveDemage()
         {
+
             Collider[] colliders = Physics.OverlapSphere(caster.target.position, skillInfo.range, LayerMask.GetMask("Monster"));
             foreach (Collider collider in colliders)
             {
