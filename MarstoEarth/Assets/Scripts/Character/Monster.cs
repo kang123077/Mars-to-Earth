@@ -63,7 +63,7 @@ namespace Character
                         trackingPermission = true;
                     }
                 }
-                lastPosition = ((Component)this).transform.position;
+                lastPosition = transform.position;
             }
            
         }

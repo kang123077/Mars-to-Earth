@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace Character
 {
+
     public class Player : Character
     {
+        [SerializeField]private GameObject bulletPrefab;
         private RaycastHit hitInfo;
         private Vector3 mouseDir;
         public Vector3 inputDir { get; set; }
@@ -32,6 +34,7 @@ namespace Character
         public float optanium { get; set; }
 
         private Collider[] itemColliders;
+
         protected override void Awake()
         {
             base.Awake();
@@ -46,8 +49,7 @@ namespace Character
         }
         protected void Update()
         {
-            if (dying)
-                return;
+            
             
             Vector3 position = thisCurTransform.position;
             Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo,Mathf.Infinity,layerMask:1<<0);
@@ -56,7 +58,8 @@ namespace Character
             zInput = Input.GetAxis("Vertical");
             inputDir = new Vector3(xInput, 0, zInput);
             BaseUpdate();
-            
+            if (dying)
+                return;
             mainCam.transform.position = position + new Vector3(0, 25, -27.5f);
             
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
@@ -85,7 +88,7 @@ namespace Character
             anim.SetFloat(Z, characterDir.z);
             #endregion
             
-            #region AttackMan
+            #region Targeting
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
             if (!target)
@@ -125,19 +128,25 @@ namespace Character
                 }
             }
             #endregion
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+
+                registActives[0].Use(this, 3);
+            }else if (Input.GetKeyDown(KeyCode.E))
+            {
+                //registActives[1].Use();
+            }else if (Input.GetKeyDown(KeyCode.E))
+            {
+                //registActives[2].Use();
+            }
             
-            
-            
+
         }
 
         protected override void Attack()
         {
-            if (!target)
-                return;
-            base.Attack();
-            if (targetCharacter.hp <= 0)
-                anim.SetBool(onTarget, target = null);
+            SpawnManager.Instance.Launch(transform,gameObject.layer,dmg,bulletPrefab);
         }
-
     }
 }

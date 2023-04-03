@@ -3,7 +3,6 @@ namespace Character
 {
     public class M_CR_42:Monster
     {
-       
         protected void Update()
         {
             if(dying)

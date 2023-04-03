@@ -6,6 +6,10 @@ namespace Character
 {
     public abstract class Character : MonoBehaviour
     {
+
+        protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
+        protected static readonly int attacking = Animator.StringToHash("attacking");
+
         [SerializeField] private string characterName;
         [SerializeField] protected StatInfo characterStat;
         [SerializeField] protected Animator anim;
@@ -14,15 +18,13 @@ namespace Character
         protected Camera mainCam;
         protected UnityEngine.UI.Slider hpBar;
         protected Transform thisCurTransform;
-        protected Transform target;
+        public Transform target;
         protected Character targetCharacter;
         protected Collider[] colliders;
         protected float nockBackResist ;
         protected bool dying;
         protected int level;
         private Vector3 impact;
-
-        protected List<Skill.SPC> Buffs;
         public float dmg { get; set; }
         public float atkSpd { get; set; }
         public float speed { get; set; }
@@ -44,10 +46,11 @@ namespace Character
                 _hp = value;
             }
         }
-        protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
-        protected static readonly int attacking = Animator.StringToHash("attacking");
 
-
+        protected List<Skill.SPC> Buffs;
+        protected List<Skill.Skill> aqSkills;
+        protected List<Skill.Skill> registActives;
+        protected List<Skill.Skill> registPassives;
         protected virtual void Awake()
         {
             if(!mainCam)
@@ -55,7 +58,7 @@ namespace Character
             thisCurTransform = transform;
             target = null;
             nockBackResist = characterStat.maxHP * 0.1f;
-            
+            impact = Vector3.zero;
             dmg = characterStat.dmg;
             atkSpd = characterStat.atkSpd;
             speed = characterStat.speed;
@@ -66,15 +69,20 @@ namespace Character
             viewAngle = characterStat.viewAngle;
             
             Buffs = new List<Skill.SPC>();
+            registActives = new List<Skill.Skill>();
+
         }
 
         protected virtual void Start()
         {
+
+            registActives.Add(ResourceManager.Instance.skills[0]);
             hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
         }
 
         protected virtual void Attack()
         {
+            if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
             targetCharacter.Hit(thisCurTransform,dmg,0);
         }
@@ -91,29 +99,31 @@ namespace Character
 
         protected virtual void BaseUpdate()
         {
-            if (impact.magnitude > 0.2f)
+            if (impact.magnitude > 0.1f)
             {
-                transform.Translate(impact * Time.deltaTime);
-                impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+                transform.position += impact * Time.deltaTime;
+                impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
             foreach (Skill.SPC buff in Buffs) 
                 buff.Activation(this);
+
+
         }
         protected internal virtual void Hit(Transform attacker, float dmg,float penetrate=0)
         {
             if(dying)
                 return; 
-            Debug.Log("처맞"+dmg);
+            Debug.Log("처맞"+attacker+"한테맞음");
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
             
             hpBar.value = hp / characterStat.maxHP;
-            
             Vector3 horizonPosition = thisCurTransform.position;
             Vector3 attackerPosition = attacker.position;
             horizonPosition.y = attackerPosition.y;
             impact += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
+            
         }
 
         public void AddBuff(Skill.SPC buff)
@@ -127,5 +137,43 @@ namespace Character
             buff.Remove(this);
             Buffs.Remove(buff);
         }
+
+        public void PlaySkillClip(int clipLayer, String clipName)
+        {
+            anim.SetLayerWeight(2, 1);
+            anim.Play(clipName,clipLayer,0);
+        }
+ 
+
+        public void AddAqSkill(Skill.Skill aqSkill)
+        {
+            aqSkills.Add(aqSkill);
+        }
+
+        public void RemoveAqSkill(Skill.Skill aqSkill)
+        {
+            aqSkills.Remove(aqSkill);
+        }
+
+        public void AddActive(Skill.Skill aqSkill)
+        {
+            registActives.Add(aqSkill);
+        }
+
+        public void RemoveActive(Skill.Skill aqSkill)
+        {
+            registActives.Remove(aqSkill);
+        }
+
+        public void AddPassive(Skill.Skill aqSkill)
+        {
+            registPassives.Add(aqSkill);
+        }
+
+        public void RemovePassive(Skill.Skill aqSkill)
+        {
+            registPassives.Remove(aqSkill);
+        }
+
     }
 }
