@@ -2,23 +2,35 @@
 
 namespace Skill
 {
-    public enum UsableCharacter
-    {
-        Rone,
-        Miles,
-        CR42
-    }
-    
     public abstract class Skill
     {
-        public int skillId { get; }
-        public string name { get; }
-        public string description { get; }
-        public UsableCharacter usableCharacter { get; } 
-        protected UnityEngine.UI.Image icon { get; }
-        protected float coolDown { get; set; }
-        [SerializeField]protected Character.StatInfo statInfo;
-        public abstract void Use();
+        protected SkillInfo skillInfo;
+        float lastUsedTime;
+        protected Character.Character caster;
+        protected LayerMask layerMask;
+
+        public void Use(Character.Character caster, LayerMask layerMask)
+        {
+            this.caster = caster;
+            this.layerMask = layerMask;
+            if (Time.time >= lastUsedTime + skillInfo.coolDown)
+            {
+                
+                if (skillInfo.targetType == TargetType.Target)
+                {
+                    GetTarget();
+                    Activate();
+                }
+                else
+                {
+                    Activate();
+                    GetTarget();
+                }
+                lastUsedTime = Time.time;
+            }
+        }
+        protected abstract void Activate();
+        protected abstract bool GetTarget();
+
     }
-    
 }
