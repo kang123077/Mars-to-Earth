@@ -9,7 +9,7 @@ namespace Character
         protected override void Start()
         {
             base.Start();
-            SpawnManager.Instance.player.AddBuff(new Skill.SPC(10,0,
+            SpawnManager.Instance.player.AddBuff(new Skill.SPC(10,
                 (player) =>((Player)player).inputDir *= -1));
         }
 

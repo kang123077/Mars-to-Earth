@@ -29,8 +29,8 @@ namespace Skill
         public string description;
         public SkillType skillType;
         public UsableCharacter usableCharacter;
-        public AnimationClip animationClip;
         public TargetType targetType;
+        public string clipName;
         public UnityEngine.UI.Image icon;
         public float dmg;
         public float range;

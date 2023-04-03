@@ -15,17 +15,16 @@ namespace Skill
         }
 
 
-        public virtual void Use(Character.Character caster, LayerMask layerMask)
+        // ReSharper disable Unity.PerformanceAnalysis
+        public void Use(Character.Character caster, LayerMask layerMask)
         {   
             this.caster = caster;
             this.layerMask = layerMask;
-            //Time.time >= lastUsedTime + skillInfo.coolDown
-
-            if (true)
+            if (Time.time >= lastUsedTime + skillInfo.coolDown)
             {
                 if (skillInfo.targetType == TargetType.Target)
                 {
-                    GetTarget();
+                    if(!GetTarget())return;
                     Activate();
                 }
                 else
@@ -33,9 +32,11 @@ namespace Skill
                     Activate();
                     GetTarget();
                 }
+                lastUsedTime = Time.time;
             }
         }
         protected abstract void Activate();
+        public abstract void Effect();
         protected abstract bool GetTarget();
     }
 }

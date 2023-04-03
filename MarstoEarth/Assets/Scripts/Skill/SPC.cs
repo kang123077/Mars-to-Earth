@@ -20,18 +20,16 @@ namespace Skill
         public Action<Character.Character> Apply;
         public Action<Character.Character> Remove;
         public Action<Character.Character> Dots;
-        public SPC(float duration, int amount, Action<Character.Character> apply,Action<Character.Character> remove)
+        public SPC(float duration, Action<Character.Character> apply,Action<Character.Character> remove)
         {
             currentTime = this.duration=duration;
-            this.amount = amount;
             Apply = apply;
             Remove = remove;
             Dots = (character) => { };
         }
-        public SPC(float duration, int amount, Action<Character.Character> dots)
+        public SPC(float duration, Action<Character.Character> dots)
         {
             currentTime = this.duration=duration;
-            this.amount = amount;
             Dots = dots;
             Apply = (character) => { };
             Remove = (character) => { };

@@ -75,7 +75,6 @@ namespace Character
 
         protected virtual void Start()
         {
-
             registActives.Add(ResourceManager.Instance.skills[0]);
             hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
         }
@@ -138,42 +137,26 @@ namespace Character
             Buffs.Remove(buff);
         }
 
-        public void PlaySkillClip(int clipLayer, String clipName)
+        public void PlaySkillClip(String clipName)
         {
             anim.SetLayerWeight(2, 1);
-            anim.Play(clipName,clipLayer,0);
+            anim.Play(clipName,2,0);
+            StartCoroutine(ClipBack(anim.GetCurrentAnimatorClipInfo(2)[0].clip.length));
         }
+
+        public void SkillEffect()
+        {
+            if (!dying)
+                registActives[0].Effect();
+        }
+        IEnumerator ClipBack(float wait)
+        {
+            yield return new WaitForSeconds(wait);
+            if (!dying)
+                anim.SetLayerWeight(2, 0);
+        }
+        
+        
  
-
-        public void AddAqSkill(Skill.Skill aqSkill)
-        {
-            aqSkills.Add(aqSkill);
-        }
-
-        public void RemoveAqSkill(Skill.Skill aqSkill)
-        {
-            aqSkills.Remove(aqSkill);
-        }
-
-        public void AddActive(Skill.Skill aqSkill)
-        {
-            registActives.Add(aqSkill);
-        }
-
-        public void RemoveActive(Skill.Skill aqSkill)
-        {
-            registActives.Remove(aqSkill);
-        }
-
-        public void AddPassive(Skill.Skill aqSkill)
-        {
-            registPassives.Add(aqSkill);
-        }
-
-        public void RemovePassive(Skill.Skill aqSkill)
-        {
-            registPassives.Remove(aqSkill);
-        }
-
     }
 }

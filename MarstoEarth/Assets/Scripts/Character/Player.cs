@@ -131,7 +131,6 @@ namespace Character
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-
                 registActives[0].Use(this, 3);
             }else if (Input.GetKeyDown(KeyCode.E))
             {
