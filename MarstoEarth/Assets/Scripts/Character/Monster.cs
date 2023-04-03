@@ -11,24 +11,26 @@ namespace Character
     
     public class Monster : Character
     {
-        protected static readonly Vector3[] FourDirection = 
+        private static readonly Vector3[] FourDirection = 
             {Vector3.forward,Vector3.right,Vector3.back,Vector3.left };
-        protected Vector3[] patrolPoints;
-        protected List<float> positions;
-        protected int patrolIdx;
+
+        private Vector3[] patrolPoints;
+        private List<float> positions;
+        private int patrolIdx;
         
         [SerializeField] protected NavMeshAgent ai;
-        
-        protected Coroutine StuckCheckCoroutine;
+
+        private Coroutine StuckCheckCoroutine;
         protected bool trackingPermission;
-        protected Vector3 lastPosition;
-        protected float travelDistance;
+        private Vector3 lastPosition;
+        private float travelDistance;
         
         [SerializeField] protected float sightLength;
         protected bool isAttacking;
         [SerializeField] protected float optanium;
         [SerializeField] protected float experience;
-        protected IEnumerator StuckCheck()
+
+        private IEnumerator StuckCheck()
         {
             while (true)
             {
@@ -61,7 +63,7 @@ namespace Character
                         trackingPermission = true;
                     }
                 }
-                lastPosition = ((Component)this).transform.position;
+                lastPosition = transform.position;
             }
            
         }
@@ -86,7 +88,15 @@ namespace Character
             anim.SetFloat(movingSpeed,1+speed*0.1f);
         }
 
+        protected override void BaseUpdate()
+        {
+            base.BaseUpdate();
+            anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
+            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
+        }
+
         
+
         // ReSharper disable Unity.PerformanceAnalysis
         protected override IEnumerator Die()
         {
@@ -112,14 +122,11 @@ namespace Character
             
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         protected internal override void Hit(Transform attacker, float dmg,float penetrate=0)
         {
             base.Hit(attacker, dmg, penetrate);
-            Vector3 horizonPosition = thisCurTransform.position;
-            Vector3 attackerPosition = attacker.position;
-            horizonPosition.y = attackerPosition.y;
-            ai.velocity += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
-            target = SpawnManager.Instance.playerTransform;
+            target = attacker;
         }
     }
 }

@@ -2188,6 +2188,7 @@ MonoBehaviour:
   characterStat: {fileID: 11400000, guid: d80ea9e1da3385e4898781836e2c3783, type: 2}
   anim: {fileID: 7673487250857332701}
   col: {fileID: 8675458328526890443}
+  bulletPrefab: {fileID: 3694326089976598682, guid: 95db2e82a0fb0154d8d86222b08165d3, type: 3}
 --- !u!1 &7673487251499248762
 GameObject:
   m_ObjectHideFlags: 0

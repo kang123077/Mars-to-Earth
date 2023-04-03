@@ -31,5 +31,6 @@ namespace Skill
         }
         protected abstract void Activate();
         protected abstract bool GetTarget();
+
     }
 }
