@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: RollStat
   m_EditorClassIdentifier: 
   skillId: 0
-  skillName: 
   description: "\uC774\uB3D9\uBC29\uD5A5\uC73C\uB85C \uAD6C\uB978\uB2E4"
   skillType: 0
   targetType: 1
   clipName: Roll
+  clipLayer: 2
   icon: {fileID: 0}
   dmg: 0
-  range: 0
-  effectiveRange: 0
+  size: 0
   coolDown: 1
-  skillSpeed: 8
+  speed: 0

@@ -13,15 +13,13 @@ MonoBehaviour:
   m_Name: SmashStat
   m_EditorClassIdentifier: 
   skillId: 1
-  skillName: Smash
   description: "\uC801\uC744 \uD5A5\uD574 \uB0B4\uB824\uCC0D\uB294\uB2E4"
   skillType: 0
-  usableCharacter: 0
   targetType: 0
   clipName: Jump
+  clipLayer: 2
   icon: {fileID: 0}
   dmg: 200
-  range: 5
-  effectiveRange: 5
+  size: 0
   coolDown: 2
-  skillSpeed: 3
+  speed: 0

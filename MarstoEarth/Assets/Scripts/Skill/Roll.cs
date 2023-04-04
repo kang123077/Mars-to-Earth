@@ -13,15 +13,15 @@ namespace Skill
         }
         protected override void Activate()
         {
-            caster.PlaySkillClip(this); // Àç»ýÇÒ ¾Ö´Ï¸ÞÀÌ¼Ç È£Ãâ
-            Vector3 dir= ((Player)caster).inputDir.normalized;
+            caster.PlaySkillClip(this); // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ È£ï¿½ï¿½
+            Vector3 dir= caster.inputDir.normalized;
             if (dir.magnitude < 0.1f)
                 dir = caster.transform.forward;
 
             caster.transform.forward = dir;
-            caster.AddBuff(new SPC(0.8f, (ch) =>
+            caster.AddBuff(new SPC(0.7f, (ch) =>
             {
-                ch.transform.position += dir * (Time.deltaTime * (skillInfo.skillSpeed+ch.speed));
+                ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed+ch.speed));
             }));
         }
         public override void Effect()

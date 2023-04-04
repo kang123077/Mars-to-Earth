@@ -19,9 +19,9 @@ MonoBehaviour:
   skillType: 0
   targetType: 0
   clipName: SpellToEnemy
+  clipLayer: 1
   icon: {fileID: 0}
   dmg: 0
-  range: 0
-  effectiveRange: 0
+  size: 0
   coolDown: 2
-  skillSpeed: 0
+  speed: 0

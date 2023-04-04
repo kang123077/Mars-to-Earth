@@ -112,7 +112,7 @@ namespace Character
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
             if (!dying && ReferenceEquals(onSkill, null) && SPCActionWeight > 0)
-                anim.SetLayerWeight(2, SPCActionWeight -= Time.deltaTime*5); 
+                anim.SetLayerWeight(2, SPCActionWeight -= Time.deltaTime*4); 
 
             foreach (Skill.SPC buff in Buffs)
                 buff.Activation(this);
@@ -149,28 +149,18 @@ namespace Character
         {
             if (!ReferenceEquals(onSkill,null)) return;
             onSkill = skill;
-            anim.SetLayerWeight(2, SPCActionWeight=1);
-            anim.Play(skill.skillInfo.clipName, 2,0);
+            anim.SetLayerWeight(skill.skillInfo.clipLayer, SPCActionWeight=1);
+            anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);
             //StartCoroutine(ClipBack(anim.GetCurrentAnimatorClipInfo(2)[0].clip.length));
         }
         public void SkillEffect()
         {
-            Debug.Log("dd");
             if (!dying&& !ReferenceEquals(onSkill, null))
             {
-                Debug.Log("dd2");
                 onSkill.Effect();
                 onSkill = null;
             }
         }
-        /*
-        IEnumerator ClipBack(float wait)
-        {
-            yield return new WaitForSeconds(wait);
-            if (!dying)
-                anim.SetLayerWeight(2, 0);
-            onSkill = null;
-        }
-        */
+       
     }
 }

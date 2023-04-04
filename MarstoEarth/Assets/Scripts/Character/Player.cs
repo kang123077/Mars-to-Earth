@@ -13,24 +13,7 @@ namespace Character
         private float zInput;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
-        
         private static readonly int onTarget = Animator.StringToHash("onTarget");
-        private float _EXP;
-        public float EXP
-        {
-            get => _EXP;
-            set
-            {
-                float curValue=value;
-                while (curValue>=100) {
-                    curValue -= 100;
-                    level++;
-                };
-                _EXP = curValue;
-            }
-        }
-        
-        public float optanium { get; set; }
 
         private Collider[] itemColliders;
 

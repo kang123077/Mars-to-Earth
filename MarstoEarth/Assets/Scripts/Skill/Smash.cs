@@ -24,7 +24,7 @@ namespace Skill
         public override void Effect()
         {
             // 일정 범위 내의 적들에게 데미지를 주는 로직 구현
-            int size = Physics.OverlapSphereNonAlloc(caster.target.position, skillInfo.range, colliders, layerMask);
+            int size = Physics.OverlapSphereNonAlloc(caster.target.position, skillInfo.size, colliders, layerMask);
             if (size > 0)
             {
                 for(int i=0; i<size; i++)

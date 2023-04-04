@@ -23,12 +23,12 @@ namespace Skill
         public SkillType skillType;
         public TargetType targetType;
         public string clipName;
+        public int clipLayer;
         public UnityEngine.UI.Image icon;
         public float dmg;
-        public float range;
-        public float effectiveRange;
+        public float size;
         public float coolDown;
-        public float skillSpeed;
+        public float speed;
     }
 }
 
