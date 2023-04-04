@@ -1,15 +1,18 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 namespace Character
 {
     public abstract class Character : MonoBehaviour
     {
+
+        protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
+        protected static readonly int attacking = Animator.StringToHash("attacking");
+
         [SerializeField] private string characterName;
-        [SerializeField] private StatInfo characterStat;
+        [SerializeField] protected StatInfo characterStat;
         [SerializeField] protected Animator anim;
-        [SerializeField] protected NavMeshAgent ai;
         [SerializeField] protected Collider col;
         
         protected Camera mainCam;
@@ -18,9 +21,10 @@ namespace Character
         protected Transform target;
         protected Character targetCharacter;
         protected Collider[] colliders;
-        private float nockBackResist ;
+        protected float nockBackResist ;
         protected bool dying;
         protected int level;
+        private Vector3 impact;
         public float dmg { get; set; }
         public float atkSpd { get; set; }
         public float speed { get; set; }
@@ -28,7 +32,7 @@ namespace Character
         public float duration { get; set; }
         
         public float range { get; set; }
-        public float viewingAngle { get; set; }
+        public float viewAngle { get; set; }
         private float _hp;
         protected internal float hp
         {
@@ -42,10 +46,11 @@ namespace Character
                 _hp = value;
             }
         }
-        protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
-        protected static readonly int attacking = Animator.StringToHash("attacking");
 
-
+        protected List<Skill.SPC> Buffs;
+        protected List<Skill.Skill> aqSkills;
+        protected List<Skill.Skill> registActives;
+        protected List<Skill.Skill> registPassives;
         protected virtual void Awake()
         {
             if(!mainCam)
@@ -53,7 +58,7 @@ namespace Character
             thisCurTransform = transform;
             target = null;
             nockBackResist = characterStat.maxHP * 0.1f;
-            
+            impact = Vector3.zero;
             dmg = characterStat.dmg;
             atkSpd = characterStat.atkSpd;
             speed = characterStat.speed;
@@ -61,7 +66,9 @@ namespace Character
             duration = characterStat.duration;
             hp = characterStat.maxHP;
             range = characterStat.range;
-            viewingAngle = characterStat.viewAngle;
+            viewAngle = characterStat.viewAngle;
+            
+            Buffs = new List<Skill.SPC>();
         }
 
         protected virtual void Start()
@@ -71,35 +78,102 @@ namespace Character
 
         protected virtual void Attack()
         {
+            if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform,characterStat.dmg,0);
+            targetCharacter.Hit(thisCurTransform,dmg,0);
         }
         protected virtual IEnumerator Die()
         {
             dying = true;
             Destroy(hpBar.gameObject);
             Destroy(col);
-            ai.ResetPath();
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);
             Destroy(gameObject);
         }
 
-        protected virtual void Hit(Transform attacker, float dmg,float penetrate=0)
+        protected virtual void BaseUpdate()
+        {
+            if (impact.magnitude > 0.1f)
+            {
+                transform.position += impact * Time.deltaTime;
+                impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
+            }
+            foreach (Skill.SPC buff in Buffs) 
+                buff.Activation(this);
+
+
+        }
+        protected internal virtual void Hit(Transform attacker, float dmg,float penetrate=0)
         {
             if(dying)
                 return; 
-            
+            Debug.Log("처맞"+attacker+"한테맞음");
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
+            
             hpBar.value = hp / characterStat.maxHP;
             Vector3 horizonPosition = thisCurTransform.position;
             Vector3 attackerPosition = attacker.position;
             horizonPosition.y = attackerPosition.y;
+            impact += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
             
-            ai.velocity += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
-            }
+        }
+
+        public void AddBuff(Skill.SPC buff)
+        {
+            buff.Apply(this);
+            Buffs.Add(buff);
+        }
+
+        public void RemoveBuff(Skill.SPC buff)
+        {
+            buff.Remove(this);
+            Buffs.Remove(buff);
+        }
+
+        public void PlaySkillClip(AnimationClip clip)
+        {
+            anim.Play(clip.name);
+            StartCoroutine(WaitForAnimation(clip));
+        }
+        private IEnumerator WaitForAnimation(AnimationClip clip)
+        {
+            yield return new WaitForSeconds(clip.length);
+            anim.Play(anim.GetCurrentAnimatorStateInfo(0).fullPathHash, -1, 0f);
+        }
+
+        public void AddAqSkill(Skill.Skill aqSkill)
+        {
+            aqSkills.Add(aqSkill);
+        }
+
+        public void RemoveAqSkill(Skill.Skill aqSkill)
+        {
+            aqSkills.Remove(aqSkill);
+        }
+
+        public void AddActive(Skill.Skill aqSkill)
+        {
+            registActives.Add(aqSkill);
+        }
+
+        public void RemoveActive(Skill.Skill aqSkill)
+        {
+            registActives.Remove(aqSkill);
+        }
+
+        public void AddPassive(Skill.Skill aqSkill)
+        {
+            registPassives.Add(aqSkill);
+        }
+
+        public void RemovePassive(Skill.Skill aqSkill)
+        {
+            registPassives.Remove(aqSkill);
+        }
+
     }
 }
