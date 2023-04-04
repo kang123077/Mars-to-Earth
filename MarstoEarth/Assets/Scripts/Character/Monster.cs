@@ -19,7 +19,6 @@ namespace Character
         private int patrolIdx;
         
         [SerializeField] protected NavMeshAgent ai;
-
         private Coroutine StuckCheckCoroutine;
         protected bool trackingPermission;
         private Vector3 lastPosition;
@@ -56,12 +55,9 @@ namespace Character
                         positions.Clear();
                         travelDistance = 0;
                         }
-                    
                     }
                     else
-                    {
                         trackingPermission = true;
-                    }
                 }
                 lastPosition = transform.position;
             }
@@ -93,10 +89,8 @@ namespace Character
             base.BaseUpdate();
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
+            inputDir = thisCurTransform.InverseTransformPoint(thisCurTransform.position + thisCurTransform.forward);
         }
-
-        
-
         // ReSharper disable Unity.PerformanceAnalysis
         protected override IEnumerator Die()
         {

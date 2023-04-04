@@ -37,7 +37,7 @@ public class SpawnManager :Singleton<SpawnManager>
         projectilePrefab = prefab;
         Projectile projectile = projectileManagedPool.Get();
         projectile.attacker = attacker;
-        projectile.layerMask = ~(1 << layer)^(1<<8);
+        projectile.layerMask = (1 << 3 | 1 << 6) ^ 1 << layer;
         projectile.gameObject.layer = 8;
         projectile.dmg = dmg;
         projectile.gameObject.SetActive(true);
