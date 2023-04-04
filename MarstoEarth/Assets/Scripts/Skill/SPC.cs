@@ -12,7 +12,6 @@ namespace Skill
     }
     public class SPC 
     {
-        private int amount;
         private float duration;
         public UnityEngine.UI.Image icon;
         

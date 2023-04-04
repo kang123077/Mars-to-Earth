@@ -9,7 +9,6 @@ namespace Character
         [SerializeField]private GameObject bulletPrefab;
         private RaycastHit hitInfo;
         private Vector3 mouseDir;
-        public Vector3 inputDir { get; set; }
         private float xInput;
         private float zInput;
         private static readonly int X = Animator.StringToHash("x");
@@ -67,7 +66,8 @@ namespace Character
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
                 getItem.Use(this);
             }
-            
+            if (!ReferenceEquals(onSkill, null))
+                return;
             #region MovingMan
 
             var vector3 = inputDir;
@@ -131,13 +131,13 @@ namespace Character
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                registActives[0].Use(this, 3);
+                registActives[0].Use(this);
             }else if (Input.GetKeyDown(KeyCode.E))
             {
-                //registActives[1].Use();
-            }else if (Input.GetKeyDown(KeyCode.E))
+                registActives[1].Use(this);
+            }else if (Input.GetKeyDown(KeyCode.R))
             {
-                //registActives[2].Use();
+                registActives[2].Use(this);
             }
             
 

@@ -5,14 +5,14 @@ namespace Skill
 {
     public class Smash : Skill
     {
-
+        Collider[] colliders;
         public Smash(SkillInfo skillInfo ) : base ()
         {
             this.skillInfo = skillInfo;
         }
         protected override void Activate()
         {
-            caster.PlaySkillClip(skillInfo.clipName); // 재생할 애니메이션 호출
+            caster.PlaySkillClip(this); // 재생할 애니메이션 호출
             Vector3 point = caster.target.position;
             caster.AddBuff(new SPC(1,(ch) =>
             {
@@ -24,11 +24,14 @@ namespace Skill
         public override void Effect()
         {
             // 일정 범위 내의 적들에게 데미지를 주는 로직 구현
-            Collider[] colliders = Physics.OverlapSphere(caster.target.position, skillInfo.range, (1<<3|1<<6)^1<<caster.gameObject.layer);
-            foreach (Collider collider in colliders)
+            int size = Physics.OverlapSphereNonAlloc(caster.target.position, skillInfo.range, colliders, layerMask);
+            if (size > 0)
             {
-                collider.TryGetComponent(out Character.Character enemy);
-                enemy.Hit(caster.transform, skillInfo.dmg, 0);
+                for(int i=0; i<size; i++)
+                {
+                    colliders[i].TryGetComponent(out Character.Character enemy);
+                    enemy.Hit(caster.transform, skillInfo.dmg, 0);
+                }
             }
         }
         protected override bool GetTarget()

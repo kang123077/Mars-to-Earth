@@ -9,13 +9,7 @@ namespace Skill
         Target,
         NonTarget,
     }
-    public enum UsableCharacter
-    {
-        Common,
-        Rone,
-        Miles,
-        CR42
-    }
+  
     public enum SkillType
     {
         ActiveSkill,
@@ -25,10 +19,8 @@ namespace Skill
     public class SkillInfo:ScriptableObject
     {
         public int skillId;
-        public string skillName;
         public string description;
         public SkillType skillType;
-        public UsableCharacter usableCharacter;
         public TargetType targetType;
         public string clipName;
         public UnityEngine.UI.Image icon;
@@ -39,3 +31,12 @@ namespace Skill
         public float skillSpeed;
     }
 }
+
+/*  public enum UsableCharacter
+    {
+        Common,
+        Rone,
+        Miles,
+        CR42
+    }
+*/

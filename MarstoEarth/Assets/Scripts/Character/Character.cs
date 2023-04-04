@@ -18,13 +18,17 @@ namespace Character
         protected Camera mainCam;
         protected UnityEngine.UI.Slider hpBar;
         protected Transform thisCurTransform;
-        public Transform target;
+        [HideInInspector] public Transform target;
         protected Character targetCharacter;
         protected Collider[] colliders;
         protected float nockBackResist ;
         protected bool dying;
+        protected Skill.Skill onSkill;
+        private float SPCActionWeight;
+
+        public Vector3 inputDir { get; set; }
         protected int level;
-        private Vector3 impact;
+        public Vector3 impact { get; set; }
         public float dmg { get; set; }
         public float atkSpd { get; set; }
         public float speed { get; set; }
@@ -67,6 +71,7 @@ namespace Character
             hp = characterStat.maxHP;
             range = characterStat.range;
             viewAngle = characterStat.viewAngle;
+            onSkill = null;
             
             Buffs = new List<Skill.SPC>();
             registActives = new List<Skill.Skill>();
@@ -75,7 +80,10 @@ namespace Character
 
         protected virtual void Start()
         {
+            //퀵슬롯 구현후 삭제
             registActives.Add(ResourceManager.Instance.skills[0]);
+            registActives.Add(ResourceManager.Instance.skills[1]);
+            registActives.Add(ResourceManager.Instance.skills[2]);
             hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
         }
 
@@ -103,10 +111,11 @@ namespace Character
                 transform.position += impact * Time.deltaTime;
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
-            foreach (Skill.SPC buff in Buffs) 
+            if (!dying && ReferenceEquals(onSkill, null) && SPCActionWeight > 0)
+                anim.SetLayerWeight(2, SPCActionWeight -= Time.deltaTime*5); 
+
+            foreach (Skill.SPC buff in Buffs)
                 buff.Activation(this);
-
-
         }
         protected internal virtual void Hit(Transform attacker, float dmg,float penetrate=0)
         {
@@ -122,7 +131,6 @@ namespace Character
             Vector3 attackerPosition = attacker.position;
             horizonPosition.y = attackerPosition.y;
             impact += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
-            
         }
 
         public void AddBuff(Skill.SPC buff)
@@ -137,26 +145,32 @@ namespace Character
             Buffs.Remove(buff);
         }
 
-        public void PlaySkillClip(String clipName)
+        public void PlaySkillClip(Skill.Skill skill)
         {
-            anim.SetLayerWeight(2, 1);
-            anim.Play(clipName,2,0);
-            StartCoroutine(ClipBack(anim.GetCurrentAnimatorClipInfo(2)[0].clip.length));
+            if (!ReferenceEquals(onSkill,null)) return;
+            onSkill = skill;
+            anim.SetLayerWeight(2, SPCActionWeight=1);
+            anim.Play(skill.skillInfo.clipName, 2,0);
+            //StartCoroutine(ClipBack(anim.GetCurrentAnimatorClipInfo(2)[0].clip.length));
         }
-
         public void SkillEffect()
         {
-            if (!dying)
-                registActives[0].Effect();
+            Debug.Log("dd");
+            if (!dying&& !ReferenceEquals(onSkill, null))
+            {
+                Debug.Log("dd2");
+                onSkill.Effect();
+                onSkill = null;
+            }
         }
+        /*
         IEnumerator ClipBack(float wait)
         {
             yield return new WaitForSeconds(wait);
             if (!dying)
                 anim.SetLayerWeight(2, 0);
+            onSkill = null;
         }
-        
-        
- 
+        */
     }
 }
