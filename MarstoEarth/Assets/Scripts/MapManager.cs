@@ -28,6 +28,6 @@ public class MapManager : Singleton<MapManager>
         mapInfo.cur_Dungeon.curStage = 0;
         mapInfo.cur_Dungeon.stageInfo = new StageInfo[2];
         mapInfo.cur_Dungeon.stageInfo[0] = gameObject.AddComponent<StageInfo>();
-        mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber = 100;
+        mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber = 24;
     }
 }
