@@ -32,9 +32,21 @@ public class NodeGenerator : MonoBehaviour
     /// <param name="distance">부모 노드로부터의 거리, DFS의 depth</param>
     /// <param name="parentDir">부모의 방향, 체크 시 배제하기 위한 용도 (nullable), East = 0, West = 1, South = 2, North = 3</param>
     /// <returns></returns>
-    public NodeInfo GenerateNodes(MapInfo mapInfo, int x, int y, int distance, int? parentDir)
+    public NodeInfo GenerateNodes(MapInfo mapInfo, int x, int y, int distance, int? parentDir, int seed)
     {
-        // 현재 노드의 갯수가 정해진 노드의 갯수보다 많거나 같아지면 or 시작 노드로부터 거리가 5 이상이면 return
+        
+        // 최초 진입 시 seed_number로 랜덤 초기화 seed_number가 0일 경우 초기화 X
+        // 노드 생성기에서 사용 할 새로운 Random 생성
+        if (mapInfo.seed_Number != 0 && seed == 0)
+        {
+            Random.InitState(mapInfo.seed_Number);
+        }
+        // 최초 진입 아닐 시 seed로 랜덤 초기화
+        if (seed != 0)
+        {
+            Random.InitState(seed);
+        }
+        // 현재 노드의 갯수가 정해진 노드의 갯수보다 많거나 같아지면 or 시작 노드로부터 거리가 n 이상이면 return
         if (MapManager.nodes.Count >= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber || distance > 10)
         {
             return null;
@@ -58,18 +70,21 @@ public class NodeGenerator : MonoBehaviour
         // 모든 방향을 체크 할 때 까지
         while (directions.Count != 0)
         {
+            // 방향마다 다른 Random으로 초기화
+            int NextSeed = Random.Range(int.MinValue, int.MaxValue);
+            Random.InitState(NextSeed);
             // 랜덤으로 체크할 방향 결정
             int randomIndex = Random.Range(0, directions.Count);
             string selectedDirection = directions[randomIndex];
             // 해당 방향 체크 (함수 설명 참조)
-            CheckDirection(mapInfo, x, y, distance, nodeInfo, selectedDirection);
+            CheckDirection(mapInfo, x, y, distance, nodeInfo, selectedDirection, NextSeed);
             // 해당 방향 삭제
             directions.RemoveAt(randomIndex);
         }
         return nodeInfo;
     }
 
-    public void CheckDirection(MapInfo mapInfo, int x, int y, int distance, NodeInfo nodeInfo, string dir)
+    public void CheckDirection(MapInfo mapInfo, int x, int y, int distance, NodeInfo nodeInfo, string dir, int seed)
     {
         switch (dir)
         {
@@ -96,7 +111,7 @@ public class NodeGenerator : MonoBehaviour
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x + (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
                         MapManager.paths.Add(pathObject);
-                        nodeInfo.east = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1);
+                        nodeInfo.east = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
                     }
                 }
                 break;
@@ -120,7 +135,7 @@ public class NodeGenerator : MonoBehaviour
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x - (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
                         MapManager.paths.Add(pathObject);
-                        nodeInfo.west = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0);
+                        nodeInfo.west = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
                     }
                 }
                 break;
@@ -144,7 +159,7 @@ public class NodeGenerator : MonoBehaviour
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z - (nodeSpacing / 2f));
                         MapManager.paths.Add(pathObject);
-                        nodeInfo.south = GenerateNodes(mapInfo, x, y - 1, distance + 1, 3);
+                        nodeInfo.south = GenerateNodes(mapInfo, x, y - 1, distance + 1, 3, seed);
                     }
                 }
                 break;
@@ -168,7 +183,7 @@ public class NodeGenerator : MonoBehaviour
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z + (nodeSpacing / 2f));
                         MapManager.paths.Add(pathObject);
-                        nodeInfo.north = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2);
+                        nodeInfo.north = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2, seed);
                     }
                 }
                 break;
@@ -208,6 +223,29 @@ public class NodeGenerator : MonoBehaviour
         }
     }
 
+    // Function that returns a bool value based on the distance
+    bool ProbabilityBasedOnDistance(int distance)
+    {
+        // Calculate the probability using an inverse linear function
+        float maxDistance = 10.0f;
+        float probability = 1.0f - (distance / maxDistance);
+
+        // Generate a random value between 0 and 1
+        float randomValue = Random.Range(0.0f, 1.0f);
+
+        // Check if the random value is less than or equal to the probability
+        if (randomValue <= probability)
+        {
+            // Return true if the random value is less than or equal to the probability
+            return true;
+        }
+        else
+        {
+            // Return false if the random value is greater than the probability
+            return false;
+        }
+    }
+
     public int GetRoomNumber(int distance)
     {
         // Define the probability distribution for roomNumber values
@@ -240,30 +278,6 @@ public class NodeGenerator : MonoBehaviour
         // This code should never be reached, but we need to return something
         return 0;
     }
-
-    // Function that returns a bool value based on the distance
-    bool ProbabilityBasedOnDistance(int distance)
-    {
-        // Calculate the probability using an inverse linear function
-        float maxDistance = 10.0f;
-        float probability = 1.0f - (distance / maxDistance);
-
-        // Generate a random value between 0 and 1
-        float randomValue = Random.Range(0.0f, 1.0f);
-
-        // Check if the random value is less than or equal to the probability
-        if (randomValue <= probability)
-        {
-            // Return true if the random value is less than or equal to the probability
-            return true;
-        }
-        else
-        {
-            // Return false if the random value is greater than the probability
-            return false;
-        }
-    }
-
     /*
     // 배정 된 방향 && 노드 갯수 확인
     if (east == 1 && nodes.Count <= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)

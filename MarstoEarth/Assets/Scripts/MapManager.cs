@@ -1,12 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
 public class MapManager : Singleton<MapManager>
 {
     public MapInfo mapInfo;
     public MapGenerator mapGenerator;
+    public TMP_InputField inputField;
 
     public static List<NodeInfo> nodes;
     public static List<GameObject> paths;
@@ -69,5 +69,10 @@ public class MapManager : Singleton<MapManager>
             Destroy(paths[i].gameObject);
         }
         paths.Clear();
+    }
+    public void GenerateNewSeed()
+    {
+        mapInfo.seed_Number = Random.Range(int.MinValue, int.MaxValue);
+        inputField.text = mapInfo.seed_Number.ToString();
     }
 }
