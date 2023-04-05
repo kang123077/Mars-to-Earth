@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MapManager : Singleton<MapManager>
 {
-    public MapInfo mapInfo;
+    public static MapInfo mapInfo;
     public MapGenerator mapGenerator;
     public TMP_InputField inputField;
 
@@ -27,6 +28,7 @@ public class MapManager : Singleton<MapManager>
     public void GenerateMapCall()
     {
         mapGenerator.GenerateMap(mapInfo);
+        GenerateNavMesh();
     }
 
     public void TestInitMapInfo()
@@ -74,5 +76,20 @@ public class MapManager : Singleton<MapManager>
     {
         mapInfo.seed_Number = Random.Range(int.MinValue, int.MaxValue);
         inputField.text = mapInfo.seed_Number.ToString();
+    }
+
+    public void GenerateNavMesh()
+    {
+        foreach (NodeInfo node in nodes)
+        {
+            GameObject temp = node.gameObject;
+            NavMeshSurface surface = temp.GetComponent<NavMeshSurface>();
+            surface.BuildNavMesh();
+        }
+        foreach (GameObject path in paths)
+        {
+            NavMeshSurface surface = path.GetComponent<NavMeshSurface>();
+            surface.BuildNavMesh();
+        }
     }
 }
