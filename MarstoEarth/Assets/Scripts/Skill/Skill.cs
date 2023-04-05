@@ -11,7 +11,6 @@ namespace Skill
         protected Character.Character caster;
         protected int layerMask;
         
-
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Character caster)
         {
@@ -22,13 +21,12 @@ namespace Skill
             if (Time.time >= lastUsedTime + skillInfo.coolDown)
             {
                 if (skillInfo.targetType == TargetType.Target)
-                    if(!GetTarget())return;
+                    if(!caster.target)return;
                 Activate();
                 lastUsedTime = Time.time;
             }
         }
         protected abstract void Activate();
         public abstract void Effect();
-        protected abstract bool GetTarget();
     }
 }

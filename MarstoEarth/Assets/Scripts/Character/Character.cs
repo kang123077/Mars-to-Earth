@@ -23,7 +23,7 @@ namespace Character
         protected Collider[] colliders;
         protected float nockBackResist ;
         protected bool dying;
-        protected Skill.Skill onSkill;
+        public Skill.Skill onSkill { get; set; }
         private float SPCActionWeight;
 
         protected int level;
@@ -51,7 +51,7 @@ namespace Character
         }
 
         protected List<Skill.SPC> Buffs;
-        protected List<Skill.Skill> registActives;
+        protected List<Skill.Skill> actives;
         int buffElementIdx;
 
         
@@ -74,16 +74,13 @@ namespace Character
             onSkill = null;
             
             Buffs = new List<Skill.SPC>();
-            registActives = new List<Skill.Skill>();
+            actives = new List<Skill.Skill>();
 
         }
 
         protected virtual void Start()
         {
-            //퀵슬롯 구현후 삭제
-            registActives.Add(ResourceManager.Instance.skills[0]);
-            registActives.Add(ResourceManager.Instance.skills[1]);
-            registActives.Add(ResourceManager.Instance.skills[2]);
+            
             hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
         }
 
@@ -91,7 +88,7 @@ namespace Character
         {
             if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform,dmg,0);
+            targetCharacter.Hit(thisCurTransform.position,dmg,0);
         }
         protected virtual IEnumerator Die()
         {
@@ -120,7 +117,7 @@ namespace Character
                 Buffs[buffElementIdx].Activation(this);
             }
         }
-        protected internal virtual void Hit(Transform attacker, float dmg,float penetrate=0)
+        protected internal virtual void Hit(Vector3 attacker, float dmg,float penetrate=0)
         {
             if(dying)
                 return; 
@@ -131,7 +128,7 @@ namespace Character
             
             hpBar.value = hp / characterStat.maxHP;
             Vector3 horizonPosition = thisCurTransform.position;
-            Vector3 attackerPosition = attacker.position;
+            Vector3 attackerPosition = attacker;
             horizonPosition.y = attackerPosition.y;
             impact += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
         }

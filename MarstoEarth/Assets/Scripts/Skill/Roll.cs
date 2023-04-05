@@ -6,8 +6,7 @@ namespace Skill
 {
     public class Roll : Skill
     {
-
-        public Roll(SkillInfo skillInfo) : base()
+        public Roll(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
         }
@@ -19,17 +18,17 @@ namespace Skill
                 dir = caster.transform.forward;
 
             caster.transform.forward = dir;
-            caster.AddBuff(new SPC((skillInfo.speed + caster.speed * 0.5f)*0.1f, (ch) =>
+            SPC roll = null;
+            roll = new SPC(10, (ch) =>
             {
-                ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed+ch.speed*0.5f));
-            }));
+                ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed + ch.speed));
+                if(ch.onSkill is null)
+                    ch.RemoveBuff(roll);
+            });
+            caster.AddBuff(roll);
         }
         public override void Effect()
         {
-        }
-        protected override bool GetTarget()
-        {
-            return caster.target;
         }
     }
 }

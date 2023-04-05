@@ -26,8 +26,6 @@ namespace Character
         
         [SerializeField] protected float sightLength;
         protected bool isAttacking;
-        [SerializeField] protected float optanium;
-        [SerializeField] protected float experience;
 
         private IEnumerator StuckCheck()
         {
@@ -116,10 +114,10 @@ namespace Character
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        protected internal override void Hit(Transform attacker, float dmg,float penetrate=0)
+        protected internal override void Hit(Vector3 attacker, float dmg,float penetrate=0)
         {
             base.Hit(attacker, dmg, penetrate);
-            target = attacker;
+            ai.SetDestination(attacker);
         }
     }
 }

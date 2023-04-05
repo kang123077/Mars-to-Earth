@@ -7,7 +7,7 @@ public class SpawnManager :Singleton<SpawnManager>
 { 
     public Player player;
     [HideInInspector]public Transform playerTransform;
-    public GameObject projectilePrefab;
+    private GameObject projectilePrefab;
     public IObjectPool<Projectile> projectileManagedPool;
     protected override void Awake()
     {
@@ -31,14 +31,16 @@ public class SpawnManager :Singleton<SpawnManager>
         //
     }
 
-    public void Launch(Transform attacker,int layer, float dmg,GameObject prefab)
+    public void Launch(Vector3 attacker,Vector3 target,int layer, float dmg,ProjectileType type,bool isBullet=true)
     {
-        projectilePrefab = prefab;
+        projectilePrefab = ResourceManager.Instance.projectilePrefabs[(int)type];
         Projectile projectile = projectileManagedPool.Get();
-        projectile.attacker = attacker;
+        projectile.attackerPosition = attacker;
         projectile.layerMask = (1 << 3 | 1 << 6) ^ 1 << layer;
         projectile.gameObject.layer = 8;
         projectile.dmg = dmg;
+        projectile.targetPosition = target;
+        projectile.isBullet = isBullet;
         projectile.gameObject.SetActive(true);
     }
 

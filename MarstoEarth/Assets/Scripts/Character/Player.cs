@@ -27,7 +27,11 @@ namespace Character
         protected override void Start()
         {
             base.Start();
-            hpBar.transform.position = mainCam.WorldToScreenPoint(((Component)this).transform.position + Vector3.up * 2f);
+            //퀵슬롯 구현후 삭제
+            actives.Add(ResourceManager.Instance.skills[0]);
+            actives.Add(ResourceManager.Instance.skills[1]);
+            actives.Add(ResourceManager.Instance.skills[3]);
+            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
         {
@@ -47,7 +51,7 @@ namespace Character
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
                 getItem.Use(this);
             }
-            if (!ReferenceEquals(onSkill, null))
+            if (onSkill is not null && onSkill.skillInfo.clipLayer==2)
                 return;
             #region MovingMan
 
@@ -112,13 +116,13 @@ namespace Character
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                registActives[0].Use(this);
+                actives[0].Use(this);
             }else if (Input.GetKeyDown(KeyCode.E))
             {
-                registActives[1].Use(this);
+                actives[1].Use(this);
             }else if (Input.GetKeyDown(KeyCode.R))
             {
-                registActives[2].Use(this);
+                actives[2].Use(this);
             }
             
 
@@ -126,7 +130,7 @@ namespace Character
 
         protected override void Attack()
         {
-            SpawnManager.Instance.Launch(transform,gameObject.layer,dmg,bulletPrefab);
+            SpawnManager.Instance.Launch(thisCurTransform.position,thisCurTransform.forward,gameObject.layer,dmg,ProjectileType.Bullet1);
         }
     }
 }

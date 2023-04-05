@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
-  m_Name: RollStat
+  m_Name: Grenade
   m_EditorClassIdentifier: 
   skillId: 0
-  description: "\uC774\uB3D9\uBC29\uD5A5\uC73C\uB85C \uAD6C\uB978\uB2E4"
+  description: 
   skillType: 0
-  targetType: 1
-  clipName: Roll
-  clipLayer: 2
-  icon: {fileID: 21300000, guid: ace0633e56aecc84786e191462a19037, type: 3}
-  dmg: 0
-  duration: 0.7
+  targetType: 0
+  clipName: TossGrenade
+  clipLayer: 1
+  icon: {fileID: 0}
+  dmg: 20
+  duration: 0
   size: 0
-  coolDown: 1
-  speed: 7
+  coolDown: 0
+  speed: 0

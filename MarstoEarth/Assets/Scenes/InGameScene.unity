@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -363,6 +363,13 @@ MonoBehaviour:
   items:
   - {fileID: 1966295499392432073, guid: d5e701ccbc4699d48957d6be406aa8c1, type: 3}
   - {fileID: 2074234464477956416, guid: 9d3de7b42d02cf747ba8aba5a7933947, type: 3}
+  projectilePrefabs:
+  - {fileID: 3694326089976598682, guid: 95db2e82a0fb0154d8d86222b08165d3, type: 3}
+  skillInfos:
+  - {fileID: 11400000, guid: 79afa3454e94c29448446fd2bf934ccd, type: 2}
+  - {fileID: 11400000, guid: cca6fe47a661f934e98e8b56bdfacb93, type: 2}
+  - {fileID: 11400000, guid: ab7002104c5f4a64e87232cae904e20f, type: 2}
+  - {fileID: 11400000, guid: 71b2e35f79bbc874ea49b27b64af0d9c, type: 2}
 --- !u!4 &389740386
 Transform:
   m_ObjectHideFlags: 0
@@ -618,7 +625,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 3026331719584739865, guid: c98043d57e0190845b790d7b92990bee, type: 3}
   playerTransform: {fileID: 0}
-  projectilePrefab: {fileID: 0}
 --- !u!4 &1382090663
 Transform:
   m_ObjectHideFlags: 0

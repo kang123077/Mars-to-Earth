@@ -5,7 +5,7 @@ namespace Skill
 {
     public class StimPack : Skill
     {
-        public StimPack(SkillInfo skillInfo) : base()
+        public StimPack(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
         }
@@ -25,10 +25,6 @@ namespace Skill
                 ch.speed -= skillInfo.speed;
                 ch.atkSpd -= skillInfo.coolDown;
             }));
-        }
-        protected override bool GetTarget()
-        {
-            return caster.target;
         }
     }
 }
