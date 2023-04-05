@@ -16,7 +16,7 @@ namespace Character
         private static readonly int onTarget = Animator.StringToHash("onTarget");
 
         private Collider[] itemColliders;
-
+        public Vector3 InputDir { get; set; }
         protected override void Awake()
         {
             base.Awake();
@@ -31,14 +31,12 @@ namespace Character
         }
         protected void Update()
         {
-            
-            
             Vector3 position = thisCurTransform.position;
             Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo,Mathf.Infinity,layerMask:1<<0);
             mouseDir = hitInfo.point - position;
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
-            inputDir = new Vector3(xInput, 0, zInput);
+            InputDir = new Vector3(xInput, 0, zInput);
             BaseUpdate();
             if (dying)
                 return;
@@ -53,7 +51,7 @@ namespace Character
                 return;
             #region MovingMan
 
-            var vector3 = inputDir;
+            var vector3 = InputDir;
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput != 0 && zInput != 0)

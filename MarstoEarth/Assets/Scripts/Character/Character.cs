@@ -26,7 +26,6 @@ namespace Character
         protected Skill.Skill onSkill;
         private float SPCActionWeight;
 
-        public Vector3 inputDir { get; set; }
         protected int level;
         public Vector3 impact { get; set; }
         public float dmg { get; set; }
@@ -52,9 +51,10 @@ namespace Character
         }
 
         protected List<Skill.SPC> Buffs;
-        protected List<Skill.Skill> aqSkills;
         protected List<Skill.Skill> registActives;
-        protected List<Skill.Skill> registPassives;
+        int buffElementIdx;
+
+        
         protected virtual void Awake()
         {
             if(!mainCam)
@@ -111,11 +111,14 @@ namespace Character
                 transform.position += impact * Time.deltaTime;
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
-            if (!dying && ReferenceEquals(onSkill, null) && SPCActionWeight > 0)
+            if (!dying && onSkill is null && SPCActionWeight > 0)
                 anim.SetLayerWeight(2, SPCActionWeight -= Time.deltaTime*4); 
 
-            foreach (Skill.SPC buff in Buffs)
-                buff.Activation(this);
+            for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
+            {
+
+                Buffs[buffElementIdx].Activation(this);
+            }
         }
         protected internal virtual void Hit(Transform attacker, float dmg,float penetrate=0)
         {
@@ -155,7 +158,7 @@ namespace Character
         }
         public void SkillEffect()
         {
-            if (!dying&& !ReferenceEquals(onSkill, null))
+            if (!dying&& onSkill is not null)
             {
                 onSkill.Effect();
                 onSkill = null;

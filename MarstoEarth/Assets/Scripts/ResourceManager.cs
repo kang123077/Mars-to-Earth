@@ -17,10 +17,12 @@ public class ResourceManager : Singleton<ResourceManager>
         SkillInfo[] skillInfos = Resources.LoadAll<SkillInfo>("SkillsStat");
 
         int i = 0;
-        skills.Add(new Cunfuse(skillInfos[i++]));
         skills.Add(new Roll(skillInfos[i++]));
         skills.Add(new Smash(skillInfos[i++]));
+        skills.Add(new StimPack(skillInfos[i++]));
 
         DontDestroyOnLoad(gameObject);
     }
+
+
 }

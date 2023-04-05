@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Skill
@@ -6,14 +6,11 @@ namespace Skill
     public abstract class Skill
     {
         public SkillInfo skillInfo;        
-        float lastUsedTime;
+        float lastUsedTime=0;
 
         protected Character.Character caster;
         protected int layerMask;
-        protected Skill()
-        {
-            lastUsedTime = Time.time;
-        }
+        
 
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Character caster)

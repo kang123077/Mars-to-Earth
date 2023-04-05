@@ -20,8 +20,7 @@ public class SpawnManager :Singleton<SpawnManager>
                GameObject copyPrefab= Instantiate(projectilePrefab);
                copyPrefab.SetActive(false);
                return copyPrefab.AddComponent<Projectile>();
-            }
-                ,
+            },
             actionOnRelease: (pt) => pt.gameObject.SetActive(false),defaultCapacity:20,maxSize:40);
     }
 
