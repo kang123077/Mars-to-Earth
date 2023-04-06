@@ -1,15 +1,17 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MapManager : Singleton<MapManager>
 {
-    public MapInfo mapInfo;
+    public static MapInfo mapInfo;
     public MapGenerator mapGenerator;
     public TMP_InputField inputField;
 
     public static List<NodeInfo> nodes;
     public static List<GameObject> paths;
+    public NavMeshSurface nodesTF;
 
     protected override void Awake()
     {
@@ -21,12 +23,14 @@ public class MapManager : Singleton<MapManager>
 
     void Start()
     {
+        GenerateNewSeed();
         GenerateMapCall();
     }
 
     public void GenerateMapCall()
     {
-        mapGenerator.GenerateMap(mapInfo);
+        mapGenerator.GenerateMap();
+        GenerateNavMesh();
     }
 
     public void TestInitMapInfo()
@@ -61,6 +65,7 @@ public class MapManager : Singleton<MapManager>
             Destroy(nodes[i].gameObject);
         }
         nodes.Clear();
+        mapGenerator.NodeClear();
     }
     public void PathsDestroy()
     {
@@ -74,5 +79,25 @@ public class MapManager : Singleton<MapManager>
     {
         mapInfo.seed_Number = Random.Range(int.MinValue, int.MaxValue);
         inputField.text = mapInfo.seed_Number.ToString();
+    }
+
+    public void GenerateNavMesh()
+    {
+        /*
+        foreach (NodeInfo node in nodes)
+        {
+            Debug.Log("nodes navmesh");
+            GameObject temp = node.gameObject;
+            NavMeshSurface surface = temp.GetComponent<NavMeshSurface>();
+            surface.BuildNavMesh();
+        }
+        foreach (GameObject path in paths)
+        {
+            Debug.Log("paths navmesh");
+            NavMeshSurface surface = path.GetComponent<NavMeshSurface>();
+            surface.BuildNavMesh();
+        }
+        */
+        nodesTF.BuildNavMesh();
     }
 }

@@ -5,8 +5,18 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     public NodeGenerator nodeGenerator;
-    public void GenerateMap(MapInfo mapInfo)
+
+    private bool isNodeSet;
+    public void GenerateMap()
     {
-        nodeGenerator.GenerateNodes(mapInfo, 0, 0, 0, null, 0);
+        if (isNodeSet == false)
+        {
+            nodeGenerator.GenerateNodes(MapManager.mapInfo, 0, 0, 0, null, 0);
+            isNodeSet = true;
+        }
+    }
+    public void NodeClear()
+    {
+        isNodeSet = false;
     }
 }
