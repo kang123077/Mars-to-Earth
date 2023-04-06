@@ -11,6 +11,7 @@ public class MapManager : Singleton<MapManager>
 
     public static List<NodeInfo> nodes;
     public static List<GameObject> paths;
+    public NavMeshSurface nodesTF;
 
     protected override void Awake()
     {
@@ -22,12 +23,13 @@ public class MapManager : Singleton<MapManager>
 
     void Start()
     {
+        GenerateNewSeed();
         GenerateMapCall();
     }
 
     public void GenerateMapCall()
     {
-        mapGenerator.GenerateMap(mapInfo);
+        mapGenerator.GenerateMap();
         GenerateNavMesh();
     }
 
@@ -63,6 +65,7 @@ public class MapManager : Singleton<MapManager>
             Destroy(nodes[i].gameObject);
         }
         nodes.Clear();
+        mapGenerator.NodeClear();
     }
     public void PathsDestroy()
     {
@@ -80,16 +83,21 @@ public class MapManager : Singleton<MapManager>
 
     public void GenerateNavMesh()
     {
+        /*
         foreach (NodeInfo node in nodes)
         {
+            Debug.Log("nodes navmesh");
             GameObject temp = node.gameObject;
             NavMeshSurface surface = temp.GetComponent<NavMeshSurface>();
             surface.BuildNavMesh();
         }
         foreach (GameObject path in paths)
         {
+            Debug.Log("paths navmesh");
             NavMeshSurface surface = path.GetComponent<NavMeshSurface>();
             surface.BuildNavMesh();
         }
+        */
+        nodesTF.BuildNavMesh();
     }
 }

@@ -233,7 +233,7 @@ public class NodeGenerator : MonoBehaviour
     bool ProbabilityBasedOnDistance(int distance)
     {
         // Calculate the probability using an inverse linear function
-        float maxDistance = 5f;
+        float maxDistance = 6f;
         float probability = 1.0f - (distance / maxDistance);
 
         // Generate a random value between 0 and 1
