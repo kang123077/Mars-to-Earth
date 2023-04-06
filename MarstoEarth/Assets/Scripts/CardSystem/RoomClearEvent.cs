@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class RoomClearEvent : MonoBehaviour
 {
-    public GameObject cardUI;  // 카드 UI 프리팹을 미리 할당
-    private int clearedRooms = 0;  // 클리어한 방의 개수를 저장하는 변수
+    public GameObject[] cardUIs; // 인스펙터 창에서 직접 할당할 수 있도록 변경
+    private int clearedRooms = 0; // 클리어한 방의 개수를 저장하는 변수
 
     /*
      * 맵을 클리어할 때 이벤트를 발생시키고
@@ -13,18 +13,20 @@ public class RoomClearEvent : MonoBehaviour
     public void OnRoomCleared()
     {
         clearedRooms++;
-        if (clearedRooms >= 2)  // 두 개의 방을 클리어했을 때
+        if (clearedRooms >= 2) // 두 개의 방을 클리어했을 때
         {
-            ShowCardUI();
-            gameObject.SetActive(false);  // 이벤트 발생 후 삭제하는 경우 사용
+            TriggerEvent();
         }
     }
 
-    private void ShowCardUI()
+    private void TriggerEvent()
     {
-        if (cardUI != null && !cardUI.activeSelf)
+        foreach (GameObject cardUI in cardUIs)
         {
-            cardUI.SetActive(true);
+            if (cardUI != null && !cardUI.activeSelf)
+            {
+                cardUI.SetActive(true);
+            }
         }
     }
 }
