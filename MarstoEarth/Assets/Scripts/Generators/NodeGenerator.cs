@@ -18,7 +18,7 @@ public class NodeGenerator : MonoBehaviour
     }
     void Start()
     {
-        nodeSpacing = 10f;
+        nodeSpacing = 40f;
     }
     void Update()
     {
@@ -80,6 +80,12 @@ public class NodeGenerator : MonoBehaviour
             CheckDirection(mapInfo, x, y, distance, nodeInfo, selectedDirection, NextSeed);
             // 해당 방향 삭제
             directions.RemoveAt(randomIndex);
+        }
+        // 모든 생성이 종료되면 도달
+        if (seed == 0)
+        {
+            // 생성한 모든 노드, 패스 회전
+            RotateAllNodes();
         }
         return nodeInfo;
     }
@@ -227,7 +233,7 @@ public class NodeGenerator : MonoBehaviour
     bool ProbabilityBasedOnDistance(int distance)
     {
         // Calculate the probability using an inverse linear function
-        float maxDistance = 10.0f;
+        float maxDistance = 6f;
         float probability = 1.0f - (distance / maxDistance);
 
         // Generate a random value between 0 and 1
@@ -243,6 +249,19 @@ public class NodeGenerator : MonoBehaviour
         {
             // Return false if the random value is greater than the probability
             return false;
+        }
+    }
+
+    public void RotateAllNodes()
+    {
+        foreach(NodeInfo node in MapManager.nodes)
+        {
+            GameObject temp = node.gameObject;
+            temp.transform.RotateAround(Vector3.zero, Vector3.up, 45);
+        }
+        foreach (GameObject path in MapManager.paths)
+        {
+            path.transform.RotateAround(Vector3.zero, Vector3.up, 45);
         }
     }
 
