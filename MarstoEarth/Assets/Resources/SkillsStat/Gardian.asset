@@ -19,7 +19,7 @@ MonoBehaviour:
   clipLayer: 2
   icon: {fileID: 0}
   dmg: 20
-  duration: 0
-  size: 0
+  duration: 50
+  size: 2
   coolDown: 2
-  speed: 0
+  speed: 50

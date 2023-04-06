@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 namespace Skill
 {
@@ -16,6 +16,7 @@ namespace Skill
         public UnityEngine.UI.Image icon;
         
         private float currentTime;
+
         public Action<Character.Character> Apply;
         public Action<Character.Character> Remove;
         public Action<Character.Character> Dots;

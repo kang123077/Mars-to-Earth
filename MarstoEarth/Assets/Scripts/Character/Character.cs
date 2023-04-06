@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace Character
 {
     public abstract class Character : MonoBehaviour
@@ -75,12 +76,10 @@ namespace Character
             
             Buffs = new List<Skill.SPC>();
             actives = new List<Skill.Skill>();
-
         }
 
         protected virtual void Start()
         {
-            
             hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
         }
 
@@ -113,9 +112,9 @@ namespace Character
 
             for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
             {
-
                 Buffs[buffElementIdx].Activation(this);
             }
+            
         }
         protected internal virtual void Hit(Vector3 attacker, float dmg,float penetrate=0)
         {
@@ -138,16 +137,13 @@ namespace Character
             buff.Apply(this);
             Buffs.Add(buff);
         }
-
         public void RemoveBuff(Skill.SPC buff)
         {
             buff.Remove(this);
             Buffs.Remove(buff);
         }
-
         public void PlaySkillClip(Skill.Skill skill)
         {
-            
             onSkill = skill;
             anim.SetLayerWeight(skill.skillInfo.clipLayer, SPCActionWeight=1);
             anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);
@@ -161,6 +157,5 @@ namespace Character
                 onSkill = null;
             }
         }
-       
     }
 }

@@ -15,9 +15,8 @@ namespace Projectile
     {
         Bullet,
         Cannon,
-        Satellite
     }
-
+    
     public class Projectile:MonoBehaviour
     {
         public Transform attacker;
@@ -28,29 +27,25 @@ namespace Projectile
         private float lifeTime ; 
         private float speed; 
         private readonly Collider[] colliders = new Collider[5];
-        
+
         public Vector3 targetPosition;
         public Type type;
-        public float journeyTime = 1.0f;
         private float startTime;
         Transform thisTransform;
-        private Vector3 orbitAxis;
-
         public void Init()
         {
-            transform.position = attacker.position+ new Vector3(0,1f,0.5f);
-            lifeTime = 2;
-            
+            transform.position = attacker.position+ targetPosition + new Vector3(0,1f,0.5f);
             transform.forward = targetPosition;
+            lifeTime = 50;
+
             speed = 40;
             startTime = Time.time;
-
-            orbitAxis = (transform.position - attacker.position).normalized;
+         
         }
+
         void Bullet()
         {
-            thisTransform.position += thisTransform.forward * (Time.deltaTime * speed);
-
+            thisTransform.position += targetPosition * (Time.deltaTime * speed); 
             if (Physics.OverlapSphereNonAlloc(thisTransform.position, 0.2f, colliders,
                     layerMask) > 0)
             {
@@ -66,7 +61,7 @@ namespace Projectile
             center -= new Vector3(0, 1, 0);
             Vector3 riseRelCenter = attacker.position - center;
             Vector3 setRelCenter = targetPosition - center;
-            float fracComplete = (Time.time - startTime) / journeyTime;
+            float fracComplete = (Time.time - startTime) / 1;
             thisTransform.position = Vector3.Slerp(riseRelCenter, setRelCenter, fracComplete);
             thisTransform.position += center;
             if (fracComplete > 1)
@@ -82,12 +77,7 @@ namespace Projectile
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             }
         }
-        void Satellite()
-        {
-            transform.RotateAround(attacker.position, Vector3.up, speed * Time.deltaTime);
-
-
-        }
+       
 
 
         private void Update()
@@ -101,7 +91,6 @@ namespace Projectile
             {
                 case Type.Bullet: Bullet(); break;
                 case Type.Cannon: Cannon(); break;
-                case Type.Satellite: Satellite(); break;
             }
         }
     }
