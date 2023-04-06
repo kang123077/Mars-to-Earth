@@ -15,12 +15,11 @@ MonoBehaviour:
   skillId: 0
   description: 
   skillType: 0
-  targetType: 0
   clipName: TossGrenade
   clipLayer: 1
   icon: {fileID: 0}
   dmg: 20
   duration: 0
   size: 0
-  coolDown: 0
+  coolDown: 2
   speed: 0

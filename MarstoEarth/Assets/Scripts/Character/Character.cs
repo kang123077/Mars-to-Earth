@@ -147,7 +147,7 @@ namespace Character
 
         public void PlaySkillClip(Skill.Skill skill)
         {
-            if (!ReferenceEquals(onSkill,null)) return;
+            
             onSkill = skill;
             anim.SetLayerWeight(skill.skillInfo.clipLayer, SPCActionWeight=1);
             anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);

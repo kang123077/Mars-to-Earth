@@ -4,12 +4,7 @@ using UnityEngine;
 
 namespace Skill
 {
-    public enum TargetType
-    {
-        Target,
-        NonTarget,
-    }
-  
+ 
     public enum SkillType
     {
         ActiveSkill,
@@ -21,7 +16,6 @@ namespace Skill
         public int skillId;
         public string description;
         public SkillType skillType;
-        public TargetType targetType;
         public string clipName;
         public byte clipLayer;
         public Sprite icon;

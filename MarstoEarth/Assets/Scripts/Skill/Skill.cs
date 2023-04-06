@@ -14,14 +14,13 @@ namespace Skill
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Character caster)
         {
+            if (caster.onSkill is not null) return;
             if (!this.caster) {
                 this.caster = caster;
                 layerMask=(1 << 3 | 1 << 6) ^ 1 << caster.gameObject.layer;
             }
             if (Time.time >= lastUsedTime + skillInfo.coolDown)
             {
-                if (skillInfo.targetType == TargetType.Target)
-                    if(!caster.target)return;
                 Activate();
                 lastUsedTime = Time.time;
             }

@@ -6,7 +6,6 @@ namespace Character
 
     public class Player : Character
     {
-        [SerializeField]private GameObject bulletPrefab;
         private RaycastHit hitInfo;
         private Vector3 mouseDir;
         private float xInput;
@@ -30,7 +29,9 @@ namespace Character
             //퀵슬롯 구현후 삭제
             actives.Add(ResourceManager.Instance.skills[0]);
             actives.Add(ResourceManager.Instance.skills[1]);
+            actives.Add(ResourceManager.Instance.skills[2]);
             actives.Add(ResourceManager.Instance.skills[3]);
+            actives.Add(ResourceManager.Instance.skills[4]);
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
@@ -101,11 +102,10 @@ namespace Character
                     anim.SetBool(onTarget, target);
                 }
             }
-            else  
+            else
             {
                 float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
                 if ((angle < 0 ? -angle : angle) > viewAngle||Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
-
                 {
                     anim.SetBool(onTarget, target = null);
                     thisCurTransform.forward =
@@ -119,18 +119,16 @@ namespace Character
                 actives[0].Use(this);
             }else if (Input.GetKeyDown(KeyCode.E))
             {
-                actives[1].Use(this);
+                actives[4].Use(this);
             }else if (Input.GetKeyDown(KeyCode.R))
             {
-                actives[2].Use(this);
-            }
-            
-
+                actives[3].Use(this);
+            }            
         }
 
         protected override void Attack()
         {
-            SpawnManager.Instance.Launch(thisCurTransform.position,thisCurTransform.forward,gameObject.layer,dmg,ProjectileType.Bullet1);
+            SpawnManager.Instance.Launch(thisCurTransform,thisCurTransform.forward,gameObject.layer,dmg, Projectile.Mesh.Bullet1, Projectile.Type.Bullet);
         }
     }
 }

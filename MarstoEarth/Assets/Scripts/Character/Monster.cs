@@ -116,7 +116,9 @@ namespace Character
         // ReSharper disable Unity.PerformanceAnalysis
         protected internal override void Hit(Vector3 attacker, float dmg,float penetrate=0)
         {
+            
             base.Hit(attacker, dmg, penetrate);
+            if (dying) return;
             ai.SetDestination(attacker);
         }
     }

@@ -7,41 +7,42 @@ public class SpawnManager :Singleton<SpawnManager>
 { 
     public Player player;
     [HideInInspector]public Transform playerTransform;
-    private GameObject projectilePrefab;
-    public IObjectPool<Projectile> projectileManagedPool;
+    public IObjectPool<Projectile.Projectile> projectileManagedPool;
+    public Projectile.Projectile projectilePrefab;
     protected override void Awake()
     {
         base.Awake();
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
 
-        projectileManagedPool = new ObjectPool<Projectile>(() =>
+        projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
-               GameObject copyPrefab= Instantiate(projectilePrefab);
-               copyPrefab.SetActive(false);
-               return copyPrefab.AddComponent<Projectile>();
+               Projectile.Projectile copyPrefab=Instantiate(projectilePrefab);
+               copyPrefab.gameObject.SetActive(false);
+               return copyPrefab;
             },
             actionOnRelease: (pt) => pt.gameObject.SetActive(false),defaultCapacity:20,maxSize:40);
     }
 
 
-    public  void spawnMonster()
+    public  void SpawnMonster()
     {
         //인게임 매니저에서 현재 스테이지에 따라 스탯 
         //
     }
 
-    public void Launch(Vector3 attacker,Vector3 target,int layer, float dmg,ProjectileType type,bool isBullet=true)
+    public void Launch(Transform attacker,Vector3 target,int layer, float dmg, Projectile.Mesh mesh,Projectile.Type type)
     {
-        projectilePrefab = ResourceManager.Instance.projectilePrefabs[(int)type];
-        Projectile projectile = projectileManagedPool.Get();
-        projectile.attackerPosition = attacker;
+        Projectile.Projectile projectile = projectileManagedPool.Get();
+        projectile.mesh.mesh = ResourceManager.Instance.projectileMesh[(int)mesh].sharedMesh;
+
+        projectile.attacker = attacker;
         projectile.layerMask = (1 << 3 | 1 << 6) ^ 1 << layer;
-        projectile.gameObject.layer = 8;
         projectile.dmg = dmg;
         projectile.targetPosition = target;
-        projectile.isBullet = isBullet;
+        projectile.type = type;
         projectile.gameObject.SetActive(true);
+        projectile.Init();
     }
 
     public static void DropOptanium(Vector3 postion)
