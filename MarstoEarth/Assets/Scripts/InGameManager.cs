@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class InGameManager : Singleton<InGameManager>
 {
-    public GameObject[] cardUIs; // 인스펙터 창에서 직접 할당할 수 있도록 변경
+    public GameObject cardUI; // 인스펙터 창에서 직접 할당할 수 있도록 변경
     private int clearedMonsters = 0; // 클리어한 몬스터 수를 저장하는 변수
+    GameObject cardUICon;
+
     protected override void Awake()
     {
         base.Awake();
@@ -13,7 +15,8 @@ public class InGameManager : Singleton<InGameManager>
 
     private void Start()
     {
-        Instantiate(cardUIs[0], UIManager.Instance.transform);
+        cardUICon = Instantiate(cardUI, UIManager.Instance.transform);
+        cardUICon.SetActive(false);
     }
     /*
      * 몬스터를 처치할 때 이벤트를 발생시키고
@@ -30,10 +33,8 @@ public class InGameManager : Singleton<InGameManager>
 
     private void TriggerEvent()
     {
-        Debug.Log("오류" + cardUIs[0].name);
-        Debug.Log("두마리를 처치했습니다.");
         Time.timeScale = 0f;
-        Debug.Log("카드 UI foreach문은 돌았다");
+        cardUICon.SetActive(true);
     }
     //public GameObject[] cardUIs; // 인스펙터 창에서 직접 할당할 수 있도록 변경
     //private int clearedRooms = 0; // 클리어한 방의 개수를 저장하는 변수

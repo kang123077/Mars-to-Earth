@@ -8,7 +8,7 @@ public class ResourceManager : Singleton<ResourceManager>
 {
     public UnityEngine.UI.Slider hpBar;
     public List<Item.Item> items;
-
+    public GameObject cardUI;
     public List<Skill.Skill> skills=new ();
 
     protected override void Awake()
