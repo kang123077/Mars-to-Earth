@@ -27,10 +27,8 @@ namespace Skill
             GameObject gardianSlot = new ();
             gardianSlot.SetActive(false);
             Gardians gardians= gardianSlot.AddComponent<Gardians>();
-            gardians.caster = caster.transform;
-            gardians.lifeTime = skillInfo.duration+caster.duration*0.5f;
-            gardians.speed = skillInfo.speed+caster.speed*0.5f;
-            
+            gardians.Init(caster.transform, skillInfo.duration + caster.duration * 0.5f,
+                skillInfo.speed + caster.speed * 0.5f);
             for (int i = 0; i < 3; i++)
             {
                 GameObject sattlliteSlot = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -39,9 +37,8 @@ namespace Skill
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
 
                 Satllite satllite = sattlliteSlot.AddComponent<Satllite>();
-                satllite.layerMask = caster.layerMask;
-                satllite.dmg = skillInfo.dmg + caster.dmg * 0.5f;
-                satllite.range = skillInfo.range + caster.range * 0.5f;
+                satllite.Init(caster.layerMask,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.range + caster.range * 0.5f)  ;
+                
             }
             gardianSlot.SetActive(true);
 

@@ -9,6 +9,12 @@ public class Gardians : MonoBehaviour
     public Transform caster;
 
     // Update is called once per frame
+    public void Init(Transform ct, float lf, float sp)
+    {
+        caster = ct;
+        lifeTime = lf;
+        speed = sp;
+    }
     void Update()
     {
         lifeTime -= Time.deltaTime;

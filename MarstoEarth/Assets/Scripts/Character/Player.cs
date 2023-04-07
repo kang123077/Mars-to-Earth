@@ -33,6 +33,7 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[3]);
             actives.Add(ResourceManager.Instance.skills[4]);
             actives.Add(ResourceManager.Instance.skills[5]);
+            actives.Add(ResourceManager.Instance.skills[6]);
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
@@ -124,6 +125,9 @@ namespace Character
             }else if (Input.GetKeyDown(KeyCode.R))
             {
                 actives[5].Use(this);
+            }else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                actives[6].Use(this);
             }
         }
 

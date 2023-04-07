@@ -18,7 +18,7 @@ namespace Skill
                 gravitySlot.SetActive(false);
                 gravitySlot.transform.position = point;
                 GravityEffect gravity = gravitySlot.AddComponent<GravityEffect>();
-                gravity.Init(caster.duration + skillInfo.duration * 0.5f, skillInfo.dmg, skillInfo.range + caster.range * 0.5f, caster.layerMask);
+                gravity.Init(  skillInfo.duration+caster.duration* 0.5f , skillInfo.dmg, skillInfo.range + caster.range * 0.5f, caster.layerMask);
                 gravitySlot.SetActive(true);
             };
             

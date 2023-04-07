@@ -36,7 +36,6 @@ namespace Projectile
         private readonly Collider[] colliders = new Collider[5];
 
         public float startTime;
-        public Action<Vector3> effect;
         Transform thisTransform;
         public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
         {
@@ -55,6 +54,7 @@ namespace Projectile
             startTime = Time.time;
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         void Bullet()
         {
             thisTransform.position += targetPos * (Time.deltaTime * speed); 
@@ -64,11 +64,11 @@ namespace Projectile
                 colliders[0].TryGetComponent(out Character.Character target);
                 if (target)
                     target.Hit(attackerPos, dmg);
-                if(effect is not null)
-                    effect(thisTransform.position);
+                thisInfo[0].ef?.Invoke(thisTransform.position);
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             }
         }
+        // ReSharper disable Unity.PerformanceAnalysis
         void Cannon()
         {
             Vector3 center = (attackerPos + targetPos) * 0.5F;
@@ -88,8 +88,8 @@ namespace Projectile
                     if (target)
                         target.Hit(attackerPos, dmg);
                 }
-                if (effect is not null)
-                    effect(thisTransform.position);
+
+                thisInfo[0].ef?.Invoke(thisTransform.position);
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             }
         }

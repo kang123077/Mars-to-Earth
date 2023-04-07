@@ -6,7 +6,7 @@ namespace Skill
 {
     public class Smash : Skill
     {
-        readonly Collider[] colliders;
+        private readonly Collider[] colliders= new Collider[6];
         public Smash(SkillInfo skillInfo )
         {
             this.skillInfo = skillInfo;
