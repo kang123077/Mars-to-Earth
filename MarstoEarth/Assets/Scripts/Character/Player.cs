@@ -32,6 +32,7 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[2]);
             actives.Add(ResourceManager.Instance.skills[3]);
             actives.Add(ResourceManager.Instance.skills[4]);
+            actives.Add(ResourceManager.Instance.skills[5]);
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
@@ -122,13 +123,14 @@ namespace Character
                 actives[4].Use(this);
             }else if (Input.GetKeyDown(KeyCode.R))
             {
-                actives[3].Use(this);
-            }            
+                actives[5].Use(this);
+            }
         }
 
         protected override void Attack()
         {
-            SpawnManager.Instance.Launch(thisCurTransform,thisCurTransform.forward,gameObject.layer,dmg, Projectile.Mesh.Bullet1, Projectile.Type.Bullet);
+            SpawnManager.Instance.Launch(transform.position,target.position ,
+                    dmg ,duration, speed,range, ref projectileInfo);
         }
     }
 }

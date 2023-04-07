@@ -6,9 +6,18 @@ namespace Skill
 {
     public class Grenade : Skill
     {
+
+        Projectile.ProjectileInfo projectileInfo;
         public Grenade(SkillInfo skillInfo) 
         {
             this.skillInfo = skillInfo;
+            projectileInfo = new Projectile.ProjectileInfo()
+            {
+                lm = caster.layerMask,
+                ms = ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh,
+                ty = Projectile.Type.Cannon,
+                ef = null
+            };
         }
         protected override void Activate()
         {
@@ -17,9 +26,10 @@ namespace Skill
 
         public override void Effect()
         {
-            SpawnManager.Instance.Launch(caster.transform,caster.target? 
-                    caster.target.position:caster.transform.position+ caster.transform.forward*caster.range,caster.gameObject.layer,
-                skillInfo.dmg+caster.dmg,Projectile.Mesh.Grenade,Projectile.Type.Cannon);
+            SpawnManager.Instance.Launch(caster.transform.position,caster.target? 
+                    caster.target.position:caster.transform.position+ caster.transform.forward*caster.range,
+                    skillInfo.dmg+caster.dmg*0.5f,skillInfo.duration+caster.duration,skillInfo.speed+caster.speed,
+                    skillInfo.range+caster.range*0.5f,ref projectileInfo);
         }
     }
 }

@@ -6,12 +6,11 @@ namespace Skill
 {
     public class Gardian : Skill
     {
-        Vector3[] points = new Vector3[4]
+        readonly static Vector3[] points = new Vector3[3]
         {
             Vector3.forward,
-            Vector3.right,
-            Vector3.back,
-            Vector3.left
+            new Vector3(0.866f,0,-0.5f),
+            new Vector3(-0.866f,0,-0.5f),
         };
         public Gardian(SkillInfo skillInfo)
         {
@@ -25,22 +24,24 @@ namespace Skill
         public override void Effect()
         {
 
-            GameObject gardianSlot = new GameObject();
+            GameObject gardianSlot = new ();
             gardianSlot.SetActive(false);
             Gardians gardians= gardianSlot.AddComponent<Gardians>();
             gardians.caster = caster.transform;
-            gardians.lifeTime = skillInfo.duration;
-            gardians.speed = skillInfo.speed;
+            gardians.lifeTime = skillInfo.duration+caster.duration*0.5f;
+            gardians.speed = skillInfo.speed+caster.speed*0.5f;
             
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 3; i++)
             {
                 GameObject sattlliteSlot = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                sattlliteSlot.transform.position = gardianSlot.transform.position+points[i];
+                sattlliteSlot.transform.position = gardianSlot.transform.position+points[i]*skillInfo.range;
+                sattlliteSlot.transform.LookAt(gardianSlot.transform.position);
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
+
                 Satllite satllite = sattlliteSlot.AddComponent<Satllite>();
-                satllite.dmg = skillInfo.dmg;
-                satllite.layerMask = layerMask;
-                satllite.size = skillInfo.size;
+                satllite.layerMask = caster.layerMask;
+                satllite.dmg = skillInfo.dmg + caster.dmg * 0.5f;
+                satllite.range = skillInfo.range + caster.range * 0.5f;
             }
             gardianSlot.SetActive(true);
             /*             

@@ -7,7 +7,7 @@ public class Satllite : MonoBehaviour
     private readonly Collider[] colliders = new Collider[5];
     public float dmg;
     public LayerMask layerMask;
-    public float size;
+    public float range;
     // Update is called once per frame
     void Update()
     {

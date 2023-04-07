@@ -6,8 +6,7 @@ namespace Skill
 {
     public class Smash : Skill
     {
-        Collider[] colliders;
-        Vector3 point;
+        readonly Collider[] colliders;
         public Smash(SkillInfo skillInfo )
         {
             this.skillInfo = skillInfo;
@@ -28,11 +27,11 @@ namespace Skill
 
         public override void Effect()
         {   // 일정 범위 내의 적들에게 데미지를 주는 로직 구현
-            int count = Physics.OverlapSphereNonAlloc(point, skillInfo.size, colliders, layerMask);
+            int count = Physics.OverlapSphereNonAlloc(caster.transform.position, skillInfo.range, colliders, caster.layerMask);
             for(int i=0; i<count; i++)
             {
                 colliders[i].TryGetComponent(out Character.Character enemy);
-                enemy.Hit(caster.transform.position, skillInfo.dmg, 0);
+                enemy.Hit(caster.transform.position, skillInfo.dmg+caster.dmg*0.5f, 0);
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Character
         protected static readonly int attacking = Animator.StringToHash("attacking");
 
         [SerializeField] private string characterName;
-        [SerializeField] protected StatInfo characterStat;
+        public StatInfo characterStat;
         [SerializeField] protected Animator anim;
         [SerializeField] protected Collider col;
         
@@ -30,7 +30,7 @@ namespace Character
         protected int level;
         public Vector3 impact { get; set; }
         public float dmg { get; set; }
-        public float atkSpd { get; set; }
+        public float coolDecrease { get; set; }
         public float speed { get; set; }
         public float def { get; set; }
         public float duration { get; set; }
@@ -50,12 +50,16 @@ namespace Character
                 _hp = value;
             }
         }
+        public int layerMask { get; set; }
 
         protected List<Skill.SPC> Buffs;
         protected List<Skill.Skill> actives;
+        protected Projectile.ProjectileInfo projectileInfo;
+
+
         int buffElementIdx;
 
-        
+
         protected virtual void Awake()
         {
             if(!mainCam)
@@ -65,7 +69,7 @@ namespace Character
             nockBackResist = characterStat.maxHP * 0.1f;
             impact = Vector3.zero;
             dmg = characterStat.dmg;
-            atkSpd = characterStat.atkSpd;
+            coolDecrease = characterStat.coolDecrease;
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;
@@ -76,6 +80,15 @@ namespace Character
             
             Buffs = new List<Skill.SPC>();
             actives = new List<Skill.Skill>();
+            layerMask = (1 << 3 | 1 << 6) ^ 1 << gameObject.layer;
+            projectileInfo = new Projectile.ProjectileInfo
+            {
+                lm = layerMask,
+                ms = ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
+                ty = Projectile.Type.Bullet,
+                ef = null
+            };
+
         }
 
         protected virtual void Start()
@@ -135,7 +148,8 @@ namespace Character
         public void AddBuff(Skill.SPC buff)
         {
             buff.Apply(this);
-            Buffs.Add(buff);
+            Buffs.Add(buff);//같은 버프가 걸려있는지 체크해야함
+
         }
         public void RemoveBuff(Skill.SPC buff)
         {

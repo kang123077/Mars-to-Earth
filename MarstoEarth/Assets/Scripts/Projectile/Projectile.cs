@@ -1,8 +1,6 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
-using static UnityEngine.GraphicsBuffer;
 
 namespace Projectile
 {
@@ -16,64 +14,81 @@ namespace Projectile
         Bullet,
         Cannon,
     }
-    
+    public struct ProjectileInfo
+    {
+        public LayerMask lm;
+        public UnityEngine.Mesh ms;
+        public Type ty;
+        public Action<Vector3> ef;
+    }
     public class Projectile:MonoBehaviour
     {
-        public Transform attacker;
-        public LayerMask layerMask; //안부딪힐 오브젝트 태그
+        public Vector3 attackerPos;
+        public Vector3 targetPos;
         public float dmg;
-        public MeshFilter mesh;
+        public float duration;
+        public float speed;
+        public float range;
 
-        private float lifeTime ; 
-        private float speed; 
+        readonly private MeshFilter mesh;
+        readonly private ProjectileInfo[] thisInfo = new ProjectileInfo[1];
+
         private readonly Collider[] colliders = new Collider[5];
 
-        public Vector3 targetPosition;
-        public Type type;
-        private float startTime;
+        public float startTime;
+        public Action<Vector3> effect;
         Transform thisTransform;
-        public void Init()
+        public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
         {
-            transform.position = attacker.position+ targetPosition + new Vector3(0,1f,0.5f);
-            transform.forward = targetPosition;
-            lifeTime = 50;
+            mesh.mesh = info.ms;
+            attackerPos = ap;
+            targetPos = tp;
+            dmg= dg;
+            duration = dr;
+            speed = sp;
+            range = rg;
+            transform.position = ap + tp + new Vector3(0, 1f, 0.5f);
+            transform.forward = tp;
 
-            speed = 40;
+            thisInfo[0] = info;
             startTime = Time.time;
-         
         }
 
         void Bullet()
         {
-            thisTransform.position += targetPosition * (Time.deltaTime * speed); 
-            if (Physics.OverlapSphereNonAlloc(thisTransform.position, 0.2f, colliders,
-                    layerMask) > 0)
+            thisTransform.position += targetPos * (Time.deltaTime * speed); 
+            if (Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
+                    thisInfo[0].lm) > 0)
             {
                 colliders[0].TryGetComponent(out Character.Character target);
                 if (target)
-                    target.Hit(attacker.position, dmg);
+                    target.Hit(attackerPos, dmg);
+                if(effect is not null)
+                    effect(thisTransform.position);
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             }
         }
         void Cannon()
         {
-            Vector3 center = (attacker.position + targetPosition) * 0.5F;
+            Vector3 center = (attackerPos + targetPos) * 0.5F;
             center -= new Vector3(0, 1, 0);
-            Vector3 riseRelCenter = attacker.position - center;
-            Vector3 setRelCenter = targetPosition - center;
+            Vector3 riseRelCenter = attackerPos - center;
+            Vector3 setRelCenter = targetPos - center;
             float fracComplete = (Time.time - startTime) / 1;
             thisTransform.position = Vector3.Slerp(riseRelCenter, setRelCenter, fracComplete);
             thisTransform.position += center;
             if (fracComplete > 1)
             {
-                int count = Physics.OverlapSphereNonAlloc(thisTransform.position, 5, colliders,
-                    layerMask);
+                int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
+                    thisInfo[0].lm);
                 for (int i = 0; i < count; i++)
                 {
                     colliders[i].TryGetComponent(out Character.Character target);
                     if (target)
-                        target.Hit(attacker.position, dmg);
+                        target.Hit(attackerPos, dmg);
                 }
+                if (effect is not null)
+                    effect(thisTransform.position);
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             }
         }
@@ -82,12 +97,12 @@ namespace Projectile
 
         private void Update()
         {
-            lifeTime -= Time.deltaTime;
-            if(lifeTime<0)
+            duration -= Time.deltaTime;
+            if(duration <0)
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             thisTransform = transform;
 
-            switch (type)
+            switch (thisInfo[0].ty)
             {
                 case Type.Bullet: Bullet(); break;
                 case Type.Cannon: Cannon(); break;

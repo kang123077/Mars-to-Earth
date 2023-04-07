@@ -21,8 +21,8 @@ namespace Skill
         public Sprite icon;
         public byte dmg;
         public float duration;
-        public byte size;
-        public byte coolDown;
+        public byte range;
+        public byte cool;
         public byte speed;
     }
 }

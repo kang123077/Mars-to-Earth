@@ -24,6 +24,7 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new StimPack(skillInfos[i++]));
         skills.Add(new Grenade(skillInfos[i++]));
         skills.Add(new Gardian(skillInfos[i++]));
+        skills.Add(new GravityBomb(skillInfos[i++]));
 
         DontDestroyOnLoad(gameObject);
     }

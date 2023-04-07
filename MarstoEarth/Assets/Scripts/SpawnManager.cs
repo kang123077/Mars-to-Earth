@@ -1,5 +1,8 @@
 using Character;
+using Projectile;
 using Skill;
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -31,18 +34,12 @@ public class SpawnManager :Singleton<SpawnManager>
         //
     }
 
-    public void Launch(Transform attacker,Vector3 target,int layer, float dmg, Projectile.Mesh mesh,Projectile.Type type)
+
+    public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {
         Projectile.Projectile projectile = projectileManagedPool.Get();
-        projectile.mesh.mesh = ResourceManager.Instance.projectileMesh[(int)mesh].sharedMesh;
-
-        projectile.attacker = attacker;
-        projectile.layerMask = (1 << 3 | 1 << 6) ^ 1 << layer;
-        projectile.dmg = dmg;
-        projectile.targetPosition = target;
-        projectile.type = type;
+        projectile.Init(ap,tp,dg,dr,sp,rg,ref info);
         projectile.gameObject.SetActive(true);
-        projectile.Init();
     }
 
     public static void DropOptanium(Vector3 postion)
