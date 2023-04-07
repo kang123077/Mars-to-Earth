@@ -20,6 +20,13 @@ namespace Projectile
         public UnityEngine.Mesh ms;
         public Type ty;
         public Action<Vector3> ef;
+        public ProjectileInfo(int layerMask, UnityEngine.Mesh mesh, Type type,Action<Vector3> effect)
+        {   
+            lm = layerMask;
+            ms = mesh;
+            ty = type;
+            ef = effect;
+        }
     }
     public class Projectile:MonoBehaviour
     {
@@ -34,7 +41,7 @@ namespace Projectile
         readonly private ProjectileInfo[] thisInfo = new ProjectileInfo[1];
 
         private readonly Collider[] colliders = new Collider[5];
-
+        private Character.Character target;
         public float startTime;
         Transform thisTransform;
         public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
@@ -55,13 +62,13 @@ namespace Projectile
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        void Bullet()
+        private void Bullet()
         {
             thisTransform.position += targetPos * (Time.deltaTime * speed); 
             if (Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
                     thisInfo[0].lm) > 0)
             {
-                colliders[0].TryGetComponent(out Character.Character target);
+                colliders[0].TryGetComponent(out target);
                 if (target)
                     target.Hit(attackerPos, dmg);
                 thisInfo[0].ef?.Invoke(thisTransform.position);
@@ -69,7 +76,7 @@ namespace Projectile
             }
         }
         // ReSharper disable Unity.PerformanceAnalysis
-        void Cannon()
+        private void Cannon()
         {
             Vector3 center = (attackerPos + targetPos) * 0.5F;
             center -= new Vector3(0, 1, 0);
@@ -84,7 +91,7 @@ namespace Projectile
                     thisInfo[0].lm);
                 for (int i = 0; i < count; i++)
                 {
-                    colliders[i].TryGetComponent(out Character.Character target);
+                    colliders[i].TryGetComponent(out target);
                     if (target)
                         target.Hit(attackerPos, dmg);
                 }
@@ -98,6 +105,7 @@ namespace Projectile
 
         private void Update()
         {
+            
             duration -= Time.deltaTime;
             if(duration <0)
                 SpawnManager.Instance.projectileManagedPool.Release(this);

@@ -2,19 +2,20 @@ namespace Skill
 {
     public class Grenade : Skill
     {
-
+        private Projectile.ProjectileInfo projectileInfo;
         public Grenade(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
-
-            projectileInfo.ms = ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh;
-            projectileInfo.ty = Projectile.Type.Cannon;
-            projectileInfo.ef = null;
 
         }
         protected override void Activate()
         {
             caster.PlaySkillClip(this);
+            if (projectileInfo.ms is null)
+                projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
+                    ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh,
+                    Projectile.Type.Cannon,null);
+            
         }
 
         public override void Effect()

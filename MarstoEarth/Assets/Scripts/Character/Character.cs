@@ -88,13 +88,9 @@ namespace Character
         protected virtual void Start()
         {
             hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
-            projectileInfo = new Projectile.ProjectileInfo
-            {
-                lm = layerMask,
-                ms = ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
-                ty = Projectile.Type.Bullet,
-                ef = null
-            };
+            projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
+                Projectile.Type.Bullet,null);
+            
         }
 
         protected virtual void Attack()
@@ -121,8 +117,13 @@ namespace Character
                 transform.position += impact * Time.deltaTime;
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
+
             if (!dying && onSkill is null && SPCActionWeight > 0)
+            {
+                
                 anim.SetLayerWeight(2, SPCActionWeight -= Time.deltaTime*4); 
+            }
+                
 
             for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
             {
@@ -160,7 +161,8 @@ namespace Character
         public void PlaySkillClip(Skill.Skill skill)
         {
             onSkill = skill;
-            anim.SetLayerWeight(skill.skillInfo.clipLayer, SPCActionWeight=1);
+            if(skill.skillInfo.clipLayer==2)
+                anim.SetLayerWeight(skill.skillInfo.clipLayer, SPCActionWeight=1);
             anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);
             //StartCoroutine(ClipBack(anim.GetCurrentAnimatorClipInfo(2)[0].clip.length));
         }

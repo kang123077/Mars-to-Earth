@@ -26,6 +26,7 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new Gardian(skillInfos[i++]));
         skills.Add(new GravityBomb(skillInfos[i++]));
         skills.Add(new SpiderMine(skillInfos[i++]));
+        skills.Add(new ChargeShot(skillInfos[i++]));
         DontDestroyOnLoad(gameObject);
     }
 

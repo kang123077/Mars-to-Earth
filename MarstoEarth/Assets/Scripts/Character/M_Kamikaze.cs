@@ -28,9 +28,9 @@ namespace Character
         }
         protected void Update()
         {
+            BaseUpdate();
             if(dying)
                 return; 
-            BaseUpdate();
             
             if (target)
             {

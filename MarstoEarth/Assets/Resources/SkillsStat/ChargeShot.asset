@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
-  m_Name: GravityBomb
+  m_Name: ChargeShot
   m_EditorClassIdentifier: 
   skillId: 0
   description: 
   skillType: 0
-  clipName: TossGrenade
+  clipName: Reload
   clipLayer: 1
   icon: {fileID: 0}
-  dmg: 10
-  duration: 10
-  range: 12
-  cool: 2
-  speed: 2
+  dmg: 45
+  duration: 1
+  range: 2
+  cool: 1
+  speed: 1

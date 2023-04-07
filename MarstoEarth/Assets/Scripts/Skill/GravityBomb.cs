@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 namespace Skill
@@ -5,28 +6,31 @@ namespace Skill
     public class GravityBomb : Skill
     {
         // readonly Collider[] colliders;
+        
+        private Projectile.ProjectileInfo projectileInfo;
         public GravityBomb(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
-
-            projectileInfo.ms = ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh;
-            projectileInfo.ty = Projectile.Type.Cannon;
-            projectileInfo.ef = (point) =>
-            {
-                Debug.Log("중력탄");
-                GameObject gravitySlot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                gravitySlot.SetActive(false);
-                gravitySlot.transform.position = point;
-                GravityEffect gravity = gravitySlot.AddComponent<GravityEffect>();
-                gravity.Init(  skillInfo.duration+caster.duration* 0.5f , skillInfo.dmg, skillInfo.range + caster.range * 0.5f, caster.layerMask);
-                gravitySlot.SetActive(true);
-            };
-            
         }
+
         protected override void Activate()
         {
             caster.PlaySkillClip(this); // 재생할 애니메이션 호출
+            if (projectileInfo.ms is null)
+                projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
+                    ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh,
+                    Projectile.Type.Cannon, (point) =>
+                    {
+                        GameObject gravitySlot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                        gravitySlot.SetActive(false);
+                        gravitySlot.transform.position = point;
+                        GravityEffect gravity = gravitySlot.AddComponent<GravityEffect>();
+                        gravity.Init(skillInfo.duration + caster.duration * 0.5f, skillInfo.dmg,
+                            skillInfo.range + caster.range * 0.5f, caster.layerMask);
+                        gravitySlot.SetActive(true);
+                    });
         }
+
 
         public override void Effect()
         {   // 일정 범위 내의 적들에게 데미지를 주는 로직 구현

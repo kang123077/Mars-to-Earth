@@ -35,11 +35,12 @@ public class SpawnManager :Singleton<SpawnManager>
     }
 
 
-    public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
+    public Projectile.Projectile Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {
         Projectile.Projectile projectile = projectileManagedPool.Get();
         projectile.Init(ap,tp,dg,dr,sp,rg,ref info);
         projectile.gameObject.SetActive(true);
+        return projectile;
     }
 
     public static void DropOptanium(Vector3 postion)

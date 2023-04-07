@@ -34,6 +34,7 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[4]);
             actives.Add(ResourceManager.Instance.skills[5]);
             actives.Add(ResourceManager.Instance.skills[6]);
+            actives.Add(ResourceManager.Instance.skills[7]);
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
@@ -127,14 +128,20 @@ namespace Character
                 actives[5].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Space))
             {
-                actives[6].Use(this);
+                actives[7].Use(this);
             }
         }
 
         protected override void Attack()
         {
-            
-            SpawnManager.Instance.Launch(transform.position,transform.forward,dmg ,1+duration*0.5f, 25+speed*2,range*0.1f, ref projectileInfo);
+            if (onSkill is ChargeShot)
+            {
+                Debug.Log(anim.GetCurrentAnimatorStateInfo(1).normalizedTime);
+                //if(anim.GetCurrentAnimatorStateInfo(1).normalizedTime>0.9f)
+                    SkillEffect();
+            }
+            else
+                SpawnManager.Instance.Launch(transform.position,transform.forward,dmg ,1+duration*0.5f, 25+speed*2,range*0.1f, ref projectileInfo);
            
         }
     }

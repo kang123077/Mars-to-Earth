@@ -8,14 +8,16 @@ namespace Skill
         public SkillInfo skillInfo;        
         float lastUsedTime=0;
         protected Character.Character caster;
-        protected Projectile.ProjectileInfo projectileInfo;
         // ReSharper disable Unity.PerformanceAnalysis
+        public static implicit operator bool(Skill obj)
+        {
+            return obj != null;
+        }
         public void Use(Character.Character caster)
         {
             if (caster.onSkill is not null) return;
             if (!this.caster) {
                 this.caster = caster;
-                projectileInfo.lm = caster.layerMask;
             }
             if (Time.time >= lastUsedTime + skillInfo.cool-(skillInfo.cool* 0.01f *caster.coolDecrease))
             {
