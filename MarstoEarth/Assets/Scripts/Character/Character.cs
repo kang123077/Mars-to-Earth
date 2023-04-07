@@ -75,7 +75,6 @@ namespace Character
             
             Buffs = new List<Skill.SPC>();
             registActives = new List<Skill.Skill>();
-
         }
 
         protected virtual void Start()
@@ -102,6 +101,7 @@ namespace Character
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);
             Destroy(gameObject);
+            InGameManager.Instance.OnMonsterCleared();
         }
 
         protected virtual void BaseUpdate()
