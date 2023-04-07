@@ -16,7 +16,7 @@ namespace Projectile
     }
     public struct ProjectileInfo
     {
-        public LayerMask lm;
+        public int lm;//layerMask
         public UnityEngine.Mesh ms;
         public Type ty;
         public Action<Vector3> ef;
@@ -30,7 +30,7 @@ namespace Projectile
         public float speed;
         public float range;
 
-        readonly private MeshFilter mesh;
+        public MeshFilter mesh;
         readonly private ProjectileInfo[] thisInfo = new ProjectileInfo[1];
 
         private readonly Collider[] colliders = new Collider[5];
@@ -40,7 +40,7 @@ namespace Projectile
         Transform thisTransform;
         public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
         {
-            mesh.mesh = info.ms;
+            
             attackerPos = ap;
             targetPos = tp;
             dmg= dg;
@@ -49,7 +49,8 @@ namespace Projectile
             range = rg;
             transform.position = ap + tp + new Vector3(0, 1f, 0.5f);
             transform.forward = tp;
-
+            
+            mesh.mesh = info.ms;
             thisInfo[0] = info;
             startTime = Time.time;
         }

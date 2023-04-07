@@ -129,8 +129,9 @@ namespace Character
 
         protected override void Attack()
         {
-            SpawnManager.Instance.Launch(transform.position,target.position ,
-                    dmg ,duration, speed,range, ref projectileInfo);
+            
+            SpawnManager.Instance.Launch(transform.position,transform.forward,dmg ,1+duration*0.5f, 25+speed*2,range*0.1f, ref projectileInfo);
+           
         }
     }
 }

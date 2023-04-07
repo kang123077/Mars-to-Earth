@@ -1,23 +1,16 @@
-using Character;
-using System;
-using UnityEngine;
-
 namespace Skill
 {
     public class Grenade : Skill
     {
 
-        Projectile.ProjectileInfo projectileInfo;
-        public Grenade(SkillInfo skillInfo) 
+        public Grenade(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
-            projectileInfo = new Projectile.ProjectileInfo()
-            {
-                lm = caster.layerMask,
-                ms = ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh,
-                ty = Projectile.Type.Cannon,
-                ef = null
-            };
+
+            projectileInfo.ms = ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh;
+            projectileInfo.ty = Projectile.Type.Cannon;
+            projectileInfo.ef = null;
+
         }
         protected override void Activate()
         {
@@ -26,10 +19,10 @@ namespace Skill
 
         public override void Effect()
         {
-            SpawnManager.Instance.Launch(caster.transform.position,caster.target? 
-                    caster.target.position:caster.transform.position+ caster.transform.forward*caster.range,
-                    skillInfo.dmg+caster.dmg*0.5f,skillInfo.duration+caster.duration,skillInfo.speed+caster.speed,
-                    skillInfo.range+caster.range*0.5f,ref projectileInfo);
+            SpawnManager.Instance.Launch(caster.transform.position, caster.target ?
+                    caster.target.position : caster.transform.position + caster.transform.forward * caster.range,
+                    skillInfo.dmg + caster.dmg * 0.5f, skillInfo.duration + caster.duration, skillInfo.speed + caster.speed,
+                    skillInfo.range + caster.range * 0.5f, ref projectileInfo);
         }
     }
 }

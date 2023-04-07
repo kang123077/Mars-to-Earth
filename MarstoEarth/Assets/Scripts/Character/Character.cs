@@ -81,6 +81,13 @@ namespace Character
             Buffs = new List<Skill.SPC>();
             actives = new List<Skill.Skill>();
             layerMask = (1 << 3 | 1 << 6) ^ 1 << gameObject.layer;
+            
+
+        }
+
+        protected virtual void Start()
+        {
+            hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
             projectileInfo = new Projectile.ProjectileInfo
             {
                 lm = layerMask,
@@ -88,12 +95,6 @@ namespace Character
                 ty = Projectile.Type.Bullet,
                 ef = null
             };
-
-        }
-
-        protected virtual void Start()
-        {
-            hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
         }
 
         protected virtual void Attack()

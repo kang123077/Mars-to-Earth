@@ -44,10 +44,6 @@ namespace Skill
                 satllite.range = skillInfo.range + caster.range * 0.5f;
             }
             gardianSlot.SetActive(true);
-            /*             
-            회전하는 오브젝트를 만들고 스피드            
-            오브젝트에 가디언즈 오브젝트를 단 오브젝트를 만든다 
-            */
 
         }
     }
