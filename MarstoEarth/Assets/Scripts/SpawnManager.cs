@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 public class SpawnManager :Singleton<SpawnManager>
 { 
     public Player player;
-    [HideInInspector]public Transform playerTransform;
+    [HideInInspector]public static Transform playerTransform;
     public GameObject projectilePrefab;
     public IObjectPool<Projectile> projectileManagedPool;
     protected override void Awake()
@@ -17,15 +17,19 @@ public class SpawnManager :Singleton<SpawnManager>
 
         projectileManagedPool = new ObjectPool<Projectile>(() =>
             {
-               GameObject copyPrefab= Instantiate(projectilePrefab);
-               copyPrefab.SetActive(false);
-               return copyPrefab.AddComponent<Projectile>();
+                GameObject copyPrefab = Instantiate(projectilePrefab);
+                copyPrefab.SetActive(false);
+                return copyPrefab.AddComponent<Projectile>();
             }
                 ,
-            actionOnRelease: (pt) => pt.gameObject.SetActive(false),defaultCapacity:20,maxSize:40);
+            actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
     }
-
-
+    protected override void Update()
+    {
+        Debug.Log("위치 업데이트 중");
+        Debug.Log(playerTransform.position);
+        playerTransform = player.transform;
+    }
     public  void spawnMonster()
     {
         //인게임 매니저에서 현재 스테이지에 따라 스탯 
