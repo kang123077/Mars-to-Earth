@@ -52,4 +52,6 @@ public class InGameManager : Singleton<InGameManager>
     //        TriggerEvent();
     //    }
     //}
+
+    // 카드 정보 입력 시스템
 }
