@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mine : MonoBehaviour
+public class SpiderMine : MonoBehaviour
 {
-    public float speed;
-    public float lifeTime;
-    public float range;
-    public float dmg;
-    public int layerMask;
+    private float speed;
+    private float lifeTime;
+    private float range;
+    private float dmg;
+    private int layerMask;
     
     private Transform thisTransform;
     private Transform target;

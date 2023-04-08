@@ -35,6 +35,7 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[5]);
             actives.Add(ResourceManager.Instance.skills[6]);
             actives.Add(ResourceManager.Instance.skills[7]);
+            actives.Add(ResourceManager.Instance.skills[8]);
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
@@ -130,13 +131,24 @@ namespace Character
             {
                 actives[7].Use(this);
             }
+            else if (Input.GetKeyDown(KeyCode.Keypad0))
+            {
+                actives[8].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad1))
+            {
+                actives[2].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad2))
+            {
+                actives[6].Use(this);
+            }
         }
 
         protected override void Attack()
         {
-            if (onSkill is ChargeShot)
+            if (onSkill is ChargeShotSkill)
             {
-                Debug.Log(anim.GetCurrentAnimatorStateInfo(1).normalizedTime);
                 //if(anim.GetCurrentAnimatorStateInfo(1).normalizedTime>0.9f)
                     SkillEffect();
             }

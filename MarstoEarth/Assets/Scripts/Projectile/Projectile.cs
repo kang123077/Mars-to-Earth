@@ -46,13 +46,14 @@ namespace Projectile
         Transform thisTransform;
         public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
         {
-            
             attackerPos = ap;
             targetPos = tp;
             dmg= dg;
             duration = dr;
             speed = sp;
             range = rg;
+
+            transform.localScale = range*0.1f*Vector3.one;
             transform.position = ap + tp + new Vector3(0, 1f, 0.5f);
             transform.forward = tp;
             

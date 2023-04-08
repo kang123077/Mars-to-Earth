@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Skill
 {
-    public class Gardian : Skill
+    public class GardianSkill : Skill
     {
         readonly static Vector3[] points = new Vector3[3]
         {
@@ -12,7 +12,7 @@ namespace Skill
             new Vector3(0.866f,0,-0.5f),
             new Vector3(-0.866f,0,-0.5f),
         };
-        public Gardian(SkillInfo skillInfo)
+        public GardianSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
         }
@@ -36,8 +36,8 @@ namespace Skill
                 sattlliteSlot.transform.LookAt(gardianSlot.transform.position);
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
 
-                Satllite satllite = sattlliteSlot.AddComponent<Satllite>();
-                satllite.Init(caster.layerMask,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.range + caster.range * 0.5f)  ;
+                Gardian satllite = sattlliteSlot.AddComponent<Gardian>();
+                satllite.Init(caster.layerMask,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.range + caster.range * 0.5f,skillInfo.speed+caster.speed*0.2f)  ;
                 
             }
             gardianSlot.SetActive(true);

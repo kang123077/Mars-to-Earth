@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Skill
 {
-    public class Roll : Skill
+    public class RollSkill : Skill
     {
-        public Roll(SkillInfo skillInfo)
+        public RollSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
         }

@@ -1,9 +1,9 @@
 namespace Skill
 {
-    public class Grenade : Skill
+    public class GrenadeSkill : Skill
     {
         private Projectile.ProjectileInfo projectileInfo;
-        public Grenade(SkillInfo skillInfo)
+        public GrenadeSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
 

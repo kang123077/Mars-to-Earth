@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Skill
 {
-    public class Smash : Skill
+    public class SmashSkill : Skill
     {
         private readonly Collider[] colliders= new Collider[6];
-        public Smash(SkillInfo skillInfo )
+        public SmashSkill(SkillInfo skillInfo )
         {
             this.skillInfo = skillInfo;
         }

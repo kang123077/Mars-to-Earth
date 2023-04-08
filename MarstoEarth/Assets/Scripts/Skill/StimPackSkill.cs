@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Skill
 {
-    public class StimPack : Skill
+    public class StimPackSkill : Skill
     {
-        public StimPack(SkillInfo skillInfo)
+        public StimPackSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
         }

@@ -135,7 +135,7 @@ namespace Character
         {
             if(dying)
                 return; 
-            Debug.Log("처맞"+attacker+"한테맞음");
+            Debug.Log(attacker+"에서 온 피해");
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;

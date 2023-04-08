@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Skill
 {
-    public class GravityBomb : Skill
+    public class GravityBombSkill : Skill
     {
         // readonly Collider[] colliders;
         
         private Projectile.ProjectileInfo projectileInfo;
-        public GravityBomb(SkillInfo skillInfo)
+        public GravityBombSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
         }

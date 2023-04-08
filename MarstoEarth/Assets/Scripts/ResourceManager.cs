@@ -19,14 +19,15 @@ public class ResourceManager : Singleton<ResourceManager>
         //skillInfos = Resources.LoadAll<SkillInfo>("SkillsStat");
 
         int i = 0;
-        skills.Add(new Roll(skillInfos[i++]));
-        skills.Add(new Smash(skillInfos[i++]));
-        skills.Add(new StimPack(skillInfos[i++]));
-        skills.Add(new Grenade(skillInfos[i++]));
-        skills.Add(new Gardian(skillInfos[i++]));
-        skills.Add(new GravityBomb(skillInfos[i++]));
-        skills.Add(new SpiderMine(skillInfos[i++]));
-        skills.Add(new ChargeShot(skillInfos[i++]));
+        skills.Add(new RollSkill(skillInfos[i++]));
+        skills.Add(new SmashSkill(skillInfos[i++]));
+        skills.Add(new StimPackSkill(skillInfos[i++]));
+        skills.Add(new GrenadeSkill(skillInfos[i++]));
+        skills.Add(new GardianSkill(skillInfos[i++]));
+        skills.Add(new GravityBombSkill(skillInfos[i++]));
+        skills.Add(new SpiderMineSkill(skillInfos[i++]));
+        skills.Add(new ChargeShotSkill(skillInfos[i++]));
+        skills.Add(new HyperionSkill(skillInfos[i++]));
         DontDestroyOnLoad(gameObject);
     }
 
