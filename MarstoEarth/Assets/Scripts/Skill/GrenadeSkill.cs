@@ -8,13 +8,15 @@ namespace Skill
             this.skillInfo = skillInfo;
 
         }
-        protected override void Activate()
+        protected override bool Activate()
         {
             caster.PlaySkillClip(this);
             if (projectileInfo.ms is null)
                 projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
                     ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh,
                     Projectile.Type.Cannon,null);
+            
+            return true;
             
         }
 

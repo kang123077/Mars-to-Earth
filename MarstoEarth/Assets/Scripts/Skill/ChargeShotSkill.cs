@@ -12,10 +12,8 @@ namespace Skill
         {
             this.skillInfo = skillInfo;
         }
-        protected override void Activate()
+        protected override bool Activate()
         {
-           
-
             caster.PlaySkillClip(this);
             if (projectileInfo.ms is null)
                 projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
@@ -32,13 +30,15 @@ namespace Skill
                             target.Hit(point, skillInfo.dmg + caster.dmg * 0.5f);
                     }
                 });
+            
+            return true;
         }
 
         public override void Effect()
         {
             Vector3 forward = caster.transform.forward;
             SpawnManager.Instance.Launch(caster.transform.position,forward,0 ,1+caster.duration*0.5f, 25+caster.speed*2,skillInfo.range*0.5f+caster.range*0.1f, ref projectileInfo);
-            caster.impact -= (skillInfo.dmg + caster.dmg*0.5f)*0.2f*forward;
+            caster.impact -= (skillInfo.dmg + caster.dmg*0.5f)*0.1f*forward;
         }
     }
 }

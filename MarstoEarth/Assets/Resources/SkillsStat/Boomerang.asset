@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
-  m_Name: GravityBomb
+  m_Name: Boomerang
   m_EditorClassIdentifier: 
   skillId: 0
   description: 
   skillType: 0
-  clipName: TossGrenade
+  clipName: Throw
   clipLayer: 1
   icon: {fileID: 0}
-  dmg: 10
-  duration: 10
-  range: 12
-  cool: 5
-  speed: 2
+  dmg: 25
+  duration: 0
+  range: 15
+  cool: 6
+  speed: 13

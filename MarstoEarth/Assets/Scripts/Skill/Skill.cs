@@ -6,8 +6,10 @@ namespace Skill
     public abstract class Skill
     {
         public SkillInfo skillInfo;        
-        float lastUsedTime=0;
+        float lastUsedTime;
         protected Character.Character caster;
+        protected float comboCount = 1;
+        protected float curCount = 1;
         // ReSharper disable Unity.PerformanceAnalysis
         public static implicit operator bool(Skill obj)
         {
@@ -16,16 +18,31 @@ namespace Skill
         public void Use(Character.Character caster)
         {
             if (caster.onSkill is not null) return;
+            
             if (!this.caster) {
                 this.caster = caster;
             }
-            if (Time.time >= lastUsedTime + skillInfo.cool-(skillInfo.cool* 0.01f *caster.coolDecrease))
-            {
-                Activate();
+
+            float cool = skillInfo.cool - (skillInfo.cool * 0.01f * caster.coolDecrease);
+         
+            if (curCount<=comboCount&& Time.time<lastUsedTime + cool*(1/comboCount))
+            {    
+                if (!Activate())
+                    return;
+                curCount++;
                 lastUsedTime = Time.time;
             }
+            else if (Time.time > lastUsedTime + cool* (curCount-1)/comboCount)
+            {
+                curCount = 1;
+                if (!Activate())
+                    return;
+                curCount++;
+                lastUsedTime = Time.time;
+            }
+            
         }
-        protected abstract void Activate();
+        protected abstract bool Activate();
         public abstract void Effect();
     }
 }

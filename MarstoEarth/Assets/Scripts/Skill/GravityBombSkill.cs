@@ -13,7 +13,7 @@ namespace Skill
             this.skillInfo = skillInfo;
         }
 
-        protected override void Activate()
+        protected override bool Activate()
         {
             caster.PlaySkillClip(this); // 재생할 애니메이션 호출
             if (projectileInfo.ms is null)
@@ -24,11 +24,13 @@ namespace Skill
                         GameObject gravitySlot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                         gravitySlot.SetActive(false);
                         gravitySlot.transform.position = point;
-                        GravityEffect gravity = gravitySlot.AddComponent<GravityEffect>();
+                        Projectile.GravityEffect gravity = gravitySlot.AddComponent<Projectile.GravityEffect>();
                         gravity.Init(skillInfo.duration + caster.duration * 0.5f, skillInfo.dmg,
                             skillInfo.range + caster.range * 0.5f, caster.layerMask);
                         gravitySlot.SetActive(true);
                     });
+            
+            return true;
         }
 
 

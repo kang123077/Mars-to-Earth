@@ -38,7 +38,7 @@ namespace Projectile
         public float range;
 
         public MeshFilter mesh;
-        readonly private ProjectileInfo[] thisInfo = new ProjectileInfo[1];
+        private readonly ProjectileInfo[] thisInfo = new ProjectileInfo[1];
 
         private readonly Collider[] colliders = new Collider[5];
         private Character.Character target;

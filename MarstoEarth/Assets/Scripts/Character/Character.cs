@@ -10,8 +10,7 @@ namespace Character
 
         protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
-
-        [SerializeField] private string characterName;
+        
         public StatInfo characterStat;
         [SerializeField] protected Animator anim;
         [SerializeField] protected Collider col;
@@ -81,7 +80,6 @@ namespace Character
             Buffs = new List<Skill.SPC>();
             actives = new List<Skill.Skill>();
             layerMask = (1 << 3 | 1 << 6) ^ 1 << gameObject.layer;
-            
 
         }
 

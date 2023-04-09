@@ -16,9 +16,11 @@ namespace Skill
         {
             this.skillInfo = skillInfo;
         }
-        protected override void Activate()
+        protected override bool Activate()
         {
             caster.PlaySkillClip(this);
+            
+            return true;
         }
 
         public override void Effect()
@@ -26,7 +28,7 @@ namespace Skill
 
             GameObject gardianSlot = new ();
             gardianSlot.SetActive(false);
-            Gardians gardians= gardianSlot.AddComponent<Gardians>();
+            Projectile.Gardians gardians= gardianSlot.AddComponent<Projectile.Gardians>();
             gardians.Init(caster.transform, skillInfo.duration + caster.duration * 0.5f,
                 skillInfo.speed + caster.speed * 0.5f);
             for (int i = 0; i < 3; i++)
@@ -36,7 +38,7 @@ namespace Skill
                 sattlliteSlot.transform.LookAt(gardianSlot.transform.position);
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
 
-                Gardian satllite = sattlliteSlot.AddComponent<Gardian>();
+                Projectile.Gardian satllite = sattlliteSlot.AddComponent<Projectile.Gardian>();
                 satllite.Init(caster.layerMask,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.range + caster.range * 0.5f,skillInfo.speed+caster.speed*0.2f)  ;
                 
             }

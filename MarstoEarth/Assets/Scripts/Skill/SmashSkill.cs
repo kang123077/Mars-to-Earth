@@ -11,7 +11,7 @@ namespace Skill
         {
             this.skillInfo = skillInfo;
         }
-        protected override void Activate()
+        protected override bool Activate()
         {
             caster.PlaySkillClip(this); // 재생할 애니메이션 호출
             SPC smash = null;
@@ -23,6 +23,8 @@ namespace Skill
                     ch.RemoveBuff(smash);
             });
             caster.AddBuff(smash);
+            
+            return true;
         }
 
         public override void Effect()

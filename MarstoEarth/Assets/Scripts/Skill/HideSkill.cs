@@ -1,17 +1,17 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace Skill
 {
-    public class StimPackSkill : Skill
+    public class HideSkill : Skill
     {
-        public StimPackSkill(SkillInfo skillInfo)
+        public HideSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
         }
         protected override bool Activate()
         {
-            caster.PlaySkillClip(this);   
+            caster.PlaySkillClip(this);     
             
             return true;
         }

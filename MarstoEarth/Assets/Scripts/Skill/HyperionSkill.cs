@@ -10,16 +10,18 @@ namespace Skill
         {
             this.skillInfo = skillInfo;
         }
-        protected override void Activate()
+        protected override bool Activate()
         {
             caster.PlaySkillClip(this);
+            
+            return true;
         }
 
         public override void Effect()
         {
             GameObject hyperionSlot = GameObject.CreatePrimitive(PrimitiveType.Cube);
             hyperionSlot.SetActive(false);
-            Hyperion hyperion = hyperionSlot.AddComponent<Hyperion>();
+            Projectile.Hyperion hyperion = hyperionSlot.AddComponent<Projectile.Hyperion>();
 
             hyperionSlot.transform.position = caster.transform.position;
             hyperionSlot.transform.position += new Vector3(0, 20, 0);

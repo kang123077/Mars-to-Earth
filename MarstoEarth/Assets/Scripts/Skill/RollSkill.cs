@@ -10,7 +10,7 @@ namespace Skill
         {
             this.skillInfo = skillInfo;
         }
-        protected override void Activate()
+        protected override bool Activate()
         {
             caster.PlaySkillClip(this); 
             Vector3 dir= ((Player)caster).InputDir.normalized;
@@ -26,6 +26,8 @@ namespace Skill
                     ch.RemoveBuff(roll);
             });
             caster.AddBuff(roll);
+            
+            return true;
         }
         public override void Effect()
         {

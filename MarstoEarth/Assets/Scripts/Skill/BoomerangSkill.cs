@@ -1,18 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
+using Character;
+using System;
 using UnityEngine;
 
-public class BoomerangSkill : MonoBehaviour
+namespace Skill
 {
-    // Start is called before the first frame update
-    void Start()
+    public class BoomerangSkill : Skill
     {
-        
-    }
+        private Projectile.Boomerang boomerang;
+        public BoomerangSkill(SkillInfo skillInfo)
+        {
+            this.skillInfo = skillInfo;
+            comboCount = 2;
+        }
+        // ReSharper disable Unity.PerformanceAnalysis
+        protected override bool Activate()
+        {
+            switch (curCount)
+            {
+                case 1:
+                    caster.PlaySkillClip(this);
+                    break;
+                case 2:
+                    if (!boomerang)
+                        return false;
+                    boomerang.Bomb();
+                    break;
+            }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            return true;
+        }
+
+        public override void Effect()
+        {
+
+            GameObject boomerangSlot = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            boomerangSlot.SetActive(false);
+            boomerang= boomerangSlot.AddComponent<Projectile.Boomerang>();
+            
+            boomerang.Init(caster.transform, caster.transform.position+caster.transform.forward*skillInfo.range,
+                skillInfo.range + caster.range * 0.5f,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.speed + caster.speed * 0.5f,
+                caster.layerMask);
+            
+            boomerangSlot.SetActive(true);
+
+        }
     }
 }
