@@ -12,7 +12,7 @@ public class MapManager : Singleton<MapManager>
     public static List<NodeInfo> nodes;
     public static List<GameObject> paths;
     public static List<GameObject> walls;
-    public NavMeshSurface nodesTF;
+    public Transform nodesTF;
 
     protected override void Awake()
     {
@@ -59,6 +59,9 @@ public class MapManager : Singleton<MapManager>
     {
         NodesDestroy();
         PathsDestroy();
+        WallsDestroy();
+        nodesTF.transform.rotation = Quaternion.Euler(0, 0, 0);
+        NavMesh.RemoveAllNavMeshData();
     }
     public void NodesDestroy()
     {
@@ -76,6 +79,14 @@ public class MapManager : Singleton<MapManager>
             Destroy(paths[i].gameObject);
         }
         paths.Clear();
+    }
+    public void WallsDestroy()
+    {
+        for (int i = walls.Count - 1; i >= 0; i--)
+        {
+            Destroy(walls[i].gameObject);
+        }
+        walls.Clear();
     }
     public void GenerateNewSeed()
     {
@@ -100,6 +111,6 @@ public class MapManager : Singleton<MapManager>
             surface.BuildNavMesh();
         }
         */
-        nodesTF.BuildNavMesh();
+        nodesTF.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
 }
