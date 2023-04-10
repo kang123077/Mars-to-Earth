@@ -29,6 +29,7 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new ChargeShotSkill(skillInfos[i++]));
         skills.Add(new HyperionSkill(skillInfos[i++]));
         skills.Add(new BoomerangSkill(skillInfos[i++]));
+        skills.Add(new DistortionSkill(skillInfos[i++]));
         DontDestroyOnLoad(gameObject);
     }
 
