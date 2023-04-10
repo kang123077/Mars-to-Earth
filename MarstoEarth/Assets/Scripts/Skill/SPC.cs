@@ -25,14 +25,21 @@ namespace Skill
             currentTime = this.duration=duration;
             Apply = apply;
             Remove = remove;
-            Dots = (character) => { };
+            Dots = null;
         }
         public SPC(float duration, Action<Character.Character> dots)
         {
             currentTime = this.duration=duration;
             Dots = dots;
-            Apply = (character) => { };
-            Remove = (character) => { };
+            Apply = null;
+            Remove =null;
+        }
+        public SPC(float duration,Action<Character.Character> apply, Action<Character.Character> dots,Action<Character.Character> remove)
+        {
+            currentTime = this.duration=duration;
+            Apply = apply;
+            Dots = dots;
+            Remove = remove;
         }
         
         public void Activation(Character.Character character)
@@ -41,7 +48,7 @@ namespace Skill
             {
                 currentTime -= Time.deltaTime;
                 //icon.fillAmount = currentTime * (1/duration);
-                Dots(character);
+                Dots?.Invoke(character);
             }
             else
             {

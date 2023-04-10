@@ -148,13 +148,13 @@ namespace Character
 
         public void AddBuff(Skill.SPC buff)
         {
-            buff.Apply(this);
+            buff.Apply?.Invoke(this);
             Buffs.Add(buff);//같은 버프가 걸려있는지 체크해야함
 
         }
         public void RemoveBuff(Skill.SPC buff)
         {
-            buff.Remove(this);
+            buff.Remove?.Invoke(this);
             Buffs.Remove(buff);
         }
         public void PlaySkillClip(Skill.Skill skill)

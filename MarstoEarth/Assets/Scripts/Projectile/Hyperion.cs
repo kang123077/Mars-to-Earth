@@ -90,7 +90,7 @@ namespace Projectile
                 for (int i = 0; i < 4; i++)
                 {
                     Vector3 shotPoint = curPorts[i * 4 + UnityEngine.Random.Range(1, 5) - 1].position;
-                    SpawnManager.Instance.Launch(shotPoint, Vector3.down, dmg, duration * 0.1f, speed*1.5f, range * 0.5f,
+                    SpawnManager.Instance.Launch(shotPoint, Vector3.down, dmg, duration * 0.1f, speed*1.5f, range,
                         ref projectileInfo);
                 }
             }

@@ -53,7 +53,7 @@ namespace Projectile
             speed = sp;
             range = rg;
 
-            transform.localScale = range*0.1f*Vector3.one;
+            transform.localScale = range*0.04f*Vector3.one;
             transform.position = ap + tp + new Vector3(0, 1f, 0.5f);
             transform.forward = tp;
             
@@ -65,8 +65,8 @@ namespace Projectile
         // ReSharper disable Unity.PerformanceAnalysis
         private void Bullet()
         {
-            thisTransform.position += targetPos * (Time.deltaTime * speed); 
-            if (Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
+            thisTransform.position += targetPos * (Time.deltaTime * speed*2); 
+            if (Physics.OverlapSphereNonAlloc(thisTransform.position, range*0.04f, colliders,
                     thisInfo[0].lm) > 0)
             {
                 colliders[0].TryGetComponent(out target);
