@@ -16,6 +16,7 @@ public class InGameManager : Singleton<InGameManager>
     private void Start()
     {
         cardUICon = Instantiate(cardUI, UIManager.Instance.transform);
+        cardUICon.AddComponent<CardUIController>();
         cardUICon.SetActive(false);
     }
     /*
@@ -36,7 +37,7 @@ public class InGameManager : Singleton<InGameManager>
         Time.timeScale = 0f;
         cardUICon.SetActive(true);
     }
-    //public GameObject[] cardUIs; // 인스펙터 창에서 직접 할당할 수 있도록 변경
+
     //private int clearedRooms = 0; // 클리어한 방의 개수를 저장하는 변수
 
     ///*

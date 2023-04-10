@@ -50,7 +50,7 @@ public class SkillSlot : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             cool.fillAmount = 1;
-            if (cool.fillAmount < 1)
+            if (cool.fillAmount < 1f)
             {
                 Debug.Log("스킬을 사용할 수 없습니다");
             }
@@ -67,11 +67,6 @@ public class SkillSlot : MonoBehaviour
         //        elapsed = coolTime;
         //        Debug.Log("쿨타임이 종료되었을 경우");
         //    }
-        //}
-
-        //if(InGameManager.Instance.OnMonsterCleared())
-        //{
-            
         //}
     }
 }
