@@ -11,12 +11,14 @@ public class MapManager : Singleton<MapManager>
 
     public static List<NodeInfo> nodes;
     public static List<GameObject> paths;
+    public static List<GameObject> walls;
     public NavMeshSurface nodesTF;
 
     protected override void Awake()
     {
         nodes = new List<NodeInfo>();
         paths = new List<GameObject>();
+        walls = new List<GameObject>();
         base.Awake();
         TestInitMapInfo();
     }

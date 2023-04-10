@@ -66,7 +66,7 @@ public class ObstacleController : MonoBehaviour
         {
             foreach (Material material in renderers[i].materials)
             {
-                SetMaterialRenderingMode(material, 60f, 3000);
+                SetMaterialRenderingMode(material, 30f, 3000);
             }
         }
     }
