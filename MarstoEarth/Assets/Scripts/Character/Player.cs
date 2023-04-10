@@ -1,5 +1,6 @@
 using Skill;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -13,9 +14,27 @@ namespace Character
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
         private static readonly int onTarget = Animator.StringToHash("onTarget");
-
         private Collider[] itemColliders;
-        public Vector3 InputDir { get; set; }
+        private KeyCode  key;
+
+        private KeyCode[] keys = new[]
+        {
+            KeyCode.UpArrow,
+            KeyCode.RightArrow,
+            KeyCode.DownArrow,
+            KeyCode.LeftArrow,
+            KeyCode.W,
+            KeyCode.D,
+            KeyCode.S,
+            KeyCode.A
+        };
+
+        private bool isRun;
+        private float lastInputTime;
+        
+        public Vector3 InputDir;
+        private static readonly int IsRun = Animator.StringToHash("isRun");
+
         protected override void Awake()
         {
             base.Awake();
@@ -62,21 +81,41 @@ namespace Character
             if (onSkill is not null && onSkill.skillInfo.clipLayer==2)
                 return;
             #region MovingMan
+           
+            foreach (KeyCode keyCode in keys)
+            {
+                if (Input.GetKeyDown(keyCode))
+                {
+                    if (Time.time - lastInputTime < 0.4f&&key == keyCode)
+                    {
+                        anim.SetBool(IsRun,isRun = true); 
+                    }
+                    key = keyCode;
+                    if (isRun) continue;
+                    lastInputTime = Time.time;
+                }
+            }
+            
 
-            var vector3 = InputDir;
             if (xInput != 0 || zInput != 0)
             {
-                if (xInput != 0 && zInput != 0)
+                if (xInput is > 0.75f or < -0.75f && zInput is >0.75f or<-0.75f)
                 {
-                    vector3.x *=  0.7f;
-                    vector3.z *=  0.7f;
+                    InputDir.x *=  0.71f;
+                    InputDir.z *=  0.71f;
                 }
-                thisCurTransform.position += vector3 * (Time.deltaTime * speed);
+                
+                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun?1.5f:1));
             }
+
+            if (InputDir.magnitude < 0.75f&&Time.time - lastInputTime > 0.4f)
+                anim.SetBool(IsRun,isRun = false); 
+            
             thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, target? target.position-position :
-                    mouseDir, 6 * Time.deltaTime, 0);
-            Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + vector3));
+                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir:
+                    target? target.position-position : mouseDir, 6 * Time.deltaTime, 0);
+            
+            Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
             anim.SetFloat(X, characterDir.x);
             anim.SetFloat(Z, characterDir.z);
             #endregion

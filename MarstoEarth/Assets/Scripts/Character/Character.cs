@@ -108,6 +108,7 @@ namespace Character
             Destroy(gameObject);
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         protected virtual void BaseUpdate()
         {
             if (impact.magnitude > 0.1f)

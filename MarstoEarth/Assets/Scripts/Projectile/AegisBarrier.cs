@@ -49,7 +49,8 @@ namespace Projectile
             curPorts = new Transform[8];
             for (int i = 0; i < 8; i++)
             {
-                GameObject port = new();
+                GameObject port = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                port.transform.localScale = range * 0.2f*Vector3.one;
                 port.transform.position = transform.position + range * ports[i];
                 curPorts[i] = port.transform;
                 port.transform.SetParent(transform);

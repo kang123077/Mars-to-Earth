@@ -18,7 +18,7 @@ namespace Skill
 
         public override void Effect()
         {
-            GameObject aegisBarrierSlot = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            GameObject aegisBarrierSlot = new();
             aegisBarrierSlot.SetActive(false);
 
             Projectile.AegisBarrier aegisBarrier = aegisBarrierSlot.AddComponent<Projectile.AegisBarrier>();

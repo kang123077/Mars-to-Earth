@@ -20,6 +20,6 @@ MonoBehaviour:
   icon: {fileID: 0}
   dmg: 0
   duration: 20
-  range: 12
+  range: 8
   cool: 3
   speed: 12
