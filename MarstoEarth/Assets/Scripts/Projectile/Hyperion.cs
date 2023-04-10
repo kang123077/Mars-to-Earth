@@ -18,7 +18,7 @@ namespace Projectile
         private Character.Character target;
 
         private readonly Collider[] colliders = new Collider[6];
-
+        private float atkSpd;
         private static readonly Vector3[] ports = new Vector3[16]
         {
             new Vector3(.2f, .0f, .2f),
@@ -51,7 +51,7 @@ namespace Projectile
             range = rg;
             lifeTime = duration = dr;
             speed = sp;
-
+            atkSpd = 10 *(1/ speed);
             thisTransform = transform;
 
             projectileInfo = new ProjectileInfo(layerMask,
@@ -82,15 +82,15 @@ namespace Projectile
             lifeTime -= Time.deltaTime;
             if (lifeTime < 0)
                 Destroy(gameObject);
-            thisTransform.position += thisTransform.forward * (Time.deltaTime * speed * 0.1f);
+            thisTransform.position += thisTransform.forward * (Time.deltaTime * speed * 0.2f);
             eleapse += Time.deltaTime;
-            if (eleapse > 2)
+            if (eleapse > atkSpd)
             {
-                eleapse -= 2;
+                eleapse -= atkSpd;
                 for (int i = 0; i < 4; i++)
                 {
                     Vector3 shotPoint = curPorts[i * 4 + UnityEngine.Random.Range(1, 5) - 1].position;
-                    SpawnManager.Instance.Launch(shotPoint, Vector3.down, dmg, duration * 0.1f, speed, range * 0.5f,
+                    SpawnManager.Instance.Launch(shotPoint, Vector3.down, dmg, duration * 0.1f, speed*1.5f, range * 0.5f,
                         ref projectileInfo);
                 }
             }

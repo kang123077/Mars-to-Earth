@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
-  m_Name: Hyperion
+  m_Name: AegisBarrier
   m_EditorClassIdentifier: 
   skillId: 0
   description: 
@@ -18,8 +18,8 @@ MonoBehaviour:
   clipName: CastSpell
   clipLayer: 1
   icon: {fileID: 0}
-  dmg: 25
-  duration: 25
-  range: 8
-  cool: 2
-  speed: 7
+  dmg: 0
+  duration: 20
+  range: 12
+  cool: 3
+  speed: 12

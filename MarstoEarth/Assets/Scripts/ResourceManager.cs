@@ -30,6 +30,7 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new HyperionSkill(skillInfos[i++]));
         skills.Add(new BoomerangSkill(skillInfos[i++]));
         skills.Add(new DistortionSkill(skillInfos[i++]));
+        skills.Add(new AegisBarrierSkill(skillInfos[i++]));
         DontDestroyOnLoad(gameObject);
     }
 
