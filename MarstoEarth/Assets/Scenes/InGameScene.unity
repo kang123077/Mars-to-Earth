@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -130,6 +130,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1563197621, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
+      propertyPath: club
+      value: 
+      objectReference: {fileID: 879694538053448526, guid: 95db2e82a0fb0154d8d86222b08165d3, type: 3}
+    - target: {fileID: 1563197621, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
+      propertyPath: sightLength
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7447000374892006506, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -406,6 +414,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1563197621, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
+      propertyPath: club
+      value: 
+      objectReference: {fileID: 879694538053448526, guid: 95db2e82a0fb0154d8d86222b08165d3, type: 3}
+    - target: {fileID: 1563197621, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
+      propertyPath: sightLength
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7447000374892006506, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -624,6 +640,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1563197621, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
+      propertyPath: club
+      value: 
+      objectReference: {fileID: 879694538053448526, guid: 95db2e82a0fb0154d8d86222b08165d3, type: 3}
+    - target: {fileID: 1563197621, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
+      propertyPath: sightLength
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7447000374892006506, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -1028,6 +1052,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1563197621, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
+      propertyPath: club
+      value: 
+      objectReference: {fileID: 879694538053448526, guid: 95db2e82a0fb0154d8d86222b08165d3, type: 3}
+    - target: {fileID: 1563197621, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
+      propertyPath: sightLength
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 7447000374892006506, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
       propertyPath: m_RootOrder
       value: 11

@@ -93,7 +93,6 @@ namespace Character
         protected override IEnumerator Die()
         {
             StopCoroutine(StuckCheckCoroutine);
-            
             ai.ResetPath();
             SpawnManager.DropOptanium(thisCurTransform.position);
             return base.Die();

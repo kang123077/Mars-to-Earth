@@ -116,18 +116,13 @@ namespace Character
                 transform.position += impact * Time.deltaTime;
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
-
-            if (!dying && onSkill is null && SPCActionWeight > 0)
-            {
-                
+            if (dying)
+                return;
+            if ( onSkill is null && SPCActionWeight > 0)
                 anim.SetLayerWeight(2, SPCActionWeight -= Time.deltaTime*4); 
-            }
-                
 
             for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
-            {
                 Buffs[buffElementIdx].Activation(this);
-            }
             
         }
         protected internal virtual void Hit(Vector3 attacker, float dmg,float penetrate=0)

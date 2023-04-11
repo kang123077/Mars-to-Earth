@@ -59,6 +59,7 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[10]);
             actives.Add(ResourceManager.Instance.skills[11]);
             actives.Add(ResourceManager.Instance.skills[12]);
+
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
@@ -82,22 +83,8 @@ namespace Character
             if (onSkill is not null && onSkill.skillInfo.clipLayer==2)
                 return;
             #region MovingMan
-           
-            foreach (KeyCode keyCode in keys)
-            {
-                if (Input.GetKeyDown(keyCode))
-                {
-                    if (Time.time - lastInputTime < 0.4f&&key == keyCode)
-                    {
-                        anim.SetBool(IsRun,isRun = true); 
-                    }
-                    key = keyCode;
-                    if (isRun) continue;
-                    lastInputTime = Time.time;
-                }
-            }
-            
 
+            
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput is > 0.75f or < -0.75f && zInput is >0.75f or<-0.75f)
@@ -106,11 +93,26 @@ namespace Character
                     InputDir.z *=  0.71f;
                 }
                 
+                if (Input.anyKey)
+                {
+                    foreach (KeyCode keyCode in keys)
+                    {
+                        if (Input.GetKeyDown(keyCode))
+                        {
+                            if (Time.time - lastInputTime < 0.3f && key == keyCode)
+                            {   //연속으로 두번왓는지 확인
+                                anim.SetBool(IsRun, isRun = true);
+                            }
+                            key = keyCode;           
+                            lastInputTime = Time.time;
+                            break;
+                        }
+                    }
+                }else
+                    anim.SetBool(IsRun, isRun = false);
+
                 thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun?1.5f:1));
             }
-
-            if (InputDir.magnitude < 0.75f&&Time.time - lastInputTime > 0.4f)
-                anim.SetBool(IsRun,isRun = false); 
             
             thisCurTransform.forward =
                 Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir:

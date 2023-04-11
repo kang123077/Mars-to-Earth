@@ -1,4 +1,4 @@
-﻿using Character;
+using Character;
 using System;
 using UnityEngine;
 
@@ -13,7 +13,6 @@ namespace Skill
         }
         protected override bool Activate()
         {
-            Debug.Log("dd");
             caster.PlaySkillClip(this); 
             if (projectileInfo.ms is null)
                 projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
