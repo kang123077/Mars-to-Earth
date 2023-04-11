@@ -1,72 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using System.Collections;
 
 public class SkillSlot : MonoBehaviour
 {
-    public Image icon;
-    public Image cool;
-    public float coolTime;
-    float elapsed;
-    bool bUserSkill;
-    void Start()
-    {
-        bUserSkill = false;
-        cool.fillAmount = 0f;
-        elapsed = coolTime;
-    }
-    public void ChageItem(string iconName)
-    {
-        icon.sprite = Resources.Load<Sprite>(iconName);
-        icon.gameObject.SetActive(true);
-    }
-    public void ResetItem()
-    {
-        icon.sprite = null;
-        icon.gameObject.SetActive(false);
-        elapsed = 0f;
-    }
-    public void UseSkill()
-    {
-        Debug.Log("스킬 사용!");
-        bUserSkill = true;
-        cool.fillAmount = 1f;
-    }
-    public void OnPointerClick(BaseEventData eventData)
-    {
-        if (bUserSkill)
-        {
-            return;
-        }
-        if (icon.sprite != null && icon.gameObject.activeSelf == true)
-        {
-            UseSkill();
-        }
-    }
-    void Update()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            cool.fillAmount = 1;
-            if (cool.fillAmount < 1f)
-            {
-                Debug.Log("스킬을 사용할 수 없습니다");
-            }
-        }
-        cool.fillAmount -= 0.005f;
+    //public Image iconImage; // 스킬 아이콘 이미지
+    //public Text cooldownText; // 쿨다운 텍스트
 
-        //if (bUserSkill)
-        //{
-        //    elapsed = elapsed - Time.deltaTime;
-        //    cool.fillAmount = elapsed / coolTime;
-        //    if (cool.fillAmount <= 0f)
-        //    {
-        //        bUserSkill = false;
-        //        elapsed = coolTime;
-        //        Debug.Log("쿨타임이 종료되었을 경우");
-        //    }
-        //}
-    }
+    //private bool isCoolingDown = false; // 쿨다운 중인지 여부
+
+    //// 스킬 아이콘과 쿨다운 시간을 설정하는 함수
+    //public void SetSkill(Sprite icon, float cooldown)
+    //{
+    //    iconImage.sprite = icon; // 스킬 아이콘 이미지 설정
+    //    cooldownText.text = cooldown.ToString(); // 쿨다운 텍스트 설정
+    //}
+
+    //// 스킬을 사용하는 함수
+    //public void UseSkill()
+    //{
+    //    if (!isCoolingDown)
+    //    {
+    //        // 스킬 사용 코드
+    //        isCoolingDown = true;
+    //        StartCoroutine(CoolDown());
+    //    }
+    //}
+
+    //// 쿨다운을 처리하는 코루틴
+    //private IEnumerator CoolDown()
+    //{
+    //    float remainingTime = float.Parse(cooldownText.text);
+    //    while (remainingTime > 0)
+    //    {
+    //        remainingTime -= Time.deltaTime;
+    //        cooldownText.text = Mathf.Round(remainingTime).ToString();
+    //        yield return null;
+    //    }
+    //    isCoolingDown = false;
+    //}
 }
+

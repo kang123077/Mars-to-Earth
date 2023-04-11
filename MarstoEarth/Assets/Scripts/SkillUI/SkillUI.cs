@@ -15,7 +15,7 @@ public class SkillUI : MonoBehaviour
     //    // 선택한 카드의 정보를 각 스킬 슬롯에 전달
     //    foreach (SkillSlot slot in skillSlots)
     //    {
-    //        slot.SetSkill(selectedCard.icon, selectedCard.cooldown);
+    //        //slot.SetSkill(selectedCard.icon, selectedCard.cooldown);
     //    }
     //}
 }
