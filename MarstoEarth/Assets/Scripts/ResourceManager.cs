@@ -13,6 +13,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public SkillInfo[] skillInfos;
     public List<Skill.Skill> skills= new();
 
+
     protected override void Awake()
     {
         base.Awake();

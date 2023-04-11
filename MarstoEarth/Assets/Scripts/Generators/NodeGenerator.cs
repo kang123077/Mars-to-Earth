@@ -11,6 +11,7 @@ public class NodeGenerator : MonoBehaviour
 {
     public GameObject nodePrefab;
     public GameObject pathPrefab;
+    public GameObject wallPrefab;
     public float nodeSpacing;
     public Transform nodeParentTF;
     private void Awake()
@@ -18,7 +19,7 @@ public class NodeGenerator : MonoBehaviour
     }
     void Start()
     {
-        nodeSpacing = 10f;
+        nodeSpacing = 40f;
     }
     void Update()
     {
@@ -81,7 +82,48 @@ public class NodeGenerator : MonoBehaviour
             // 해당 방향 삭제
             directions.RemoveAt(randomIndex);
         }
+        // 모든 생성이 종료되면 도달 (시작 노드)
+        if (distance == 0)
+        {
+            // 생성 마치고 링크가 없는 노드 방향에 벽 생성
+            CreatePathWall();
+            // 생성한 모든 노드, 패스, 벽 회전
+            RotateAllNodes();
+        }
         return nodeInfo;
+    }
+
+    public void CreatePathWall()
+    {
+        foreach (NodeInfo node in MapManager.nodes)
+        {
+            if (node.east == null)
+            {
+                GameObject wallObject = Instantiate(wallPrefab, nodeParentTF);
+                wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
+                wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                MapManager.walls.Add(wallObject);
+            }
+            if (node.west == null)
+            {
+                GameObject wallObject = Instantiate(wallPrefab, nodeParentTF);
+                wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
+                wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                MapManager.walls.Add(wallObject);
+            }
+            if (node.south == null)
+            {
+                GameObject wallObject = Instantiate(wallPrefab, nodeParentTF);
+                wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
+                MapManager.walls.Add(wallObject);
+            }
+            if (node.north == null)
+            {
+                GameObject wallObject = Instantiate(wallPrefab, nodeParentTF);
+                wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
+                MapManager.walls.Add(wallObject);
+            }
+        }
     }
 
     public void CheckDirection(MapInfo mapInfo, int x, int y, int distance, NodeInfo nodeInfo, string dir, int seed)
@@ -98,8 +140,10 @@ public class NodeGenerator : MonoBehaviour
                     if (Random.value > 0.5)
                     {
                         nodeInfo.east = eastNeighbor;
+                        eastNeighbor.west = nodeInfo;
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x + (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
+                        pathObject.transform.rotation = Quaternion.Euler(90f, 90f, 0);
                         MapManager.paths.Add(pathObject);
                     }
                 }
@@ -110,6 +154,7 @@ public class NodeGenerator : MonoBehaviour
                     {
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x + (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
+                        pathObject.transform.rotation = Quaternion.Euler(90f, 90f, 0);
                         MapManager.paths.Add(pathObject);
                         nodeInfo.east = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
                     }
@@ -123,8 +168,10 @@ public class NodeGenerator : MonoBehaviour
                     if (Random.value > 0.5)
                     {
                         nodeInfo.west = westNeighbor;
+                        westNeighbor.east = nodeInfo;
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x - (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
+                        pathObject.transform.rotation = Quaternion.Euler(90f, 90f, 0);
                         MapManager.paths.Add(pathObject);
                     }
                 }
@@ -134,6 +181,7 @@ public class NodeGenerator : MonoBehaviour
                     {
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x - (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
+                        pathObject.transform.rotation = Quaternion.Euler(90f, 90f, 0);
                         MapManager.paths.Add(pathObject);
                         nodeInfo.west = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
                     }
@@ -147,6 +195,7 @@ public class NodeGenerator : MonoBehaviour
                     if (Random.value > 0.5)
                     {
                         nodeInfo.south = southNeighbor;
+                        southNeighbor.north = nodeInfo;
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z - (nodeSpacing / 2f));
                         MapManager.paths.Add(pathObject);
@@ -171,6 +220,7 @@ public class NodeGenerator : MonoBehaviour
                     if (Random.value > 0.5)
                     {
                         nodeInfo.south = northNeighbor;
+                        northNeighbor.south = nodeInfo;
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z + (nodeSpacing / 2f));
                         MapManager.paths.Add(pathObject);
@@ -227,7 +277,7 @@ public class NodeGenerator : MonoBehaviour
     bool ProbabilityBasedOnDistance(int distance)
     {
         // Calculate the probability using an inverse linear function
-        float maxDistance = 10.0f;
+        float maxDistance = 6f;
         float probability = 1.0f - (distance / maxDistance);
 
         // Generate a random value between 0 and 1
@@ -244,6 +294,26 @@ public class NodeGenerator : MonoBehaviour
             // Return false if the random value is greater than the probability
             return false;
         }
+    }
+
+    public void RotateAllNodes()
+    {
+        /*
+        foreach(NodeInfo node in MapManager.nodes)
+        {
+            GameObject temp = node.gameObject;
+            temp.transform.RotateAround(Vector3.zero, Vector3.up, 45);
+        }
+        foreach (GameObject path in MapManager.paths)
+        {
+            path.transform.RotateAround(Vector3.zero, Vector3.up, 45);
+        }
+        foreach (GameObject wall in MapManager.walls)
+        {
+            wall.transform.RotateAround(Vector3.zero, Vector3.up, 45);
+        }
+        */
+        nodeParentTF.RotateAround(Vector3.zero, Vector3.up, 45);
     }
 
     public int GetRoomNumber(int distance)

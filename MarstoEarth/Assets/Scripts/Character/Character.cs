@@ -106,6 +106,7 @@ namespace Character
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);
             Destroy(gameObject);
+            InGameManager.Instance.OnMonsterCleared();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

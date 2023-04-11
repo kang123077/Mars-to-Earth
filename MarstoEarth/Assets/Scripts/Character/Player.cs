@@ -7,6 +7,7 @@ namespace Character
 
     public class Player : Character
     {
+
         private RaycastHit hitInfo;
         private Vector3 mouseDir;
         private float xInput;
@@ -29,6 +30,7 @@ namespace Character
             KeyCode.A
         };
 
+
         private bool isRun;
         private float lastInputTime;
         
@@ -40,7 +42,9 @@ namespace Character
             base.Awake();
             colliders = new Collider[8];
             itemColliders = new Collider[1];
-            anim.SetFloat(movingSpeed,1+speed*0.4f);
+            anim.SetFloat(movingSpeed, 1 + speed * 0.4f);
+            layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
+            layerMask = ~layerMask;
         }
         protected override void Start()
         {
@@ -65,7 +69,7 @@ namespace Character
         protected void Update()
         {
             Vector3 position = thisCurTransform.position;
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo,Mathf.Infinity,layerMask:1<<0);
+            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, layerMask: layerMask);
             mouseDir = hitInfo.point - position;
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
@@ -74,7 +78,7 @@ namespace Character
             if (dying)
                 return;
             mainCam.transform.position = position + new Vector3(0, 25, -27.5f);
-            
+
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
@@ -91,6 +95,7 @@ namespace Character
                 {
                     InputDir.x *=  0.71f;
                     InputDir.z *=  0.71f;
+
                 }
                 
                 if (Input.anyKey)
@@ -119,10 +124,11 @@ namespace Character
                     target? target.position-position : mouseDir, 6 * Time.deltaTime, 0);
             
             Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
+
             anim.SetFloat(X, characterDir.x);
             anim.SetFloat(Z, characterDir.z);
             #endregion
-            
+
             #region Targeting
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
@@ -137,8 +143,8 @@ namespace Character
                     {
                         float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position,
                             Vector3.up);
-                        
-                        if ((angle<0?-angle:angle) < viewAngle)
+
+                        if ((angle < 0 ? -angle : angle) < viewAngle)
                         {
                             float coLeng = Vector3.Distance(colliders[i].transform.position, position);
                             if (minCoLength > coLeng)
@@ -155,6 +161,7 @@ namespace Character
             {
                 float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
                 if ((angle < 0 ? -angle : angle) > viewAngle||Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
+
                 {
                     anim.SetBool(onTarget, target = null);
                     thisCurTransform.forward =
@@ -170,6 +177,7 @@ namespace Character
             {
                 actives[4].Use(this);
             }else if (Input.GetKeyDown(KeyCode.R))
+
             {
                 actives[5].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Space))
@@ -202,6 +210,7 @@ namespace Character
             {
                 actives[12].Use(this);
             }
+
         }
 
         protected override void Attack()
@@ -211,7 +220,7 @@ namespace Character
             else
                 SpawnManager.Instance.Launch(thisCurTransform.position,thisCurTransform.forward,
                     dmg ,1+duration*0.5f, 10+speed*2,range*0.5f, ref projectileInfo);
-           
+
         }
     }
 }

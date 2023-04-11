@@ -12,6 +12,7 @@ public class SpawnManager :Singleton<SpawnManager>
     [HideInInspector]public Transform playerTransform;
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
+
     protected override void Awake()
     {
         base.Awake();
@@ -29,6 +30,7 @@ public class SpawnManager :Singleton<SpawnManager>
 
 
     public  void SpawnMonster()
+
     {
         //인게임 매니저에서 현재 스테이지에 따라 스탯 
         //
