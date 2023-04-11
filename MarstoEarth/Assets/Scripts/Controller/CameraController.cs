@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
 {
     void LateUpdate()
     {
-        Vector3 direction = (SpawnManager.playerTransform.position - new Vector3(0, 2f, 0) - transform.position).normalized;
+        Vector3 direction = (SpawnManager.Instance.playerTransform.position - new Vector3(0, 2f, 0) - transform.position).normalized;
         RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, 37f,
                             1 << LayerMask.NameToLayer("Obstacle"));
         Debug.DrawRay(transform.position, direction * 100f, Color.green);

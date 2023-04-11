@@ -287,7 +287,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -2101,6 +2101,23 @@ MonoBehaviour:
   items:
   - {fileID: 1966295499392432073, guid: d5e701ccbc4699d48957d6be406aa8c1, type: 3}
   - {fileID: 2074234464477956416, guid: 9d3de7b42d02cf747ba8aba5a7933947, type: 3}
+  projectileMesh:
+  - {fileID: 879694538053448531, guid: 95db2e82a0fb0154d8d86222b08165d3, type: 3}
+  - {fileID: 51877323832307708, guid: 9668ff9e36249764aba7543390ad7a5b, type: 3}
+  skillInfos:
+  - {fileID: 11400000, guid: 79afa3454e94c29448446fd2bf934ccd, type: 2}
+  - {fileID: 11400000, guid: cca6fe47a661f934e98e8b56bdfacb93, type: 2}
+  - {fileID: 11400000, guid: ab7002104c5f4a64e87232cae904e20f, type: 2}
+  - {fileID: 11400000, guid: 71b2e35f79bbc874ea49b27b64af0d9c, type: 2}
+  - {fileID: 11400000, guid: cffa0f61fe7b72c41a04aa6a00a7aa9e, type: 2}
+  - {fileID: 11400000, guid: 675af94d8a7b8a944bc08a27a5c761d3, type: 2}
+  - {fileID: 11400000, guid: eeaed9c2273d29849b5da2d2a16625db, type: 2}
+  - {fileID: 11400000, guid: c534d543d6336434da4c9f9ef335eba6, type: 2}
+  - {fileID: 11400000, guid: e1ae9756134b87e48b259cfaa70095a3, type: 2}
+  - {fileID: 11400000, guid: 833fc3a8f42db854997a4c5230374b0d, type: 2}
+  - {fileID: 11400000, guid: 987e3802bba25dd4e8c820b7af810199, type: 2}
+  - {fileID: 11400000, guid: 707b60e4f27bbd848b224882218ceb53, type: 2}
+  - {fileID: 11400000, guid: 59aae42dba9649040b6cd53c9ef3e7eb, type: 2}
 --- !u!4 &1258189998
 Transform:
   m_ObjectHideFlags: 0
@@ -2462,7 +2479,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 3026331719584739865, guid: c98043d57e0190845b790d7b92990bee, type: 3}
-  projectilePrefab: {fileID: 0}
+  playerTransform: {fileID: 0}
+  projectilePrefab: {fileID: 7739833361423966859, guid: 4a99ec8f6364bc64d9d59786f4218424, type: 3}
 --- !u!4 &1462362608
 Transform:
   m_ObjectHideFlags: 0
