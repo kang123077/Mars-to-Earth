@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class InGameManager : Singleton<InGameManager>
 {
-    public GameObject cardUI; // 인스펙터 창에서 직접 할당할 수 있도록 변경
     private int clearedMonsters = 0; // 클리어한 몬스터 수를 저장하는 변수
-    GameObject cardUICon;
+    public GameObject cardUICon;
+    public GameObject skillUICon;
 
     protected override void Awake()
     {
@@ -15,8 +15,6 @@ public class InGameManager : Singleton<InGameManager>
 
     private void Start()
     {
-        cardUICon = Instantiate(cardUI, UIManager.Instance.transform);
-        cardUICon.AddComponent<CardUIController>();
         cardUICon.SetActive(false);
     }
     /*
@@ -34,6 +32,8 @@ public class InGameManager : Singleton<InGameManager>
 
     private void TriggerEvent()
     {
+        skillUICon.SetActive(false);
+        cardUICon.transform.SetAsLastSibling();
         Time.timeScale = 0f;
         cardUICon.SetActive(true);
     }
