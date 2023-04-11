@@ -6,30 +6,32 @@ namespace Character
 
     public class Player : Character
     {
-        [SerializeField]private GameObject bulletPrefab;
+        [SerializeField] private GameObject bulletPrefab;
         private RaycastHit hitInfo;
         private Vector3 mouseDir;
         private float xInput;
         private float zInput;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
-        
+
         private static readonly int onTarget = Animator.StringToHash("onTarget");
         private float _EXP;
+        private int layerMask;
         public float EXP
         {
             get => _EXP;
             set
             {
-                float curValue=value;
-                while (curValue>=100) {
+                float curValue = value;
+                while (curValue >= 100)
+                {
                     curValue -= 100;
                     level++;
                 };
                 _EXP = curValue;
             }
         }
-        
+
         public float optanium { get; set; }
 
         private Collider[] itemColliders;
@@ -39,7 +41,9 @@ namespace Character
             base.Awake();
             colliders = new Collider[8];
             itemColliders = new Collider[1];
-            anim.SetFloat(movingSpeed,1+speed*0.4f);
+            anim.SetFloat(movingSpeed, 1 + speed * 0.4f);
+            layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
+            layerMask = ~layerMask;
         }
         protected override void Start()
         {
@@ -48,10 +52,10 @@ namespace Character
         }
         protected void Update()
         {
-            
-            
+
+
             Vector3 position = thisCurTransform.position;
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo,Mathf.Infinity,layerMask:1<<0);
+            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, layerMask: layerMask);
             mouseDir = hitInfo.point - position;
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
@@ -60,7 +64,7 @@ namespace Character
             if (dying)
                 return;
             mainCam.transform.position = position + new Vector3(0, 25, -27.5f);
-            
+
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
@@ -75,19 +79,19 @@ namespace Character
             {
                 if (xInput != 0 && zInput != 0)
                 {
-                    vector3.x *=  0.7f;
-                    vector3.z *=  0.7f;
+                    vector3.x *= 0.7f;
+                    vector3.z *= 0.7f;
                 }
                 thisCurTransform.position += vector3 * (Time.deltaTime * speed);
             }
             thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, target? target.position-position :
+                Vector3.RotateTowards(thisCurTransform.forward, target ? target.position - position :
                     mouseDir, 6 * Time.deltaTime, 0);
             Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + vector3));
             anim.SetFloat(X, characterDir.x);
             anim.SetFloat(Z, characterDir.z);
             #endregion
-            
+
             #region Targeting
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
@@ -102,8 +106,8 @@ namespace Character
                     {
                         float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position,
                             Vector3.up);
-                        
-                        if ((angle<0?-angle:angle) < viewAngle)
+
+                        if ((angle < 0 ? -angle : angle) < viewAngle)
                         {
                             float coLeng = Vector3.Distance(colliders[i].transform.position, position);
                             if (minCoLength > coLeng)
@@ -116,10 +120,10 @@ namespace Character
                     anim.SetBool(onTarget, target);
                 }
             }
-            else  
+            else
             {
                 float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
-                if ((angle < 0 ? -angle : angle) > viewAngle||Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
+                if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
 
                 {
                     anim.SetBool(onTarget, target = null);
@@ -132,20 +136,22 @@ namespace Character
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 registActives[0].Use(this);
-            }else if (Input.GetKeyDown(KeyCode.E))
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
             {
                 registActives[1].Use(this);
-            }else if (Input.GetKeyDown(KeyCode.R))
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
             {
                 registActives[2].Use(this);
             }
-            
+
 
         }
 
         protected override void Attack()
         {
-            SpawnManager.Instance.Launch(transform,gameObject.layer,dmg,bulletPrefab);
+            SpawnManager.Instance.Launch(transform, gameObject.layer, dmg, bulletPrefab);
         }
     }
 }
