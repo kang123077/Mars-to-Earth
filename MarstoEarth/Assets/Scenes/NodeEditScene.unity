@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodePrefab: {fileID: 7478105143402671929, guid: f335faabb18a1684a8558d007b4b1dce, type: 3}
-  pathPrefab: {fileID: 4183233540172279449, guid: e0357501ecb61e94480ce881789c892b, type: 3}
+  pathPrefab: {fileID: 3886297098275353217, guid: 82ceca33267d52a40a43709ed9f758c4, type: 3}
   wallPrefab: {fileID: 394038003991846308, guid: 1fe68b75997cec34aac563d18691ed6f, type: 3}
   nodeSpacing: 10
   nodeParentTF: {fileID: 66668291}

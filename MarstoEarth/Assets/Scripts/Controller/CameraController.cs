@@ -7,11 +7,10 @@ public class CameraController : MonoBehaviour
 {
     void LateUpdate()
     {
-        // Player는 싱글톤이기에 전역적으로 접근할 수 있습니다.
-        Vector3 direction = (SpawnManager.playerTransform.position - transform.position).normalized;
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, Mathf.Infinity,
+        Vector3 direction = (SpawnManager.playerTransform.position - new Vector3(0, 2f, 0) - transform.position).normalized;
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, direction, 37f,
                             1 << LayerMask.NameToLayer("Obstacle"));
-
+        Debug.DrawRay(transform.position, direction * 100f, Color.green);
         for (int i = 0; i < hits.Length; i++)
         {
             ObstacleController[] obj = hits[i].transform.GetComponentsInChildren<ObstacleController>();
