@@ -1,49 +1,46 @@
 using Character;
+using Projectile;
 using Skill;
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class SpawnManager :Singleton<SpawnManager>
 { 
     public Player player;
-    [HideInInspector]public static Transform playerTransform;
-    public GameObject projectilePrefab;
-    public IObjectPool<Projectile> projectileManagedPool;
+    [HideInInspector]public Transform playerTransform;
+    public IObjectPool<Projectile.Projectile> projectileManagedPool;
+    public Projectile.Projectile projectilePrefab;
+
     protected override void Awake()
     {
         base.Awake();
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
 
-        projectileManagedPool = new ObjectPool<Projectile>(() =>
+        projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
-                GameObject copyPrefab = Instantiate(projectilePrefab);
-                copyPrefab.SetActive(false);
-                return copyPrefab.AddComponent<Projectile>();
-            }
-                ,
-            actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
+               Projectile.Projectile copyPrefab=Instantiate(projectilePrefab);
+               copyPrefab.gameObject.SetActive(false);
+               return copyPrefab;
+            },
+            actionOnRelease: (pt) => pt.gameObject.SetActive(false),defaultCapacity:20,maxSize:40);
     }
-    protected override void Update()
-    {
-        Debug.Log("위치 업데이트 중");
-        Debug.Log(playerTransform.position);
-        playerTransform = player.transform;
-    }
-    public  void spawnMonster()
+
+
+    public  void SpawnMonster()
+
     {
         //인게임 매니저에서 현재 스테이지에 따라 스탯 
         //
     }
 
-    public void Launch(Transform attacker,int layer, float dmg,GameObject prefab)
+
+    public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {
-        projectilePrefab = prefab;
-        Projectile projectile = projectileManagedPool.Get();
-        projectile.attacker = attacker;
-        projectile.layerMask = (1 << 3 | 1 << 6) ^ 1 << layer;
-        projectile.gameObject.layer = 8;
-        projectile.dmg = dmg;
+        Projectile.Projectile projectile = projectileManagedPool.Get();
+        projectile.Init(ap,tp,dg,dr,sp,rg,ref info);
         projectile.gameObject.SetActive(true);
     }
 

@@ -19,12 +19,7 @@ namespace Item
                 case ItemType.Shield:
                     player.def += itemInfo.itemValue;
                     break;
-                case ItemType.EXP:
-                    player.EXP += itemInfo.itemValue;
-                    break;
-                case ItemType.Optanium:
-                    player.optanium += itemInfo.itemValue;
-                    break;
+               
             }
             Debug.Log("아이템 사용 이팩트");
             Destroy(gameObject);

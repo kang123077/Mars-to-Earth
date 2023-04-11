@@ -1,13 +1,24 @@
-﻿using UnityEngine;
+using UnityEngine;
 namespace Character
 {
     public class M_CR_42:Monster
     {
+
+        [SerializeField] GameObject club;
+        protected override void Start()
+        {
+            base.Start();
+            Transform RightHand = anim.GetBoneTransform(HumanBodyBones.RightHand);
+            //Debug.Log("rr"+RightHand);
+            //Debug.Log("ss"+club);
+            //club.transform.position= RightHand.position;
+            //club.transform.SetParent(RightHand);
+        }
         protected void Update()
         {
+            BaseUpdate();
             if(dying)
                 return; 
-            BaseUpdate();
             
             if (target)
             {
@@ -36,7 +47,7 @@ namespace Character
                 if (size > 0)
                 {
                     float angle = Vector3.SignedAngle(thisCurTransform.forward, colliders[0].transform.position - thisCurTransform.position, Vector3.up);
-                    if((angle < 0 ? -angle : angle) < viewAngle)
+                    if((angle < 0 ? -angle : angle) < viewAngle|| Vector3.Distance(colliders[0].transform.position,thisCurTransform.position)<sightLength*0.3f)
                     {
                         target = colliders[0].transform;
                     }

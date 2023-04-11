@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace Character
 {
@@ -6,7 +6,7 @@ namespace Character
     public class StatInfo : ScriptableObject
     {
         public float dmg;
-        public float atkSpd;
+        public float coolDecrease;
         public float speed;
         public float def;
         public float duration;

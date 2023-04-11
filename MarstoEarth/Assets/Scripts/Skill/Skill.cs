@@ -1,37 +1,77 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 namespace Skill
 {
+    public struct CurCool
+    {
+        public bool isCombo;
+        public float cool;
+    }
     public abstract class Skill
     {
         public SkillInfo skillInfo;        
         float lastUsedTime;
-
         protected Character.Character caster;
-        protected int layerMask;
-        protected Skill()
+        protected float comboCount = 1;
+        protected float curCount = 1;
+        private float cool;
+        
+        public CurCool curCool
         {
-            lastUsedTime = Time.time;
+            get {
+                if (curCount <= comboCount && Time.time < lastUsedTime + cool * (1 / comboCount))
+                {
+                    return new CurCool
+                    {
+                        isCombo = true,
+                        cool = cool * (1 / comboCount)
+                    };
+                }
+                else
+                {
+                    return new CurCool
+                    {
+                        isCombo = false,
+                        cool = cool * (curCount - 1) / comboCount
+                    };
+                }
+            }
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
+        public static implicit operator bool(Skill obj)
+        {
+            return obj != null;
+        }
         public void Use(Character.Character caster)
         {
+            if (caster.onSkill is not null) return;
+            
             if (!this.caster) {
                 this.caster = caster;
-                layerMask=(1 << 3 | 1 << 6) ^ 1 << caster.gameObject.layer;
             }
-            if (Time.time >= lastUsedTime + skillInfo.coolDown)
+
+            cool = skillInfo.cool - (skillInfo.cool * 0.01f * caster.coolDecrease);
+         
+            if (curCount<=comboCount&& Time.time<lastUsedTime + cool*(1/comboCount))
             {
-                if (skillInfo.targetType == TargetType.Target)
-                    if(!GetTarget())return;
-                Activate();
+                if (!Activate())
+                    return;
+                curCount++;
                 lastUsedTime = Time.time;
             }
+            else if (Time.time > lastUsedTime + cool* (curCount-1)/comboCount)
+            {
+                curCount = 1;
+                if (!Activate())
+                    return;
+                curCount++;
+                lastUsedTime = Time.time;
+            }
+            
         }
-        protected abstract void Activate();
+        protected abstract bool Activate();
         public abstract void Effect();
-        protected abstract bool GetTarget();
     }
 }

@@ -17,7 +17,7 @@ namespace Character
         {
             if (Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength*0.5f, colliders, 1 << 3) <= 0) return;
             target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform,characterStat.maxHP*0.5f,0);
+            targetCharacter.Hit(thisCurTransform.position,characterStat.maxHP*0.5f,0);
         }
 
         public void Roll()
@@ -28,9 +28,9 @@ namespace Character
         }
         protected void Update()
         {
+            BaseUpdate();
             if(dying)
                 return; 
-            BaseUpdate();
             
             if (target)
             {
@@ -50,7 +50,7 @@ namespace Character
                         if (targetDistance <= range && attackReady)
                         {
                             target.gameObject.TryGetComponent(out targetCharacter);
-                            targetCharacter.Hit(thisCurTransform,dmg,0);
+                            targetCharacter.Hit(thisCurTransform.position,dmg,0);
                         }
                         anim.SetBool(attacking, isAttacking = false);
                         ai.speed = speed;
