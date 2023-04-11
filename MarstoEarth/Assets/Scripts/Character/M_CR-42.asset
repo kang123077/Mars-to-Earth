@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: M_CR-42
   m_EditorClassIdentifier: 
   dmg: 10
-  atkSpd: 0
+  coolDecrease: 0
   speed: 3
   def: 0
   duration: 0
-  maxHP: 50
+  maxHP: 1
   range: 2
   viewAngle: 80

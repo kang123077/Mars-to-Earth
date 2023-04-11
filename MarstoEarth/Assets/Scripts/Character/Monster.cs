@@ -26,8 +26,6 @@ namespace Character
         
         [SerializeField] protected float sightLength;
         protected bool isAttacking;
-        [SerializeField] protected float optanium;
-        [SerializeField] protected float experience;
 
         private IEnumerator StuckCheck()
         {
@@ -87,15 +85,14 @@ namespace Character
         protected override void BaseUpdate()
         {
             base.BaseUpdate();
+            if(dying)return;
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
-            inputDir = thisCurTransform.InverseTransformPoint(thisCurTransform.position + thisCurTransform.forward);
-        }
+            }
         // ReSharper disable Unity.PerformanceAnalysis
         protected override IEnumerator Die()
         {
             StopCoroutine(StuckCheckCoroutine);
-            
             ai.ResetPath();
             SpawnManager.DropOptanium(thisCurTransform.position);
             return base.Die();
@@ -117,10 +114,12 @@ namespace Character
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        protected internal override void Hit(Transform attacker, float dmg,float penetrate=0)
+        protected internal override void Hit(Vector3 attacker, float dmg,float penetrate=0)
         {
+            
             base.Hit(attacker, dmg, penetrate);
-            target = attacker;
+            if (dying) return;
+            ai.SetDestination(attacker);
         }
     }
 }
