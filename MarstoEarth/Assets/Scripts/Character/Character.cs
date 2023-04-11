@@ -80,6 +80,7 @@ namespace Character
             Buffs = new List<Skill.SPC>();
             actives = new List<Skill.Skill>();
             layerMask = (1 << 3 | 1 << 6) ^ 1 << gameObject.layer;
+            Debug.Log(layerMask);
 
         }
 

@@ -43,8 +43,8 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             anim.SetFloat(movingSpeed, 1 + speed * 0.4f);
-            layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
-            layerMask = ~layerMask;
+            //layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
+            //layerMask = ~layerMask;
         }
         protected override void Start()
         {
