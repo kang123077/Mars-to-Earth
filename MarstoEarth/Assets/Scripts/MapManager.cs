@@ -113,4 +113,9 @@ public class MapManager : Singleton<MapManager>
         */
         nodesTF.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
+    public void ResetNavMesh()
+    {
+        NavMesh.RemoveAllNavMeshData();
+        nodesTF.GetComponent<NavMeshSurface>().BuildNavMesh();
+    }
 }
