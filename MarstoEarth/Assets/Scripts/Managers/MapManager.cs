@@ -91,7 +91,6 @@ public class MapManager : Singleton<MapManager>
     public void GenerateNewSeed()
     {
         mapInfo.seed_Number = Random.Range(int.MinValue, int.MaxValue);
-        inputField.text = mapInfo.seed_Number.ToString();
     }
 
     public void GenerateNavMesh()

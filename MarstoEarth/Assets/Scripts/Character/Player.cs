@@ -69,7 +69,7 @@ namespace Character
         protected void Update()
         {
             Vector3 position = thisCurTransform.position;
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, layerMask: layerMask);
+            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity);
             mouseDir = hitInfo.point - position;
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
