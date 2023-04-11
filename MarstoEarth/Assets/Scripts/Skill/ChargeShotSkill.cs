@@ -37,7 +37,7 @@ namespace Skill
         public override void Effect()
         {
             Vector3 forward = caster.transform.forward;
-            SpawnManager.Instance.Launch(caster.transform.position,forward,0 ,1+caster.duration*0.5f, 25+caster.speed*2,skillInfo.range+caster.range*0.5f, ref projectileInfo);
+            SpawnManager.Instance.Launch(caster.transform.position,forward,0 ,1+caster.duration*0.5f, 20+caster.speed*2,skillInfo.range+caster.range*0.5f, ref projectileInfo);
             caster.impact -= (skillInfo.dmg + caster.dmg*0.5f)*0.1f*forward;
         }
     }
