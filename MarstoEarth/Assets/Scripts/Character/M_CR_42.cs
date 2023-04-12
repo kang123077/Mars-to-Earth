@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 namespace Character
 {
@@ -5,14 +6,25 @@ namespace Character
     {
 
         [SerializeField] GameObject club;
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             Transform RightHand = anim.GetBoneTransform(HumanBodyBones.RightHand);
-            //Debug.Log("rr"+RightHand);
-            //Debug.Log("ss"+club);
-            //club.transform.position= RightHand.position;
-            //club.transform.SetParent(RightHand);
+            Debug.Log("rr"+RightHand);
+            Debug.Log("ss"+club);
+            club = Instantiate(club);
+
+            club.transform.position = RightHand.position;
+            club.transform.SetParent(RightHand);
+            club.transform.localEulerAngles = new Vector3(0,180,-90);
+
+           // club.transform.localPosition += RightHand.TransformPoint(new Vector3(-1f, 0f, 0f));
+
+            //club.transform.localPosition += new Vector3(0f, 0.2f, 0f);
+
+            //club.transform.localPosition += new Vector3(0, 0.3f, 0);
+            //club.transform.forward=RightHand.forward;
+            //club.transform.right = RightHand.right;
         }
         protected void Update()
         {

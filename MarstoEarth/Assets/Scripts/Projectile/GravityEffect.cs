@@ -36,7 +36,6 @@ namespace Projectile
             for (int i = 0; i < count; i++)
             {
                 colliders[i].TryGetComponent(out target);
-                Debug.Log(layerMask);
                 target.impact += gravity * Time.deltaTime *
                                  (thisTransform - colliders[i].transform.position).normalized;
             }

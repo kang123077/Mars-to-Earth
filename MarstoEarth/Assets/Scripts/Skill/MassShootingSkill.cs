@@ -25,6 +25,7 @@ namespace Skill
             float speed = 2/(skillInfo.speed + caster.speed * 0.5f);
             massShooting = new SPC(skillInfo.duration+caster.duration*0.5f,null, (ch) =>
             {
+                Transform ctr = caster.transform;
                 atkEleapse += Time.deltaTime;
                 aniEleapse += Time.deltaTime;
                 if (aniEleapse > 0.3f)
@@ -34,8 +35,8 @@ namespace Skill
                 }
                 if (atkEleapse > speed)
                 {
-                    SpawnManager.Instance.Launch(caster.transform.position,caster.transform.forward,skillInfo.dmg+caster.dmg*0.1f,2,
-                        skillInfo.speed+caster.speed*0.5f,skillInfo.range*0.3f+caster.range*0.1f,ref projectileInfo);
+                    SpawnManager.Instance.Launch(ctr.position,ctr.forward,skillInfo.dmg+caster.dmg*0.1f,2,
+                        20+caster.speed*2,skillInfo.range*0.3f+caster.range*0.1f,ref projectileInfo);
                     atkEleapse -= speed;
                 }
             }, (ch) =>
