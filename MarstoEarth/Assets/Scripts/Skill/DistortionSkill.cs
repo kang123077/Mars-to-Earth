@@ -8,6 +8,7 @@ namespace Skill
         private readonly Collider[] colliders = new Collider[8];
         private Character.Character enemy;
         Vector3 firstPos;
+        private int layerMask;
         public DistortionSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
@@ -26,16 +27,17 @@ namespace Skill
                     Vector3 targetPoint= caster.target? caster.target.position-caster.target.transform.forward : caster.transform.position+(caster.transform.forward*(skillInfo.range + caster.range * 0.5f));
 
                     SPC distortion = null;
-                    distortion = new SPC(10, (ch) =>
+                    distortion = new SPC(1.5f, null,(ch) =>
                     {
                         ch.transform.position = Vector3.MoveTowards(ch.transform.position,targetPoint,(skillInfo.speed+caster.speed*0.5f)*Time.deltaTime);
-
                         if (ch.transform.position == targetPoint)
                         {
                             ch.RemoveBuff(distortion);
-                            
                             caster.SkillEffect();
                         }
+                    }, (ch) =>
+                    {
+                        caster.SkillEffect();
                     });
                     caster.AddBuff(distortion);
 
@@ -51,11 +53,11 @@ namespace Skill
 
         public override void Effect()
         {
-            int count = Physics.OverlapSphereNonAlloc(caster.transform.position, skillInfo.range * 0.2f + caster.range * 0.1f, colliders, caster.layerMask);
-            for (int i = 0; i < count; i++)
+            int count = Physics.OverlapSphereNonAlloc(caster.transform.position, skillInfo.range * 0.2f + caster.range * 0.1f, colliders, caster.layerMask); for (int i = 0; i < count; i++)
             {
                 colliders[i].TryGetComponent(out enemy);
-                enemy.Hit(caster.transform.position, skillInfo.dmg + caster.dmg * 0.5f, 0);
+                if(enemy)
+                    enemy.Hit(caster.transform.position, skillInfo.dmg + caster.dmg * 0.5f, 0);
             }
         }
     }
