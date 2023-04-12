@@ -30,12 +30,10 @@ public class GateController : MonoBehaviour
     public void GateOpen()
     {
         animator.SetBool("isGateOpen", true);
-        navMeshObstacle.enabled = false;
     }
     public void GateClose()
     {
         animator.SetBool("isGateOpen", false);
-        navMeshObstacle.enabled = true;
     }
     public void DistanceCheck()
     {
@@ -51,16 +49,16 @@ public class GateController : MonoBehaviour
         }
     }
     // Gate 애니메이션 이벤트 함수
-    public void OnOpenEnd()
+    // Open의 중간에 실행되는 함수
+    public void OnOpen()
     {
-        // Gate 애니메이션이 종료되면 NavMesh를 업데이트
-        // MapManager.Instance.ResetNavMesh();
+        navMeshObstacle.enabled = false;
     }
 
     // Gate 애니메이션 이벤트 함수
-    public void OnCloseEnd()
+    // Close의 중간에 실행되는 함수
+    public void OnClose()
     {
-        // Gate 애니메이션이 종료되면 NavMesh를 업데이트
-        // MapManager.Instance.ResetNavMesh();
+        navMeshObstacle.enabled = true;
     }
 }
