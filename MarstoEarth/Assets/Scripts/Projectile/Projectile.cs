@@ -44,6 +44,7 @@ namespace Projectile
         private readonly Collider[] colliders = new Collider[8];
         private Character.Character target;
         public float startTime;
+        public float trailDelay;
         Transform thisTransform;
         public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
         {
@@ -59,13 +60,15 @@ namespace Projectile
             transform.position = ap + new Vector3(0, 1f, 0);
             transform.forward = tp;
             mesh.mesh = info.ms;
+
             thisInfo[0] = info;
             startTime = Time.time;
+            //trail.SetPositions(new Vector3[] { transform.position });
         }
 
         private void OnDisable()
         {
-            //trail.emitting = false;
+            trail.Clear();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -109,7 +112,6 @@ namespace Projectile
        
         private void Update()
         {
-            
             duration -= Time.deltaTime;
             if(duration <0)
                 SpawnManager.Instance.projectileManagedPool.Release(this);
