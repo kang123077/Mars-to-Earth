@@ -14,7 +14,6 @@ namespace Character
         private float zInput;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
-        private static readonly int onTarget = Animator.StringToHash("onTarget");
         private Collider[] itemColliders;
         private KeyCode  key;
         private LayerMask obstacleMask;

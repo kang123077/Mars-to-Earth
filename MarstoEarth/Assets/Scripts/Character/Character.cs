@@ -10,7 +10,7 @@ namespace Character
 
         protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
-        
+        protected static readonly int onTarget = Animator.StringToHash("onTarget");
         public StatInfo characterStat;
         [SerializeField] protected Animator anim;
         [SerializeField] protected Collider col;
