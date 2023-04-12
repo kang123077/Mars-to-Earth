@@ -43,9 +43,9 @@ namespace Character
             base.Awake();
             colliders = new Collider[8];
             itemColliders = new Collider[1];
-            anim.SetFloat(movingSpeed, 1 + speed * 0.4f);
-            obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
-            obstacleMask = ~obstacleMask;
+            anim.SetFloat(movingSpeed, 1 + speed * 0.1f);
+            //layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
+            //layerMask = ~layerMask;
         }
         protected override void Start()
         {
@@ -70,7 +70,7 @@ namespace Character
         protected void Update()
         {
             Vector3 position = thisCurTransform.position;
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, obstacleMask);
+            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0|layerMask);
             mouseDir = hitInfo.point - position;
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
@@ -220,7 +220,7 @@ namespace Character
                     SkillEffect();
             else
                 SpawnManager.Instance.Launch(thisCurTransform.position,thisCurTransform.forward,
-                    dmg ,1+duration*0.5f, 10+speed*2,range*0.5f, ref projectileInfo);
+                    dmg ,1+duration*0.5f, 20+speed*2,range*0.5f, ref projectileInfo);
 
         }
     }
