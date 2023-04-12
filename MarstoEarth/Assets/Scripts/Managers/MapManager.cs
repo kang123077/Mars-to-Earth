@@ -33,7 +33,7 @@ public class MapManager : Singleton<MapManager>
     public void GenerateMapCall()
     {
         mapGenerator.GenerateMap();
-        // GenerateNavMesh();
+        GenerateNavMesh();
     }
 
     public void TestInitMapInfo()

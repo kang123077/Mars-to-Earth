@@ -1,16 +1,19 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GateController : MonoBehaviour
 {
     private float openDistance;
+    private NavMeshObstacle navMeshObstacle;
     public Animator animator;
     public bool isGateOpen;
 
     private void Start()
     {
         isGateOpen = false;
-        openDistance = 5f;
+        openDistance = 6f;
         animator = GetComponent<Animator>();
+        navMeshObstacle= GetComponent<NavMeshObstacle>();
     }
     private void Update()
     {
@@ -27,10 +30,12 @@ public class GateController : MonoBehaviour
     public void GateOpen()
     {
         animator.SetBool("isGateOpen", true);
+        navMeshObstacle.enabled = false;
     }
     public void GateClose()
     {
         animator.SetBool("isGateOpen", false);
+        navMeshObstacle.enabled = true;
     }
     public void DistanceCheck()
     {

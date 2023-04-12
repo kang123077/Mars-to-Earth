@@ -5047,7 +5047,6 @@ GameObject:
   - component: {fileID: 5628633536884776203}
   - component: {fileID: 7194154925520538178}
   - component: {fileID: 2149051384694593017}
-  - component: {fileID: 1976722284152888737}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -5180,15 +5179,3 @@ MonoBehaviour:
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &1976722284152888737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5688887765300382685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e038bf700cfa444fb16c6ef963be9f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
