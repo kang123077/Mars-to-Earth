@@ -19,7 +19,7 @@ public class NodeGenerator : MonoBehaviour
     }
     void Start()
     {
-        nodeSpacing = 40f;
+        nodeSpacing = 60f;
     }
     void Update()
     {
@@ -143,7 +143,7 @@ public class NodeGenerator : MonoBehaviour
                         eastNeighbor.west = nodeInfo;
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x + (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
-                        pathObject.transform.rotation = Quaternion.Euler(90f, 90f, 0);
+                        pathObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
                         MapManager.paths.Add(pathObject);
                     }
                 }
@@ -154,7 +154,7 @@ public class NodeGenerator : MonoBehaviour
                     {
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x + (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
-                        pathObject.transform.rotation = Quaternion.Euler(90f, 90f, 0);
+                        pathObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
                         MapManager.paths.Add(pathObject);
                         nodeInfo.east = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
                     }
@@ -171,7 +171,7 @@ public class NodeGenerator : MonoBehaviour
                         westNeighbor.east = nodeInfo;
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x - (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
-                        pathObject.transform.rotation = Quaternion.Euler(90f, 90f, 0);
+                        pathObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
                         MapManager.paths.Add(pathObject);
                     }
                 }
@@ -181,7 +181,7 @@ public class NodeGenerator : MonoBehaviour
                     {
                         GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
                         pathObject.transform.position = new Vector3(nodeInfo.transform.position.x - (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
-                        pathObject.transform.rotation = Quaternion.Euler(90f, 90f, 0);
+                        pathObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
                         MapManager.paths.Add(pathObject);
                         nodeInfo.west = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
                     }
@@ -277,7 +277,7 @@ public class NodeGenerator : MonoBehaviour
     bool ProbabilityBasedOnDistance(int distance)
     {
         // Calculate the probability using an inverse linear function
-        float maxDistance = 6f;
+        float maxDistance = 4f;
         float probability = 1.0f - (distance / maxDistance);
 
         // Generate a random value between 0 and 1

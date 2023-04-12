@@ -17,6 +17,7 @@ namespace Character
         private static readonly int onTarget = Animator.StringToHash("onTarget");
         private Collider[] itemColliders;
         private KeyCode  key;
+        private LayerMask obstacleMask;
 
         private KeyCode[] keys = new[]
         {
@@ -43,8 +44,8 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             anim.SetFloat(movingSpeed, 1 + speed * 0.4f);
-            //layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
-            //layerMask = ~layerMask;
+            obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
+            obstacleMask = ~obstacleMask;
         }
         protected override void Start()
         {
@@ -69,7 +70,7 @@ namespace Character
         protected void Update()
         {
             Vector3 position = thisCurTransform.position;
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity);
+            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity, obstacleMask);
             mouseDir = hitInfo.point - position;
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
