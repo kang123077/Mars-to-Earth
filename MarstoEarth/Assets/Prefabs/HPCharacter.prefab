@@ -2184,14 +2184,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4497fb22fa0897419e5908c7b44dec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: 
   characterStat: {fileID: 11400000, guid: d80ea9e1da3385e4898781836e2c3783, type: 2}
   anim: {fileID: 7673487250857332701}
   col: {fileID: 8675458328526890443}
   target: {fileID: 0}
-  registActives:
-  - {fileID: 11400000, guid: 48e644690fcfa4448925c04405023af6, type: 2}
-  bulletPrefab: {fileID: 3694326089976598682, guid: 95db2e82a0fb0154d8d86222b08165d3, type: 3}
+  InputDir: {x: 0, y: 0, z: 0}
 --- !u!1 &7673487251499248762
 GameObject:
   m_ObjectHideFlags: 0

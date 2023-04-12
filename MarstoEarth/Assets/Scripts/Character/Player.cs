@@ -17,6 +17,7 @@ namespace Character
         private static readonly int onTarget = Animator.StringToHash("onTarget");
         private Collider[] itemColliders;
         private KeyCode  key;
+        private LayerMask obstacleMask;
 
         private KeyCode[] keys = new[]
         {

@@ -21,6 +21,7 @@ public class MapManager : Singleton<MapManager>
         walls = new List<GameObject>();
         base.Awake();
         TestInitMapInfo();
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -45,7 +46,7 @@ public class MapManager : Singleton<MapManager>
         mapInfo.cur_Dungeon.curStage = 0;
         mapInfo.cur_Dungeon.stageInfo = new StageInfo[2];
         mapInfo.cur_Dungeon.stageInfo[0] = gameObject.AddComponent<StageInfo>();
-        mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber = 24;
+        mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber = 12;
     }
     public void ChangeRoomNumber(string roomNumber)
     {
