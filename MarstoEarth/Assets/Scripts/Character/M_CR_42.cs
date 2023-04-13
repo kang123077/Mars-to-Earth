@@ -10,9 +10,10 @@ namespace Character
         protected override void Awake()
         {
             base.Awake();
-            club = Instantiate(club, RightHand,true);
+            club = Instantiate(club);
+            //club = Instantiate(club, RightHand,true);
             club.transform.position = RightHand.position;
-            
+            club.transform.SetParent(RightHand);
             //club.transform.localPosition += new Vector3(-0.004f, 0, 0);
             //club.transform.localEulerAngles = new Vector3(0,180,-90);
         }
@@ -35,7 +36,7 @@ namespace Character
                     if (!(targetDistance <= range)) return;
                     var position = thisCurTransform.position;
                     position.y = targetPosition.y;
-                    thisCurTransform.forward = targetPosition - position;
+                    thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 6 * Time.deltaTime, 0);
                     anim.SetBool(attacking, isAttacking = true);
 
                 }

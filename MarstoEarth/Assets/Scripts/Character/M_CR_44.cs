@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 namespace Character
 {
-    public class M_CR_43:Monster
+    public class M_CR_44:Monster
     {
         [SerializeField] GameObject gun;
         [SerializeField] private Transform RightHand;
@@ -17,19 +17,28 @@ namespace Character
             gun = Instantiate(gun, RightHand, true);
             gun.transform.position = RightHand.position;
         }
+        protected override void Start()
+        {
+            base.Start();
+            projectileInfo.ms = ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh;
+            projectileInfo.ty = Projectile.Type.Cannon;
+
+        }
 
         protected override void Attack()
         {
             anim.SetBool(attacking, isAttacking = false);
+            
             positions.Clear();
             travelDistance = 0;
-            SpawnManager.Instance.Launch(thisCurTransform.position, thisCurTransform.forward, dmg,1 + duration * 0.5f, 20 + speed * 2, range * 0.5f, ref projectileInfo);
+            SpawnManager.Instance.Launch(thisCurTransform.position, target? target.position: thisCurTransform.forward*range, dmg,1 + duration * 0.5f, 20 + speed * 2, range * 0.3f, ref projectileInfo);
+            
         }
         protected void Update()
         {
             BaseUpdate();
             if(dying)
-                return; 
+                return;
             
             if (target)
             {

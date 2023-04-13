@@ -15,14 +15,14 @@ namespace Character
             {Vector3.forward,Vector3.right,Vector3.back,Vector3.left };
 
         private Vector3[] patrolPoints;
-        private List<float> positions;
+        protected List<float> positions;
         private int patrolIdx;
         
         [SerializeField] protected NavMeshAgent ai;
         private Coroutine StuckCheckCoroutine;
         protected bool trackingPermission;
         private Vector3 lastPosition;
-        private float travelDistance;
+        protected float travelDistance;
         
         [SerializeField] protected float sightLength;
         protected bool isAttacking;
