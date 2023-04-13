@@ -20,6 +20,8 @@ namespace Character
 
         protected override void Attack()
         {
+            if(dying)
+                return;
             anim.SetBool(attacking, isAttacking = false);
             positions.Clear();
             travelDistance = 0;
@@ -45,7 +47,10 @@ namespace Character
                     anim.SetBool(attacking, isAttacking = true);
                 }
                 else
+                {
                     anim.SetBool(onTarget, target = null);
+                    ai.speed = speed;
+                }
             }
             else
             {
@@ -57,6 +62,7 @@ namespace Character
                     if((angle < 0 ? -angle : angle) < viewAngle|| Vector3.Distance(colliders[0].transform.position,thisCurTransform.position)<sightLength*0.3f)
                     {
                         anim.SetBool(onTarget, target = colliders[0].transform);
+                        ai.speed = speed*1.5f;
                     }
                 }
             }

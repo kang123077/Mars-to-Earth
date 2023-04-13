@@ -17,6 +17,6 @@ MonoBehaviour:
   speed: 3
   def: 0
   duration: 0
-  maxHP: 1
+  maxHP: 45
   range: 12
   viewAngle: 80

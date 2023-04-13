@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe362b65159445338108f6252fa3718b, type: 3}
-  m_Name: M_Kamikaze
+  m_Name: Miles
   m_EditorClassIdentifier: 
-  dmg: 40
-  atkSpd: 0
-  speed: 3
+  dmg: 50
+  coolDecrease: 0
+  speed: 6
   def: 0
   duration: 0
-  maxHP: 1
-  range: 2
-  viewAngle: 80
+  maxHP: 55
+  range: 12
+  viewAngle: 50
