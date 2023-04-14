@@ -29,11 +29,9 @@ public class SpawnManager :Singleton<SpawnManager>
     }
 
 
-    public  void SpawnMonster()
-
+    public  void SpawnMonster(Vector3 spawnPoint, EnemyType type)
     {
-        //인게임 매니저에서 현재 스테이지에 따라 스탯 
-        //
+        Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity);
     }
 
 
@@ -47,7 +45,6 @@ public class SpawnManager :Singleton<SpawnManager>
     public static void DropOptanium(Vector3 postion)
     {
         Item.Item optanium= Instantiate(ResourceManager.Instance.items[0],postion,Quaternion.identity);
-        Debug.Log("옵타니움"+optanium);
     }
     
 }

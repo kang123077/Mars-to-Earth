@@ -96,12 +96,15 @@ namespace Character
             if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
             targetCharacter.Hit(thisCurTransform.position,dmg,0);
+            if (targetCharacter.dying)
+                target = null;
         }
         protected virtual IEnumerator Die()
         {
             dying = true;
             Destroy(hpBar.gameObject);
             Destroy(col);
+            
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);

@@ -160,12 +160,12 @@ namespace Character
             else
             {
                 float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
-                if ((angle < 0 ? -angle : angle) > viewAngle||Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
+                
 
+                
+                if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
                 {
                     anim.SetBool(onTarget, target = null);
-                    thisCurTransform.forward =
-                        Vector3.RotateTowards(thisCurTransform.forward, mouseDir, Time.deltaTime * 10, 10);
                 }
             }
             #endregion

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+using Projectile;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace Character
 {
@@ -11,7 +13,7 @@ namespace Character
         protected override void Start()
         {
             base.Start();
-            skill = ResourceManager.Instance.skills[6];
+            skill = new Skill.SpiderMineSkill(ResourceManager.Instance.skillInfos[(int)SkillName.SpiderMine]);
         } 
         protected void Update()
         {
@@ -21,7 +23,8 @@ namespace Character
             
             if (target)
             {
-                if (sightLength*.5f>Vector3.Distance(target.position, thisCurTransform.position))
+                dist= Vector3.Distance(target.position, thisCurTransform.position);
+                if (sightLength * .5f > dist)
                 {
                     hidingDir = (thisCurTransform.position - target.position).normalized;
                     skillDelay = 3;
@@ -29,12 +32,15 @@ namespace Character
                 }
 
                 ai.Move(hidingDir * (Time.deltaTime * speed));
-                skillDelay -= Time.deltaTime;
-                if (skillDelay < 0)
+                if(sightLength< dist)
                 {
-                    if(!skill.Use(this)) return;
-                    skillDelay = 3;
-                    target = null;
+                    skillDelay -= Time.deltaTime;
+                    if (skillDelay < 0)
+                    {
+                        if(!skill.Use(this)) return;
+                        skillDelay = 5;
+                        target = null;
+                    }
                 }
             }
             else

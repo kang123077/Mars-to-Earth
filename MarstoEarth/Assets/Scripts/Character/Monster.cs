@@ -94,7 +94,10 @@ namespace Character
         {
             StopCoroutine(StuckCheckCoroutine);
             ai.ResetPath();
-            SpawnManager.DropOptanium(thisCurTransform.position);
+            Vector3 point = thisCurTransform.position;
+            point.y = 0;
+            SpawnManager.DropOptanium(point);
+            
             return base.Die();
         }
         protected override void Attack()
