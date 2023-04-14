@@ -10,7 +10,7 @@ namespace Character
 
         protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
-        
+        protected static readonly int onTarget = Animator.StringToHash("onTarget");
         public StatInfo characterStat;
         [SerializeField] protected Animator anim;
         [SerializeField] protected Collider col;
@@ -96,12 +96,15 @@ namespace Character
             if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
             targetCharacter.Hit(thisCurTransform.position,dmg,0);
+            if (targetCharacter.dying)
+                target = null;
         }
         protected virtual IEnumerator Die()
         {
             dying = true;
             Destroy(hpBar.gameObject);
             Destroy(col);
+            
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);

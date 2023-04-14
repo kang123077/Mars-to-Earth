@@ -6,25 +6,16 @@ namespace Character
     {
 
         [SerializeField] GameObject club;
+        [SerializeField] private Transform RightHand;
         protected override void Awake()
         {
             base.Awake();
-            Transform RightHand = anim.GetBoneTransform(HumanBodyBones.RightHand);
-            Debug.Log("rr"+RightHand);
-            Debug.Log("ss"+club);
             club = Instantiate(club);
-
+            //club = Instantiate(club, RightHand,true);
             club.transform.position = RightHand.position;
             club.transform.SetParent(RightHand);
-            club.transform.localEulerAngles = new Vector3(0,180,-90);
-
-           // club.transform.localPosition += RightHand.TransformPoint(new Vector3(-1f, 0f, 0f));
-
-            //club.transform.localPosition += new Vector3(0f, 0.2f, 0f);
-
-            //club.transform.localPosition += new Vector3(0, 0.3f, 0);
-            //club.transform.forward=RightHand.forward;
-            //club.transform.right = RightHand.right;
+            //club.transform.localPosition += new Vector3(-0.004f, 0, 0);
+            //club.transform.localEulerAngles = new Vector3(0,180,-90);
         }
         protected void Update()
         {
@@ -34,23 +25,25 @@ namespace Character
             
             if (target)
             {
+                ai.SetDestination(target.position);
                 if(isAttacking)
                     return;
+                
                 Vector3 targetPosition = target.position;
                 float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
                 if (targetDistance <= sightLength * 1.5f)
                 {
-                    if (targetDistance<=range)
-                    {
-                        var position = thisCurTransform.position;
-                        position.y = targetPosition.y;
-                        thisCurTransform.forward = targetPosition - position;
-                        anim.SetBool(attacking, isAttacking = true);
-                    }
-                    else
-                        ai.SetDestination(target.position);
-                }else
-                    target = null;
+                    if (!(targetDistance <= range)) return;
+                    var position = thisCurTransform.position;
+                    position.y = targetPosition.y;
+                    thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 6 * Time.deltaTime, 0);
+                    anim.SetBool(attacking, isAttacking = true);
+                }
+                else
+                {
+                    anim.SetBool(onTarget, target = null);
+                    ai.speed = speed;
+                }
             }
             else
             {
@@ -61,7 +54,8 @@ namespace Character
                     float angle = Vector3.SignedAngle(thisCurTransform.forward, colliders[0].transform.position - thisCurTransform.position, Vector3.up);
                     if((angle < 0 ? -angle : angle) < viewAngle|| Vector3.Distance(colliders[0].transform.position,thisCurTransform.position)<sightLength*0.3f)
                     {
-                        target = colliders[0].transform;
+                        anim.SetBool(onTarget, target = colliders[0].transform);
+                        ai.speed = speed*1.5f;
                     }
                 }
             }
