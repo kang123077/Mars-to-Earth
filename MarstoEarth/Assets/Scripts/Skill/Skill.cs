@@ -44,9 +44,9 @@ namespace Skill
         {
             return obj != null;
         }
-        public void Use(Character.Character caster)
+        public bool Use(Character.Character caster)
         {
-            if (caster.onSkill is not null) return;
+            if (caster.onSkill is not null) return false;
             
             if (!this.caster) {
                 this.caster = caster;
@@ -57,7 +57,7 @@ namespace Skill
             if (curCount<=comboCount&& Time.time<lastUsedTime + cool*(1/comboCount))
             {
                 if (!Activate())
-                    return;
+                    return false;
                 curCount++;
                 lastUsedTime = Time.time;
             }
@@ -65,11 +65,12 @@ namespace Skill
             {
                 curCount = 1;
                 if (!Activate())
-                    return;
+                    return false;
                 curCount++;
                 lastUsedTime = Time.time;
             }
-            
+
+            return true;
         }
         protected abstract bool Activate();
         public abstract void Effect();

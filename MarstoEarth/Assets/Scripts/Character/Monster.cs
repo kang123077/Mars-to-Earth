@@ -15,14 +15,14 @@ namespace Character
             {Vector3.forward,Vector3.right,Vector3.back,Vector3.left };
 
         private Vector3[] patrolPoints;
-        private List<float> positions;
+        protected List<float> positions;
         private int patrolIdx;
         
         [SerializeField] protected NavMeshAgent ai;
         private Coroutine StuckCheckCoroutine;
         protected bool trackingPermission;
         private Vector3 lastPosition;
-        private float travelDistance;
+        protected float travelDistance;
         
         [SerializeField] protected float sightLength;
         protected bool isAttacking;
@@ -88,13 +88,16 @@ namespace Character
             if(dying)return;
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
-            }
+        }
         // ReSharper disable Unity.PerformanceAnalysis
         protected override IEnumerator Die()
         {
             StopCoroutine(StuckCheckCoroutine);
             ai.ResetPath();
-            SpawnManager.DropOptanium(thisCurTransform.position);
+            Vector3 point = thisCurTransform.position;
+            point.y = 0;
+            SpawnManager.DropOptanium(point);
+            
             return base.Die();
         }
         protected override void Attack()

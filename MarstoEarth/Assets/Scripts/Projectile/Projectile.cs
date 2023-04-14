@@ -43,8 +43,7 @@ namespace Projectile
 
         private readonly Collider[] colliders = new Collider[8];
         private Character.Character target;
-        public float startTime;
-        public float trailDelay;
+        public float eleapse;
         Transform thisTransform;
         public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
         {
@@ -57,12 +56,12 @@ namespace Projectile
             trail.widthMultiplier = range * 0.4f;
             trail.emitting = true;
             transform.localScale = range*0.05f*Vector3.one;
-            transform.position = ap + new Vector3(0, 1f, 0);
+            transform.position = ap + new Vector3(0, 1.35f, 0);
             transform.forward = tp;
             mesh.mesh = info.ms;
 
             thisInfo[0] = info;
-            startTime = Time.time;
+            eleapse = 0;
             //trail.SetPositions(new Vector3[] { transform.position });
         }
 
@@ -92,22 +91,23 @@ namespace Projectile
             center -= new Vector3(0, 1, 0);
             Vector3 riseRelCenter = attackerPos - center;
             Vector3 setRelCenter = targetPos - center;
-            float fracComplete = (Time.time - startTime) / 1;
+            eleapse += Time.deltaTime * speed * 0.05f;
+            float fracComplete = eleapse / 1;
             thisTransform.position = Vector3.Slerp(riseRelCenter, setRelCenter, fracComplete);
             thisTransform.position += center;
-            if (fracComplete > 1)
+            if (fracComplete < 1) return;
+            
+            int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
+                thisInfo[0].lm);
+            for (int i = 0; i < count; i++)
             {
-                int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
-                    thisInfo[0].lm);
-                for (int i = 0; i < count; i++)
-                {
-                    colliders[i].TryGetComponent(out target);
-                    if (target)
-                        target.Hit(attackerPos, dmg);
-                }
-                thisInfo[0].ef?.Invoke(thisTransform.position);
-                SpawnManager.Instance.projectileManagedPool.Release(this);
+                colliders[i].TryGetComponent(out target);
+                if (target)
+                    target.Hit(attackerPos, dmg);
             }
+            thisInfo[0].ef?.Invoke(thisTransform.position);
+            SpawnManager.Instance.projectileManagedPool.Release(this);
+            
         }
        
         private void Update()

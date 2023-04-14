@@ -14,7 +14,6 @@ namespace Character
         private float zInput;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
-        private static readonly int onTarget = Animator.StringToHash("onTarget");
         private Collider[] itemColliders;
         private KeyCode  key;
         private LayerMask obstacleMask;
@@ -70,7 +69,7 @@ namespace Character
         protected void Update()
         {
             Vector3 position = thisCurTransform.position;
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0|layerMask);
+            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0);
             mouseDir = hitInfo.point - position;
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
@@ -161,12 +160,12 @@ namespace Character
             else
             {
                 float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
-                if ((angle < 0 ? -angle : angle) > viewAngle||Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
+                
 
+                
+                if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
                 {
                     anim.SetBool(onTarget, target = null);
-                    thisCurTransform.forward =
-                        Vector3.RotateTowards(thisCurTransform.forward, mouseDir, Time.deltaTime * 10, 10);
                 }
             }
             #endregion

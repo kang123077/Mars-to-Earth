@@ -5,12 +5,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+public enum EnemyType
+{
+    cr42, cr43, cr44,
+    scot,
+    kamikaze,
+}
+
+public enum SkillName
+{
+    Roll,
+    Smash,
+    Stimpack,
+    Grenade,
+    Gardian,
+    GravityBomb,
+    SpiderMine,
+    ChargeShot,
+    Hyperion,
+    Boomerang,
+    Distortion,
+    AegisBarrier,
+    MassShooting,
+}
 public class ResourceManager : Singleton<ResourceManager>
 {
     public UnityEngine.UI.Slider hpBar;
-    public List<Item.Item> items;
-    public List<MeshFilter> projectileMesh;
+    public Item.Item[] items;
+    public MeshFilter[] projectileMesh;
     public SkillInfo[] skillInfos;
+    public Character.Character[] enemys;
     public List<Skill.Skill> skills= new();
 
 
