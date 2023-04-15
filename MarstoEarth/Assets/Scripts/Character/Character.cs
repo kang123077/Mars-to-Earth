@@ -22,7 +22,7 @@ namespace Character
         protected Character targetCharacter;
         protected Collider[] colliders;
         protected float nockBackResist ;
-        protected bool dying;
+        [HideInInspector] public bool dying;
         public Skill.Skill onSkill { get; set; }
         private float SPCActionWeight;
 
@@ -95,9 +95,8 @@ namespace Character
         {
             if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform.position,dmg,0);
-            if (targetCharacter.dying)
-                target = null;
+            targetCharacter.Hit(thisCurTransform.position,dmg,0);            
+            
         }
         protected virtual IEnumerator Die()
         {
@@ -137,7 +136,8 @@ namespace Character
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
-            
+            if(hp < 0)
+                SpawnManager.Instance.player.target=null;
             hpBar.value = hp / characterStat.maxHP;
             Vector3 horizonPosition = thisCurTransform.position;
             Vector3 attackerPosition = attacker;

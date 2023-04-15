@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 10
   coolDecrease: 0
-  speed: 4
+  speed: 5
   def: 0
   duration: 0
   maxHP: 45

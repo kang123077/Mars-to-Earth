@@ -5,6 +5,7 @@ using UnityEngine;
 public class Triangle : MonoBehaviour
 {
     [SerializeField] Texture _texture;
+    float rot = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,7 +36,7 @@ public class Triangle : MonoBehaviour
         Mesh mesh = new Mesh();
 
         mesh.vertices = vertice;
-        //mesh.uv = uvs;
+        mesh.uv = uvs;
         mesh.triangles = triagles;
 
         mesh.RecalculateBounds();//바운딩박스 재구성
@@ -56,5 +57,7 @@ public class Triangle : MonoBehaviour
     void Update()
     {
         
+        rot += Time.deltaTime * 100f;
+        transform.rotation = Quaternion.Euler(-10f, 0f, rot);
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Skill;
 
 
 namespace Character
@@ -27,6 +28,7 @@ namespace Character
         [SerializeField] protected float sightLength;
         protected bool isAttacking;
 
+        protected Skill.Skill skill;
         private IEnumerator StuckCheck()
         {
             while (true)
@@ -76,8 +78,7 @@ namespace Character
             patrolIdx = Random.Range(0, 4);
            
             ai.SetDestination(patrolPoints[patrolIdx]);
-            ai.speed = speed;
-            ai.stoppingDistance = range;
+            ai.stoppingDistance = range-0.5f;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
             anim.SetFloat(movingSpeed,1+speed*0.1f);
         }
@@ -86,6 +87,8 @@ namespace Character
         {
             base.BaseUpdate();
             if(dying)return;
+
+            ai.speed = !isAttacking&& target ? speed * 1.5f : speed;
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
         }
@@ -110,7 +113,10 @@ namespace Character
             {
                 float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - thisCurTransform.position, Vector3.up);
                 if((angle < 0 ? -angle : angle) < viewAngle)
+                {
+                    if (skill&&skill.Use(this)) return;
                     base.Attack();
+                }
             }else
                 Debug.Log("회피 이펙트");
             
@@ -122,7 +128,7 @@ namespace Character
             
             base.Hit(attacker, dmg, penetrate);
             if (dying) return;
-            ai.SetDestination(attacker);
+            ai.SetDestination(SpawnManager.Instance.playerTransform.position);
         }
     }
 }

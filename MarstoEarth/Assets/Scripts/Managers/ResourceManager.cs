@@ -27,6 +27,7 @@ public enum SkillName
     Distortion,
     AegisBarrier,
     MassShooting,
+    Bite
 }
 public class ResourceManager : Singleton<ResourceManager>
 {

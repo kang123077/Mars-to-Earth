@@ -9,7 +9,6 @@ namespace Character
         private float skillDelay=2;
         private Vector3 hidingDir;
         private float dist;
-        private Skill.Skill skill;
         protected override void Start()
         {
             base.Start();
@@ -37,7 +36,7 @@ namespace Character
                     skillDelay -= Time.deltaTime;
                     if (skillDelay < 0)
                     {
-                        if(!skill.Use(this)) return;
+                        base.Attack();
                         skillDelay = 5;
                         target = null;
                     }
