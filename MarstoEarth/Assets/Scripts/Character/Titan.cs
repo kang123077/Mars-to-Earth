@@ -1,41 +1,56 @@
+using System.Collections;
 using UnityEngine;
 namespace Character
 {
     public class Titan : Monster
     {
-     
+        private Skill.Skill jumpAttack;
+        private float jumpEleapse;
+        [SerializeField] private Transform LH;
         protected override void Start()
         {
             base.Start();
 
-            ai.stoppingDistance = 0.5f;
-            skill = new Skill.Bite(ResourceManager.Instance.skillInfos[(int)SkillName.Bite]);
+            skill = new Skill.Bite(ResourceManager.Instance.skillInfos[(int)SkillName.Bite],LH);
+            jumpAttack = new Skill.SmashSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Smash]);
+            jumpEleapse = 8;
         }
-        
 
         protected void Update()
         {
             BaseUpdate();
-            if (dying)
+            if ( dying)
                 return;
-
             if (target)
             {
                 ai.SetDestination(target.position);
-
+                if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
+                {
+                    positions.Clear();
+                    travelDistance = 0;
+                    return;
+                }
                 Vector3 targetPosition = target.position;
                 var position = thisCurTransform.position;
                 position.y = targetPosition.y;
-                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 6 * Time.deltaTime, 0);
+                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 3 * Time.deltaTime, 0);
                 float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
-                if (targetDistance <= sightLength * 1.5f)
+                if (targetDistance <= sightLength)
                 {
-                    if (!(targetDistance <= range)) return;                    
-                    anim.SetBool(attacking, isAttacking = true);
+                    jumpEleapse += Time.deltaTime;
+                    if (targetDistance <= range+0.5f)
+                    {
+                        anim.SetBool(attacking, isAttacking = true);
+                    }else if (jumpEleapse > 10 && targetDistance > range*2.5f)
+                    {
+                        jumpAttack.Use(this);
+                        jumpEleapse =0;
+                    }
                 }
                 else
                 {
-                    anim.SetBool(onTarget, target = null);
+                    anim.SetBool(onTarget,target=null);
+                    
                 }
             }
             else

@@ -172,8 +172,9 @@ MonoBehaviour:
   anim: {fileID: 2589270325157804214}
   col: {fileID: 4963667778626048531}
   target: {fileID: 0}
+  dying: 0
   ai: {fileID: 944636540174558129}
-  sightLength: 12
+  sightLength: 17
   gun: {fileID: 131900, guid: 1d8e61deede12df46b37e582ad640c5c, type: 3}
   RightHand: {fileID: 2494839113392491285}
 --- !u!1 &2589270325165083330

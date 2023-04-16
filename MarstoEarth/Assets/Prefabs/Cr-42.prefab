@@ -1914,7 +1914,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.3
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 13
   avoidancePriority: 50
   m_AngularSpeed: 240
   m_StoppingDistance: 0
@@ -1955,8 +1955,9 @@ MonoBehaviour:
   anim: {fileID: 7447000374884787196}
   col: {fileID: 24098328086448473}
   target: {fileID: 0}
+  dying: 0
   ai: {fileID: 5308588560238885115}
-  sightLength: 12
+  sightLength: 17
   club: {fileID: 3067160134642872122, guid: 152c11739a6811140b78b2a14f8c0fc8, type: 3}
   RightHand: {fileID: 7361294336006967391}
 --- !u!1 &7447000374892040588

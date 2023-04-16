@@ -78,7 +78,7 @@ namespace Character
             patrolIdx = Random.Range(0, 4);
            
             ai.SetDestination(patrolPoints[patrolIdx]);
-            ai.stoppingDistance = range-0.5f;
+            ai.stoppingDistance = range-1;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
             anim.SetFloat(movingSpeed,1+speed*0.1f);
         }
@@ -88,8 +88,9 @@ namespace Character
             base.BaseUpdate();
             if(dying)return;
 
-            ai.speed = !isAttacking&& target ? speed * 1.5f : speed;
+            ai.speed =  target ? speed * 1.5f : speed;
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
+            
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
         }
         // ReSharper disable Unity.PerformanceAnalysis
@@ -100,7 +101,6 @@ namespace Character
             Vector3 point = thisCurTransform.position;
             point.y = 0;
             SpawnManager.DropOptanium(point);
-            
             return base.Die();
         }
         protected override void Attack()
@@ -108,18 +108,19 @@ namespace Character
             anim.SetBool(attacking,isAttacking = false );
             positions.Clear();
             travelDistance = 0;
-            int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range+1, colliders, 1 << 3);
+            int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders, 1 << 3);
             if (target&&size > 0)
             {
-                float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - thisCurTransform.position, Vector3.up);
-                if((angle < 0 ? -angle : angle) < viewAngle)
+                float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position-thisCurTransform.forward*range), Vector3.up);
+                if((angle < 0 ? -angle : angle) < viewAngle-60)
                 {
-                    if (skill&&skill.Use(this)) return;
+                    if (skill && skill.Use(this)) return;
                     base.Attack();
-                }
+
+                }else
+                    Debug.Log("회피 이펙트");
             }else
                 Debug.Log("회피 이펙트");
-            
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

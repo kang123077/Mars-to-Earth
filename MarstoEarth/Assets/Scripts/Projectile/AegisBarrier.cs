@@ -73,7 +73,7 @@ namespace Projectile
                 if (colliders[i].gameObject.layer == 8)
                 {
                     colliders[i].TryGetComponent(out pj);
-                    if (pj.thisInfo[0].lm!=layerMask)
+                    if (pj.thisInfo[0].lm !=(layerMask^1<<8))
                         Destroy(pj.gameObject);
                 }
                 else

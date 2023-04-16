@@ -60,6 +60,7 @@ namespace Skill
                     return false;
                 curCount++;
                 lastUsedTime = Time.time;
+                return true;
             }
             else if (Time.time > lastUsedTime + cool* (curCount-1)/comboCount)
             {
@@ -68,9 +69,10 @@ namespace Skill
                     return false;
                 curCount++;
                 lastUsedTime = Time.time;
+                return true;
             }
 
-            return true;
+            return false;
         }
         protected abstract bool Activate();
         public abstract void Effect();

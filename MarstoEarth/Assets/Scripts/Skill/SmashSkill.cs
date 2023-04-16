@@ -7,18 +7,23 @@ namespace Skill
     public class SmashSkill : Skill
     {
         private readonly Collider[] colliders= new Collider[6];
+        private SPC smash;
+        private float speed;
+        private Vector3 dir;
         public SmashSkill(SkillInfo skillInfo )
         {
             this.skillInfo = skillInfo;
+            
+          
         }
         protected override bool Activate()
         {
             caster.PlaySkillClip(this); // 재생할 애니메이션 호출
-            SPC smash = null;
+            speed = (caster.speed + skillInfo.speed)*0.6f;
+            dir =  caster.transform.forward;
             smash = new SPC(10, (ch) =>
             {
-                ch.transform.position +=
-                    caster.transform.forward * (Time.deltaTime * (skillInfo.speed + ch.speed * 0.5f));
+                ch.transform.position += dir * (Time.deltaTime*speed);
                 if (ch.onSkill is null)
                     ch.RemoveBuff(smash);
             });
@@ -28,8 +33,8 @@ namespace Skill
         }
 
         public override void Effect()
-        {   // 일정 범위 내의 적들에게 데미지를 주는 로직 구현
-            int count = Physics.OverlapSphereNonAlloc(caster.transform.position, skillInfo.range, colliders, caster.layerMask);
+        {   
+            int count = Physics.OverlapSphereNonAlloc(caster.transform.position, skillInfo.range+caster.range*0.5f, colliders, caster.layerMask);
             for(int i=0; i<count; i++)
             {
                 colliders[i].TryGetComponent(out Character.Character enemy);

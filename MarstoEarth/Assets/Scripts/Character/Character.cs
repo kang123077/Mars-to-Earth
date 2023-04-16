@@ -45,14 +45,16 @@ namespace Character
                 if (value > characterStat.maxHP)
                     value = characterStat.maxHP;
                 if (value <= 0)
+                {
+                    SpawnManager.Instance.player.target=null;
                     StartCoroutine(Die());
+                }
                 _hp = value;
             }
         }
         public int layerMask { get; set; }
 
         protected List<Skill.SPC> Buffs;
-        protected List<Skill.Skill> actives;
         protected Projectile.ProjectileInfo projectileInfo;
 
 
@@ -78,7 +80,6 @@ namespace Character
             onSkill = null;
             
             Buffs = new List<Skill.SPC>();
-            actives = new List<Skill.Skill>();
             layerMask = (1 << 3 | 1 << 6 ) ^ 1 << gameObject.layer;
 
         }
@@ -132,12 +133,9 @@ namespace Character
         {
             if(dying)
                 return; 
-            Debug.Log(attacker+"에서 온 피해");
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
-            if(hp < 0)
-                SpawnManager.Instance.player.target=null;
             hpBar.value = hp / characterStat.maxHP;
             Vector3 horizonPosition = thisCurTransform.position;
             Vector3 attackerPosition = attacker;

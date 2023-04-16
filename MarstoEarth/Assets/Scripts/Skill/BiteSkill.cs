@@ -6,25 +6,27 @@ namespace Skill
 {
     public class Bite : Skill
     {
-        public Bite(SkillInfo skillInfo)
+        private Transform LH;
+        static SPC bite ;
+        static SPC targetBite ;
+        private Vector3 casterPoint;
+        private Character.Character targetCh;
+        public Bite(SkillInfo skillInfo, Transform LH)
         {
             this.skillInfo = skillInfo;
+            this.LH = LH;
         }
         protected override bool Activate()
         {
             caster.PlaySkillClip(this);
 
-            Vector3 point= caster.transform.position;
-            Vector3 targetPosition = point + caster.transform.forward * 2 + caster.transform.up * 3;
+            casterPoint= caster.transform.position;
 
-            caster.target.TryGetComponent(out Character.Character targetCh);
-
-            SPC bite = null;
-            SPC targetBite = null;
+            caster.target.TryGetComponent(out targetCh);
             targetBite = new SPC(10, (target) =>
             {
-                target.transform.position = targetPosition;
-                target.hp -= skillInfo.dmg * Time.deltaTime;
+                target.transform.position = LH.position-caster.transform.up*1.5f;
+                target.Hit(casterPoint,skillInfo.dmg * Time.deltaTime);
                 if (caster.dying)
                 {
                     target.RemoveBuff(targetBite);
@@ -33,23 +35,15 @@ namespace Skill
             bite = new SPC(10, (ch) => {
 
                 targetCh.AddBuff(targetBite);
-            },(ch) =>
-            {
-                caster.transform.position=point;
-                
-                if (ch.onSkill is null)
-                {
-                    ch.RemoveBuff(bite);
-                    targetCh.RemoveBuff(targetBite);
-                }
-            },null);
-            caster.AddBuff(bite);
-
+            },(ch)=>ch.SkillEffect());
             
+            caster.AddBuff(bite);
             return true;
         }
+        // ReSharper disable Unity.PerformanceAnalysis
         public override void Effect()
         {
+            targetCh.RemoveBuff(targetBite);
         }
     }
 }

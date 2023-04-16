@@ -7,22 +7,25 @@ namespace Skill
     public class MassShootingSkill : Skill
     {
         private Projectile.ProjectileInfo projectileInfo;
+        float atkEleapse ;
+        float aniEleapse ;
+        private SPC massShooting;
+        private float speed;
         public MassShootingSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
+            projectileInfo = new Projectile.ProjectileInfo(0,
+                ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
+                Projectile.Type.Bullet, null);
+            
+            
         }
         protected override bool Activate()
         {
             caster.PlaySkillClip(this); 
-            if (projectileInfo.ms is null)
-                projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
-                    ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
-                    Projectile.Type.Bullet, null);
             
-            float atkEleapse = 0;
-            float aniEleapse = 0;
-            SPC massShooting = null;
-            float speed = 2/(skillInfo.speed + caster.speed * 0.5f);
+            projectileInfo.lm = caster.layerMask;
+            speed = 2/(skillInfo.speed + caster.speed * 0.5f);
             massShooting = new SPC(skillInfo.duration+caster.duration*0.5f,null, (ch) =>
             {
                 Transform ctr = caster.transform;

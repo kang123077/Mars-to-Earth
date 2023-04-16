@@ -7,15 +7,10 @@ namespace Character
 
         [SerializeField] GameObject club;
         [SerializeField] private Transform RightHand;
-        protected override void Awake()
-        {
-            base.Awake();
-            
-        }
+       
         protected override void Start()
         {
             base.Start();
-
             club = Instantiate(club, RightHand, true);
             club.transform.position = RightHand.position;
         }

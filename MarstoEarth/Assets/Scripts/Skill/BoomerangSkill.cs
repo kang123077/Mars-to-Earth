@@ -30,6 +30,7 @@ namespace Skill
             return true;
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public override void Effect()
         {
 

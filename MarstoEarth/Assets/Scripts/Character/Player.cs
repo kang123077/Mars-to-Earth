@@ -1,6 +1,6 @@
 using Skill;
 using UnityEngine;
-using UnityEngine.Serialization;
+using System.Collections.Generic;
 
 namespace Character
 {
@@ -18,6 +18,7 @@ namespace Character
         private KeyCode  key;
         private LayerMask obstacleMask;
 
+        protected List<Skill.Skill> actives;
         private KeyCode[] keys = new[]
         {
             KeyCode.UpArrow,
@@ -43,6 +44,8 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             anim.SetFloat(movingSpeed, 1 + speed * 0.1f);
+            
+            actives = new List<Skill.Skill>();
             //layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
             //layerMask = ~layerMask;
         }
@@ -209,6 +212,9 @@ namespace Character
             }else if (Input.GetKeyDown(KeyCode.Keypad6))
             {
                 actives[12].Use(this);
+            }else if (Input.GetKeyDown(KeyCode.Keypad7))
+            {
+                actives[1].Use(this);
             }
 
         }
