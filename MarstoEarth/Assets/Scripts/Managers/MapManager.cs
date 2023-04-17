@@ -10,14 +10,14 @@ public class MapManager : Singleton<MapManager>
     public TMP_InputField inputField;
 
     public static List<NodeInfo> nodes;
-    public static List<GameObject> paths;
+    public static List<PathController> paths;
     public static List<GameObject> walls;
     public Transform nodesTF;
 
     protected override void Awake()
     {
         nodes = new List<NodeInfo>();
-        paths = new List<GameObject>();
+        paths = new List<PathController>();
         walls = new List<GameObject>();
         base.Awake();
         TestInitMapInfo();

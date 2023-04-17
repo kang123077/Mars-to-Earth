@@ -428,6 +428,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6244779130016847853}
+  - component: {fileID: 3680085115118368389}
+  - component: {fileID: 995415914683659504}
   m_Layer: 0
   m_Name: TestPathGate52
   m_TagString: Untagged
@@ -453,6 +455,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3680085115118368389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244779130016847854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6392b06af4bd95942a02559017e7d320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 0}
+  children: {fileID: 0}
+  gate_1: {fileID: 0}
+  gate_2: {fileID: 0}
+--- !u!65 &995415914683659504
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244779130016847854}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12, y: 8, z: 8}
+  m_Center: {x: 0, y: 4, z: 0}
 --- !u!1 &6259342395535377665
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +914,6 @@ GameObject:
   - component: {fileID: 7155751401143063737}
   - component: {fileID: 7148910314746985419}
   - component: {fileID: 7139694692515335681}
-  - component: {fileID: 7553284260076353987}
   - component: {fileID: 3257447330042518289}
   m_Layer: 0
   m_Name: Plane
@@ -957,24 +987,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7553284260076353987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7153703123436867143}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa423cdfee4994b4890fd2431f12a699, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  x: 0
-  y: 0
-  east: {fileID: 0}
-  west: {fileID: 0}
-  north: {fileID: 0}
-  south: {fileID: 0}
 --- !u!114 &3257447330042518289
 MonoBehaviour:
   m_ObjectHideFlags: 0
