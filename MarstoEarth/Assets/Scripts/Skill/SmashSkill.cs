@@ -38,7 +38,7 @@ namespace Skill
             for(int i=0; i<count; i++)
             {
                 colliders[i].TryGetComponent(out Character.Character enemy);
-                enemy.Hit(caster.transform.position, skillInfo.dmg+caster.dmg*0.5f, 0);
+                enemy?.Hit(caster.transform.position, skillInfo.dmg+caster.dmg*0.5f, 0);
             }
         }
     }

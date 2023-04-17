@@ -1,8 +1,6 @@
 using Character;
 using Projectile;
 using Skill;
-using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -28,12 +26,10 @@ public class SpawnManager :Singleton<SpawnManager>
             actionOnRelease: (pt) => pt.gameObject.SetActive(false),defaultCapacity:20,maxSize:40);
     }
 
-
     public  void SpawnMonster(Vector3 spawnPoint, EnemyType type)
     {
         Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity);
     }
-
 
     public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {
@@ -44,7 +40,7 @@ public class SpawnManager :Singleton<SpawnManager>
 
     public static void DropOptanium(Vector3 postion)
     {
-        Item.Item optanium= Instantiate(ResourceManager.Instance.items[0],postion,Quaternion.identity);
+        Instantiate(ResourceManager.Instance.items[0],postion,Quaternion.identity);
     }
     
 }

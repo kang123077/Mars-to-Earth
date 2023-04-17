@@ -96,7 +96,7 @@ namespace Character
         {
             if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform.position,dmg,0);            
+            targetCharacter.Hit(thisCurTransform.position,dmg);
             
         }
         protected virtual IEnumerator Die()

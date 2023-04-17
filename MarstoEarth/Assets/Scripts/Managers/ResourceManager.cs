@@ -8,8 +8,9 @@ using UnityEngine.Serialization;
 public enum EnemyType
 {
     cr42, cr43, cr44,
-    scot,
+    scout,
     kamikaze,
+    titan,
 }
 
 public enum SkillName

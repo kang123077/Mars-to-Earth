@@ -59,9 +59,9 @@ namespace Projectile
             transform.position = ap + new Vector3(0, 1.35f, 0);
             transform.forward = tp;
             mesh.mesh = info.ms;
-
             thisInfo[0] = info;
             eleapse = 0;
+            
             //trail.SetPositions(new Vector3[] { transform.position });
         }
 
