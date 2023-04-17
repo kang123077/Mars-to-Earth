@@ -14,6 +14,8 @@ public class MapManager : Singleton<MapManager>
     public static List<GameObject> walls;
     public Transform nodesTF;
 
+    public bool isMapGenerateFinished = false;
+
     protected override void Awake()
     {
         nodes = new List<NodeInfo>();
@@ -34,6 +36,7 @@ public class MapManager : Singleton<MapManager>
     {
         mapGenerator.GenerateMap();
         GenerateNavMesh();
+        isMapGenerateFinished = true;
     }
 
     public void TestInitMapInfo()

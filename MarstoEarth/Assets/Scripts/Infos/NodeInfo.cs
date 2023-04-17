@@ -11,7 +11,20 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo west;
     public NodeInfo north;
     public NodeInfo south;
-    public bool isRoomCleared;
+    public delegate void RoomClearedHandler(NodeInfo thisNode);
+    public event RoomClearedHandler OnRoomCleared;
+
+    private bool isRoomCleared = false;
+    public bool IsRoomCleared
+    {
+        get { return isRoomCleared; }
+        set
+        {
+            isRoomCleared = value;
+            // isRoomCleared 값이 변경될 때 Pathnode의 OnRoomCleared 이벤트를 실행
+            OnRoomCleared?.Invoke(this);
+        }
+    }
 
     public NodeInfo(int x, int y)
     {

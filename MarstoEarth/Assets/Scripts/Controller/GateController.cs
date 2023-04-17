@@ -17,7 +17,7 @@ public class GateController : MonoBehaviour
     }
     private void Update()
     {
-        DistanceCheck();
+        //DistanceCheck();
         if (isGateOpen)
         {
             GateOpen();

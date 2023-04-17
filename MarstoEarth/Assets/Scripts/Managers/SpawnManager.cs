@@ -2,6 +2,7 @@ using Character;
 using Projectile;
 using Skill;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -12,12 +13,15 @@ public class SpawnManager : Singleton<SpawnManager>
     [HideInInspector] public Transform playerTransform;
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
+    public bool playerInstantiateFinished = false;
+    public NodeInfo curNode;
+    public List<Monster> monsters;
 
     protected override void Awake()
     {
         base.Awake();
-        player = Instantiate(player);
-        playerTransform = player.gameObject.transform;
+        // player = Instantiate(player);
+        // playerTransform = player.gameObject.transform;
 
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
@@ -28,35 +32,87 @@ public class SpawnManager : Singleton<SpawnManager>
             actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
     }
 
+    protected override void Update()
+    {
+        if (MapManager.Instance.isMapGenerateFinished && playerInstantiateFinished == false)
+        {
+            FirstInit();
+        }
+    }
+
+    public void FirstInit()
+    {
+        curNode = MapManager.nodes[0];
+        player = Instantiate(player);
+        playerTransform = player.gameObject.transform;
+        playerInstantiateFinished = true;
+        for(int i = 0; i < 5; i++)
+        {
+            RandomSpawnMonster(curNode.transform.position);
+        }
+    }
+
     public void RandomSpawnMonster(Vector3 spawnPoint)
     {
         // 랜덤 위치 계산
-        float xRange = UnityEngine.Random.Range(-26f, 26f);
-        float zRange = UnityEngine.Random.Range(-26f, 26f);
+        float xRange = UnityEngine.Random.Range(-20f, 20f);
+        float zRange = UnityEngine.Random.Range(-20f, 20f);
         Vector3 randomPosition = new Vector3(spawnPoint.x + xRange, spawnPoint.y, spawnPoint.z + zRange);
-        // 해당 위치에 이미 몬스터가 있는지 검사
-        Collider[] hitColliders = Physics.OverlapBox(randomPosition, new Vector3(2f, 2f, 2f), Quaternion.identity);
-        if (hitColliders.Length > 0)
+        // 이미 Monster가 있는지 확인
+        Collider[] hitColliders = Physics.OverlapSphere(randomPosition, 1f);
+        for (int i = 0; i < hitColliders.Length; i++)
         {
-            // 해당 위치에 이미 몬스터가 있으면 다시 함수를 실행하여 다른 위치에 몬스터를 생성
-            RandomSpawnMonster(spawnPoint);
+            if (hitColliders[i].tag == "Monster")
+            {
+                // 이미 Monster가 있으면 함수를 다시 실행
+                RandomSpawnMonster(spawnPoint);
+                return;
+            }
         }
-        else
-        {
-            // Enum 값 배열 생성
-            EnemyType[] values = (EnemyType[])Enum.GetValues(typeof(EnemyType));
-            // 랜덤 값 선택
-            EnemyType randomType = values[UnityEngine.Random.Range(0, values.Length)];
-            // 해당 위치에 몬스터 인스턴스화
-            Instantiate(ResourceManager.Instance.enemys[(int)randomType], randomPosition, Quaternion.identity);
-        }
+        // Enum 값 배열 생성
+        EnemyType[] values = (EnemyType[])Enum.GetValues(typeof(EnemyType));
+        // 랜덤 값 선택
+        EnemyType randomType = values[UnityEngine.Random.Range(0, values.Length)];
+        MonsterObjectPoolling(randomPosition, randomType);
     }
 
+    public void MonsterObjectPoolling(Vector3 spawnPoint, EnemyType type)
+    {
+        if (monsters.Count == 0)
+        {
+            SpawnMonster(spawnPoint, type);
+            return;
+        }
+        foreach (Monster monster in monsters)
+        {
+            if (monster.enemyType == type && !monster.gameObject.activeSelf)
+            {
+                monster.gameObject.SetActive(true);
+                return;
+            }
+            else
+            {
+                SpawnMonster(spawnPoint, type);
+                return;
+            }
+        }
+    }
     public void SpawnMonster(Vector3 spawnPoint, EnemyType type)
     {
-        Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity);
+        Monster newMonster = Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity).GetComponent<Monster>();
+        newMonster.enemyType = type;
+        monsters.Add(newMonster);
     }
 
+    public void ClearCheck()
+    {
+        Debug.Log(monsters.Count);
+        if (monsters.Count == 0)
+        {
+            Debug.Log("룸 클리어!");
+            curNode.IsRoomCleared = true;
+        }
+    }
 
     public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {

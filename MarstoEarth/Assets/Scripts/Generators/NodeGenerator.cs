@@ -141,10 +141,11 @@ public class NodeGenerator : MonoBehaviour
                 break;
             case Direction.West:
                 pathController.transform.position = new Vector3(nodeInfo.transform.position.x - (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
-                pathController.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                pathController.transform.rotation = Quaternion.Euler(0, -90f, 0);
                 break;
             case Direction.South:
                 pathController.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z - (nodeSpacing / 2f));
+                pathController.transform.rotation = Quaternion.Euler(0, 180f, 0);
                 break;
             case Direction.North:
                 pathController.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z + (nodeSpacing / 2f));
