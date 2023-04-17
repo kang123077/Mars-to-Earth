@@ -11,6 +11,7 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo west;
     public NodeInfo north;
     public NodeInfo south;
+    public bool isRoomCleared;
 
     public NodeInfo(int x, int y)
     {

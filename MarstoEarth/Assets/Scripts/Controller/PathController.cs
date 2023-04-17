@@ -9,7 +9,7 @@ public class PathController : MonoBehaviour
     public NodeInfo children;
     public GateController gate_1;
     public GateController gate_2;
-    private Collider pathCollider;
+    public Collider pathCollider;
     private void Awake()
     {
         // 자식 0번에서 GateController 컴포넌트 가져오기
@@ -32,10 +32,9 @@ public class PathController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Event");
-        if (other.gameObject == SpawnManager.Instance.playerTransform.gameObject)
+        if (other.tag == "Player")
         {
-            Debug.Log("Event");
+            Debug.Log("감지성공");
         }
     }
 }
