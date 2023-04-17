@@ -4,16 +4,8 @@ namespace Character
 {
     public class M_CR_42:Monster
     {
-
-        [SerializeField] GameObject club;
-        [SerializeField] private Transform RightHand;
+     
        
-        protected override void Start()
-        {
-            base.Start();
-            club = Instantiate(club, RightHand, true);
-            club.transform.position = RightHand.position;
-        }
         protected void Update()
         {
             BaseUpdate();
@@ -28,7 +20,7 @@ namespace Character
                 Vector3 targetPosition = target.position;
                 var position = thisCurTransform.position;
                 position.y = targetPosition.y;
-                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 6 * Time.deltaTime, 0);
+                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 2 * Time.deltaTime, 0);
 
                 float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
                 if (targetDistance <= sightLength * 1.5f)

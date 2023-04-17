@@ -24,8 +24,6 @@ namespace Skill
             smash = new SPC(10, (ch) =>
             {
                 ch.transform.position += dir * (Time.deltaTime*speed);
-                if (ch.onSkill is null)
-                    ch.RemoveBuff(smash);
             });
             caster.AddBuff(smash);
             
@@ -34,6 +32,7 @@ namespace Skill
 
         public override void Effect()
         {   
+            caster.RemoveBuff(smash);
             int count = Physics.OverlapSphereNonAlloc(caster.transform.position, skillInfo.range+caster.range*0.5f, colliders, caster.layerMask);
             for(int i=0; i<count; i++)
             {

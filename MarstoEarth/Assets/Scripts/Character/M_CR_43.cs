@@ -8,15 +8,8 @@ namespace Character
 {
     public class M_CR_43:Monster
     {
-        [SerializeField] GameObject gun;
-        [SerializeField] private Transform RightHand;
+       
 
-        protected override void Awake()
-        {
-            base.Awake();
-            gun = Instantiate(gun, RightHand, true);
-            gun.transform.position = RightHand.position;
-        }
 
         protected override void Attack()
         {
@@ -39,7 +32,7 @@ namespace Character
                 Vector3 targetPosition = target.position;
                 var position = thisCurTransform.position;
                 position.y = targetPosition.y;
-                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 6 * Time.deltaTime, 0);
+                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 2* Time.deltaTime, 0);
 
                 float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
                 if (targetDistance <= sightLength * 2f)

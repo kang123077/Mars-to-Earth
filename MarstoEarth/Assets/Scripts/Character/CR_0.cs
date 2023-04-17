@@ -1,51 +1,53 @@
-using Projectile;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
-
 namespace Character
 {
-    public class M_CR_44:Monster
+    public class CR_0:Monster
     {
+        private Skill.Skill jumpAttack;
+        
+        private float jumpEleapse;
         protected override void Start()
         {
             base.Start();
-            projectileInfo.ms = ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh;
-            projectileInfo.ty = Projectile.Type.Cannon;
 
+            jumpAttack = new Skill.SmashSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Smash]);
+            jumpEleapse = 8;
         }
-
-        protected override void Attack()
-        {
-            if(dying)
-                return;
-            anim.SetBool(attacking, isAttacking = false);
-            
-            positions.Clear();
-            travelDistance = 0;
-            SpawnManager.Instance.Launch(thisCurTransform.position, target? target.position: thisCurTransform.forward*range, dmg,2 + duration * 0.5f, 20 + speed * 2, range * 0.3f, ref projectileInfo);
-            
-        }
+       
         protected void Update()
         {
             BaseUpdate();
             if(dying)
-                return;
+                return; 
             
             if (target)
             {
                 ai.SetDestination(target.position);
+                if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
+                {
+                    positions.Clear();
+                    travelDistance = 0;
+                    return;
+                }
                 Vector3 targetPosition = target.position;
                 var position = thisCurTransform.position;
                 position.y = targetPosition.y;
-                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 2 * Time.deltaTime, 0);
+                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 3 * Time.deltaTime, 0);
 
                 float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
-                if (targetDistance <= sightLength * 2f)
+                if (targetDistance <= sightLength * 1f)
                 {
-                    if (!(targetDistance <= range)) return;
-                    anim.SetBool(attacking, isAttacking = true);
+                    jumpEleapse += Time.deltaTime;
+                    if (targetDistance <= range+0.5f)
+                    {
+                        anim.SetBool(attacking, isAttacking = true);
+                    }else if (jumpEleapse > 10 && targetDistance > range*2.5f)
+                    {
+                        jumpAttack.Use(this);
+                        jumpEleapse =0;
+                    }
+                    
                 }
                 else
                 {
@@ -60,7 +62,9 @@ namespace Character
                 {
                     float angle = Vector3.SignedAngle(thisCurTransform.forward, colliders[0].transform.position - thisCurTransform.position, Vector3.up);
                     if((angle < 0 ? -angle : angle) < viewAngle|| Vector3.Distance(colliders[0].transform.position,thisCurTransform.position)<sightLength*0.3f)
+                    {
                         anim.SetBool(onTarget, target = colliders[0].transform);
+                    }
                 }
             }
         }

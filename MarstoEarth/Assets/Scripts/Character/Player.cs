@@ -144,9 +144,8 @@ namespace Character
                     float minCoLength = 1000;
                     for (int i = 0; i < size; i++)
                     {
-                        float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position,
-                            Vector3.up);
-
+                        float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position, Vector3.up);
+                        
                         if ((angle < 0 ? -angle : angle) < viewAngle)
                         {
                             float coLeng = Vector3.Distance(colliders[i].transform.position, position);

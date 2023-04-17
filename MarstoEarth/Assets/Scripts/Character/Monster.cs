@@ -88,7 +88,7 @@ namespace Character
             base.BaseUpdate();
             if(dying)return;
 
-            ai.speed =  target ? speed * 1.5f : speed;
+            ai.speed =  target&&!isAttacking ? speed * 1.3f : speed;
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
             
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );

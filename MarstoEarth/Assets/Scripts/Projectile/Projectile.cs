@@ -47,6 +47,7 @@ namespace Projectile
         Transform thisTransform;
         public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
         {
+            trail.Clear();
             attackerPos = ap;
             targetPos = tp;
             dmg= dg;
@@ -65,10 +66,6 @@ namespace Projectile
             //trail.SetPositions(new Vector3[] { transform.position });
         }
 
-        private void OnDisable()
-        {
-            trail.Clear();
-        }
 
         // ReSharper disable Unity.PerformanceAnalysis
         private void Bullet()
