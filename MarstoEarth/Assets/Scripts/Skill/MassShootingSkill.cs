@@ -17,35 +17,38 @@ namespace Skill
             projectileInfo = new Projectile.ProjectileInfo(0,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet, null);
-            
-            
-        }
-        protected override bool Activate()
-        {
-            caster.PlaySkillClip(this); 
-            
-            projectileInfo.lm = caster.layerMask;
-            speed = 2/(skillInfo.speed + caster.speed * 0.5f);
-            massShooting = new SPC(skillInfo.duration+caster.duration*0.5f,null, (ch) =>
+
+            massShooting = new SPC(0, null, (ch) =>
             {
-                Transform ctr = caster.transform;
+                
+                Transform ctr = ch.transform;
                 atkEleapse += Time.deltaTime;
                 aniEleapse += Time.deltaTime;
-                if (aniEleapse > 0.3f)
+                if (aniEleapse > 0.2f)
                 {
-                    caster.PlaySkillClip(this);
-                    aniEleapse -= 0.3f;
+                    ch.PlaySkillClip(this);
+                    aniEleapse -= 0.2f;
                 }
                 if (atkEleapse > speed)
                 {
-                    SpawnManager.Instance.Launch(ctr.position,ctr.forward,skillInfo.dmg+caster.dmg*0.1f,2,
-                        20+caster.speed*2,skillInfo.range*0.3f+caster.range*0.1f,ref projectileInfo);
+                    SpawnManager.Instance.Launch(ctr.position, ctr.forward, skillInfo.dmg + ch.dmg * 0.1f, 2,
+                        20 + ch.speed * 2, skillInfo.range * 0.3f + ch.range * 0.1f, ref projectileInfo);
                     atkEleapse -= speed;
                 }
             }, (ch) =>
             {
                 ch.SkillEffect();
             });
+
+        }
+        protected override bool Activate()
+        {
+            caster.PlaySkillClip(this); 
+            
+            projectileInfo.lm = caster.layerMask;
+            massShooting.Init (skillInfo.duration + caster.duration * 0.5f);
+            
+            speed = 2/(skillInfo.speed + caster.speed * 0.5f);
             caster.AddBuff(massShooting);
             
             return true;

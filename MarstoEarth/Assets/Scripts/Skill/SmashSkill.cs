@@ -13,18 +13,18 @@ namespace Skill
         public SmashSkill(SkillInfo skillInfo )
         {
             this.skillInfo = skillInfo;
-            
-          
+            smash = new SPC(10, (ch) =>
+            {
+                ch.transform.position += dir * (Time.deltaTime * speed);
+            });
+
         }
         protected override bool Activate()
         {
             caster.PlaySkillClip(this); // 재생할 애니메이션 호출
             speed = (caster.speed + skillInfo.speed)*0.6f;
             dir =  caster.transform.forward;
-            smash = new SPC(10, (ch) =>
-            {
-                ch.transform.position += dir * (Time.deltaTime*speed);
-            });
+            
             caster.AddBuff(smash);
             
             return true;

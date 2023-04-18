@@ -2129,7 +2129,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 6defa2fea7e9a934a8d2cafa30dc567a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -2188,6 +2188,7 @@ MonoBehaviour:
   anim: {fileID: 7673487250857332701}
   col: {fileID: 8675458328526890443}
   target: {fileID: 0}
+  dying: 0
   InputDir: {x: 0, y: 0, z: 0}
 --- !u!1 &7673487251499248762
 GameObject:

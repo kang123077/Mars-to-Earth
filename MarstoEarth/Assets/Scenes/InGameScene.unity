@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -381,6 +381,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 707b60e4f27bbd848b224882218ceb53, type: 2}
   - {fileID: 11400000, guid: 59aae42dba9649040b6cd53c9ef3e7eb, type: 2}
   - {fileID: 11400000, guid: cc75d5e419006b24da20b824347de825, type: 2}
+  - {fileID: 11400000, guid: f27bad3d52e54e84ca98f37836c8000b, type: 2}
+  - {fileID: 11400000, guid: 00a16b1498129d94bbd8e9845dd61dcc, type: 2}
   enemys:
   - {fileID: 2184933562526754823, guid: e4d7194487c3e444d81a9a8db513a81b, type: 3}
   - {fileID: 1497055048246410246, guid: 395ab56652343a54fab90390ea468b05, type: 3}
@@ -460,7 +462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4594757584645192684, guid: e4d7194487c3e444d81a9a8db513a81b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4d7194487c3e444d81a9a8db513a81b, type: 3}
@@ -534,7 +536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8155533566875335504, guid: 7db4fdf40e93e1f46bfd95dd54089326, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8155533566875756210, guid: 7db4fdf40e93e1f46bfd95dd54089326, type: 3}
       propertyPath: m_RootOrder
@@ -1054,7 +1056,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2627701742925836435, guid: 395ab56652343a54fab90390ea468b05, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2627701742925836445, guid: 395ab56652343a54fab90390ea468b05, type: 3}
       propertyPath: m_RootOrder
@@ -1267,7 +1269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1746034949274918947, guid: ac8d4db5be71d5041b9780b0efdbe083, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1746034949274918957, guid: ac8d4db5be71d5041b9780b0efdbe083, type: 3}
       propertyPath: m_RootOrder
@@ -1322,9 +1324,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2802570453688182174, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
+      propertyPath: m_AngularSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 2802570453688182174, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
+      propertyPath: avoidancePriority
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 6873869241703383190, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
       propertyPath: m_Name
       value: Cr-0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873869241703383190, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6873869241703383192, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
       propertyPath: m_RootOrder
@@ -1368,6 +1382,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6873869241703383192, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873869241703383193, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6873869241703383193, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
+      propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

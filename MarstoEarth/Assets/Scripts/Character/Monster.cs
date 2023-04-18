@@ -124,10 +124,10 @@ namespace Character
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        protected internal override void Hit(Vector3 attacker, float dmg,float penetrate=0)
+        protected internal override void Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
             
-            base.Hit(attacker, dmg, penetrate);
+            base.Hited(attacker, dmg, penetrate);
             if (dying) return;
             ai.SetDestination(SpawnManager.Instance.playerTransform.position);
         }

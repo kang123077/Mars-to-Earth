@@ -11,7 +11,7 @@ namespace Character
         {
             base.Start();
 
-            skill = new Skill.Bite(ResourceManager.Instance.skillInfos[(int)SkillName.Bite],LH);
+            skill = new Skill.BiteSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Bite],LH);
             jumpAttack = new Skill.SmashSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Smash]);
             jumpEleapse = 8;
         }

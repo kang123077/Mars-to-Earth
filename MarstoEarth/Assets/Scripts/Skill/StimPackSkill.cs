@@ -6,15 +6,12 @@ namespace Skill
     public class StimPackSkill : Skill
     {
         private SPC StimPack;
+
+        private float duration;
         public StimPackSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
-          
-        }
-        protected override bool Activate()
-        {
-            caster.PlaySkillClip(this);   
-            StimPack = new SPC(skillInfo.duration + caster.duration * 0.5f, (ch) =>
+            StimPack = new SPC(duration, (ch) =>
             {
                 ch.speed += skillInfo.speed;
                 ch.coolDecrease += skillInfo.dmg;
@@ -23,6 +20,13 @@ namespace Skill
                 ch.speed -= skillInfo.speed;
                 ch.coolDecrease -= skillInfo.dmg;
             });
+        }
+        protected override bool Activate()
+        {
+            caster.PlaySkillClip(this);
+
+            duration = skillInfo.duration + caster.duration * 0.5f;
+            
             return true;
         }
 

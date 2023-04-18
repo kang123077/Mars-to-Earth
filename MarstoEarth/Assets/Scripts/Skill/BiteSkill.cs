@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Skill
 {
-    public class Bite : Skill
+    public class BiteSkill : Skill
     {
         private Transform LH;
         static SPC bite ;
         static SPC targetBite ;
         private Vector3 casterPoint;
         private Character.Character targetCh;
-        public Bite(SkillInfo skillInfo, Transform LH)
+        public BiteSkill(SkillInfo skillInfo, Transform LH)
         {
             this.skillInfo = skillInfo;
             this.LH = LH;
@@ -26,7 +26,7 @@ namespace Skill
             targetBite = new SPC(10, (target) =>
             {
                 target.transform.position = LH.position-caster.transform.up*1.5f;
-                target.Hit(casterPoint,skillInfo.dmg * Time.deltaTime);
+                target.Hit(casterPoint,skillInfo.dmg * Time.deltaTime,0);
                 if (caster.dying)
                 {
                     target.RemoveBuff(targetBite);

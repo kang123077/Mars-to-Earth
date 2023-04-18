@@ -76,7 +76,7 @@ namespace Projectile
             {
                 colliders[0].TryGetComponent(out target);
                 if (target)
-                    target.Hit(attackerPos, dmg);
+                    target.Hit(attackerPos, dmg,0);
                 thisInfo[0].ef?.Invoke(thisTransform.position);
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             }
@@ -100,7 +100,7 @@ namespace Projectile
             {
                 colliders[i].TryGetComponent(out target);
                 if (target)
-                    target.Hit(attackerPos, dmg);
+                    target.Hit(attackerPos, dmg,0);
             }
             thisInfo[0].ef?.Invoke(thisTransform.position);
             SpawnManager.Instance.projectileManagedPool.Release(this);

@@ -11,7 +11,12 @@ namespace Skill
         public RollSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
-            
+            roll = new SPC(10, (ch) =>
+            {
+                ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed + ch.speed));
+                if (ch.onSkill is null)
+                    ch.RemoveBuff(roll);
+            });
         }
         protected override bool Activate()
         {
@@ -19,12 +24,7 @@ namespace Skill
             dir= ((Player)caster).InputDir.normalized;
             if (dir.magnitude < 0.1f)
                 dir = caster.transform.forward;
-            roll = new SPC(10, (ch) =>
-            {
-                ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed + ch.speed));
-                if(ch.onSkill is null)
-                    ch.RemoveBuff(roll);
-            });
+           
             caster.transform.forward = dir;
             caster.AddBuff(roll);
             
