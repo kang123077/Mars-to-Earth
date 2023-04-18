@@ -126,6 +126,39 @@ public class NodeGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// PathNode 생성
+    /// </summary>
+    /// <param name="nodeInfo">현재 PathNode를 생성중인 Node</param>
+    public PathController GeneratePath(NodeInfo nodeInfo, NodeInfo neighbor, Direction direction)
+    {
+        PathController pathController = Instantiate(pathPrefab, nodeParentTF).GetComponent<PathController>();
+        switch (direction)
+        {
+            case Direction.East:
+                pathController.transform.position = new Vector3(nodeInfo.transform.position.x + (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
+                pathController.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                break;
+            case Direction.West:
+                pathController.transform.position = new Vector3(nodeInfo.transform.position.x - (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
+                pathController.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                break;
+            case Direction.South:
+                pathController.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z - (nodeSpacing / 2f));
+                pathController.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                break;
+            case Direction.North:
+                pathController.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z + (nodeSpacing / 2f));
+                break;
+            default:
+                break;
+        }
+        pathController.AddNeighbor(nodeInfo, Relation.Parent);
+        pathController.AddNeighbor(neighbor, Relation.Children);
+        MapManager.paths.Add(pathController);
+        return pathController;
+    }
+
     public void CheckDirection(MapInfo mapInfo, int x, int y, int distance, NodeInfo nodeInfo, string dir, int seed)
     {
         switch (dir)
@@ -141,10 +174,7 @@ public class NodeGenerator : MonoBehaviour
                     {
                         nodeInfo.east = eastNeighbor;
                         eastNeighbor.west = nodeInfo;
-                        GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
-                        pathObject.transform.position = new Vector3(nodeInfo.transform.position.x + (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
-                        pathObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
-                        MapManager.paths.Add(pathObject);
+                        GeneratePath(nodeInfo, eastNeighbor, Direction.East);
                     }
                 }
                 // 없으면 확률판정 후에 노드, 패스노드 생성
@@ -152,11 +182,10 @@ public class NodeGenerator : MonoBehaviour
                 {
                     if (ProbabilityBasedOnDistance(distance) && MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
-                        GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
-                        pathObject.transform.position = new Vector3(nodeInfo.transform.position.x + (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
-                        pathObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
-                        MapManager.paths.Add(pathObject);
-                        nodeInfo.east = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
+                        PathController pathController = GeneratePath(nodeInfo, eastNeighbor, Direction.East);
+                        NodeInfo newNode = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
+                        pathController.AddNeighbor(newNode, Relation.Children);
+                        nodeInfo.east = newNode;
                     }
                 }
                 break;
@@ -169,21 +198,17 @@ public class NodeGenerator : MonoBehaviour
                     {
                         nodeInfo.west = westNeighbor;
                         westNeighbor.east = nodeInfo;
-                        GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
-                        pathObject.transform.position = new Vector3(nodeInfo.transform.position.x - (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
-                        pathObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
-                        MapManager.paths.Add(pathObject);
+                        GeneratePath(nodeInfo, westNeighbor, Direction.West);
                     }
                 }
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) && MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
-                        GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
-                        pathObject.transform.position = new Vector3(nodeInfo.transform.position.x - (nodeSpacing / 2f), 0, nodeInfo.transform.position.z);
-                        pathObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
-                        MapManager.paths.Add(pathObject);
-                        nodeInfo.west = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
+                        PathController pathController = GeneratePath(nodeInfo, westNeighbor, Direction.West);
+                        NodeInfo newNode = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
+                        pathController.AddNeighbor(newNode, Relation.Children);
+                        nodeInfo.west = newNode;
                     }
                 }
                 break;
@@ -196,19 +221,17 @@ public class NodeGenerator : MonoBehaviour
                     {
                         nodeInfo.south = southNeighbor;
                         southNeighbor.north = nodeInfo;
-                        GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
-                        pathObject.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z - (nodeSpacing / 2f));
-                        MapManager.paths.Add(pathObject);
+                        GeneratePath(nodeInfo, southNeighbor, Direction.South);
                     }
                 }
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) && MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
-                        GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
-                        pathObject.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z - (nodeSpacing / 2f));
-                        MapManager.paths.Add(pathObject);
-                        nodeInfo.south = GenerateNodes(mapInfo, x, y - 1, distance + 1, 3, seed);
+                        PathController pathController = GeneratePath(nodeInfo, southNeighbor, Direction.South);
+                        NodeInfo newNode = GenerateNodes(mapInfo, x, y - 1, distance + 1, 3, seed);
+                        pathController.AddNeighbor(newNode, Relation.Children);
+                        nodeInfo.south = newNode;
                     }
                 }
                 break;
@@ -221,19 +244,17 @@ public class NodeGenerator : MonoBehaviour
                     {
                         nodeInfo.south = northNeighbor;
                         northNeighbor.south = nodeInfo;
-                        GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
-                        pathObject.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z + (nodeSpacing / 2f));
-                        MapManager.paths.Add(pathObject);
+                        GeneratePath(nodeInfo, northNeighbor, Direction.North);
                     }
                 }
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) && MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
-                        GameObject pathObject = Instantiate(pathPrefab, nodeParentTF);
-                        pathObject.transform.position = new Vector3(nodeInfo.transform.position.x, 0, nodeInfo.transform.position.z + (nodeSpacing / 2f));
-                        MapManager.paths.Add(pathObject);
-                        nodeInfo.north = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2, seed);
+                        PathController pathController = GeneratePath(nodeInfo, northNeighbor, Direction.North);
+                        NodeInfo newNode = nodeInfo.north = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2, seed);
+                        pathController.AddNeighbor(newNode, Relation.Children);
+                        nodeInfo.north = newNode;
                     }
                 }
                 break;

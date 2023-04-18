@@ -17,7 +17,7 @@ public class GateController : MonoBehaviour
     }
     private void Update()
     {
-        DistanceCheck();
+        //DistanceCheck();
         if (isGateOpen)
         {
             GateOpen();
@@ -31,10 +31,12 @@ public class GateController : MonoBehaviour
     {
         animator.SetBool("isGateOpen", true);
     }
+
     public void GateClose()
     {
         animator.SetBool("isGateOpen", false);
     }
+
     public void DistanceCheck()
     {
         float distance = Vector3.Distance(transform.position,
@@ -48,6 +50,7 @@ public class GateController : MonoBehaviour
             isGateOpen = false;
         }
     }
+
     // Gate 애니메이션 이벤트 함수
     // Open의 중간에 실행되는 함수
     public void OnOpen()

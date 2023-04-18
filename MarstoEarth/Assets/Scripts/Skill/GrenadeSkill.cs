@@ -6,16 +6,14 @@ namespace Skill
         public GrenadeSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
-
+            projectileInfo = new Projectile.ProjectileInfo(0,
+                ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh,
+                Projectile.Type.Cannon,null);
         }
         protected override bool Activate()
         {
             caster.PlaySkillClip(this);
-            if (projectileInfo.ms is null)
-                projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
-                    ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh,
-                    Projectile.Type.Cannon,null);
-            
+            projectileInfo.lm = caster.layerMask;
             return true;
             
         }

@@ -45,11 +45,12 @@ namespace Projectile
             speed = sp;
             thisTransform = transform;
             startPoint= thisTransform.position;
-            
             curPorts = new Transform[8];
             for (int i = 0; i < 8; i++)
             {
                 GameObject port = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+                port.layer = 4;
                 port.transform.localScale = range * 0.2f*Vector3.one;
                 port.transform.position = transform.position + range * ports[i];
                 curPorts[i] = port.transform;
@@ -66,14 +67,15 @@ namespace Projectile
             if (lifeTime < 0)
                 Destroy(gameObject);
             thisTransform.position = Vector3.MoveTowards(thisTransform.position, targetPoint, speed * Time.deltaTime);
-
-            size = Physics.OverlapBoxNonAlloc(thisTransform.position, new Vector3(range, 20, 2), colliders, Quaternion.LookRotation(thisTransform.forward), layerMask);
+            
+            size = Physics.OverlapBoxNonAlloc(thisTransform.position, new Vector3(range, 20,2), colliders, Quaternion.LookRotation(thisTransform.forward), layerMask);
             for (int i = 0; i < size; i++)
             {
+                
                 if (colliders[i].gameObject.layer == 8)
-                {
+                {                    
                     colliders[i].TryGetComponent(out pj);
-                    if (pj.thisInfo[0].lm!=layerMask)
+                    if (pj.thisInfo[0].lm !=(layerMask^1<<8))
                         Destroy(pj.gameObject);
                 }
                 else

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Character
@@ -10,7 +11,7 @@ namespace Character
 
         protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
-        
+        protected static readonly int onTarget = Animator.StringToHash("onTarget");
         public StatInfo characterStat;
         [SerializeField] protected Animator anim;
         [SerializeField] protected Collider col;
@@ -22,7 +23,7 @@ namespace Character
         protected Character targetCharacter;
         protected Collider[] colliders;
         protected float nockBackResist ;
-        protected bool dying;
+        [HideInInspector] public bool dying;
         public Skill.Skill onSkill { get; set; }
         private float SPCActionWeight;
 
@@ -45,17 +46,19 @@ namespace Character
                 if (value > characterStat.maxHP)
                     value = characterStat.maxHP;
                 if (value <= 0)
+                {
+                    SpawnManager.Instance.player.target=null;
                     StartCoroutine(Die());
+                }
                 _hp = value;
             }
         }
         public int layerMask { get; set; }
 
         protected List<Skill.SPC> Buffs;
-        protected List<Skill.Skill> actives;
         protected Projectile.ProjectileInfo projectileInfo;
 
-
+        public Action<Vector3,float,float> Hit;
         int buffElementIdx;
 
 
@@ -78,9 +81,8 @@ namespace Character
             onSkill = null;
             
             Buffs = new List<Skill.SPC>();
-            actives = new List<Skill.Skill>();
             layerMask = (1 << 3 | 1 << 6 ) ^ 1 << gameObject.layer;
-
+            Hit = Hited;
         }
 
         protected virtual void Start()
@@ -97,11 +99,13 @@ namespace Character
             target.gameObject.TryGetComponent(out targetCharacter);
             targetCharacter.Hit(thisCurTransform.position,dmg,0);
         }
+        
         protected virtual IEnumerator Die()
         {
             dying = true;
             Destroy(hpBar.gameObject);
             Destroy(col);
+            
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);
@@ -126,20 +130,18 @@ namespace Character
                 Buffs[buffElementIdx].Activation(this);
             
         }
-        protected internal virtual void Hit(Vector3 attacker, float dmg,float penetrate=0)
+        protected internal virtual void Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
+            Debug.Log("맞음 호출");
             if(dying)
                 return; 
-            Debug.Log(attacker+"에서 온 피해");
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
-            
             hpBar.value = hp / characterStat.maxHP;
             Vector3 horizonPosition = thisCurTransform.position;
-            Vector3 attackerPosition = attacker;
-            horizonPosition.y = attackerPosition.y;
-            impact += (horizonPosition - attackerPosition).normalized*(dmg*(1/nockBackResist));
+            attacker.y = horizonPosition.y;
+            impact += (horizonPosition - attacker).normalized*(dmg*(1/nockBackResist));
         }
 
         public void AddBuff(Skill.SPC buff)

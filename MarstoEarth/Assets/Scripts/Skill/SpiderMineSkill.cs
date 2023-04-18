@@ -19,9 +19,8 @@ namespace Skill
 
         public override void Effect()
         {
-
             GameObject spiderMineSlot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            
+
             spiderMineSlot.SetActive(false);
             spiderMineSlot.transform.position = caster.transform.position;
             Projectile.SpiderMine mine= spiderMineSlot.AddComponent<Projectile.SpiderMine>();

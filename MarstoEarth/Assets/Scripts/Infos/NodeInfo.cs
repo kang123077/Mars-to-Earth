@@ -11,7 +11,17 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo west;
     public NodeInfo north;
     public NodeInfo south;
+    public bool isNodeCleared;
+    public BoxCollider nodeCollider;
+    private void Awake()
+    {
+        nodeCollider = GetComponent<BoxCollider>();
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // MapManager.Instance.CloseAllGate();
+    }
     public NodeInfo(int x, int y)
     {
         this.x = x;

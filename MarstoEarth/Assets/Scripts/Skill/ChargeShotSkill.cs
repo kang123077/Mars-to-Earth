@@ -27,7 +27,7 @@ namespace Skill
                     {
                         colliders[i].TryGetComponent(out target);
                         if (target)
-                            target.Hit(point, skillInfo.dmg + caster.dmg * 0.5f);
+                            target.Hit(point, skillInfo.dmg + caster.dmg * 0.5f,0);
                     }
                 });
             

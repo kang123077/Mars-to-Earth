@@ -9,10 +9,24 @@ namespace Skill
         private Character.Character enemy;
         Vector3 firstPos;
         private int layerMask;
+        SPC distortion;
+        Vector3 targetPoint;
         public DistortionSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
             comboCount = 2;
+            distortion = new SPC(1.5f, null, (ch) =>
+            {
+                ch.transform.position = Vector3.MoveTowards(ch.transform.position, targetPoint, (skillInfo.speed + ch.speed * 0.5f) * Time.deltaTime);
+                if (ch.transform.position == targetPoint)
+                {
+                    ch.RemoveBuff(distortion);
+                    ch.SkillEffect();
+                }
+            }, (ch) =>
+            {
+                ch.SkillEffect();
+            });
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -24,21 +38,9 @@ namespace Skill
                 case 1:
                     caster.onSkill = this;
                     firstPos=caster.transform.position;
-                    Vector3 targetPoint= caster.target? caster.target.position-caster.target.transform.forward : caster.transform.position+(caster.transform.forward*(skillInfo.range + caster.range * 0.5f));
+                    targetPoint= caster.target? caster.target.position-caster.target.transform.forward : caster.transform.position+(caster.transform.forward*(skillInfo.range + caster.range * 0.5f));
 
-                    SPC distortion = null;
-                    distortion = new SPC(1.5f, null,(ch) =>
-                    {
-                        ch.transform.position = Vector3.MoveTowards(ch.transform.position,targetPoint,(skillInfo.speed+caster.speed*0.5f)*Time.deltaTime);
-                        if (ch.transform.position == targetPoint)
-                        {
-                            ch.RemoveBuff(distortion);
-                            caster.SkillEffect();
-                        }
-                    }, (ch) =>
-                    {
-                        caster.SkillEffect();
-                    });
+                   
                     caster.AddBuff(distortion);
 
                     break;
