@@ -46,7 +46,16 @@ public class SpawnManager : Singleton<SpawnManager>
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
         playerInstantiateFinished = true;
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 2; i++)
+        {
+            RandomSpawnMonster(curNode.transform.position);
+        }
+    }
+
+    public void NodeSpawn(NodeInfo spawnNode)
+    {
+        curNode = spawnNode;
+        for (int i = 0; i < 2; i ++)
         {
             RandomSpawnMonster(curNode.transform.position);
         }
@@ -110,7 +119,9 @@ public class SpawnManager : Singleton<SpawnManager>
         if (monsters.Count == 0)
         {
             Debug.Log("룸 클리어!");
-            curNode.IsRoomCleared = true;
+            curNode.isNodeCleared = true;
+            curNode.nodeCollider.enabled = false;
+            MapManager.Instance.UpdateGate();
         }
     }
 

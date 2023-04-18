@@ -11,21 +11,17 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo west;
     public NodeInfo north;
     public NodeInfo south;
-    public delegate void RoomClearedHandler(NodeInfo thisNode);
-    public event RoomClearedHandler OnRoomCleared;
-
-    private bool isRoomCleared = false;
-    public bool IsRoomCleared
+    public bool isNodeCleared;
+    public BoxCollider nodeCollider;
+    private void Awake()
     {
-        get { return isRoomCleared; }
-        set
-        {
-            isRoomCleared = value;
-            // isRoomCleared 값이 변경될 때 Pathnode의 OnRoomCleared 이벤트를 실행
-            OnRoomCleared?.Invoke(this);
-        }
+        nodeCollider = GetComponent<BoxCollider>();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // MapManager.Instance.CloseAllGate();
+    }
     public NodeInfo(int x, int y)
     {
         this.x = x;

@@ -121,4 +121,19 @@ public class MapManager : Singleton<MapManager>
         NavMesh.RemoveAllNavMeshData();
         nodesTF.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
+
+    public void UpdateGate()
+    {
+        foreach(PathController path in paths)
+        {
+            path.UpdateGate();
+        }
+    }
+    public void CloseAllGate()
+    {
+        foreach (PathController path in paths)
+        {
+            path.CloseGate();
+        }
+    }
 }
