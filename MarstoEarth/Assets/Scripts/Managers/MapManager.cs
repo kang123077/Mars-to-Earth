@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -94,7 +95,15 @@ public class MapManager : Singleton<MapManager>
     }
     public void GenerateNewSeed()
     {
-        mapInfo.seed_Number = Random.Range(int.MinValue, int.MaxValue);
+        mapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        try
+        {
+            inputField.text = mapInfo.seed_Number.ToString();
+        }
+        catch (NullReferenceException)
+        {
+            // edit씬 아닐 경우
+        }
     }
 
     public void GenerateNavMesh()
