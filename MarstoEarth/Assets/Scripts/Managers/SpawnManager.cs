@@ -1,7 +1,6 @@
 using Character;
 using Projectile;
 using Skill;
-=======
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -48,7 +47,7 @@ public class SpawnManager : Singleton<SpawnManager>
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
         playerInstantiateFinished = true;
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i < 30; i++)
         {
             RandomSpawnMonster(curNode.transform.position);
         }
