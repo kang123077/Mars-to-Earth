@@ -29,8 +29,7 @@ public enum SkillName
     AegisBarrier,
     MassShooting,
     Bite,
-    Block,
-    ParringKick,
+    Block
 }
 public class ResourceManager : Singleton<ResourceManager>
 {
@@ -62,7 +61,6 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new MassShootingSkill(skillInfos[(int)SkillName.MassShooting]));
         skills.Add(null);// bite는 몬스터 전용스킬
         skills.Add(new BlockSkill(skillInfos[(int)SkillName.Block]));
-        skills.Add(new ParringKickSkill(skillInfos[(int)SkillName.ParringKick]));
         DontDestroyOnLoad(gameObject);
     }
 

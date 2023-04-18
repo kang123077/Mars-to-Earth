@@ -9,11 +9,11 @@ namespace Character
     public abstract class Character : MonoBehaviour
     {
 
-        protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
+        protected static readonly int animSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
         protected static readonly int onTarget = Animator.StringToHash("onTarget");
         public StatInfo characterStat;
-        [SerializeField] protected Animator anim;
+        [SerializeField] public Animator anim;
         [SerializeField] protected Collider col;
         
         protected Camera mainCam;
@@ -123,8 +123,11 @@ namespace Character
             }
             if (dying)
                 return;
-            if ( onSkill is null && SPCActionWeight > 0)
-                anim.SetLayerWeight(2, SPCActionWeight -= Time.deltaTime*4); 
+            SPCActionWeight =
+                Mathf.Clamp(
+                    SPCActionWeight += Time.deltaTime * (onSkill && onSkill.skillInfo.clipLayer == 2 ? 4 : -2), 0, 1);
+            
+            anim.SetLayerWeight(2, SPCActionWeight); 
 
             for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
                 Buffs[buffElementIdx].Activation(this);
@@ -132,7 +135,6 @@ namespace Character
         }
         protected internal virtual void Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
-            Debug.Log("맞음 호출");
             if(dying)
                 return; 
             float penetratedDef = def * (100 - penetrate) * 0.01f;
@@ -150,6 +152,7 @@ namespace Character
             Buffs.Add(buff);//같은 버프가 걸려있는지 체크해야함
 
         }
+        // ReSharper disable Unity.PerformanceAnalysis
         public void RemoveBuff(Skill.SPC buff)
         {
             buff.Remove?.Invoke(this);
@@ -158,8 +161,7 @@ namespace Character
         public void PlaySkillClip(Skill.Skill skill)
         {
             onSkill = skill;
-            if(skill.skillInfo.clipLayer==2)
-                anim.SetLayerWeight(skill.skillInfo.clipLayer, SPCActionWeight=1);
+            
             anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);
             //StartCoroutine(ClipBack(anim.GetCurrentAnimatorClipInfo(2)[0].clip.length));
         }

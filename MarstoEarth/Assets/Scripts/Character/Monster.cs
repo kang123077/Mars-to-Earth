@@ -82,12 +82,9 @@ namespace Character
             ai.SetDestination(patrolPoints[patrolIdx]);
             ai.stoppingDistance = range-1;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
-            anim.SetFloat(movingSpeed,1+speed*0.1f);
+            anim.SetFloat(animSpeed,1+speed*0.1f);
         }
-        protected void OnDestroy()
-        {
-        }
-
+      
         protected override void BaseUpdate()
         {
             base.BaseUpdate();

@@ -43,7 +43,7 @@ namespace Character
             base.Awake();
             colliders = new Collider[8];
             itemColliders = new Collider[1];
-            anim.SetFloat(movingSpeed, 1 + speed * 0.1f);
+            anim.SetFloat(animSpeed, 1 + speed * 0.1f);
             
             actives = new List<Skill.Skill>();
             //layerMask = (1 << LayerMask.NameToLayer("Obstacle"));

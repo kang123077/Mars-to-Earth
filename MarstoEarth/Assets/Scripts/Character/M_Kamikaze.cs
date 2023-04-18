@@ -16,7 +16,7 @@ namespace Character
         private void OnDestroy()
         {
             if (Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength*0.5f, colliders, 1 << 3) <= 0) return;
-            target.gameObject.TryGetComponent(out targetCharacter);
+            colliders[0].TryGetComponent(out targetCharacter);
             targetCharacter.Hit(thisCurTransform.position,characterStat.maxHP*0.5f,0);
         }
 
