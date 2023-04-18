@@ -35,7 +35,7 @@ namespace Projectile
                 {
                     colliders[0].TryGetComponent(out Character.Character target);
                     if (target)
-                        target.Hit(transform.position, dmg);
+                        target.Hit(transform.position, dmg,0);
                 }
             }
         }

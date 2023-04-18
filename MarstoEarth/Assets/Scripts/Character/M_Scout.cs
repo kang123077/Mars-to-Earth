@@ -1,7 +1,10 @@
 using Projectile;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
+
 namespace Character
 {
     public class M_Scout:Monster
@@ -9,7 +12,6 @@ namespace Character
         private float skillDelay=2;
         private Vector3 hidingDir;
         private float dist;
-        private Skill.Skill skill;
         protected override void Start()
         {
             base.Start();
@@ -24,20 +26,20 @@ namespace Character
             if (target)
             {
                 dist= Vector3.Distance(target.position, thisCurTransform.position);
+                hidingDir = (thisCurTransform.position - target.position).normalized;
                 if (sightLength * .5f > dist)
                 {
-                    hidingDir = (thisCurTransform.position - target.position).normalized;
-                    skillDelay = 3;
+                    skillDelay = 5;
                     ai.ResetPath();
                 }
-
+                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, hidingDir, 3 * Time.deltaTime, 0);
                 ai.Move(hidingDir * (Time.deltaTime * speed));
                 if(sightLength< dist)
                 {
                     skillDelay -= Time.deltaTime;
                     if (skillDelay < 0)
                     {
-                        if(!skill.Use(this)) return;
+                        if (!skill.Use(this)) return;
                         skillDelay = 5;
                         target = null;
                     }

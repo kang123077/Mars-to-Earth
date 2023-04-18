@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e2b8564b1927804cbef7ad522246acc, type: 3}
   m_Name: Optanium
   m_EditorClassIdentifier: 
-  type: 2
+  type: 0
   itemValue: 50
-  model: {fileID: 2987682792462576524, guid: 9d3de7b42d02cf747ba8aba5a7933947, type: 3}

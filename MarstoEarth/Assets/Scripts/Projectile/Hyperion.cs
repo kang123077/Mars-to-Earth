@@ -63,7 +63,7 @@ namespace Projectile
                     {
                         colliders[i].TryGetComponent(out target);
                         if (target)
-                            target.Hit(point, dmg);
+                            target.Hit(point, dmg,0);
                     }
                 });
 

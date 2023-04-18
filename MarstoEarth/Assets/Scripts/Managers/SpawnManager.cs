@@ -1,6 +1,7 @@
 using Character;
 using Projectile;
 using Skill;
+=======
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -40,6 +41,7 @@ public class SpawnManager : Singleton<SpawnManager>
         }
     }
 
+
     public void FirstInit()
     {
         curNode = MapManager.nodes[0];
@@ -60,6 +62,7 @@ public class SpawnManager : Singleton<SpawnManager>
             RandomSpawnMonster(curNode.transform.position);
         }
     }
+
 
     public void RandomSpawnMonster(Vector3 spawnPoint)
     {
@@ -134,7 +137,8 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public static void DropOptanium(Vector3 postion)
     {
-        Item.Item optanium = Instantiate(ResourceManager.Instance.items[0], postion, Quaternion.identity);
+        Instantiate(ResourceManager.Instance.items[0],postion,Quaternion.identity);
+
     }
 
 }

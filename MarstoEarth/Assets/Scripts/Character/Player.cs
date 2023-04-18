@@ -1,6 +1,6 @@
 using Skill;
 using UnityEngine;
-using UnityEngine.Serialization;
+using System.Collections.Generic;
 
 namespace Character
 {
@@ -18,6 +18,7 @@ namespace Character
         private KeyCode  key;
         private LayerMask obstacleMask;
 
+        protected List<Skill.Skill> actives;
         private KeyCode[] keys = new[]
         {
             KeyCode.UpArrow,
@@ -43,6 +44,8 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             anim.SetFloat(movingSpeed, 1 + speed * 0.1f);
+            
+            actives = new List<Skill.Skill>();
             //layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
             //layerMask = ~layerMask;
         }
@@ -63,6 +66,8 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[10]);
             actives.Add(ResourceManager.Instance.skills[11]);
             actives.Add(ResourceManager.Instance.skills[12]);
+            actives.Add(null);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Block]);
 
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
@@ -141,9 +146,8 @@ namespace Character
                     float minCoLength = 1000;
                     for (int i = 0; i < size; i++)
                     {
-                        float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position,
-                            Vector3.up);
-
+                        float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position, Vector3.up);
+                        
                         if ((angle < 0 ? -angle : angle) < viewAngle)
                         {
                             float coLeng = Vector3.Distance(colliders[i].transform.position, position);
@@ -209,6 +213,13 @@ namespace Character
             }else if (Input.GetKeyDown(KeyCode.Keypad6))
             {
                 actives[12].Use(this);
+            }else if (Input.GetKeyDown(KeyCode.Keypad7))
+            {
+                actives[1].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad8))
+            {
+                actives[(int)SkillName.Block].Use(this);
             }
 
         }

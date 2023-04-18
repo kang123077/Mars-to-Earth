@@ -18,8 +18,8 @@ MonoBehaviour:
   clipName: TossGrenade
   clipLayer: 1
   icon: {fileID: 0}
-  dmg: 10
+  dmg: 25
   duration: 10
   range: 12
   cool: 5
-  speed: 2
+  speed: 5

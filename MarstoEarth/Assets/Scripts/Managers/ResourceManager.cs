@@ -8,8 +8,9 @@ using UnityEngine.Serialization;
 public enum EnemyType
 {
     cr42, cr43, cr44,
-    scot,
+    scout,
     kamikaze,
+    titan,
 }
 
 public enum SkillName
@@ -27,6 +28,9 @@ public enum SkillName
     Distortion,
     AegisBarrier,
     MassShooting,
+    Bite,
+    Block,
+    ParringKick,
 }
 public class ResourceManager : Singleton<ResourceManager>
 {
@@ -43,20 +47,22 @@ public class ResourceManager : Singleton<ResourceManager>
         base.Awake();
         //skillInfos = Resources.LoadAll<SkillInfo>("SkillsStat");
 
-        int i = 0;
-        skills.Add(new RollSkill(skillInfos[i++]));
-        skills.Add(new SmashSkill(skillInfos[i++]));
-        skills.Add(new StimPackSkill(skillInfos[i++]));
-        skills.Add(new GrenadeSkill(skillInfos[i++]));
-        skills.Add(new GardianSkill(skillInfos[i++]));
-        skills.Add(new GravityBombSkill(skillInfos[i++]));
-        skills.Add(new SpiderMineSkill(skillInfos[i++]));
-        skills.Add(new ChargeShotSkill(skillInfos[i++]));
-        skills.Add(new HyperionSkill(skillInfos[i++]));
-        skills.Add(new BoomerangSkill(skillInfos[i++]));
-        skills.Add(new DistortionSkill(skillInfos[i++]));
-        skills.Add(new AegisBarrierSkill(skillInfos[i++]));
-        skills.Add(new MassShootingSkill(skillInfos[i++]));
+        skills.Add(new RollSkill(skillInfos[(int)SkillName.Roll]));
+        skills.Add(new SmashSkill(skillInfos[(int)SkillName.Smash]));
+        skills.Add(new StimPackSkill(skillInfos[(int)SkillName.Stimpack]));
+        skills.Add(new GrenadeSkill(skillInfos[(int)SkillName.Grenade]));
+        skills.Add(new GardianSkill(skillInfos[(int)SkillName.Gardian]));
+        skills.Add(new GravityBombSkill(skillInfos[(int)SkillName.GravityBomb]));
+        skills.Add(new SpiderMineSkill(skillInfos[(int)SkillName.SpiderMine]));
+        skills.Add(new ChargeShotSkill(skillInfos[(int)SkillName.ChargeShot]));
+        skills.Add(new HyperionSkill(skillInfos[(int)SkillName.Hyperion]));
+        skills.Add(new BoomerangSkill(skillInfos[(int)SkillName.Boomerang]));
+        skills.Add(new DistortionSkill(skillInfos[(int)SkillName.Distortion]));
+        skills.Add(new AegisBarrierSkill(skillInfos[(int)SkillName.AegisBarrier]));
+        skills.Add(new MassShootingSkill(skillInfos[(int)SkillName.MassShooting]));
+        skills.Add(null);// bite는 몬스터 전용스킬
+        skills.Add(new BlockSkill(skillInfos[(int)SkillName.Block]));
+        skills.Add(new ParringKickSkill(skillInfos[(int)SkillName.ParringKick]));
         DontDestroyOnLoad(gameObject);
     }
 

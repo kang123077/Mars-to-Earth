@@ -8,15 +8,8 @@ namespace Character
 {
     public class M_CR_43:Monster
     {
-        [SerializeField] GameObject gun;
-        [SerializeField] private Transform RightHand;
+       
 
-        protected override void Awake()
-        {
-            base.Awake();
-            gun = Instantiate(gun, RightHand, true);
-            gun.transform.position = RightHand.position;
-        }
 
         protected override void Attack()
         {
@@ -37,19 +30,19 @@ namespace Character
             {
                 ai.SetDestination(target.position);
                 Vector3 targetPosition = target.position;
+                var position = thisCurTransform.position;
+                position.y = targetPosition.y;
+                thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 2* Time.deltaTime, 0);
+
                 float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
                 if (targetDistance <= sightLength * 2f)
                 {
                     if (!(targetDistance <= range)) return;
-                    var position = thisCurTransform.position;
-                    position.y = targetPosition.y;
-                    thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward, targetPosition - position, 6 * Time.deltaTime, 0);
                     anim.SetBool(attacking, isAttacking = true);
                 }
                 else
                 {
                     anim.SetBool(onTarget, target = null);
-                    ai.speed = speed;
                 }
             }
             else
@@ -62,7 +55,6 @@ namespace Character
                     if((angle < 0 ? -angle : angle) < viewAngle|| Vector3.Distance(colliders[0].transform.position,thisCurTransform.position)<sightLength*0.3f)
                     {
                         anim.SetBool(onTarget, target = colliders[0].transform);
-                        ai.speed = speed*1.5f;
                     }
                 }
             }
