@@ -10,14 +10,16 @@ public class MapManager : Singleton<MapManager>
     public TMP_InputField inputField;
 
     public static List<NodeInfo> nodes;
-    public static List<GameObject> paths;
+    public static List<PathController> paths;
     public static List<GameObject> walls;
     public Transform nodesTF;
+
+    public bool isMapGenerateFinished = false;
 
     protected override void Awake()
     {
         nodes = new List<NodeInfo>();
-        paths = new List<GameObject>();
+        paths = new List<PathController>();
         walls = new List<GameObject>();
         base.Awake();
         TestInitMapInfo();
@@ -34,6 +36,7 @@ public class MapManager : Singleton<MapManager>
     {
         mapGenerator.GenerateMap();
         GenerateNavMesh();
+        isMapGenerateFinished = true;
     }
 
     public void TestInitMapInfo()
@@ -117,5 +120,20 @@ public class MapManager : Singleton<MapManager>
     {
         NavMesh.RemoveAllNavMeshData();
         nodesTF.GetComponent<NavMeshSurface>().BuildNavMesh();
+    }
+
+    public void UpdateGate()
+    {
+        foreach(PathController path in paths)
+        {
+            path.UpdateGate();
+        }
+    }
+    public void CloseAllGate()
+    {
+        foreach (PathController path in paths)
+        {
+            path.CloseGate();
+        }
     }
 }

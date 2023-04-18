@@ -1848,6 +1848,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 987e3802bba25dd4e8c820b7af810199, type: 2}
   - {fileID: 11400000, guid: 707b60e4f27bbd848b224882218ceb53, type: 2}
   - {fileID: 11400000, guid: 59aae42dba9649040b6cd53c9ef3e7eb, type: 2}
+  enemys:
+  - {fileID: 1563197621, guid: 0df098ddb12cfb849a89e3bbb9785382, type: 3}
+  - {fileID: 2193642575291243262, guid: 7ec2684dca672d949b1bb5b538ae4315, type: 3}
+  - {fileID: 3044330751137858704, guid: 29c14e2cd177bfc449ce9eac36b5adc5, type: 3}
+  - {fileID: 3044330751137858704, guid: 29c14e2cd177bfc449ce9eac36b5adc5, type: 3}
+  - {fileID: 614779288, guid: 2c69063b9b53dfe43a86160194e9dcf3, type: 3}
 --- !u!4 &1258189998
 Transform:
   m_ObjectHideFlags: 0
@@ -2045,6 +2051,7 @@ MonoBehaviour:
   mapGenerator: {fileID: 2076155691}
   inputField: {fileID: 1078749990}
   nodesTF: {fileID: 66668291}
+  isMapGenerateFinished: 0
 --- !u!1 &1414790063
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,6 +2218,9 @@ MonoBehaviour:
   player: {fileID: 3026331719584739865, guid: c98043d57e0190845b790d7b92990bee, type: 3}
   playerTransform: {fileID: 0}
   projectilePrefab: {fileID: 7739833361423966859, guid: 4a99ec8f6364bc64d9d59786f4218424, type: 3}
+  playerInstantiateFinished: 0
+  curNode: {fileID: 0}
+  monsters: []
 --- !u!4 &1462362608
 Transform:
   m_ObjectHideFlags: 0
