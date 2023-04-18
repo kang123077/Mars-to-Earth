@@ -29,6 +29,8 @@ namespace Character
         protected bool isAttacking;
 
         protected Skill.Skill skill;
+        public EnemyType enemyType;
+
         private IEnumerator StuckCheck()
         {
             while (true)
@@ -82,6 +84,9 @@ namespace Character
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
             anim.SetFloat(movingSpeed,1+speed*0.1f);
         }
+        protected void OnDestroy()
+        {
+        }
 
         protected override void BaseUpdate()
         {
@@ -101,6 +106,10 @@ namespace Character
             Vector3 point = thisCurTransform.position;
             point.y = 0;
             SpawnManager.DropOptanium(point);
+
+            SpawnManager.Instance.monsters.Remove(this);
+            SpawnManager.Instance.ClearCheck();
+            
             return base.Die();
         }
         protected override void Attack()
