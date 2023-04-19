@@ -10,7 +10,7 @@ using UnityEngine.Pool;
 public class SpawnManager : Singleton<SpawnManager>
 {
     public Player player;
-    [HideInInspector] public Transform playerTransform;
+    public Transform playerTransform;
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public bool playerInstantiateFinished = false;
@@ -44,10 +44,10 @@ public class SpawnManager : Singleton<SpawnManager>
     public void FirstInit()
     {
         curNode = MapManager.nodes[0];
-        player = Instantiate(player);
-        playerTransform = player.gameObject.transform;
+        //player = Instantiate(player);
+        //playerTransform = player.gameObject.transform;
         playerInstantiateFinished = true;
-        for(int i = 0; i < 30; i++)
+        for(int i = 0; i < 3; i++)
         {
             RandomSpawnMonster(curNode.transform.position);
         }
