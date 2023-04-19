@@ -22,12 +22,10 @@ namespace Character
         [HideInInspector] public Transform target;
         protected Character targetCharacter;
         protected Collider[] colliders;
-        protected float nockBackResist ;
+        private float nockBackResist ;
         [HideInInspector] public bool dying;
         public Skill.Skill onSkill { get; set; }
         private float SPCActionWeight;
-
-        protected int level;
         public Vector3 impact { get; set; }
         public float dmg { get; set; }
         public float coolDecrease { get; set; }
@@ -55,7 +53,7 @@ namespace Character
         }
         public int layerMask { get; set; }
 
-        protected List<Skill.SPC> Buffs;
+        private List<Skill.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
         public Action<Vector3,float,float> Hit;

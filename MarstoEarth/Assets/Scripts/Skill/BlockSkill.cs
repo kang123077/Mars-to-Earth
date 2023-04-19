@@ -46,7 +46,6 @@ namespace Skill
         // ReSharper disable Unity.PerformanceAnalysis
         public override void Effect()
         {
-            Debug.Log("참");
             Vector3 transPos= caster.transform.position;
             int size = Physics.OverlapSphereNonAlloc(transPos, skillInfo.range + caster.range * 0.2f, colliders, caster.layerMask);
             for(int i =0; i < size; i++)
@@ -55,7 +54,7 @@ namespace Skill
                 if (targetCh)
                 {
                     targetCh.Hit(transPos, skillInfo.dmg + caster.dmg * 0.5f, 0);
-                    targetCh.impact -= targetCh.transform.forward*2;
+                    targetCh.impact -= targetCh.transform.forward*3;
                 }
             }
         }

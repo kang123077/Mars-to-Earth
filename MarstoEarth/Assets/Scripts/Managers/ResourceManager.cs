@@ -22,7 +22,6 @@ public enum SkillName
     Gardian,
     GravityBomb,
     SpiderMine,
-    ChargeShot,
     Hyperion,
     Boomerang,
     Distortion,
@@ -53,7 +52,6 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new GardianSkill(skillInfos[(int)SkillName.Gardian]));
         skills.Add(new GravityBombSkill(skillInfos[(int)SkillName.GravityBomb]));
         skills.Add(new SpiderMineSkill(skillInfos[(int)SkillName.SpiderMine]));
-        skills.Add(new ChargeShotSkill(skillInfos[(int)SkillName.ChargeShot]));
         skills.Add(new HyperionSkill(skillInfos[(int)SkillName.Hyperion]));
         skills.Add(new BoomerangSkill(skillInfos[(int)SkillName.Boomerang]));
         skills.Add(new DistortionSkill(skillInfos[(int)SkillName.Distortion]));

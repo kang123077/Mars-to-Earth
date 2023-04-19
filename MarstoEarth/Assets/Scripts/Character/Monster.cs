@@ -27,10 +27,7 @@ namespace Character
         
         [SerializeField] protected float sightLength;
 
-        
-        
-
-        protected bool _isAttacking;
+        private bool _isAttacking;
         protected bool isAttacking { get { return _isAttacking; } 
             set {
                 if (!value && target)

@@ -18,6 +18,8 @@ namespace Character
         private KeyCode  key;
         private LayerMask obstacleMask;
 
+        private Projectile.ProjectileInfo chargeProjectileInfo;
+        public bool onCharge;
         protected List<Skill.Skill> actives;
         private KeyCode[] keys = new[]
         {
@@ -44,28 +46,44 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];            
             actives = new List<Skill.Skill>();
+            chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
+                ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
+                Projectile.Type.Bullet,  (point) =>
+                {
+                    int count = Physics.OverlapSphereNonAlloc(point,
+                        5 + range * 0.2f, colliders,
+                        layerMask);
+                    for (int i = 0; i < count; i++)
+                    {
+                        colliders[i].TryGetComponent(out targetCharacter);
+                        if (targetCharacter)
+                            targetCharacter.Hit(point, 25 + dmg * 2f,0);
+                    }
+                });
         }
         protected override void Start()
         {
             base.Start();
             //퀵슬롯 구현후 삭제
-            actives.Add(ResourceManager.Instance.skills[0]);
-            actives.Add(ResourceManager.Instance.skills[1]);
-            actives.Add(ResourceManager.Instance.skills[2]);
-            actives.Add(ResourceManager.Instance.skills[3]);
-            actives.Add(ResourceManager.Instance.skills[4]);
-            actives.Add(ResourceManager.Instance.skills[5]);
-            actives.Add(ResourceManager.Instance.skills[6]);
-            actives.Add(ResourceManager.Instance.skills[7]);
-            actives.Add(ResourceManager.Instance.skills[8]);
-            actives.Add(ResourceManager.Instance.skills[9]);
-            actives.Add(ResourceManager.Instance.skills[10]);
-            actives.Add(ResourceManager.Instance.skills[11]);
-            actives.Add(ResourceManager.Instance.skills[12]);
-            actives.Add(null);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Grenade]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.GravityBomb]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.SpiderMine]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Hyperion]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Boomerang]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Distortion]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.AegisBarrier]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.MassShooting]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Block]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Stimpack]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Smash]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
 
-            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
+            hpBar.TryGetComponent(out RectTransform hpRect);
+            
+            hpRect.anchoredPosition = new Vector2(0, -Screen.height*2/5);
+
+            //hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
         {
@@ -175,57 +193,69 @@ namespace Character
                 actives[0].Use(this);
             }else if (Input.GetKeyDown(KeyCode.E))
             {
-                actives[4].Use(this);
+                actives[1].Use(this);
             }else if (Input.GetKeyDown(KeyCode.R))
 
             {
-                actives[5].Use(this);
+                actives[2].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Space))
             {
-                actives[7].Use(this);
+                anim.Play("Reload",1);
+                onCharge = true;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad0))
             {
-                actives[8].Use(this);
+                actives[3].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad1))
             {
-                actives[2].Use(this);
+                actives[4].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad2))
             {
-                actives[6].Use(this);
+                actives[5].Use(this);
             } else if (Input.GetKeyDown(KeyCode.Keypad3))
             {
-                actives[9].Use(this);
+                actives[6].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad4))
             {
-                actives[10].Use(this);
+                actives[7].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad5))
             {
-                actives[11].Use(this);
+                actives[8].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Keypad6))
             {
-                actives[12].Use(this);
+                actives[9].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Keypad7))
             {
-                actives[1].Use(this);
+                actives[10].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad8))
             {
-                actives[(int)SkillName.Block].Use(this);
+                actives[11].Use(this);
+            }else if (Input.GetKeyDown(KeyCode.Keypad9))
+            {
+                actives[12].Use(this);
             }
 
         }
 
         protected override void Attack()
         {
-            if (onSkill is ChargeShotSkill)
-                    SkillEffect();
+            Vector3 forward = thisCurTransform.forward;
+            if (onCharge)
+            {
+                
+                SpawnManager.Instance.Launch(thisCurTransform.position,forward,0 ,1+duration*0.5f, 20+speed*2,range*0.5f, ref chargeProjectileInfo);
+
+                impact -= (45 + dmg * 0.5f) * 0.1f * forward;
+                onCharge = false;
+            }
+                
             else
-                SpawnManager.Instance.Launch(thisCurTransform.position,thisCurTransform.forward,
+                SpawnManager.Instance.Launch(thisCurTransform.position,forward,
                     dmg ,1+duration*0.5f, 20+speed*2,range*0.5f, ref projectileInfo);
 
         }

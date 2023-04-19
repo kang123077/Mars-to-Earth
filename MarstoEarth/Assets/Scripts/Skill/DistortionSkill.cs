@@ -36,11 +36,10 @@ namespace Skill
             switch (curCount)
             {
                 case 1:
+                    distortion.Init(0.8f);
                     caster.onSkill = this;
                     firstPos=caster.transform.position;
                     targetPoint= caster.target? caster.target.position-caster.target.transform.forward : caster.transform.position+(caster.transform.forward*(skillInfo.range + caster.range * 0.5f));
-
-                   
                     caster.AddBuff(distortion);
 
                     break;

@@ -12,11 +12,11 @@ namespace Character
             base.Start();
 
             block = new Skill.BlockSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Block]);
-            blockEleapse = 2;
+            blockEleapse = 8;
         }
         protected internal override void Hited(Vector3 attacker, float dmg, float penetrate = 0)
         {
-            if (blockEleapse > 3)
+            if (blockEleapse > 10)
             {
                 anim.Play("Moving", 1);
                 anim.SetBool(attacking, isAttacking = false);
