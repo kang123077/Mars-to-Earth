@@ -42,12 +42,8 @@ namespace Character
         {
             base.Awake();
             colliders = new Collider[8];
-            itemColliders = new Collider[1];
-            anim.SetFloat(animSpeed, 1 + speed * 0.1f);
-            
+            itemColliders = new Collider[1];            
             actives = new List<Skill.Skill>();
-            //layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
-            //layerMask = ~layerMask;
         }
         protected override void Start()
         {

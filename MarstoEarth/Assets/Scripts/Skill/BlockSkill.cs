@@ -20,14 +20,12 @@ namespace Skill
                 temp = ch.Hit;
                 ch.Hit = (attacker, dmg, penetrate) =>
                 {
-                    ch.Hited(attacker, dmg*0.2f, penetrate);
-                    
-                    if (parrying||Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, colliders, ch.layerMask) < 1) return;
-                    parrying = true;
+                    ch.Hited(attacker, dmg*0.2f, penetrate);                    
+                    if (parrying||Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, colliders, ch.layerMask) < 1) return;                    
                     attacker = colliders[0].transform.position;
                     attacker.y = ch.transform.position.y;
                     ch.transform.LookAt(attacker);
-                    ch.anim.SetTrigger($"attacking");
+                    ch.anim.SetBool($"parring", parrying = true);
                 };
             }, (ch) => {
                 
@@ -38,7 +36,7 @@ namespace Skill
         }
         protected override bool Activate()
         {
-            parrying = false;
+            caster.anim.SetBool($"parring", parrying = false);            
             block.Init(skillInfo.duration + caster.duration * 0.1f);
             caster.PlaySkillClip(this);
             caster.AddBuff(block);
@@ -48,7 +46,7 @@ namespace Skill
         // ReSharper disable Unity.PerformanceAnalysis
         public override void Effect()
         {
-            
+            Debug.Log("참");
             Vector3 transPos= caster.transform.position;
             int size = Physics.OverlapSphereNonAlloc(transPos, skillInfo.range + caster.range * 0.2f, colliders, caster.layerMask);
             for(int i =0; i < size; i++)

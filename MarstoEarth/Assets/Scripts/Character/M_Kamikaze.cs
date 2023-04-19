@@ -23,14 +23,14 @@ namespace Character
         public void Roll()
         {
             attackReady = true;
-            def += 20;
+            def += 10;
             ai.speed = speed * 30;
         }
         protected void Update()
         {
             BaseUpdate();
             if(dying)
-                return; 
+                return;
             
             if (target)
             {
@@ -38,25 +38,25 @@ namespace Character
                 if (!isAttacking)
                 {
                     anim.SetBool(attacking, isAttacking = true);
-                    ai.speed = speed;
                 }
                 if (attackReady)
                 {
+                    
                     float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
                    
                     ai.SetDestination(target.position);
-                    if (targetDistance > sightLength * 2f||targetDistance<=range&&attackReady)
+                    if (targetDistance > sightLength * 2f||targetDistance<=range)
                     {
-                        if (targetDistance <= range && attackReady)
+                        if (targetDistance <= range )
                         {
                             target.gameObject.TryGetComponent(out targetCharacter);
                             targetCharacter.Hit(thisCurTransform.position,dmg,0);
                         }
                         anim.SetBool(attacking, isAttacking = false);
-                        ai.speed = speed;
-                        def -= 20;
+                        def -= 10;
                         attackReady = false;
                         target = null;
+                        Debug.Log(ai.speed);
                     }
                 }
                 

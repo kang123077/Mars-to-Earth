@@ -82,6 +82,8 @@ namespace Character
             
             Buffs = new List<Skill.SPC>();
             layerMask = (1 << 3 | 1 << 6 ) ^ 1 << gameObject.layer;
+
+            anim.SetFloat(animSpeed, 1 + speed * 0.05f);
             Hit = Hited;
         }
 
@@ -90,7 +92,6 @@ namespace Character
             hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
             projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet,null);
-            
         }
 
         protected virtual void Attack()
@@ -123,11 +124,12 @@ namespace Character
             }
             if (dying)
                 return;
+
             SPCActionWeight =
                 Mathf.Clamp(
-                    SPCActionWeight += Time.deltaTime * (onSkill && onSkill.skillInfo.clipLayer == 2 ? 4 : -2), 0, 1);
+                    SPCActionWeight += Time.deltaTime * (onSkill && onSkill.skillInfo.clipLayer == 2 ? 3 : -2), 0, 1);
             
-            anim.SetLayerWeight(2, SPCActionWeight); 
+            anim.SetLayerWeight(2, SPCActionWeight);
 
             for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
                 Buffs[buffElementIdx].Activation(this);

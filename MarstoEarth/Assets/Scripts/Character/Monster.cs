@@ -26,7 +26,19 @@ namespace Character
         protected float travelDistance;
         
         [SerializeField] protected float sightLength;
-        protected bool isAttacking;
+
+        
+        
+
+        protected bool _isAttacking;
+        protected bool isAttacking { get { return _isAttacking; } 
+            set {
+                if (!value && target)
+                    ai.speed=speed*1.4f;
+                else
+                    ai.speed=speed;
+                _isAttacking= value;
+            } }
 
         protected Skill.Skill skill;
         public EnemyType enemyType;
@@ -82,7 +94,6 @@ namespace Character
             ai.SetDestination(patrolPoints[patrolIdx]);
             ai.stoppingDistance = range-1;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
-            anim.SetFloat(animSpeed,1+speed*0.1f);
         }
       
         protected override void BaseUpdate()
@@ -90,7 +101,6 @@ namespace Character
             base.BaseUpdate();
             if(dying)return;
 
-            ai.speed =  target&&!isAttacking ? speed * 1.3f : speed;
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
             
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );

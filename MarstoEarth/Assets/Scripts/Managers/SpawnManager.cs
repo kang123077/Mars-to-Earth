@@ -47,7 +47,7 @@ public class SpawnManager : Singleton<SpawnManager>
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
         playerInstantiateFinished = true;
-        for(int i = 0; i < 2; i++)
+        for(int i = 0; i < 0; i++)
         {
             RandomSpawnMonster(curNode.transform.position);
         }
