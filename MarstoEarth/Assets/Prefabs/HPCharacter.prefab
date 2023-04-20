@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5989836600436565903}
   m_LocalRotation: {x: 0.08089482, y: 0, z: 0, w: 0.99672264}
-  m_LocalPosition: {x: -0.45, y: 2.29, z: -1.3}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2222,6 +2222,7 @@ MonoBehaviour:
   col: {fileID: 8675458328526890443}
   target: {fileID: 0}
   dying: 0
+  onCharge: 0
   InputDir: {x: 0, y: 0, z: 0}
   cameraView: {fileID: 3887237394028344984}
 --- !u!54 &-6828465308735864369

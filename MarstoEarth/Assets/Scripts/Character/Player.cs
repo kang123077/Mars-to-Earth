@@ -115,7 +115,6 @@ namespace Character
             BaseUpdate();
             if (dying)
                 return;
-            mainCam.transform.position = position + new Vector3(0, 25, -27.5f);
 
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
