@@ -4,6 +4,7 @@ namespace Character
 {
     public class Titan : Monster
     {
+        
         private Skill.Skill jumpAttack;
         private float jumpEleapse;
         [SerializeField] private Transform LH;
@@ -48,10 +49,7 @@ namespace Character
                     }
                 }
                 else
-                {
                     anim.SetBool(onTarget,target=null);
-                    
-                }
             }
             else
             {
