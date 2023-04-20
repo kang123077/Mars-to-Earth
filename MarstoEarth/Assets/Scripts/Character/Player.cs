@@ -62,7 +62,6 @@ namespace Character
             base.Awake();
             colliders = new Collider[8];
             itemColliders = new Collider[1];
-            anim.SetFloat(movingSpeed, 1 + speed * 0.1f);
 
             actives = new List<Skill.Skill>();
             chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
@@ -116,7 +115,6 @@ namespace Character
             BaseUpdate();
             if (dying)
                 return;
-            mainCam.transform.position = position + new Vector3(0, 25, -27.5f);
 
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
