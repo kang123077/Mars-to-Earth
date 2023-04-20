@@ -65,6 +65,7 @@ public class NodeGenerator : MonoBehaviour
         // 부모노드가 있을 경우 해당 방향 기억 & 배제
         if (parentDir != null)
         {
+            CheckParent(x, y, nodeInfo, directions[(int)parentDir]);
             directions.RemoveAt((int)parentDir);
         }
         // 모든 방향을 체크 할 때 까지
@@ -87,7 +88,7 @@ public class NodeGenerator : MonoBehaviour
             // 생성 마치고 링크가 없는 노드 방향에 벽 생성
             CreatePathWall();
             // 생성한 모든 노드, 패스, 벽 회전
-            RotateAllNodes();
+            // RotateAllNodes();
         }
         return nodeInfo;
     }
@@ -184,7 +185,6 @@ public class NodeGenerator : MonoBehaviour
                         NodeInfo newNode = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.East);
                         nodeInfo.east = newNode;
-                        newNode.west = nodeInfo;
                     }
                 }
                 break;
@@ -207,7 +207,6 @@ public class NodeGenerator : MonoBehaviour
                         NodeInfo newNode = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.West);
                         nodeInfo.west = newNode;
-                        newNode.east = nodeInfo;
                     }
                 }
                 break;
@@ -230,7 +229,6 @@ public class NodeGenerator : MonoBehaviour
                         NodeInfo newNode = GenerateNodes(mapInfo, x, y - 1, distance + 1, 3, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.South);
                         nodeInfo.south = newNode;
-                        newNode.north = nodeInfo;
                     }
                 }
                 break;
@@ -253,14 +251,13 @@ public class NodeGenerator : MonoBehaviour
                         NodeInfo newNode = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.North);
                         nodeInfo.north = newNode;
-                        newNode.south = nodeInfo;
                     }
                 }
                 break;
         }
     }
 
-    public void CheckParent(MapInfo mapInfo, int x, int y, int distance, NodeInfo nodeInfo, string dir)
+    public void CheckParent(int x, int y, NodeInfo nodeInfo, string dir)
     {
         switch (dir)
         {
