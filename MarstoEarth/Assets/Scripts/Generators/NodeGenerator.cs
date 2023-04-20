@@ -168,7 +168,7 @@ public class NodeGenerator : MonoBehaviour
                 NodeInfo eastNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x + 1) * nodeSpacing)
                                             && Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
                 // 있으면 확률판정 후에 기억, 패스노드 생성
-                if (eastNeighbor != null && eastNeighbor == nodeInfo.east)
+                if (eastNeighbor != null && eastNeighbor != nodeInfo.east)
                 {
                     if (Random.value > 0.5)
                     {
@@ -191,7 +191,7 @@ public class NodeGenerator : MonoBehaviour
             case "West":
                 NodeInfo westNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x - 1) * nodeSpacing)
                                                     && Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
-                if (westNeighbor != null && westNeighbor == nodeInfo.west)
+                if (westNeighbor != null && westNeighbor != nodeInfo.west)
                 {
                     if (Random.value > 0.5)
                     {
@@ -213,7 +213,7 @@ public class NodeGenerator : MonoBehaviour
             case "South":
                 NodeInfo southNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
                                             && Mathf.Approximately(n.transform.position.z, (y - 1) * nodeSpacing));
-                if (southNeighbor != null && southNeighbor == nodeInfo.south)
+                if (southNeighbor != null && southNeighbor != nodeInfo.south)
                 {
                     if (Random.value > 0.5)
                     {
@@ -235,7 +235,7 @@ public class NodeGenerator : MonoBehaviour
             case "North":
                 NodeInfo northNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
                                                     && Mathf.Approximately(n.transform.position.z, (y + 1) * nodeSpacing));
-                if (northNeighbor != null && northNeighbor == nodeInfo.north)
+                if (northNeighbor != null && northNeighbor != nodeInfo.north)
                 {
                     if (Random.value > 0.5)
                     {
