@@ -3,14 +3,13 @@ using Projectile;
 using Skill;
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class SpawnManager : Singleton<SpawnManager>
 {
     public Player player;
-    public Transform playerTransform;
+    [HideInInspector]public Transform playerTransform;
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public bool playerInstantiateFinished = false;
@@ -20,8 +19,9 @@ public class SpawnManager : Singleton<SpawnManager>
     protected override void Awake()
     {
         base.Awake();
-        // player = Instantiate(player);
-        // playerTransform = player.gameObject.transform;
+        player = Instantiate(player);
+        playerTransform = player.gameObject.transform;
+        
 
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
@@ -32,7 +32,7 @@ public class SpawnManager : Singleton<SpawnManager>
             actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
     }
 
-    protected override void Update()
+    protected void Update()
     {
         if (MapManager.Instance.isMapGenerateFinished && playerInstantiateFinished == false)
         {
@@ -44,10 +44,8 @@ public class SpawnManager : Singleton<SpawnManager>
     public void FirstInit()
     {
         curNode = MapManager.nodes[0];
-        //player = Instantiate(player);
-        //playerTransform = player.gameObject.transform;
         playerInstantiateFinished = true;
-        for(int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
             RandomSpawnMonster(curNode.transform.position);
         }
@@ -56,7 +54,7 @@ public class SpawnManager : Singleton<SpawnManager>
     public void NodeSpawn(NodeInfo spawnNode)
     {
         curNode = spawnNode;
-        for (int i = 0; i < 2; i ++)
+        for (int i = 0; i < 2; i++)
         {
             RandomSpawnMonster(curNode.transform.position);
         }
@@ -136,7 +134,7 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public static void DropOptanium(Vector3 postion)
     {
-        Instantiate(ResourceManager.Instance.items[0],postion,Quaternion.identity);
+        Instantiate(ResourceManager.Instance.items[0], postion, Quaternion.identity);
 
     }
 
