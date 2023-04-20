@@ -1,6 +1,6 @@
 using Skill;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Character
 {
@@ -15,8 +15,25 @@ namespace Character
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
         private Collider[] itemColliders;
-        private KeyCode  key;
+        private KeyCode key;
         private LayerMask obstacleMask;
+        private Transform _target;
+        public new Transform target
+        {
+            get
+            {
+                return _target;
+            }
+            set
+            {
+                CinemachineManager.Instance.playerCam.gameObject.SetActive(!value);
+                CinemachineManager.Instance.bossCam.gameObject.SetActive(value);
+
+                _target = CinemachineManager.Instance.bossCam.LookAt = value;
+                //= CameraInit.Instance.vcam.LookAt
+
+            }
+        }
 
         private Projectile.ProjectileInfo chargeProjectileInfo;
         public bool onCharge;
@@ -33,18 +50,20 @@ namespace Character
             KeyCode.A
         };
 
-
+        private float cameraSpeed = 300f;
         private bool isRun;
         private float lastInputTime;
-        
+
         public Vector3 InputDir;
         private static readonly int IsRun = Animator.StringToHash("isRun");
-
+        public Transform cameraView;
         protected override void Awake()
         {
             base.Awake();
             colliders = new Collider[8];
-            itemColliders = new Collider[1];            
+            itemColliders = new Collider[1];
+            anim.SetFloat(movingSpeed, 1 + speed * 0.1f);
+
             actives = new List<Skill.Skill>();
             chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
@@ -89,8 +108,8 @@ namespace Character
         protected void Update()
         {
             Vector3 position = thisCurTransform.position;
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0);
-            mouseDir = hitInfo.point - position;
+            //Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0);
+            //mouseDir = hitInfo.point - position;
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
             InputDir = new Vector3(xInput, 0, zInput);
@@ -104,18 +123,20 @@ namespace Character
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
                 getItem.Use(this);
             }
-            if (onSkill is not null && onSkill.skillInfo.clipLayer==2)
+            if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
                 return;
             #region MovingMan
 
+
             if (xInput != 0 || zInput != 0)
             {
-                if (xInput is > 0.75f or < -0.75f && zInput is >0.75f or<-0.75f)
+                if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
                 {
+
                     InputDir.x *=  0.71f;
                     InputDir.z *=  0.71f;
                 }
-                
+
                 if (Input.anyKey)
                 {
                     foreach (KeyCode keyCode in keys)
@@ -126,21 +147,26 @@ namespace Character
                             {   //연속으로 두번왓는지 확인
                                 anim.SetBool(IsRun, isRun = true);
                             }
-                            key = keyCode;           
+                            key = keyCode;
                             lastInputTime = Time.time;
                             break;
                         }
                     }
-                }else
+                }
+                else
                     anim.SetBool(IsRun, isRun = false);
 
-                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun?1.5f:1));
+                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1));
             }
-            
             //thisCurTransform.forward =
             //    Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir:
             //        target? target.position-position : mouseDir, 6 * Time.deltaTime, 0);
-            
+
+            var rotInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            var rot = transform.eulerAngles;
+            rot.y += rotInput.x * cameraSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(rot);
+
             Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
 
             anim.SetFloat(X, characterDir.x);
@@ -162,7 +188,7 @@ namespace Character
                     for (int i = 0; i < size; i++)
                     {
                         float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position, Vector3.up);
-                        
+
                         if ((angle < 0 ? -angle : angle) < viewAngle)
                         {
                             float coLeng = Vector3.Distance(colliders[i].transform.position, position);
@@ -179,9 +205,9 @@ namespace Character
             else
             {
                 float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
-                
 
-                
+
+
                 if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
                 {
                     anim.SetBool(onTarget, target = null);
@@ -192,8 +218,10 @@ namespace Character
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 actives[0].Use(this);
-            }else if (Input.GetKeyDown(KeyCode.E))
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
             {
+
                 actives[1].Use(this);
             }else if (Input.GetKeyDown(KeyCode.R))
 
@@ -214,6 +242,7 @@ namespace Character
             }
             else if (Input.GetKeyDown(KeyCode.Keypad2))
             {
+
                 actives[5].Use(this);
             } else if (Input.GetKeyDown(KeyCode.Keypad3))
             {
@@ -225,6 +254,7 @@ namespace Character
             }
             else if (Input.GetKeyDown(KeyCode.Keypad5))
             {
+
                 actives[8].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Keypad6))
             {
@@ -245,6 +275,7 @@ namespace Character
 
         protected override void Attack()
         {
+
             Vector3 forward = thisCurTransform.forward;
             if (onCharge)
             {

@@ -9,7 +9,4 @@ public class Singleton<T> : MonoBehaviour where T : class
     {
         Instance ??= this as T;
     }
-    protected virtual void Update()
-    {
-    }
 }
