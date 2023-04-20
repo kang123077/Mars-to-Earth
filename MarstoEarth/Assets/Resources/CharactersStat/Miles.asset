@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe362b65159445338108f6252fa3718b, type: 3}
   m_Name: Miles
   m_EditorClassIdentifier: 
-  dmg: 30
+  dmg: 15
   coolDecrease: 0
   speed: 4.5
   def: 0
