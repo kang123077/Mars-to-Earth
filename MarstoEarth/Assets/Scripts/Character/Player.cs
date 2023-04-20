@@ -26,10 +26,6 @@ namespace Character
             }
             set
             {
-                Debug.Log(CinemachineManager.Instance);
-                Debug.Log(CinemachineManager.Instance.playerCam);
-                Debug.Log(CinemachineManager.Instance.playerCam.gameObject);
-
                 CinemachineManager.Instance.playerCam.gameObject.SetActive(!value);
                 CinemachineManager.Instance.bossCam.gameObject.SetActive(value);
 
