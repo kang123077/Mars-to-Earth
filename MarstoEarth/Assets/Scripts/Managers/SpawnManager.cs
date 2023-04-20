@@ -46,7 +46,7 @@ public class SpawnManager : Singleton<SpawnManager>
         curNode = MapManager.nodes[0];
         playerInstantiateFinished = true;
 
-        for(int i = 0; i < 1; i++)
+        for(int i = 0; i < 3; i++)
         {
             RandomSpawnMonster(curNode.transform.position);
         }
@@ -55,7 +55,7 @@ public class SpawnManager : Singleton<SpawnManager>
     public void NodeSpawn(NodeInfo spawnNode)
     {
         curNode = spawnNode;
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
             RandomSpawnMonster(curNode.transform.position);
         }
