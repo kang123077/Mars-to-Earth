@@ -10,6 +10,8 @@ public class UIManager :Singleton<UIManager>
         DontDestroyOnLoad(gameObject);
     }
 
-
-    
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+    }
 }
