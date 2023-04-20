@@ -78,6 +78,7 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Stimpack]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Smash]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
 
             hpBar.TryGetComponent(out RectTransform hpRect);
             
@@ -107,14 +108,12 @@ namespace Character
                 return;
             #region MovingMan
 
-            
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput is > 0.75f or < -0.75f && zInput is >0.75f or<-0.75f)
                 {
                     InputDir.x *=  0.71f;
                     InputDir.z *=  0.71f;
-
                 }
                 
                 if (Input.anyKey)
@@ -138,14 +137,16 @@ namespace Character
                 thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun?1.5f:1));
             }
             
-            thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir:
-                    target? target.position-position : mouseDir, 6 * Time.deltaTime, 0);
+            //thisCurTransform.forward =
+            //    Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir:
+            //        target? target.position-position : mouseDir, 6 * Time.deltaTime, 0);
             
             Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
 
             anim.SetFloat(X, characterDir.x);
             anim.SetFloat(Z, characterDir.z);
+            //anim.SetFloat(X, InputDir.x);
+            //anim.SetFloat(Z, InputDir.z);
             #endregion
 
             #region Targeting
@@ -200,8 +201,8 @@ namespace Character
                 actives[2].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Space))
             {
-                anim.Play("Reload",1);
-                onCharge = true;
+                actives[13].Use(this);
+                Debug.Log(onSkill);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad0))
             {
@@ -247,7 +248,6 @@ namespace Character
             Vector3 forward = thisCurTransform.forward;
             if (onCharge)
             {
-                
                 SpawnManager.Instance.Launch(thisCurTransform.position,forward,0 ,1+duration*0.5f, 20+speed*2,range*0.5f, ref chargeProjectileInfo);
 
                 impact -= (45 + dmg * 0.5f) * 0.1f * forward;

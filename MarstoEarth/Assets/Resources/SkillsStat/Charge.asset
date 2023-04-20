@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
+  m_Name: Charge
+  m_EditorClassIdentifier: 
+  skillId: 0
+  description: 
+  skillType: 0
+  clipName: Reload
+  clipLayer: 1
+  icon: {fileID: 0}
+  dmg: 0
+  duration: 0
+  range: 0
+  cool: 3
+  speed: 0

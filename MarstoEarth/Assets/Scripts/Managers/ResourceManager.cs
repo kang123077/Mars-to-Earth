@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public enum EnemyType
 {
@@ -28,7 +27,8 @@ public enum SkillName
     AegisBarrier,
     MassShooting,
     Bite,
-    Block
+    Block,
+    Charge,
 }
 public class ResourceManager : Singleton<ResourceManager>
 {
@@ -45,7 +45,7 @@ public class ResourceManager : Singleton<ResourceManager>
         base.Awake();
         //skillInfos = Resources.LoadAll<SkillInfo>("SkillsStat");
 
-        skills.Add(new RollSkill(skillInfos[(int)SkillName.Roll]));
+        skills.Add(new RollSkill(skillInfos[(int)SkillName.Roll]));//플레이어 전용
         skills.Add(new SmashSkill(skillInfos[(int)SkillName.Smash]));
         skills.Add(new StimPackSkill(skillInfos[(int)SkillName.Stimpack]));
         skills.Add(new GrenadeSkill(skillInfos[(int)SkillName.Grenade]));
@@ -59,6 +59,7 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new MassShootingSkill(skillInfos[(int)SkillName.MassShooting]));
         skills.Add(null);// bite는 몬스터 전용스킬
         skills.Add(new BlockSkill(skillInfos[(int)SkillName.Block]));
+        skills.Add(new ChargeSkill(skillInfos[(int)SkillName.Charge]));//플레이어 전용
         DontDestroyOnLoad(gameObject);
     }
 
