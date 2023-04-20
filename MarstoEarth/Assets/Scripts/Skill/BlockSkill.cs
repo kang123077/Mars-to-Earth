@@ -7,10 +7,12 @@ namespace Skill
 {
     public class BlockSkill : Skill
     {
-        private readonly Collider[] colliders = new Collider[1];
         private SPC block;
         private bool parrying;
         private Action<Vector3, float, float> temp;
+        
+        private readonly Collider[] colliders = new Collider[8];
+        private Character.Character targetCh;
         public BlockSkill(SkillInfo skillInfo)
         {
             this.skillInfo = skillInfo;
@@ -18,25 +20,23 @@ namespace Skill
                 temp = ch.Hit;
                 ch.Hit = (attacker, dmg, penetrate) =>
                 {
-                    ch.Hited(attacker, dmg*0.2f, penetrate);
-                    
-                    if (parrying||Physics.OverlapSphereNonAlloc(attacker, 1, colliders, ch.layerMask) < 1) return;
-                    parrying = true;
+                    ch.Hited(attacker, dmg*0.2f, penetrate);                    
+                    if (parrying||Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, colliders, ch.layerMask) < 1) return;                    
                     attacker = colliders[0].transform.position;
-                    Vector3 transPos = ch.transform.position;
-                    attacker.y = transPos.y;
-                    ch.SkillEffect();
-                    ResourceManager.Instance.skills[(int)SkillName.ParringKick].Use(ch);
+                    attacker.y = ch.transform.position.y;
+                    ch.transform.LookAt(attacker);
+                    ch.anim.SetBool($"parring", parrying = true);
                 };
             }, (ch) => {
+                
                 ch.Hit = temp;
                 if (parrying) return;
-                ch.SkillEffect();
+                ch.onSkill = null;
             });
         }
         protected override bool Activate()
         {
-            parrying = false;
+            caster.anim.SetBool($"parring", parrying = false);            
             block.Init(skillInfo.duration + caster.duration * 0.1f);
             caster.PlaySkillClip(this);
             caster.AddBuff(block);
@@ -46,7 +46,17 @@ namespace Skill
         // ReSharper disable Unity.PerformanceAnalysis
         public override void Effect()
         {
-            
+            Vector3 transPos= caster.transform.position;
+            int size = Physics.OverlapSphereNonAlloc(transPos, skillInfo.range + caster.range * 0.2f, colliders, caster.layerMask);
+            for(int i =0; i < size; i++)
+            {
+                colliders[i].TryGetComponent(out targetCh);
+                if (targetCh)
+                {
+                    targetCh.Hit(transPos, skillInfo.dmg + caster.dmg * 0.5f, 0);
+                    targetCh.impact -= targetCh.transform.forward*3;
+                }
+            }
         }
     }
 }

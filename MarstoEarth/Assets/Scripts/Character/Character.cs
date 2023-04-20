@@ -9,11 +9,11 @@ namespace Character
     public abstract class Character : MonoBehaviour
     {
 
-        protected static readonly int movingSpeed = Animator.StringToHash("movingSpeed");
+        protected static readonly int animSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
         protected static readonly int onTarget = Animator.StringToHash("onTarget");
         public StatInfo characterStat;
-        [SerializeField] protected Animator anim;
+        [SerializeField] public Animator anim;
         [SerializeField] protected Collider col;
         
         protected Camera mainCam;
@@ -22,12 +22,10 @@ namespace Character
         [HideInInspector] public Transform target;
         protected Character targetCharacter;
         protected Collider[] colliders;
-        protected float nockBackResist ;
+        private float nockBackResist ;
         [HideInInspector] public bool dying;
         public Skill.Skill onSkill { get; set; }
         private float SPCActionWeight;
-
-        protected int level;
         public Vector3 impact { get; set; }
         public float dmg { get; set; }
         public float coolDecrease { get; set; }
@@ -55,7 +53,7 @@ namespace Character
         }
         public int layerMask { get; set; }
 
-        protected List<Skill.SPC> Buffs;
+        private List<Skill.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
         public Action<Vector3,float,float> Hit;
@@ -82,6 +80,8 @@ namespace Character
             
             Buffs = new List<Skill.SPC>();
             layerMask = (1 << 3 | 1 << 6 ) ^ 1 << gameObject.layer;
+
+            anim.SetFloat(animSpeed, 1 + speed * 0.05f);
             Hit = Hited;
         }
 
@@ -90,7 +90,6 @@ namespace Character
             hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
             projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet,null);
-            
         }
 
         protected virtual void Attack()
@@ -123,8 +122,12 @@ namespace Character
             }
             if (dying)
                 return;
-            if ( onSkill is null && SPCActionWeight > 0)
-                anim.SetLayerWeight(2, SPCActionWeight -= Time.deltaTime*4); 
+
+            SPCActionWeight =
+                Mathf.Clamp(
+                    SPCActionWeight += Time.deltaTime * (onSkill && onSkill.skillInfo.clipLayer == 2 ? 3 : -2), 0, 1);
+            
+            anim.SetLayerWeight(2, SPCActionWeight);
 
             for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
                 Buffs[buffElementIdx].Activation(this);
@@ -132,7 +135,6 @@ namespace Character
         }
         protected internal virtual void Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
-            Debug.Log("맞음 호출");
             if(dying)
                 return; 
             float penetratedDef = def * (100 - penetrate) * 0.01f;
@@ -150,6 +152,7 @@ namespace Character
             Buffs.Add(buff);//같은 버프가 걸려있는지 체크해야함
 
         }
+        // ReSharper disable Unity.PerformanceAnalysis
         public void RemoveBuff(Skill.SPC buff)
         {
             buff.Remove?.Invoke(this);
@@ -158,8 +161,7 @@ namespace Character
         public void PlaySkillClip(Skill.Skill skill)
         {
             onSkill = skill;
-            if(skill.skillInfo.clipLayer==2)
-                anim.SetLayerWeight(skill.skillInfo.clipLayer, SPCActionWeight=1);
+            
             anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);
             //StartCoroutine(ClipBack(anim.GetCurrentAnimatorClipInfo(2)[0].clip.length));
         }

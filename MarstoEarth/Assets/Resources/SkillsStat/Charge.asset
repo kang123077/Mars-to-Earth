@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
-  m_Name: ParringKick
+  m_Name: Charge
   m_EditorClassIdentifier: 
   skillId: 0
   description: 
   skillType: 0
-  clipName: Kick
-  clipLayer: 2
+  clipName: Reload
+  clipLayer: 1
   icon: {fileID: 0}
-  dmg: 30
+  dmg: 0
   duration: 0
-  range: 3
-  cool: 1
+  range: 0
+  cool: 3
   speed: 0

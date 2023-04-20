@@ -1,6 +1,6 @@
 using Skill;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Character
 {
@@ -8,16 +8,34 @@ namespace Character
     public class Player : Character
     {
 
-        private RaycastHit hitInfo;
-        private Vector3 mouseDir;
+       // private RaycastHit hitInfo;
+       // private Vector3 mouseDir;
         private float xInput;
         private float zInput;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
+        private static readonly int IsRun = Animator.StringToHash("isRun");
         private Collider[] itemColliders;
-        private KeyCode  key;
+        private KeyCode key;
         private LayerMask obstacleMask;
+        private Transform _target;
+        private Vector3 characterMovingDir;
+        public new Transform target
+        {
+            get
+            {
+                return _target;
+            }
+            set
+            {
+                CinemachineManager.Instance.playerCam.gameObject.SetActive(!value);
+                CinemachineManager.Instance.bossCam.gameObject.SetActive(value);
+                _target = CinemachineManager.Instance.bossCam.LookAt = value;                
+            }
+        }
 
+        private Projectile.ProjectileInfo chargeProjectileInfo;
+        public bool onCharge;
         protected List<Skill.Skill> actives;
         private KeyCode[] keys = new[]
         {
@@ -31,78 +49,96 @@ namespace Character
             KeyCode.A
         };
 
-
         private bool isRun;
         private float lastInputTime;
-        
         public Vector3 InputDir;
-        private static readonly int IsRun = Animator.StringToHash("isRun");
+        public Transform cameraView;
+        private float cameraSpeed ;
+        private float NoneTargetEleapse;
 
         protected override void Awake()
         {
             base.Awake();
             colliders = new Collider[8];
             itemColliders = new Collider[1];
-            anim.SetFloat(movingSpeed, 1 + speed * 0.1f);
-            
             actives = new List<Skill.Skill>();
-            //layerMask = (1 << LayerMask.NameToLayer("Obstacle"));
-            //layerMask = ~layerMask;
+            chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
+                ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
+                Projectile.Type.Bullet,  (point) =>
+                {
+                    int count = Physics.OverlapSphereNonAlloc(point,
+                        5 + range * 0.2f, colliders,
+                        layerMask);
+                    for (int i = 0; i < count; i++)
+                    {
+                        colliders[i].TryGetComponent(out targetCharacter);
+                        if (targetCharacter)
+                            targetCharacter.Hit(point, 25 + dmg * 2f,0);
+                    }
+                });
+
+            cameraSpeed = 300;
         }
         protected override void Start()
         {
             base.Start();
             //퀵슬롯 구현후 삭제
-            actives.Add(ResourceManager.Instance.skills[0]);
-            actives.Add(ResourceManager.Instance.skills[1]);
-            actives.Add(ResourceManager.Instance.skills[2]);
-            actives.Add(ResourceManager.Instance.skills[3]);
-            actives.Add(ResourceManager.Instance.skills[4]);
-            actives.Add(ResourceManager.Instance.skills[5]);
-            actives.Add(ResourceManager.Instance.skills[6]);
-            actives.Add(ResourceManager.Instance.skills[7]);
-            actives.Add(ResourceManager.Instance.skills[8]);
-            actives.Add(ResourceManager.Instance.skills[9]);
-            actives.Add(ResourceManager.Instance.skills[10]);
-            actives.Add(ResourceManager.Instance.skills[11]);
-            actives.Add(ResourceManager.Instance.skills[12]);
-            actives.Add(null);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Grenade]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.GravityBomb]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.SpiderMine]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Hyperion]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Boomerang]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Distortion]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.AegisBarrier]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.MassShooting]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Block]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Stimpack]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Smash]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
 
-            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
+            hpBar.TryGetComponent(out RectTransform hpRect);
+            
+            hpRect.anchoredPosition = new Vector2(0, -Screen.height*2/5);
+
+            //hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
         {
             Vector3 position = thisCurTransform.position;
-            Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0);
-            mouseDir = hitInfo.point - position;
+            //Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0);
+            //mouseDir = hitInfo.point - position;
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
             InputDir = new Vector3(xInput, 0, zInput);
             BaseUpdate();
             if (dying)
                 return;
-            mainCam.transform.position = position + new Vector3(0, 25, -27.5f);
 
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
                 getItem.Use(this);
             }
-            if (onSkill is not null && onSkill.skillInfo.clipLayer==2)
+            if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
                 return;
             #region MovingMan
 
-            
+            var rotInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            var rot = transform.eulerAngles;
+            rot.y += rotInput.x * cameraSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(rot);
+
             if (xInput != 0 || zInput != 0)
             {
-                if (xInput is > 0.75f or < -0.75f && zInput is >0.75f or<-0.75f)
+                if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
                 {
+
                     InputDir.x *=  0.71f;
                     InputDir.z *=  0.71f;
-
                 }
-                
+
                 if (Input.anyKey)
                 {
                     foreach (KeyCode keyCode in keys)
@@ -113,25 +149,28 @@ namespace Character
                             {   //연속으로 두번왓는지 확인
                                 anim.SetBool(IsRun, isRun = true);
                             }
-                            key = keyCode;           
+                            key = keyCode;
                             lastInputTime = Time.time;
                             break;
                         }
                     }
-                }else
+                }
+                else
                     anim.SetBool(IsRun, isRun = false);
+                InputDir = transform.rotation *InputDir;
+                characterMovingDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
+                
+                anim.SetFloat(X, characterMovingDir.x);
+                anim.SetFloat(Z, characterMovingDir.z);
 
-                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun?1.5f:1));
+                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1));
             }
-            
-            thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir:
-                    target? target.position-position : mouseDir, 6 * Time.deltaTime, 0);
-            
-            Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
 
-            anim.SetFloat(X, characterDir.x);
-            anim.SetFloat(Z, characterDir.z);
+            thisCurTransform.forward =
+                Vector3.RotateTowards(thisCurTransform.forward, isRun ? InputDir :
+                    target ? target.position - position : thisCurTransform.forward, 6 * Time.deltaTime, 0);
+
+
             #endregion
 
             #region Targeting
@@ -146,8 +185,8 @@ namespace Character
                     float minCoLength = 1000;
                     for (int i = 0; i < size; i++)
                     {
-                        float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position, Vector3.up);
-                        
+                        float angle = Vector3.SignedAngle(thisCurTransform.forward, colliders[i].transform.position - position, Vector3.up);
+
                         if ((angle < 0 ? -angle : angle) < viewAngle)
                         {
                             float coLeng = Vector3.Distance(colliders[i].transform.position, position);
@@ -163,13 +202,16 @@ namespace Character
             }
             else
             {
-                float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
-                
+                float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - position, Vector3.up);
 
-                
                 if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
                 {
-                    anim.SetBool(onTarget, target = null);
+                    NoneTargetEleapse += Time.deltaTime;
+                    if(NoneTargetEleapse>2.5f)
+                    {
+                        NoneTargetEleapse -= 2.5f;
+                        anim.SetBool(onTarget, target = null);
+                    }
                 }
             }
             #endregion
@@ -177,59 +219,75 @@ namespace Character
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 actives[0].Use(this);
-            }else if (Input.GetKeyDown(KeyCode.E))
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
             {
-                actives[4].Use(this);
+
+                actives[1].Use(this);
             }else if (Input.GetKeyDown(KeyCode.R))
 
             {
-                actives[5].Use(this);
+                actives[2].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Space))
             {
-                actives[7].Use(this);
+                actives[13].Use(this);
+                Debug.Log(onSkill);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad0))
             {
-                actives[8].Use(this);
+                actives[3].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad1))
             {
-                actives[2].Use(this);
+                actives[4].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad2))
             {
-                actives[6].Use(this);
+
+                actives[5].Use(this);
             } else if (Input.GetKeyDown(KeyCode.Keypad3))
             {
-                actives[9].Use(this);
+                actives[6].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad4))
             {
-                actives[10].Use(this);
+                actives[7].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad5))
             {
-                actives[11].Use(this);
+
+                actives[8].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Keypad6))
             {
-                actives[12].Use(this);
+                actives[9].Use(this);
             }else if (Input.GetKeyDown(KeyCode.Keypad7))
             {
-                actives[1].Use(this);
+                actives[10].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad8))
             {
-                actives[(int)SkillName.Block].Use(this);
+                actives[11].Use(this);
+            }else if (Input.GetKeyDown(KeyCode.Keypad9))
+            {
+                actives[12].Use(this);
             }
 
         }
 
         protected override void Attack()
         {
-            if (onSkill is ChargeShotSkill)
-                    SkillEffect();
+
+            Vector3 forward = thisCurTransform.forward;
+            if (onCharge)
+            {
+                SpawnManager.Instance.Launch(thisCurTransform.position,forward,0 ,1+duration*0.5f, 20+speed*2,range*0.5f, ref chargeProjectileInfo);
+
+                impact -= (45 + dmg * 0.5f) * 0.1f * forward;
+                onCharge = false;
+            }
+                
             else
-                SpawnManager.Instance.Launch(thisCurTransform.position,thisCurTransform.forward,
+                SpawnManager.Instance.Launch(thisCurTransform.position,forward,
                     dmg ,1+duration*0.5f, 20+speed*2,range*0.5f, ref projectileInfo);
 
         }
