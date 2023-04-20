@@ -8,16 +8,18 @@ namespace Character
     public class Player : Character
     {
 
-        private RaycastHit hitInfo;
-        private Vector3 mouseDir;
+       // private RaycastHit hitInfo;
+       // private Vector3 mouseDir;
         private float xInput;
         private float zInput;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
+        private static readonly int IsRun = Animator.StringToHash("isRun");
         private Collider[] itemColliders;
         private KeyCode key;
         private LayerMask obstacleMask;
         private Transform _target;
+        private Vector3 characterMovingDir;
         public new Transform target
         {
             get
@@ -28,10 +30,7 @@ namespace Character
             {
                 CinemachineManager.Instance.playerCam.gameObject.SetActive(!value);
                 CinemachineManager.Instance.bossCam.gameObject.SetActive(value);
-
-                _target = CinemachineManager.Instance.bossCam.LookAt = value;
-                //= CameraInit.Instance.vcam.LookAt
-
+                _target = CinemachineManager.Instance.bossCam.LookAt = value;                
             }
         }
 
@@ -50,20 +49,18 @@ namespace Character
             KeyCode.A
         };
 
-        private float cameraSpeed = 300f;
         private bool isRun;
         private float lastInputTime;
-
         public Vector3 InputDir;
-        private static readonly int IsRun = Animator.StringToHash("isRun");
         public Transform cameraView;
+        private float cameraSpeed ;
+        private float NoneTargetEleapse;
+
         protected override void Awake()
         {
             base.Awake();
             colliders = new Collider[8];
             itemColliders = new Collider[1];
-            anim.SetFloat(movingSpeed, 1 + speed * 0.1f);
-
             actives = new List<Skill.Skill>();
             chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
@@ -79,6 +76,8 @@ namespace Character
                             targetCharacter.Hit(point, 25 + dmg * 2f,0);
                     }
                 });
+
+            cameraSpeed = 300;
         }
         protected override void Start()
         {
@@ -127,6 +126,10 @@ namespace Character
                 return;
             #region MovingMan
 
+            var rotInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            var rot = transform.eulerAngles;
+            rot.y += rotInput.x * cameraSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(rot);
 
             if (xInput != 0 || zInput != 0)
             {
@@ -155,24 +158,20 @@ namespace Character
                 }
                 else
                     anim.SetBool(IsRun, isRun = false);
+                InputDir = transform.rotation *InputDir;
+                characterMovingDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
+                
+                anim.SetFloat(X, characterMovingDir.x);
+                anim.SetFloat(Z, characterMovingDir.z);
 
                 thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1));
             }
-            //thisCurTransform.forward =
-            //    Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir:
-            //        target? target.position-position : mouseDir, 6 * Time.deltaTime, 0);
 
-            var rotInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-            var rot = transform.eulerAngles;
-            rot.y += rotInput.x * cameraSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.Euler(rot);
+            thisCurTransform.forward =
+                Vector3.RotateTowards(thisCurTransform.forward, isRun ? InputDir :
+                    target ? target.position - position : thisCurTransform.forward, 6 * Time.deltaTime, 0);
 
-            Vector3 characterDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
 
-            anim.SetFloat(X, characterDir.x);
-            anim.SetFloat(Z, characterDir.z);
-            //anim.SetFloat(X, InputDir.x);
-            //anim.SetFloat(Z, InputDir.z);
             #endregion
 
             #region Targeting
@@ -187,7 +186,7 @@ namespace Character
                     float minCoLength = 1000;
                     for (int i = 0; i < size; i++)
                     {
-                        float angle = Vector3.SignedAngle(mouseDir, colliders[i].transform.position - position, Vector3.up);
+                        float angle = Vector3.SignedAngle(thisCurTransform.forward, colliders[i].transform.position - position, Vector3.up);
 
                         if ((angle < 0 ? -angle : angle) < viewAngle)
                         {
@@ -204,13 +203,16 @@ namespace Character
             }
             else
             {
-                float angle = Vector3.SignedAngle(mouseDir, target.position - position, Vector3.up);
-
-
+                float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - position, Vector3.up);
 
                 if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
                 {
-                    anim.SetBool(onTarget, target = null);
+                    NoneTargetEleapse += Time.deltaTime;
+                    if(NoneTargetEleapse>2.5f)
+                    {
+                        NoneTargetEleapse -= 2.5f;
+                        anim.SetBool(onTarget, target = null);
+                    }
                 }
             }
             #endregion
