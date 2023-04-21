@@ -1,6 +1,7 @@
 using Skill;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -17,20 +18,16 @@ namespace Character
         private static readonly int IsRun = Animator.StringToHash("isRun");
         private Collider[] itemColliders;
         private KeyCode key;
-        private LayerMask obstacleMask;
         private Transform _target;
         private Vector3 characterMovingDir;
         public new Transform target
         {
-            get
-            {
-                return _target;
-            }
+            get => _target;
             set
             {
                 CinemachineManager.Instance.playerCam.gameObject.SetActive(!value);
                 CinemachineManager.Instance.bossCam.gameObject.SetActive(value);
-                _target = CinemachineManager.Instance.bossCam.LookAt = value;                
+                _target = CinemachineManager.Instance.bossCam.LookAt = value;
             }
         }
 
@@ -50,11 +47,23 @@ namespace Character
         };
 
         private bool isRun;
+        // protected bool isRun
+        // {
+        //     get => _isRun;
+        //     set
+        //     {
+        //         if (value)
+        //         {
+        //             curAngle = curCam.eulerAngles;
+        //         }
+        //
+        //         _isRun = value;
+        //     }
+        // }
         private float lastInputTime;
         public Vector3 InputDir;
-        public Transform cameraView;
-        private float cameraSpeed ;
-        private float NoneTargetEleapse;
+        public Transform camPoint;
+    
 
         protected override void Awake()
         {
@@ -77,7 +86,7 @@ namespace Character
                     }
                 });
 
-            cameraSpeed = 300;
+         
         }
         protected override void Start()
         {
@@ -101,17 +110,15 @@ namespace Character
             hpBar.TryGetComponent(out RectTransform hpRect);
             
             hpRect.anchoredPosition = new Vector2(0, -Screen.height*2/5);
-
-            //hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
         {
             Vector3 position = thisCurTransform.position;
-            //Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0);
-            //mouseDir = hitInfo.point - position;
+            
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
             InputDir = new Vector3(xInput, 0, zInput);
+
             BaseUpdate();
             if (dying)
                 return;
@@ -125,11 +132,7 @@ namespace Character
                 return;
             #region MovingMan
 
-            var rotInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-            var rot = transform.eulerAngles;
-            rot.y += rotInput.x * cameraSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.Euler(rot);
-
+        
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
@@ -157,20 +160,22 @@ namespace Character
                 }
                 else
                     anim.SetBool(IsRun, isRun = false);
-                InputDir = transform.rotation *InputDir;
-                characterMovingDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
+                InputDir = CinemachineManager.Instance.follower.rotation *InputDir;
+                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1f));
                 
-                anim.SetFloat(X, characterMovingDir.x);
-                anim.SetFloat(Z, characterMovingDir.z);
+               Vector3 lowerDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
+                
+                anim.SetFloat(X, lowerDir.x);
+                anim.SetFloat(Z, lowerDir.z);
 
-                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1));
             }
 
+            Vector3 repoterForward = CinemachineManager.Instance.follower.forward;
+            repoterForward.y = 0;
             thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, isRun ? InputDir :
-                    target ? target.position - position : thisCurTransform.forward, 6 * Time.deltaTime, 0);
-
-
+                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir: target?  target.position-thisCurTransform.position: repoterForward, Time.deltaTime * speed, 0);
+            
+            
             #endregion
 
             #region Targeting
@@ -206,12 +211,9 @@ namespace Character
 
                 if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
                 {
-                    NoneTargetEleapse += Time.deltaTime;
-                    if(NoneTargetEleapse>2.5f)
-                    {
-                        NoneTargetEleapse -= 2.5f;
+                   
                         anim.SetBool(onTarget, target = null);
-                    }
+                    
                 }
             }
             #endregion
