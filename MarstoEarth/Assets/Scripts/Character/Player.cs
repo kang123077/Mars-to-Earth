@@ -47,23 +47,10 @@ namespace Character
         };
 
         private bool isRun;
-        // protected bool isRun
-        // {
-        //     get => _isRun;
-        //     set
-        //     {
-        //         if (value)
-        //         {
-        //             curAngle = curCam.eulerAngles;
-        //         }
-        //
-        //         _isRun = value;
-        //     }
-        // }
         private float lastInputTime;
         public Vector3 InputDir;
         public Transform camPoint;
-    
+        private float targetReleaseEleapse;
 
         protected override void Awake()
         {
@@ -85,8 +72,6 @@ namespace Character
                             targetCharacter.Hit(point, 25 + dmg * 2f,0);
                     }
                 });
-
-         
         }
         protected override void Start()
         {
@@ -183,6 +168,7 @@ namespace Character
                 anim.SetTrigger(attacking);
             if (!target)
             {
+                targetReleaseEleapse = 0;
                 int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders,
                     1 << 6);
                 if (size > 0)
@@ -190,7 +176,7 @@ namespace Character
                     float minCoLength = 1000;
                     for (int i = 0; i < size; i++)
                     {
-                        float angle = Vector3.SignedAngle(thisCurTransform.forward, colliders[i].transform.position - position, Vector3.up);
+                        float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position, Vector3.up);
 
                         if ((angle < 0 ? -angle : angle) < viewAngle)
                         {
@@ -207,13 +193,11 @@ namespace Character
             }
             else
             {
-                float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - position, Vector3.up);
+                float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
 
                 if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
                 {
-                   
                         anim.SetBool(onTarget, target = null);
-                    
                 }
             }
             #endregion
