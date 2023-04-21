@@ -173,7 +173,7 @@ namespace Character
             Vector3 repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
             thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir:repoterForward, Time.deltaTime * speed, 0);
+                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir: target?  target.position-thisCurTransform.position: repoterForward, Time.deltaTime * speed, 0);
             
             
             #endregion
