@@ -2224,7 +2224,8 @@ MonoBehaviour:
   dying: 0
   onCharge: 0
   InputDir: {x: 0, y: 0, z: 0}
-  cameraView: {fileID: 3887237394028344984}
+  curCam: {fileID: 3887237394028344984}
+  fixCam: {fileID: 0}
 --- !u!54 &-6828465308735864369
 Rigidbody:
   m_ObjectHideFlags: 0

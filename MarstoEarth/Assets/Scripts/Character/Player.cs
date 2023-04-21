@@ -17,7 +17,6 @@ namespace Character
         private static readonly int IsRun = Animator.StringToHash("isRun");
         private Collider[] itemColliders;
         private KeyCode key;
-        private LayerMask obstacleMask;
         private Transform _target;
         private Vector3 characterMovingDir;
         public new Transform target
@@ -30,7 +29,7 @@ namespace Character
             {
                 CinemachineManager.Instance.playerCam.gameObject.SetActive(!value);
                 CinemachineManager.Instance.bossCam.gameObject.SetActive(value);
-                _target = CinemachineManager.Instance.bossCam.LookAt = value;                
+                _target = CinemachineManager.Instance.bossCam.LookAt = value;
             }
         }
 
@@ -52,7 +51,8 @@ namespace Character
         private bool isRun;
         private float lastInputTime;
         public Vector3 InputDir;
-        public Transform cameraView;
+        public Transform curCam;
+        public Transform fixCam;
         private float cameraSpeed ;
         private float NoneTargetEleapse;
 
@@ -101,17 +101,22 @@ namespace Character
             hpBar.TryGetComponent(out RectTransform hpRect);
             
             hpRect.anchoredPosition = new Vector2(0, -Screen.height*2/5);
-
-            //hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
         }
         protected void Update()
         {
             Vector3 position = thisCurTransform.position;
-            //Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0);
-            //mouseDir = hitInfo.point - position;
+            
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
             InputDir = new Vector3(xInput, 0, zInput);
+
+            var rotInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            var rot = transform.eulerAngles;
+            rot.y += rotInput.x * cameraSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.Euler(rot);
+            
+            
+
             BaseUpdate();
             if (dying)
                 return;
@@ -125,11 +130,7 @@ namespace Character
                 return;
             #region MovingMan
 
-            var rotInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-            var rot = transform.eulerAngles;
-            rot.y += rotInput.x * cameraSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.Euler(rot);
-
+        
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
@@ -164,6 +165,18 @@ namespace Character
                 anim.SetFloat(Z, characterMovingDir.z);
 
                 thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1));
+            }
+            /*
+             * 
+             * 
+             */
+            if (isRun)
+            {
+                fixCam = curCam;
+            }
+            else
+            {
+
             }
 
             thisCurTransform.forward =

@@ -11,12 +11,8 @@ public class CinemachineManager : Singleton<CinemachineManager>
 
     void Start()
     {
-        playerCam.Follow = SpawnManager.Instance.player.cameraView;
-        bossCam.Follow = SpawnManager.Instance.player.cameraView;
+        playerCam.Follow = SpawnManager.Instance.player.curCam;
+        bossCam.Follow = SpawnManager.Instance.player.curCam;
     }
 
-    void Update()
-    {
-        
-    }
 }
