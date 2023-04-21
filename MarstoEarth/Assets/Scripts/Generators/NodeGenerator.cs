@@ -65,7 +65,7 @@ public class NodeGenerator : MonoBehaviour
         // 부모노드가 있을 경우 해당 방향 기억 & 배제
         if (parentDir != null)
         {
-            CheckParent(mapInfo, x, y, distance, nodeInfo, directions[(int)parentDir]);
+            CheckParent(x, y, nodeInfo, directions[(int)parentDir]);
             directions.RemoveAt((int)parentDir);
         }
         // 모든 방향을 체크 할 때 까지
@@ -88,7 +88,7 @@ public class NodeGenerator : MonoBehaviour
             // 생성 마치고 링크가 없는 노드 방향에 벽 생성
             CreatePathWall();
             // 생성한 모든 노드, 패스, 벽 회전
-            RotateAllNodes();
+            // RotateAllNodes();
         }
         return nodeInfo;
     }
@@ -168,7 +168,7 @@ public class NodeGenerator : MonoBehaviour
                 NodeInfo eastNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x + 1) * nodeSpacing)
                                             && Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
                 // 있으면 확률판정 후에 기억, 패스노드 생성
-                if (eastNeighbor != null)
+                if (eastNeighbor != null && eastNeighbor != nodeInfo.east)
                 {
                     if (Random.value > 0.5)
                     {
@@ -177,14 +177,13 @@ public class NodeGenerator : MonoBehaviour
                         GeneratePath(nodeInfo, eastNeighbor, Direction.East);
                     }
                 }
-                // 없으면 확률판정 후에 노드, 패스노드 생성
+                // 없으면 확률판정 후에 노드, 패스노드 생성, 서로 연결
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) && MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
-                        PathController pathController = GeneratePath(nodeInfo, eastNeighbor, Direction.East);
                         NodeInfo newNode = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
-                        pathController.AddNeighbor(newNode, Relation.Children);
+                        PathController pathController = GeneratePath(nodeInfo, newNode, Direction.East);
                         nodeInfo.east = newNode;
                     }
                 }
@@ -192,7 +191,7 @@ public class NodeGenerator : MonoBehaviour
             case "West":
                 NodeInfo westNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x - 1) * nodeSpacing)
                                                     && Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
-                if (westNeighbor != null)
+                if (westNeighbor != null && westNeighbor != nodeInfo.west)
                 {
                     if (Random.value > 0.5)
                     {
@@ -205,9 +204,8 @@ public class NodeGenerator : MonoBehaviour
                 {
                     if (ProbabilityBasedOnDistance(distance) && MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
-                        PathController pathController = GeneratePath(nodeInfo, westNeighbor, Direction.West);
                         NodeInfo newNode = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
-                        pathController.AddNeighbor(newNode, Relation.Children);
+                        PathController pathController = GeneratePath(nodeInfo, newNode, Direction.West);
                         nodeInfo.west = newNode;
                     }
                 }
@@ -215,7 +213,7 @@ public class NodeGenerator : MonoBehaviour
             case "South":
                 NodeInfo southNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
                                             && Mathf.Approximately(n.transform.position.z, (y - 1) * nodeSpacing));
-                if (southNeighbor != null)
+                if (southNeighbor != null && southNeighbor != nodeInfo.south)
                 {
                     if (Random.value > 0.5)
                     {
@@ -228,9 +226,8 @@ public class NodeGenerator : MonoBehaviour
                 {
                     if (ProbabilityBasedOnDistance(distance) && MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
-                        PathController pathController = GeneratePath(nodeInfo, southNeighbor, Direction.South);
                         NodeInfo newNode = GenerateNodes(mapInfo, x, y - 1, distance + 1, 3, seed);
-                        pathController.AddNeighbor(newNode, Relation.Children);
+                        PathController pathController = GeneratePath(nodeInfo, newNode, Direction.South);
                         nodeInfo.south = newNode;
                     }
                 }
@@ -238,11 +235,11 @@ public class NodeGenerator : MonoBehaviour
             case "North":
                 NodeInfo northNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
                                                     && Mathf.Approximately(n.transform.position.z, (y + 1) * nodeSpacing));
-                if (northNeighbor != null)
+                if (northNeighbor != null && northNeighbor != nodeInfo.north)
                 {
                     if (Random.value > 0.5)
                     {
-                        nodeInfo.south = northNeighbor;
+                        nodeInfo.north = northNeighbor;
                         northNeighbor.south = nodeInfo;
                         GeneratePath(nodeInfo, northNeighbor, Direction.North);
                     }
@@ -251,9 +248,8 @@ public class NodeGenerator : MonoBehaviour
                 {
                     if (ProbabilityBasedOnDistance(distance) && MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
-                        PathController pathController = GeneratePath(nodeInfo, northNeighbor, Direction.North);
-                        NodeInfo newNode = nodeInfo.north = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2, seed);
-                        pathController.AddNeighbor(newNode, Relation.Children);
+                        NodeInfo newNode = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2, seed);
+                        PathController pathController = GeneratePath(nodeInfo, newNode, Direction.North);
                         nodeInfo.north = newNode;
                     }
                 }
@@ -261,7 +257,7 @@ public class NodeGenerator : MonoBehaviour
         }
     }
 
-    public void CheckParent(MapInfo mapInfo, int x, int y, int distance, NodeInfo nodeInfo, string dir)
+    public void CheckParent(int x, int y, NodeInfo nodeInfo, string dir)
     {
         switch (dir)
         {
@@ -334,7 +330,7 @@ public class NodeGenerator : MonoBehaviour
             wall.transform.RotateAround(Vector3.zero, Vector3.up, 45);
         }
         */
-        nodeParentTF.RotateAround(Vector3.zero, Vector3.up, 45);
+        // nodeParentTF.RotateAround(Vector3.zero, Vector3.up, 45);
     }
 
     public int GetRoomNumber(int distance)

@@ -1,3 +1,4 @@
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -52,16 +53,18 @@ public class GateController : MonoBehaviour
     }
 
     // Gate 애니메이션 이벤트 함수
-    // Open의 중간에 실행되는 함수
+    // Open의 시작 때 실행되는 함수
     public void OnOpen()
     {
         navMeshObstacle.enabled = false;
+        gameObject.layer = 10;
     }
 
     // Gate 애니메이션 이벤트 함수
-    // Close의 중간에 실행되는 함수
+    // Close의 시작 때 실행되는 함수
     public void OnClose()
     {
         navMeshObstacle.enabled = true;
+        gameObject.layer = 9;
     }
 }
