@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6968728500176429563}
   - component: {fileID: 15686134495976806}
   m_Layer: 6
-  m_Name: Robot_Scout_Rockie
+  m_Name: Scout_Rockie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   dying: 0
   ai: {fileID: 6968728500176429563}
   sightLength: 15
+  enemyType: 4
 --- !u!195 &6968728500176429563
 NavMeshAgent:
   m_ObjectHideFlags: 0

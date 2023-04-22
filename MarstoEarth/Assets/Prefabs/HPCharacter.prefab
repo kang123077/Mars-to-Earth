@@ -2257,6 +2257,7 @@ MonoBehaviour:
   onCharge: 0
   InputDir: {x: 0, y: 0, z: 0}
   camPoint: {fileID: 3434857689237907732}
+  hpSprite: {fileID: 21300000, guid: d7cddc4613af3c04e903a750e8dd19a8, type: 3}
 --- !u!54 &-6828465308735864369
 Rigidbody:
   m_ObjectHideFlags: 0

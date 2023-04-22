@@ -22,8 +22,7 @@ public class CinemachineManager : Singleton<CinemachineManager>
 
     private void Update()
     {
-        Vector2 rotInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        curAngle.y += rotInput.x * cameraSpeed * Time.deltaTime;
+        curAngle.y += Input.GetAxis("Mouse X") * cameraSpeed * Time.deltaTime;
         follower.position = SpawnManager.Instance.player.camPoint.position;
         
         follower.rotation = Quaternion.Euler(curAngle);

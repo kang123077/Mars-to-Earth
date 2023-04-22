@@ -1900,6 +1900,7 @@ MonoBehaviour:
   dying: 0
   ai: {fileID: 4461040968777881720}
   sightLength: 20
+  enemyType: 6
   LH: {fileID: 8155533566875756202}
 --- !u!1 &8155533566875335506
 GameObject:

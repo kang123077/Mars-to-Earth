@@ -677,6 +677,7 @@ MonoBehaviour:
   dying: 0
   ai: {fileID: 6770917455539000731}
   sightLength: 18
+  enemyType: 1
 --- !u!1 &2627701742935300765
 GameObject:
   m_ObjectHideFlags: 0

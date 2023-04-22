@@ -91,7 +91,12 @@ namespace Character
             ai.stoppingDistance = range-1;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
         }
-      
+        protected override void Start()
+        {
+            base.Start();
+            hpBar = Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.UIs[(int)UIType.Combat].transform);
+        }
+
         protected override void BaseUpdate()
         {
             base.BaseUpdate();

@@ -56,7 +56,6 @@ namespace Character
                         def -= 10;
                         attackReady = false;
                         target = null;
-                        Debug.Log(ai.speed);
                     }
                 }
                 

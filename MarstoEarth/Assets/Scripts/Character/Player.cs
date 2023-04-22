@@ -18,6 +18,7 @@ namespace Character
         private KeyCode key;
         private Transform _target;
         private Vector3 characterMovingDir;
+
         public new Transform target
         {
             get => _target;
@@ -55,7 +56,7 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
-  
+
             chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet,  (point) =>
@@ -90,9 +91,7 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
 
-            hpBar.TryGetComponent(out RectTransform hpRect);
-            
-            hpRect.anchoredPosition = new Vector2(0, -Screen.height*2/5);
+            hpBar = ((CombatUI)UIManager.Instance.UIs[(int)UIType.Combat]).playerHP;
         }
         protected void Update()
         {

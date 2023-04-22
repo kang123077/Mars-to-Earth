@@ -86,8 +86,7 @@ namespace Character
         }
 
         protected virtual void Start()
-        {
-            hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
+        {            
             projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet,null);
         }
@@ -109,7 +108,7 @@ namespace Character
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);
             Destroy(gameObject);
-            // InGameManager.Instance.OnMonsterCleared();
+            //InGameManager.Instance.OnMonsterCleared();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

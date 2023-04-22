@@ -6,7 +6,7 @@ using UnityEngine;
 
 public enum EnemyType
 {
-    cr42, cr43, cr44,
+    cr42, cr43, cr44,cr0,
     scout,
     kamikaze,
     titan,

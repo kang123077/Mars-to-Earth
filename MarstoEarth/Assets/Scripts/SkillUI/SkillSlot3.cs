@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-public class SkillSlot : MonoBehaviour
+public class SkillSlot3 : MonoBehaviour
 {
     //public Image iconImage; // 스킬 아이콘 이미지
     //public Text cooldownText; // 쿨다운 텍스트
