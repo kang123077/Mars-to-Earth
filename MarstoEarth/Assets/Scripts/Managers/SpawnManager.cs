@@ -123,6 +123,7 @@ public class SpawnManager : Singleton<SpawnManager>
             curNode.isNodeCleared = true;
             curNode.nodeCollider.enabled = false;
             MapManager.Instance.UpdateGate();
+            InGameManager.Instance.OnRoomCleared();
         }
     }
 
