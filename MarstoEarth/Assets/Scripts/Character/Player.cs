@@ -9,8 +9,6 @@ namespace Character
     public class Player : Character
     {
 
-       // private RaycastHit hitInfo;
-       // private Vector3 mouseDir;
         private float xInput;
         private float zInput;
         private static readonly int X = Animator.StringToHash("x");
@@ -50,7 +48,6 @@ namespace Character
         private float lastInputTime;
         public Vector3 InputDir;
         public Transform camPoint;
-        private float targetReleaseEleapse;
 
         protected override void Awake()
         {
@@ -58,6 +55,7 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
+  
             chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet,  (point) =>
@@ -160,25 +158,47 @@ namespace Character
             thisCurTransform.forward =
                 Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir: target?  target.position-thisCurTransform.position: repoterForward, Time.deltaTime * speed, 0);
             
-            
             #endregion
-
             #region Targeting
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
+            float minCoLength = 1000;
             if (!target)
             {
-                targetReleaseEleapse = 0;
+                
                 int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders,
                     1 << 6);
-                if (size > 0)
+                
+                for (int i = 0; i < size; i++)
                 {
-                    float minCoLength = 1000;
-                    for (int i = 0; i < size; i++)
+                    float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position, Vector3.up);
+                    if ((angle < 0 ? -angle : angle) < viewAngle)
                     {
-                        float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position, Vector3.up);
-
-                        if ((angle < 0 ? -angle : angle) < viewAngle)
+                        float coLeng = Vector3.Distance(colliders[i].transform.position, position);
+                        if (minCoLength > coLeng)
+                        {
+                            minCoLength = coLeng;
+                            target = colliders[i].transform;
+                        }
+                    }
+                }
+                anim.SetBool(onTarget, target);
+                
+            }
+            else
+            {
+                Vector3 repoterPosition = CinemachineManager.Instance.follower.position;
+                repoterPosition.y = 1;
+                int size =Physics.OverlapCapsuleNonAlloc(repoterPosition,
+                    repoterPosition + repoterForward * range, 0.5f, colliders, layerMask);
+                switch (size)
+                {
+                    case 1:
+                        target = colliders[0].transform;
+                        break;
+                    case > 1:
+                    {
+                        for (int i = 0; i < size; i++)
                         {
                             float coLeng = Vector3.Distance(colliders[i].transform.position, position);
                             if (minCoLength > coLeng)
@@ -187,18 +207,20 @@ namespace Character
                                 target = colliders[i].transform;
                             }
                         }
-                    }
-                    anim.SetBool(onTarget, target);
-                }
-            }
-            else
-            {
-                float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
 
-                if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
-                {
-                        anim.SetBool(onTarget, target = null);
+                        break;
+                    }
+                    default:
+                    {
+                        float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
+                        if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range)
+                            anim.SetBool(onTarget, target = null);
+                        break;
+                    }
                 }
+
+                
+                
             }
             #endregion
 

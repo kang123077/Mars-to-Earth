@@ -70,8 +70,8 @@ namespace Projectile
         // ReSharper disable Unity.PerformanceAnalysis
         private void Bullet()
         {
-            thisTransform.position += targetPos * (Time.deltaTime * speed*2); 
-            if (Physics.OverlapSphereNonAlloc(thisTransform.position, range*0.05f, colliders,
+            thisTransform.position += targetPos * (Time.deltaTime * speed*3); 
+            if (Physics.OverlapSphereNonAlloc(thisTransform.position, range*0.1f, colliders,
                     thisInfo[0].lm^(1<<9|1<<0)) > 0)
             {
                 colliders[0].TryGetComponent(out target);
@@ -88,7 +88,7 @@ namespace Projectile
             center -= new Vector3(0, 1, 0);
             Vector3 riseRelCenter = attackerPos - center;
             Vector3 setRelCenter = targetPos - center;
-            eleapse += Time.deltaTime * speed * 0.05f;
+            eleapse += Time.deltaTime * speed * 0.1f;
             float fracComplete = eleapse / 1;
             thisTransform.position = Vector3.Slerp(riseRelCenter, setRelCenter, fracComplete);
             thisTransform.position += center;
