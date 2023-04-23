@@ -6,7 +6,7 @@ public class InGameManager : Singleton<InGameManager>
 {
     public int clearedRooms = 0; // 클리어한 룸 수를 저장하는 변수
     public GameObject cardUICon;
-
+    //public GameObject onTargetUICon;
     protected override void Awake()
     {
         base.Awake();
@@ -38,4 +38,13 @@ public class InGameManager : Singleton<InGameManager>
             TriggerEvent();
         }
     }
+
+    //public void OnTartgetUIOn()
+    //{
+    //    if(CinemachineManager.Instance.bossCam.LookAt == true)
+    //    {
+    //        onTargetUICon.SetActive(true);
+    //        onTargetUICon.transform.position = CinemachineManager.Instance.bossCam.LookAt.transform.position;
+    //    }
+    //}
 }
