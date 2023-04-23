@@ -18,6 +18,7 @@ namespace Character
         private Vector3[] patrolPoints;
         protected List<float> positions;
         private int patrolIdx;
+        private float showHpEleapse;
         
         [SerializeField] protected NavMeshAgent ai;
         private Coroutine StuckCheckCoroutine;
@@ -95,6 +96,7 @@ namespace Character
         {
             base.Start();
             hpBar = Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.UIs[(int)UIType.Combat].transform);
+            hpBar.gameObject.SetActive(false);
         }
 
         protected override void BaseUpdate()
@@ -103,7 +105,11 @@ namespace Character
             if(dying)return;
 
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
-            
+            if (showHpEleapse > 0)
+            {
+                showHpEleapse -= Time.deltaTime;
+                if(showHpEleapse<=0) hpBar.gameObject.SetActive(false);
+            }
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
         }
         // ReSharper disable Unity.PerformanceAnalysis
@@ -146,6 +152,8 @@ namespace Character
             
             base.Hited(attacker, dmg, penetrate);
             if (dying) return;
+            hpBar.gameObject.SetActive(true);
+            showHpEleapse = 4;
             ai.SetDestination(SpawnManager.Instance.playerTransform.position);
         }
     }

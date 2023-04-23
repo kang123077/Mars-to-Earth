@@ -6,6 +6,7 @@ public class CombatUI : UI
 {
     public SkillSlot[] skillSlots;
     public UnityEngine.UI.Slider playerHP;
+    public UnityEngine.UI.Image hitScreen;
     private int curSkillCount;
 
     public void LearnSkill(int skillName)

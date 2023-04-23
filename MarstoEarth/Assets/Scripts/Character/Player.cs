@@ -8,17 +8,9 @@ namespace Character
 
     public class Player : Character
     {
-
-        private float xInput;
-        private float zInput;
-        private static readonly int X = Animator.StringToHash("x");
-        private static readonly int Z = Animator.StringToHash("z");
-        private static readonly int IsRun = Animator.StringToHash("isRun");
-        private Collider[] itemColliders;
-        private KeyCode key;
-        private Transform _target;
-        private Vector3 characterMovingDir;
-
+        public Vector3 InputDir;
+        public Transform camPoint;
+        
         public new Transform target
         {
             get => _target;
@@ -29,10 +21,22 @@ namespace Character
                 _target = CinemachineManager.Instance.bossCam.LookAt = value;
             }
         }
+        private Transform _target;
 
-        private Projectile.ProjectileInfo chargeProjectileInfo;
         public bool onCharge;
+        
         protected List<Skill.Skill> actives;
+        
+        private float xInput;
+        private float zInput;
+        private static readonly int X = Animator.StringToHash("x");
+        private static readonly int Z = Animator.StringToHash("z");
+        private static readonly int IsRun = Animator.StringToHash("isRun");
+        private Collider[] itemColliders;
+        private Projectile.ProjectileInfo chargeProjectileInfo;
+        
+        private Vector3 characterMovingDir;
+        private KeyCode key;
         private KeyCode[] keys = new[]
         {
             KeyCode.UpArrow,
@@ -44,11 +48,12 @@ namespace Character
             KeyCode.S,
             KeyCode.A
         };
-
         private bool isRun;
         private float lastInputTime;
-        public Vector3 InputDir;
-        public Transform camPoint;
+        
+        private float hitScreenAlphaValue;
+        private UnityEngine.UI.Image hitScreen;
+        private Color hitScreenColor;
 
         protected override void Awake()
         {
@@ -71,6 +76,8 @@ namespace Character
                             targetCharacter.Hit(point, 25 + dmg * 2f,0);
                     }
                 });
+            hitScreen = ((CombatUI)UIManager.Instance.UIs[(int)UIType.Combat]).hitScreen;
+            hitScreenColor = hitScreen.color;
         }
         protected override void Start()
         {
@@ -102,9 +109,16 @@ namespace Character
             InputDir = new Vector3(xInput, 0, zInput);
 
             BaseUpdate();
+
+            if (hitScreenAlphaValue > 0)
+            {
+                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / characterStat.maxHP);
+                hitScreenColor.a = hitScreenAlphaValue;
+                hitScreen.color = hitScreenColor;
+            }
             if (dying)
                 return;
-
+            
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
@@ -297,6 +311,12 @@ namespace Character
                 SpawnManager.Instance.Launch(thisCurTransform.position,forward,
                     dmg ,1+duration*0.5f, 20+speed*2,range*0.5f, ref projectileInfo);
 
+        }
+        
+        protected internal override void Hited(Vector3 attacker, float dmg,float penetrate=0)
+        {
+            hitScreenAlphaValue += dmg * 2 *(1 / characterStat.maxHP);
+            base.Hited(attacker,dmg,penetrate);
         }
     }
 }

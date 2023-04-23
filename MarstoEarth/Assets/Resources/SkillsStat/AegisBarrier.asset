@@ -17,7 +17,7 @@ MonoBehaviour:
   skillType: 0
   clipName: CastSpell
   clipLayer: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: cf44ec1bb19c81a4f85e45819895e8f5, type: 3}
   dmg: 0
   duration: 20
   range: 8
