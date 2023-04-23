@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: CR_0
   m_EditorClassIdentifier: 
   dmg: 30
-  coolDecrease: 0
   speed: 6
   def: 5
   duration: 0
   maxHP: 250
-  range: 4
+  range: 3.5
   viewAngle: 85

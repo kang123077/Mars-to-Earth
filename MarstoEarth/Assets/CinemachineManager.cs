@@ -23,8 +23,16 @@ public class CinemachineManager : Singleton<CinemachineManager>
     private void Update()
     {
         curAngle.y += Input.GetAxis("Mouse X") * cameraSpeed * Time.deltaTime;
-        follower.position = SpawnManager.Instance.player.camPoint.position;
-        
-        follower.rotation = Quaternion.Euler(curAngle);
+        try
+        {
+            follower.position = SpawnManager.Instance.player.camPoint.position;
+
+            follower.rotation = Quaternion.Euler(curAngle);
+
+        }
+        catch (NullReferenceException)
+        {
+            //플레이어 트렌스폼이 없습니다.
+        }
     }
 }

@@ -8,8 +8,8 @@ namespace Character
 {
     public class M_CR_43:Monster
     {
-       
 
+        [SerializeField] private Transform muzzle;
 
         protected override void Attack()
         {
@@ -18,7 +18,7 @@ namespace Character
             anim.SetBool(attacking, isAttacking = false);
             positions.Clear();
             travelDistance = 0;
-            SpawnManager.Instance.Launch(thisCurTransform.position, thisCurTransform.forward, dmg,1 + duration * 0.5f, 20 + speed * 2, range * 0.5f, ref projectileInfo);
+            SpawnManager.Instance.Launch(muzzle.position, muzzle.forward, dmg,1 + duration * 0.5f, 20 + speed * 2, range * 0.5f, ref projectileInfo);
         }
         protected void Update()
         {

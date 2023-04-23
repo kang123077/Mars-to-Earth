@@ -719,7 +719,7 @@ MonoBehaviour:
   - {fileID: 1966295499392432073, guid: d5e701ccbc4699d48957d6be406aa8c1, type: 3}
   - {fileID: 2074234464477956416, guid: 9d3de7b42d02cf747ba8aba5a7933947, type: 3}
   projectileMesh:
-  - {fileID: 879694538053448531, guid: 95db2e82a0fb0154d8d86222b08165d3, type: 3}
+  - {fileID: -6400281290468069383, guid: 39b1bf807a5328d4993b05b81c40f4d0, type: 3}
   - {fileID: 51877323832307708, guid: 9668ff9e36249764aba7543390ad7a5b, type: 3}
   skillInfos:
   - {fileID: 11400000, guid: 79afa3454e94c29448446fd2bf934ccd, type: 2}

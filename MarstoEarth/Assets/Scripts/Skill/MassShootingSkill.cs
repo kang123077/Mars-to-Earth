@@ -21,7 +21,7 @@ namespace Skill
             massShooting = new SPC(0, null, (ch) =>
             {
                 
-                Transform ctr = ch.transform;
+                Transform ctr = ((Player)ch).muzzle;
                 atkEleapse += Time.deltaTime;
                 aniEleapse += Time.deltaTime;
                 if (aniEleapse > 0.2f)

@@ -54,16 +54,15 @@ namespace Projectile
             duration = dr;
             speed = sp;
             range = rg;
-            trail.widthMultiplier = range * 0.4f;
+            trail.widthMultiplier = range * 0.2f;
             trail.emitting = true;
             transform.localScale = range*0.05f*Vector3.one;
-            transform.position = ap + new Vector3(0, 1.35f, 0);
+            transform.position = ap;
             transform.forward = tp;
             mesh.mesh = info.ms;
             thisInfo[0] = info;
             eleapse = 0;
             
-            //trail.SetPositions(new Vector3[] { transform.position });
         }
 
 
@@ -71,7 +70,7 @@ namespace Projectile
         private void Bullet()
         {
             thisTransform.position += targetPos * (Time.deltaTime * speed*3); 
-            if (Physics.OverlapSphereNonAlloc(thisTransform.position, range*0.1f, colliders,
+            if (Physics.OverlapSphereNonAlloc(thisTransform.position, range*0.05f, colliders,
                     thisInfo[0].lm^(1<<9|1<<0)) > 0)
             {
                 colliders[0].TryGetComponent(out target);

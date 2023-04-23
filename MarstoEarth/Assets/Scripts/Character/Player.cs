@@ -22,8 +22,9 @@ namespace Character
             }
         }
         private Transform _target;
+        [SerializeField] public Transform muzzle;
 
-        public bool onCharge;
+        [HideInInspector] public bool onCharge;
         
         protected List<Skill.Skill> actives;
         
@@ -54,6 +55,9 @@ namespace Character
         private float hitScreenAlphaValue;
         private UnityEngine.UI.Image hitScreen;
         private Color hitScreenColor;
+        
+        
+        
 
         protected override void Awake()
         {
@@ -169,7 +173,7 @@ namespace Character
             Vector3 repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
             thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir: target?  target.position-thisCurTransform.position: repoterForward, Time.deltaTime * speed, 0);
+                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir: target?  target.position-thisCurTransform.position: repoterForward, Time.deltaTime * speed*2f, 0);
             
             #endregion
             #region Targeting
@@ -185,7 +189,7 @@ namespace Character
                 for (int i = 0; i < size; i++)
                 {
                     float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position, Vector3.up);
-                    if ((angle < 0 ? -angle : angle) < viewAngle)
+                    if ((angle < 0 ? -angle : angle) < viewAngle-5)
                     {
                         float coLeng = Vector3.Distance(colliders[i].transform.position, position);
                         if (minCoLength > coLeng)
@@ -226,7 +230,7 @@ namespace Character
                     default:
                     {
                         float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
-                        if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range)
+                        if ((angle < 0 ? -angle : angle) > viewAngle+5 || Vector3.Distance(target.position, thisCurTransform.position) > range)
                             anim.SetBool(onTarget, target = null);
                         break;
                     }
@@ -298,17 +302,17 @@ namespace Character
         protected override void Attack()
         {
 
-            Vector3 forward = thisCurTransform.forward;
+            Vector3 muzzleForward = muzzle.forward;
             if (onCharge)
             {
-                SpawnManager.Instance.Launch(thisCurTransform.position,forward,0 ,1+duration*0.5f, 20+speed*2,range*0.5f, ref chargeProjectileInfo);
+                SpawnManager.Instance.Launch(muzzle.position,muzzleForward,0 ,1+duration*0.5f, 20+speed*2,range*0.5f, ref chargeProjectileInfo);
 
-                impact -= (45 + dmg * 0.5f) * 0.1f * forward;
+                impact -= (45 + dmg * 0.5f) * 0.1f * muzzleForward;
                 onCharge = false;
             }
                 
             else
-                SpawnManager.Instance.Launch(thisCurTransform.position,forward,
+                SpawnManager.Instance.Launch(muzzle.position,muzzleForward,
                     dmg ,1+duration*0.5f, 20+speed*2,range*0.5f, ref projectileInfo);
 
         }
