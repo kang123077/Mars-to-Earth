@@ -28,7 +28,6 @@ namespace Character
         private float SPCActionWeight;
         public Vector3 impact { get; set; }
         public float dmg { get; set; }
-        public float coolDecrease { get; set; }
         public float speed { get; set; }
         public float def { get; set; }
         public float duration { get; set; }
@@ -69,7 +68,6 @@ namespace Character
             nockBackResist = characterStat.maxHP * 0.1f;
             impact = Vector3.zero;
             dmg = characterStat.dmg;
-            coolDecrease = characterStat.coolDecrease;
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;

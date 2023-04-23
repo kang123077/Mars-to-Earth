@@ -17,7 +17,7 @@ MonoBehaviour:
   skillType: 0
   clipName: 
   clipLayer: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 5d36f0aae8cd4e541a495ffe33719cd9, type: 3}
   dmg: 25
   duration: 1.5
   range: 8

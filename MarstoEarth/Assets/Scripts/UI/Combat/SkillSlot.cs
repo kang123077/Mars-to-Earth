@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
@@ -6,12 +7,27 @@ public class SkillSlot : MonoBehaviour
 {
     public Image skillImage;
     public Image coolDown;
-    public byte slotIdx;
     public Skill.Skill skill;
+    public void Init(Skill.Skill inputSkill)
+    {
+        
+        skill = inputSkill;
+        skillImage.sprite = skill.skillInfo.icon;
+        skillImage.enabled = true;
+    }
+
+    private void Update()
+    {
+        if(!skill)return;
+        if (skill.isCombo)
+        {
+            coolDown.fillAmount= (Time.time-skill.lastUsedTime) / skill.curCoolTime;
+            if (coolDown.fillAmount >= 1)
+                skill.isCombo = false;
+        }
+        else
+            coolDown.fillAmount= (skill.lastUsedTime+skill.curCoolTime -Time.time) / skill.curCoolTime;
+            
+    }
 }
 
-/*
- * 컴뱃 ui
- *    스킬슬롯은 플레이어의 acitives
- *
- */

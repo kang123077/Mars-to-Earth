@@ -21,11 +21,9 @@ namespace Skill
             caster.AddBuff(new SPC(skillInfo.duration+caster.duration*0.5f, (ch) =>
             {
                 ch.speed += skillInfo.speed;
-                ch.coolDecrease += skillInfo.dmg;
             }, (ch) =>
             {
                 ch.speed -= skillInfo.speed;
-                ch.coolDecrease -= skillInfo.dmg;
             }));
         }
     }

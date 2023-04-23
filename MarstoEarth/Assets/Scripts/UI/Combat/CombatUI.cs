@@ -6,37 +6,20 @@ public class CombatUI : UI
 {
     public SkillSlot[] skillSlots;
     public UnityEngine.UI.Slider playerHP;
-    private UnityEngine.UI.Image image;
-    private int curSkillCount=0;
-    private int i = 0;
-    void Start()
-    {
-        
-    }
+    private int curSkillCount;
 
-    private void Update()
-    {
-        for(i=0; i<curSkillCount; i++)
-        {
-            
-        }
-    }
-
-    public void LearnSkill(SkillName skillName)
+    public void LearnSkill(int skillName)
     {
         if (curSkillCount > skillSlots.Length - 1) return;
-        skillSlots[curSkillCount].skill = ResourceManager.Instance.skills[(int)skillName];
-        skillSlots[curSkillCount].TryGetComponent(out image);
-        image.raycastTarget = true;
-        
-
+        skillSlots[curSkillCount].Init(ResourceManager.Instance.skills[(int)skillName]);
         curSkillCount++;
-
     }
     public void ClickSkill(int idx)
     {
         if (curSkillCount <= idx) return;
-        skillSlots[idx].skill.Use(SpawnManager.Instance.player);
+        SkillSlot slot = skillSlots[idx];
+        if(!slot.skill.isCombo&&slot.coolDown.fillAmount<=0||slot.skill.isCombo)
+            slot.skill.Use(SpawnManager.Instance.player);
     }
 
 }

@@ -14,11 +14,9 @@ namespace Skill
             StimPack = new SPC(duration, (ch) =>
             {
                 ch.speed += skillInfo.speed;
-                ch.coolDecrease += skillInfo.dmg;
             }, (ch) =>
             {
                 ch.speed -= skillInfo.speed;
-                ch.coolDecrease -= skillInfo.dmg;
             });
         }
         protected override bool Activate()
