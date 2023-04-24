@@ -15,7 +15,21 @@ public class SpawnManager : Singleton<SpawnManager>
     public Projectile.Projectile projectilePrefab;
     public bool playerInstantiateFinished = false;
     public NodeInfo curNode;
-    public List<Character.Character> curMonsters;
+    private int _curMonsterCount;
+
+    public int curMonsterCount
+    {
+        get =>_curMonsterCount;
+        set{
+            if (value == 0)
+            {
+                curNode.isNodeCleared = true;
+                curNode.nodeCollider.enabled = false;
+                MapManager.Instance.UpdateGate();
+            }
+            _curMonsterCount = value;
+        }
+    }
     public List<Monster> monsterPool;
 
     protected override void Awake()
@@ -98,29 +112,22 @@ public class SpawnManager : Singleton<SpawnManager>
         {
             target = monsterPool[findIdx];
             monsterPool.RemoveAt(findIdx);
+            Debug.Log("있어서 가져옴");
         }
-        curMonsters.Add(target);
+
+        curMonsterCount++;
         target.transform.position= spawnPoint;
         target.gameObject.SetActive(true);
     }
     public void ReleaseMonster(Monster target)
     {
         target.gameObject.SetActive(false);
-        curMonsters.Remove(target);
+        curMonsterCount--;
         monsterPool.Add(target);
+        Debug.Log("반납함");
     }
    
-    public void ClearCheck()
-    {
-        Debug.Log(curMonsters.Count);
-        if (curMonsters.Count == 0)
-        {
-            Debug.Log("룸 클리어!");
-            curNode.isNodeCleared = true;
-            curNode.nodeCollider.enabled = false;
-            MapManager.Instance.UpdateGate();
-        }
-    }
+    
 
     public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {

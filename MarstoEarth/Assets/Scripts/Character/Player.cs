@@ -55,9 +55,9 @@ namespace Character
         private float hitScreenAlphaValue;
         private UnityEngine.UI.Image hitScreen;
         private Color hitScreenColor;
-        
-        
-        
+
+        private Vector3 repoterForward ;
+        private Vector3 targetDir;
 
         protected override void Awake()
         {
@@ -170,10 +170,19 @@ namespace Character
 
             }
 
-            Vector3 repoterForward = CinemachineManager.Instance.follower.forward;
+             
+            if (target)
+            {
+                Vector3 targetPos = target.position;
+                targetPos.y = 0;
+                targetDir= targetPos - thisCurTransform.position;
+            }
+            
+            repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
+                
             thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir: target?  target.position-thisCurTransform.position: repoterForward, Time.deltaTime * speed*2f, 0);
+                Vector3.RotateTowards(thisCurTransform.forward, isRun? InputDir: target?  targetDir: repoterForward, Time.deltaTime * speed*2f, 0);
             
             #endregion
             #region Targeting

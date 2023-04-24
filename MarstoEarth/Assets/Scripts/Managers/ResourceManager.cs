@@ -6,8 +6,8 @@ using UnityEngine;
 
 public enum EnemyType
 {
-    cr42, cr43, cr44,
-    scout
+    cr42, cr43, cr44,cr0,
+    scout,kamikaze
 }
 public enum EliteType
 {
@@ -45,8 +45,6 @@ public class ResourceManager : Singleton<ResourceManager>
     public MeshFilter[] projectileMesh;
     public SkillInfo[] skillInfos;
     public Character.Monster[] enemys;
-    public Character.Monster[] elites;
-    public Character.Monster[] bosses;
     public List<Skill.Skill> skills = new();
 
     //public int[] ints= new int[] {1,2,3 };

@@ -99,12 +99,12 @@ namespace Character
         protected virtual IEnumerator Die()
         {
             dying = true;
-            Destroy(hpBar.gameObject);
-            Destroy(col);
+            hpBar.gameObject.SetActive(false);
+            col.enabled = false;
             
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(3);
             
             if(this is Monster)
                 SpawnManager.Instance.ReleaseMonster((Monster)this);

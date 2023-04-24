@@ -742,9 +742,8 @@ MonoBehaviour:
   - {fileID: 1497055048246410246, guid: 395ab56652343a54fab90390ea468b05, type: 3}
   - {fileID: 8293137938102071660, guid: ac8d4db5be71d5041b9780b0efdbe083, type: 3}
   - {fileID: 6770917455191006859, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
-  - {fileID: 614779288, guid: 2c69063b9b53dfe43a86160194e9dcf3, type: 3}
   - {fileID: 3986350941151949398, guid: beb24022f1709b04e81298f9a1fbeca6, type: 3}
-  - {fileID: 5797288468747721511, guid: 7db4fdf40e93e1f46bfd95dd54089326, type: 3}
+  - {fileID: 614779288, guid: 2c69063b9b53dfe43a86160194e9dcf3, type: 3}
 --- !u!4 &389740386
 Transform:
   m_ObjectHideFlags: 0
@@ -1838,7 +1837,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7739833361423966859, guid: 4a99ec8f6364bc64d9d59786f4218424, type: 3}
   playerInstantiateFinished: 0
   curNode: {fileID: 0}
-  monsters: []
+  monsterPool: []
 --- !u!4 &1382090663
 Transform:
   m_ObjectHideFlags: 0

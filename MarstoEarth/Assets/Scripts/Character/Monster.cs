@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
@@ -75,6 +76,7 @@ namespace Character
             }
            
         }
+        
         protected override void Awake()
         {
             base.Awake();
@@ -91,6 +93,7 @@ namespace Character
             ai.SetDestination(patrolPoints[patrolIdx]);
             ai.stoppingDistance = range-1;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
+            anim.keepAnimatorStateOnDisable=true;
         }
         protected override void Start()
         {
@@ -121,11 +124,30 @@ namespace Character
             point.y = 0;
             SpawnManager.DropOptanium(point);
 
-            SpawnManager.Instance.curMonsters.Remove(this);
-            SpawnManager.Instance.ClearCheck();
-            
             return base.Die();
         }
+
+        private void OnEnable()
+        {
+            if(!dying)return;
+            target = null;
+            hp = characterStat.maxHP;
+            patrolPoints = new Vector3[4];
+            for (int i = 0; i < patrolPoints.Length; i++)
+                patrolPoints[i]=  thisCurTransform.position + FourDirection[i] * (sightLength * 2);
+     
+            lastPosition = thisCurTransform.position;
+            patrolIdx = Random.Range(0, 4);
+           
+            ai.SetDestination(patrolPoints[patrolIdx]);
+            hpBar.value = 1;
+            hpBar.gameObject.SetActive(true);
+            
+            col.enabled = true;
+            StuckCheckCoroutine =StartCoroutine(StuckCheck());
+            dying = false;
+        }
+
         protected override void Attack()
         {
             anim.SetBool(attacking,isAttacking = false );

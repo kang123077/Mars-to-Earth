@@ -2201,6 +2201,7 @@ MonoBehaviour:
   dying: 0
   ai: {fileID: 5063034376417107684}
   sightLength: 17
+  enemyType: 0
 --- !u!195 &5063034376417107684
 NavMeshAgent:
   m_ObjectHideFlags: 0
