@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+/*
+ * 스턴 상태일때는 
+ */
 namespace Character
 {
     public abstract class Character : MonoBehaviour
@@ -23,7 +25,7 @@ namespace Character
         protected Character targetCharacter;
         protected Collider[] colliders;
         private float nockBackResist ;
-        [HideInInspector] public bool dying;
+        
         public Skill.Skill onSkill { get; set; }
         private float SPCActionWeight;
         public Vector3 impact { get; set; }
@@ -58,6 +60,8 @@ namespace Character
         public Action<Vector3,float,float> Hit;
         int buffElementIdx;
 
+        private bool stun; 
+        [HideInInspector] public bool dying;
 
         protected virtual void Awake()
         {
@@ -123,8 +127,14 @@ namespace Character
                 transform.position += impact * Time.deltaTime;
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
+            if (stun)
+                throw new Exception();
+            
+            for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
+                Buffs[buffElementIdx].Activation(this);
+            
             if (dying)
-                return;
+                throw new Exception();
 
             SPCActionWeight =
                 Mathf.Clamp(
@@ -132,8 +142,7 @@ namespace Character
             
             anim.SetLayerWeight(2, SPCActionWeight);
 
-            for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
-                Buffs[buffElementIdx].Activation(this);
+            
             
         }
         protected internal virtual void Hited(Vector3 attacker, float dmg,float penetrate=0)

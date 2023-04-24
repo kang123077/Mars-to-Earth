@@ -105,8 +105,6 @@ namespace Character
         protected override void BaseUpdate()
         {
             base.BaseUpdate();
-            if(dying)return;
-
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
             if (showHpEleapse > 0)
             {
@@ -115,11 +113,13 @@ namespace Character
             }
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
         }
+
+
         // ReSharper disable Unity.PerformanceAnalysis
         protected override IEnumerator Die()
         {
             StopCoroutine(StuckCheckCoroutine);
-            ai.ResetPath();
+            ai.enabled = false;
             Vector3 point = thisCurTransform.position;
             point.y = 0;
             SpawnManager.DropOptanium(point);
@@ -145,6 +145,7 @@ namespace Character
             
             col.enabled = true;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
+            ai.enabled = true;
             dying = false;
         }
 

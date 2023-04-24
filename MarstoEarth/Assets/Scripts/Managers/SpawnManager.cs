@@ -21,6 +21,7 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         get =>_curMonsterCount;
         set{
+            Debug.Log(value);
             if (value == 0)
             {
                 curNode.isNodeCleared = true;
@@ -107,16 +108,16 @@ public class SpawnManager : Singleton<SpawnManager>
         int findIdx = monsterPool.FindIndex((monster) => monster.enemyType == type);
 
         if (findIdx < 0)
-            target = Instantiate(ResourceManager.Instance.enemys[(int)type]);
+            target = Instantiate(ResourceManager.Instance.enemys[(int)type],spawnPoint,Quaternion.identity);
         else
         {
             target = monsterPool[findIdx];
+            target.transform.position= spawnPoint;
             monsterPool.RemoveAt(findIdx);
             Debug.Log("있어서 가져옴");
         }
 
         curMonsterCount++;
-        target.transform.position= spawnPoint;
         target.gameObject.SetActive(true);
     }
     public void ReleaseMonster(Monster target)
