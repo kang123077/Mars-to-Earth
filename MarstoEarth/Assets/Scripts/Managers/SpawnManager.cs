@@ -2,6 +2,7 @@ using Character;
 using Projectile;
 using Skill;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -14,15 +15,14 @@ public class SpawnManager : Singleton<SpawnManager>
     public Projectile.Projectile projectilePrefab;
     public bool playerInstantiateFinished = false;
     public NodeInfo curNode;
-    public List<Monster> monsters;
+    public List<Character.Character> curMonsters;
+    public List<Monster> monsterPool;
 
     protected override void Awake()
     {
         base.Awake();
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
-        
-
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
                 Projectile.Projectile copyPrefab = Instantiate(projectilePrefab);
@@ -61,7 +61,6 @@ public class SpawnManager : Singleton<SpawnManager>
         }
     }
 
-
     public void RandomSpawnMonster(Vector3 spawnPoint)
     {
         // 랜덤 위치 계산
@@ -79,45 +78,42 @@ public class SpawnManager : Singleton<SpawnManager>
                 return;
             }
         }
+        //노말 엘리트 
         // Enum 값 배열 생성
         EnemyType[] values = (EnemyType[])Enum.GetValues(typeof(EnemyType));
         // 랜덤 값 선택
         EnemyType randomType = values[UnityEngine.Random.Range(0, values.Length)];
-        MonsterObjectPoolling(randomPosition, randomType);
-    }
+        GetMonster(randomPosition, randomType);
 
-    public void MonsterObjectPoolling(Vector3 spawnPoint, EnemyType type)
-    {
-        if (monsters.Count == 0)
-        {
-            SpawnMonster(spawnPoint, type);
-            return;
-        }
-        foreach (Monster monster in monsters)
-        {
-            if (monster.enemyType == type && !monster.gameObject.activeSelf)
-            {
-                monster.gameObject.SetActive(true);
-                return;
-            }
-            else
-            {
-                SpawnMonster(spawnPoint, type);
-                return;
-            }
-        }
-    }
-    public void SpawnMonster(Vector3 spawnPoint, EnemyType type)
-    {
-        Monster newMonster = Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity).GetComponent<Monster>();
-        newMonster.enemyType = type;
-        monsters.Add(newMonster);
-    }
+    }    
 
+    public void GetMonster(Vector3 spawnPoint, EnemyType type)
+    {
+        Character.Character target;
+        int findIdx = monsterPool.FindIndex((monster) => monster.enemyType == type);
+
+        if (findIdx < 0)
+            target = Instantiate(ResourceManager.Instance.enemys[(int)type]);
+        else
+        {
+            target = monsterPool[findIdx];
+            monsterPool.RemoveAt(findIdx);
+        }
+        curMonsters.Add(target);
+        target.transform.position= spawnPoint;
+        target.gameObject.SetActive(true);
+    }
+    public void ReleaseMonster(Monster target)
+    {
+        target.gameObject.SetActive(false);
+        curMonsters.Remove(target);
+        monsterPool.Add(target);
+    }
+   
     public void ClearCheck()
     {
-        Debug.Log(monsters.Count);
-        if (monsters.Count == 0)
+        Debug.Log(curMonsters.Count);
+        if (curMonsters.Count == 0)
         {
             Debug.Log("룸 클리어!");
             curNode.isNodeCleared = true;

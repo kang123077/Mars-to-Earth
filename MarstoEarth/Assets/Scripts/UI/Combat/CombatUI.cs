@@ -1,3 +1,4 @@
+using Character;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,11 @@ public class CombatUI : UI
 
     public void LearnSkill(int skillName)
     {
+        
         if (curSkillCount > skillSlots.Length - 1) return;
         skillSlots[curSkillCount].Init(ResourceManager.Instance.skills[(int)skillName]);
         curSkillCount++;
+        
     }
     public void ClickSkill(int idx)
     {

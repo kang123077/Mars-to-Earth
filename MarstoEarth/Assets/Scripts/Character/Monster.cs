@@ -121,7 +121,7 @@ namespace Character
             point.y = 0;
             SpawnManager.DropOptanium(point);
 
-            SpawnManager.Instance.monsters.Remove(this);
+            SpawnManager.Instance.curMonsters.Remove(this);
             SpawnManager.Instance.ClearCheck();
             
             return base.Die();

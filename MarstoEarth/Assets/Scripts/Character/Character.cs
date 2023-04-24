@@ -105,7 +105,13 @@ namespace Character
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(5);
-            Destroy(gameObject);
+            
+            if(this is Monster)
+                SpawnManager.Instance.ReleaseMonster((Monster)this);
+            else
+                Destroy(gameObject);
+
+
             //InGameManager.Instance.OnMonsterCleared();
         }
 

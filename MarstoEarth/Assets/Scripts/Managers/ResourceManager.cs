@@ -6,11 +6,19 @@ using UnityEngine;
 
 public enum EnemyType
 {
-    cr42, cr43, cr44,cr0,
-    scout,
-    kamikaze,
-    titan,
+    cr42, cr43, cr44,
+    scout
 }
+public enum EliteType
+{
+    cr0,
+    kamikaze
+}
+public enum BossType
+{
+    titan
+}
+
 
 public enum SkillName
 {
@@ -36,10 +44,13 @@ public class ResourceManager : Singleton<ResourceManager>
     public Item.Item[] items;
     public MeshFilter[] projectileMesh;
     public SkillInfo[] skillInfos;
-    public Character.Character[] enemys;
-    public List<Skill.Skill> skills= new();
+    public Character.Monster[] enemys;
+    public Character.Monster[] elites;
+    public Character.Monster[] bosses;
+    public List<Skill.Skill> skills = new();
 
-
+    //public int[] ints= new int[] {1,2,3 };
+    //public enum[] grade = new enum[]{EnemyType};
     protected override void Awake()
     {
         base.Awake();

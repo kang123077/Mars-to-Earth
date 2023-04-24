@@ -183,7 +183,7 @@ namespace Character
             if (!target)
             {
                 
-                int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders,
+                int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range-1, colliders,
                     1 << 6);
                 
                 for (int i = 0; i < size; i++)
@@ -230,7 +230,7 @@ namespace Character
                     default:
                     {
                         float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
-                        if ((angle < 0 ? -angle : angle) > viewAngle+5 || Vector3.Distance(target.position, thisCurTransform.position) > range)
+                        if ((angle < 0 ? -angle : angle) > viewAngle+5 || Vector3.Distance(target.position, thisCurTransform.position) > range+1)
                             anim.SetBool(onTarget, target = null);
                         break;
                     }
