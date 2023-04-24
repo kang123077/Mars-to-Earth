@@ -19,8 +19,6 @@ public class SpawnManager : Singleton<SpawnManager>
     protected override void Awake()
     {
         base.Awake();
-        player = Instantiate(player);
-        playerTransform = player.gameObject.transform;
         
 
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
@@ -44,6 +42,8 @@ public class SpawnManager : Singleton<SpawnManager>
     public void FirstInit()
     {
         curNode = MapManager.nodes[0];
+        player = Instantiate(player);
+        playerTransform = player.gameObject.transform;
         playerInstantiateFinished = true;
 
         for(int i = 0; i < 3; i++)
