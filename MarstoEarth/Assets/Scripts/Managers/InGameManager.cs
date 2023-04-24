@@ -10,6 +10,7 @@ public class InGameManager : Singleton<InGameManager>
     protected override void Awake()
     {
         base.Awake();
+        cardUICon.SetActive(false);
     }
 
     private void Start()
