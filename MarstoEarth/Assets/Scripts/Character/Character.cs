@@ -112,10 +112,10 @@ namespace Character
         {
             if (!target) return false;
             target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform.position,dmg,0);
-            return true;
+            return targetCharacter.Hit(thisCurTransform.position,dmg,0);
         }
         
+        // ReSharper disable Unity.PerformanceAnalysis
         protected virtual IEnumerator Die()
         {
             dying = true;
@@ -130,9 +130,6 @@ namespace Character
                 SpawnManager.Instance.ReleaseMonster((Monster)this);
             else
                 Destroy(gameObject);
-
-
-            //InGameManager.Instance.OnMonsterCleared();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

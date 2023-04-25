@@ -13,6 +13,7 @@ namespace Character
         private Vector3 hidingDir;
         private float dist;
 
+        private Skill.Skill skill;
         protected override void Start()
         {
             base.Start();

@@ -36,7 +36,6 @@ namespace Character
                 _isAttacking= value;
             } }
 
-        protected Skill.Skill skill;
         public EnemyType enemyType;
         //private NavMeshHit hit;
 
@@ -45,36 +44,34 @@ namespace Character
             while (true)
             {
                 yield return new WaitForSeconds(0.2f);
-                if (!stun)
+                if (stun) continue;
+                float curMoveDistance = Vector3.Distance(lastPosition,thisCurTransform.position);
+                travelDistance += curMoveDistance;
+                positions.Add(curMoveDistance);
+                if (positions.Count >= 10)
                 {
-                    float curMoveDistance = Vector3.Distance(lastPosition,thisCurTransform.position);
-                    travelDistance += curMoveDistance;
-                    positions.Add(curMoveDistance);
-                    if (positions.Count >= 10)
+                    travelDistance -= positions[0];
+                    positions.RemoveAt(0);
+                    if (travelDistance < 1f)
                     {
-                        travelDistance -= positions[0];
-                        positions.RemoveAt(0);
-                        if (travelDistance < 1f)
+                        if (!isAttacking)
                         {
-                            if (!isAttacking)
-                            {
-                                trackingPermission = false;
-                                target = null;
+                            trackingPermission = false;
+                            target = null;
 
-                                int randIdx;
-                                do randIdx = Random.Range(0, 4);
-                                while (patrolIdx == randIdx);
-                                patrolIdx = randIdx;
-                                ai.SetDestination(patrolPoints[patrolIdx]);
-                                positions.Clear();
-                                travelDistance = 0;
-                            }
+                            int randIdx;
+                            do randIdx = Random.Range(0, 4);
+                            while (patrolIdx == randIdx);
+                            patrolIdx = randIdx;
+                            ai.SetDestination(patrolPoints[patrolIdx]);
+                            positions.Clear();
+                            travelDistance = 0;
                         }
-                        else
-                            trackingPermission = true;
                     }
-                    lastPosition = transform.position;
+                    else
+                        trackingPermission = true;
                 }
+                lastPosition = transform.position;
             }
            
         }
@@ -109,6 +106,7 @@ namespace Character
 
         protected override bool BaseUpdate()
         {
+            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
             if (!base.BaseUpdate())
                 return false;
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
@@ -117,7 +115,6 @@ namespace Character
                 showHpEleapse -= Time.deltaTime;
                 if(showHpEleapse<=0) hpBar.gameObject.SetActive(false);
             }
-            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
 
             return true;
         }
@@ -171,13 +168,12 @@ namespace Character
                 float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position-thisCurTransform.forward*range), Vector3.up);
                 if((angle < 0 ? -angle : angle) < viewAngle-60)
                 {
-                    if (skill && skill.Use(this)) return false;
                     return base.Attack();
                 }else
                     Debug.Log("회피 이펙트");
             }else
                 Debug.Log("회피 이펙트");
-            return true;
+            return false;
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

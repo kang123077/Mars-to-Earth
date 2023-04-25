@@ -9,13 +9,25 @@ namespace Character
         private float jumpEleapse;
         [SerializeField] private Transform LH;
 
+        private Skill.Skill bite;
+        private byte biteEleapse;
         protected override void Start()
         {
             base.Start();
 
-            skill = new Skill.BiteSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Bite], LH);
+            bite = new Skill.BiteSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Bite], LH);
             jumpAttack = new Skill.SmashSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Smash]);
             jumpEleapse = 8;
+        }
+
+        protected override bool Attack()
+        {
+            if (!base.Attack()) return false;
+            biteEleapse++;
+            if (biteEleapse <= 10) return true;
+            bite.Use(this);
+            biteEleapse = 0;
+            return true;
         }
 
         protected void Update()

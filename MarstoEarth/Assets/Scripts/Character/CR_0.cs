@@ -21,7 +21,7 @@ namespace Character
         {
             if (!base.Hited(attacker, dmg, penetrate))
                 return false;
-            if (blockEleapse > 10)
+            if (blockEleapse > 15)
             {
                 anim.Play("Moving", 1);
                 anim.SetBool(attacking, isAttacking = false);
