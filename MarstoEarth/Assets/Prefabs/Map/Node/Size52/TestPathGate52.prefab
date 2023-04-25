@@ -389,7 +389,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4865112417291874012}
-  - component: {fileID: 3866896264475910230}
   - component: {fileID: 3805957843684167203}
   - component: {fileID: 5237500995507800954}
   - component: {fileID: 9163412197854710698}
@@ -419,19 +418,6 @@ Transform:
   m_Father: {fileID: 6244779130016847853}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
---- !u!65 &3866896264475910230
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4865112417291580156}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.29879034, y: 2.8918414, z: 6}
-  m_Center: {x: -0.00000047683716, y: 0.00000035762787, z: -0.9}
 --- !u!95 &3805957843684167203
 Animator:
   serializedVersion: 5
@@ -724,7 +710,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 12, y: 8, z: 6}
+  m_Size: {x: 12, y: 8, z: 1}
   m_Center: {x: 0, y: 4, z: 0}
 --- !u!1 &6259342395535377665
 GameObject:
@@ -984,7 +970,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6259342395535153449}
-  - component: {fileID: 4566734012509351622}
   - component: {fileID: 6699544852602925840}
   - component: {fileID: 5663513582332121108}
   - component: {fileID: 4756993430726840135}
@@ -1014,19 +999,6 @@ Transform:
   m_Father: {fileID: 6244779130016847853}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
---- !u!65 &4566734012509351622
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6259342395535377673}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.29879034, y: 2.8918414, z: 6}
-  m_Center: {x: -0.00000047683716, y: 0.00000035762787, z: -0.9}
 --- !u!95 &6699544852602925840
 Animator:
   serializedVersion: 5

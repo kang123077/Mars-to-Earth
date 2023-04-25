@@ -135,7 +135,6 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void ClearCheck()
     {
-        Debug.Log(monsters.Count);
         if (monsters.Count == 0)
         {
             Debug.Log("룸 클리어!");
