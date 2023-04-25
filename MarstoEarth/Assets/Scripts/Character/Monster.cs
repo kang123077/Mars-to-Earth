@@ -76,7 +76,6 @@ namespace Character
         protected override void Awake()
         {
             base.Awake();
-            
             patrolPoints = new Vector3[4];
             for (int i = 0; i < patrolPoints.Length; i++)
                 patrolPoints[i]=  thisCurTransform.position + FourDirection[i] * (sightLength * 2);

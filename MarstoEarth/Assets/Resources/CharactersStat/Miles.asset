@@ -18,5 +18,5 @@ MonoBehaviour:
   def: 0
   duration: 0
   maxHP: 1100
-  range: 12
-  viewAngle: 40
+  range: 18
+  viewAngle: 95
