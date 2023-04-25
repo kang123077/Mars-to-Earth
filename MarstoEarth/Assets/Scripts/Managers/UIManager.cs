@@ -27,7 +27,6 @@ public class UIManager :Singleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.Confined;
         //currentView = UIs[(int)UIType.Combat];
-
     }
 
     public void ShowUI(UIType uiType)

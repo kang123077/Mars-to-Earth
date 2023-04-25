@@ -27,8 +27,11 @@ public class SpawnManager : Singleton<SpawnManager>
             if (value == 0)
             {
                 curNode.isNodeCleared = true;
-                curNode.nodeCollider.enabled = false;
-                MapManager.Instance.UpdateGate();
+                InGameManager.Instance.OnRoomCleared();
+                if (curNode.isBossNode)
+                {
+                    Debug.Log("보스 클리어!");
+                }
             }
             _curMonsterCount = value;
         }
@@ -42,8 +45,8 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         base.Awake();
 
-        player = Instantiate(player);
-        playerTransform = player.gameObject.transform;
+        //player = Instantiate(player);
+        //playerTransform = player.gameObject.transform;
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
                 Projectile.Projectile copyPrefab = Instantiate(projectilePrefab);
@@ -119,65 +122,25 @@ public class SpawnManager : Singleton<SpawnManager>
             case EnemyPool.Normal:
                 NormalType[] normals = (NormalType[])Enum.GetValues(typeof(NormalType));
                 NormalType normalType = normals[UnityEngine.Random.Range(0, normals.Length)];
-                MonsterObjectPooling(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), normalType.ToString()));
+                GetMonster(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), normalType.ToString()));
                 break;
             case EnemyPool.Elite:
                 EliteType[] elites = (EliteType[])Enum.GetValues(typeof(EliteType));
                 EliteType eliteType = elites[UnityEngine.Random.Range(0, elites.Length)];
-                MonsterObjectPooling(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), eliteType.ToString()));
+                GetMonster(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), eliteType.ToString()));
                 break;
             case EnemyPool.Boss:
                 BossType[] bosses = (BossType[])Enum.GetValues(typeof(BossType));
                 BossType bossType = bosses[UnityEngine.Random.Range(0, bosses.Length)];
-                MonsterObjectPooling(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), bossType.ToString()));
+                GetMonster(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), bossType.ToString()));
                 break;
             default:
                 break;
         }
     }
 
-    public void MonsterObjectPooling(Vector3 spawnPoint, EnemyType type)
-    {
-        if (monsters.Count == 0)
-        {
-            SpawnMonster(spawnPoint, type);
-            return;
-        }
-        foreach (Monster monster in monsters)
-        {
-            if (monster.enemyType == type && !monster.gameObject.activeSelf)
-            {
-                monster.gameObject.SetActive(true);
-                return;
-            }
-            else
-            {
-                SpawnMonster(spawnPoint, type);
-                return;
-            }
-        }
-    }
-    public void SpawnMonster(Vector3 spawnPoint, EnemyType type)
-    {
-        Monster newMonster = Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity).GetComponent<Monster>();
-        monsters.Add(newMonster);
-    }
     public void GetMonster(Vector3 spawnPoint, EnemyType type)
     {
-
-        if (monsters.Count == 0)
-        {
-            Debug.Log("룸 클리어!");
-            curNode.IsNodeCleared = true;
-            InGameManager.Instance.OnRoomCleared();
-            if (curNode.isBossNode)
-            {
-                Debug.Log("보스 클리어!");
-            }
-            // MapManager.Instance.UpdateGate();
-        }
-    
-
         Character.Character target;
         int findIdx = monsterPool.FindIndex((monster) => monster.enemyType == type);
 

@@ -20,7 +20,6 @@ public enum EnemyType
     cr44,
     kamikaze,
     titan,
-
 }
 public enum EliteType
 {
@@ -30,18 +29,6 @@ public enum EliteType
 public enum BossType
 {
     titan
-}
-
-
-public enum BossType
-{
-    titan
-}
-
-public enum EliteType
-{
-    cr0,
-    kamikaze
 }
 
 public enum NormalType
