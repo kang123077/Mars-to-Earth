@@ -128,8 +128,6 @@ public class SpawnManager : Singleton<SpawnManager>
         Debug.Log("반납함");
     }
    
-    
-
     public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {
         Projectile.Projectile projectile = projectileManagedPool.Get();

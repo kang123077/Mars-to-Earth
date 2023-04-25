@@ -33,7 +33,6 @@ namespace Character
         public float speed { get; set; }
         public float def { get; set; }
         public float duration { get; set; }
-        
         public float range { get; set; }
         public float viewAngle { get; set; }
         private float _hp;
@@ -57,10 +56,12 @@ namespace Character
         private List<Skill.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
-        public Action<Vector3,float,float> Hit;
+        public Func<Vector3,float,float,bool> Hit;
         int buffElementIdx;
 
-        private bool stun; 
+        public bool stun;
+        public bool immune;
+
         [HideInInspector] public bool dying;
 
         protected virtual void Awake()
@@ -89,15 +90,16 @@ namespace Character
 
         protected virtual void Start()
         {            
-            projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
+            projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet,null);
         }
 
-        protected virtual void Attack()
+        protected virtual bool Attack()
         {
-            if (!target) return;
+            if (!target) return false;
             target.gameObject.TryGetComponent(out targetCharacter);
             targetCharacter.Hit(thisCurTransform.position,dmg,0);
+            return true;
         }
         
         protected virtual IEnumerator Die()
@@ -105,7 +107,7 @@ namespace Character
             dying = true;
             hpBar.gameObject.SetActive(false);
             col.enabled = false;
-            
+            Buffs.Clear();
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
             yield return new WaitForSeconds(3);
@@ -120,42 +122,45 @@ namespace Character
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        protected virtual void BaseUpdate()
+        protected virtual bool BaseUpdate()
         {
             if (impact.magnitude > 0.1f)
             {
                 transform.position += impact * Time.deltaTime;
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
-            if (stun)
-                throw new Exception();
-            
-            for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
-                Buffs[buffElementIdx].Activation(this);
-            
             if (dying)
-                throw new Exception();
+                return false;
+         
+
+            for (buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
+                Buffs[buffElementIdx].Activation(this);
+
+            if (stun)
+                return false;
 
             SPCActionWeight =
                 Mathf.Clamp(
                     SPCActionWeight += Time.deltaTime * (onSkill && onSkill.skillInfo.clipLayer == 2 ? 3 : -2), 0, 1);
             
             anim.SetLayerWeight(2, SPCActionWeight);
-
-            
-            
+            return true;
         }
-        protected internal virtual void Hited(Vector3 attacker, float dmg,float penetrate=0)
+        protected internal virtual bool Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
-            if(dying)
-                return; 
+            if (immune)
+                return false;
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
+           
             hpBar.value = hp / characterStat.maxHP;
             Vector3 horizonPosition = thisCurTransform.position;
             attacker.y = horizonPosition.y;
             impact += (horizonPosition - attacker).normalized*(dmg*(1/nockBackResist));
+            if (dying)
+                return false;
+            return true;
         }
 
         public void AddBuff(Skill.SPC buff)
@@ -173,9 +178,7 @@ namespace Character
         public void PlaySkillClip(Skill.Skill skill)
         {
             onSkill = skill;
-            
-            anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);
-            //StartCoroutine(ClipBack(anim.GetCurrentAnimatorClipInfo(2)[0].clip.length));
+            anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);            
         }
         public void SkillEffect()
         {

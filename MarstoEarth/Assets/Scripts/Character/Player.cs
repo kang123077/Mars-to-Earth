@@ -36,7 +36,6 @@ namespace Character
         private Collider[] itemColliders;
         private Projectile.ProjectileInfo chargeProjectileInfo;
 
-        private Vector3 characterMovingDir;
         private KeyCode key;
 
         private KeyCode[] keys = new[]
@@ -51,7 +50,7 @@ namespace Character
             KeyCode.A
         };
 
-        private bool isRun;
+        public bool isRun;
         private float lastInputTime;
 
         private float hitScreenAlphaValue;
@@ -69,7 +68,7 @@ namespace Character
             actives = new List<Skill.Skill>();
 
             chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
-                ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
+                ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet, (point) =>
                 {
                     int count = Physics.OverlapSphereNonAlloc(point,
@@ -110,130 +109,126 @@ namespace Character
 
         protected void Update()
         {
-            try
+            if (!BaseUpdate())
+                return;
+            Vector3 position = thisCurTransform.position;
+
+            xInput = Input.GetAxis("Horizontal");
+            zInput = Input.GetAxis("Vertical");
+            InputDir = new Vector3(xInput, 0, zInput);
+
+            if (hitScreenAlphaValue > 0)
             {
-                BaseUpdate();
-                Vector3 position = thisCurTransform.position;
+                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / characterStat.maxHP);
+                hitScreenColor.a = hitScreenAlphaValue;
+                hitScreen.color = hitScreenColor;
+            }
 
-                xInput = Input.GetAxis("Horizontal");
-                zInput = Input.GetAxis("Vertical");
-                InputDir = new Vector3(xInput, 0, zInput);
+            if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
+            {
+                itemColliders[0].TryGetComponent(out Item.Item getItem);
+                getItem.Use(this);
+            }
 
-                if (hitScreenAlphaValue > 0)
+            if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
+                return;
+
+            #region MovingMan
+
+            if (xInput != 0 || zInput != 0)
+            {
+                if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
                 {
-                    hitScreenAlphaValue -= Time.deltaTime * hp * (1 / characterStat.maxHP);
-                    hitScreenColor.a = hitScreenAlphaValue;
-                    hitScreen.color = hitScreenColor;
+                    InputDir.x *= 0.71f;
+                    InputDir.z *= 0.71f;
                 }
 
-                if (dying)
-                    return;
-
-                if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
+                if (Input.anyKey)
                 {
-                    itemColliders[0].TryGetComponent(out Item.Item getItem);
-                    getItem.Use(this);
-                }
-
-                if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
-                    return;
-
-                #region MovingMan
-
-                if (xInput != 0 || zInput != 0)
-                {
-                    if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
+                    foreach (KeyCode keyCode in keys)
                     {
-                        InputDir.x *= 0.71f;
-                        InputDir.z *= 0.71f;
-                    }
-
-                    if (Input.anyKey)
-                    {
-                        foreach (KeyCode keyCode in keys)
+                        if (Input.GetKeyDown(keyCode))
                         {
-                            if (Input.GetKeyDown(keyCode))
+                            if (Time.time - lastInputTime < 0.3f && key == keyCode)
                             {
-                                if (Time.time - lastInputTime < 0.3f && key == keyCode)
-                                {
-                                    //연속으로 두번왓는지 확인
-                                    anim.SetBool(IsRun, isRun = true);
-                                }
-
-                                key = keyCode;
-                                lastInputTime = Time.time;
-                                break;
+                                //연속으로 두번왓는지 확인
+                                anim.SetBool(IsRun,  isRun = true&& onSkill is not MassShootingSkill);
                             }
+
+                            key = keyCode;
+                            lastInputTime = Time.time;
+                            break;
                         }
                     }
-                    else
-                        anim.SetBool(IsRun, isRun = false);
-
-                    InputDir = CinemachineManager.Instance.follower.rotation * InputDir;
-                    thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1f));
-
-                    Vector3 lowerDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
-
-                    anim.SetFloat(X, lowerDir.x);
-                    anim.SetFloat(Z, lowerDir.z);
-                }
-
-
-                if (target)
-                {
-                    Vector3 targetPos = target.position;
-                    targetPos.y = 0;
-                    targetDir = targetPos - thisCurTransform.position;
-                }
-
-                repoterForward = CinemachineManager.Instance.follower.forward;
-                repoterForward.y = 0;
-
-                thisCurTransform.forward =
-                    Vector3.RotateTowards(thisCurTransform.forward,
-                        isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
-
-                #endregion
-
-                #region Targeting
-
-                if (Input.GetMouseButtonDown(0))
-                    anim.SetTrigger(attacking);
-                float minCoLength = 1000;
-                if (!target)
-                {
-                    int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range - 1, colliders,
-                        1 << 6);
-
-                    for (int i = 0; i < size; i++)
-                    {
-                        float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position,
-                            Vector3.up);
-                        if ((angle < 0 ? -angle : angle) < viewAngle - 5)
-                        {
-                            float coLeng = Vector3.Distance(colliders[i].transform.position, position);
-                            if (minCoLength > coLeng)
-                            {
-                                minCoLength = coLeng;
-                                target = colliders[i].transform;
-                            }
-                        }
-                    }
-
-                    anim.SetBool(onTarget, target);
                 }
                 else
+                    anim.SetBool(IsRun, isRun = false);
+
+                InputDir = CinemachineManager.Instance.follower.rotation * InputDir;
+                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1f));
+
+                Vector3 lowerDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
+
+                anim.SetFloat(X, lowerDir.x);
+                anim.SetFloat(Z, lowerDir.z);
+            }
+
+
+            if (target)
+            {
+                Vector3 targetPos = target.position;
+                targetPos.y = 0;
+                targetDir = targetPos - thisCurTransform.position;
+            }
+
+            repoterForward = CinemachineManager.Instance.follower.forward;
+            repoterForward.y = 0;
+
+            thisCurTransform.forward =
+                Vector3.RotateTowards(thisCurTransform.forward,
+                    isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
+
+            #endregion
+
+            #region Targeting
+
+            if (Input.GetMouseButtonDown(0))
+                anim.SetTrigger(attacking);
+            float minCoLength = 1000;
+            if (!target)
+            {
+                int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range - 1, colliders,
+                    1 << 6);
+
+                for (int i = 0; i < size; i++)
                 {
-                    Vector3 repoterPosition = CinemachineManager.Instance.follower.position;
-                    repoterPosition.y = 1;
-                    int size = Physics.OverlapCapsuleNonAlloc(repoterPosition,
-                        repoterPosition + repoterForward * range, 0.5f, colliders, layerMask);
-                    switch (size)
+                    float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position,
+                        Vector3.up);
+                    if ((angle < 0 ? -angle : angle) < viewAngle - 5)
                     {
-                        case 1:
-                            target = colliders[0].transform;
-                            break;
-                        case > 1:
+                        float coLeng = Vector3.Distance(colliders[i].transform.position, position);
+                        if (minCoLength > coLeng)
+                        {
+                            minCoLength = coLeng;
+                            target = colliders[i].transform;
+                        }
+                    }
+                }
+
+                anim.SetBool(onTarget, target);
+            }
+            else
+            {
+                Vector3 repoterPosition = CinemachineManager.Instance.follower.position;
+                repoterPosition.y = 1;
+                int size = Physics.OverlapCapsuleNonAlloc(repoterPosition,
+                    repoterPosition + repoterForward * range, 0.5f, colliders, layerMask);
+                switch (size)
+                {
+                    case 1:
+                        target = colliders[0].transform;
+                        break;
+                    case > 1:
                         {
                             for (int i = 0; i < size; i++)
                             {
@@ -247,7 +242,7 @@ namespace Character
 
                             break;
                         }
-                        default:
+                    default:
                         {
                             float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
                             if ((angle < 0 ? -angle : angle) > viewAngle + 5 ||
@@ -255,77 +250,73 @@ namespace Character
                                 anim.SetBool(onTarget, target = null);
                             break;
                         }
-                    }
-                }
-
-                #endregion
-
-                if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    actives[0].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.E))
-                {
-                    actives[1].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.R))
-
-                {
-                    actives[2].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    actives[13].Use(this);
-                    Debug.Log(onSkill);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad0))
-                {
-                    actives[3].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad1))
-                {
-                    actives[4].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad2))
-                {
-                    actives[5].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad3))
-                {
-                    actives[6].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad4))
-                {
-                    actives[7].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad5))
-                {
-                    actives[8].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad6))
-                {
-                    actives[9].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad7))
-                {
-                    actives[10].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad8))
-                {
-                    actives[11].Use(this);
-                }
-                else if (Input.GetKeyDown(KeyCode.Keypad9))
-                {
-                    actives[12].Use(this);
                 }
             }
-            catch (System.Exception)
+
+            #endregion
+
+            if (Input.GetKeyDown(KeyCode.Q))
             {
-                //
+                actives[0].Use(this);
             }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                actives[1].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+
+            {
+                actives[2].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                actives[13].Use(this);
+                Debug.Log(onSkill);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad0))
+            {
+                actives[3].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad1))
+            {
+                actives[4].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad2))
+            {
+                actives[5].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad3))
+            {
+                actives[6].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad4))
+            {
+                actives[7].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad5))
+            {
+                actives[8].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad6))
+            {
+                actives[9].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad7))
+            {
+                actives[10].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad8))
+            {
+                actives[11].Use(this);
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad9))
+            {
+                actives[12].Use(this);
+            }
+
         }
 
-        protected override void Attack()
+        protected override bool Attack()
         {
             Vector3 muzzleForward = muzzle.forward;
             if (onCharge)
@@ -338,14 +329,19 @@ namespace Character
             }
 
             else
+            {
                 SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
                     dmg, 1 + duration * 0.5f, 20 + speed * 2, range * 0.5f, ref projectileInfo);
+                impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
+            }
+            return true;
         }
 
-        protected internal override void Hited(Vector3 attacker, float dmg, float penetrate = 0)
+        protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
         {
-            hitScreenAlphaValue += dmg * 2 * (1 / characterStat.maxHP);
-            base.Hited(attacker, dmg, penetrate);
+            
+            hitScreenAlphaValue += dmg * 3 * (1 / characterStat.maxHP);
+            return base.Hited(attacker, dmg, penetrate);
         }
     }
 }
