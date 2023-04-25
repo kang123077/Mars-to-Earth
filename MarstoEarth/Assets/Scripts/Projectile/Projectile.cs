@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Projectile
 {
-    public enum Mesh
+    public enum projectileMesh
     {
         Bullet1,
         Grenade
@@ -17,10 +17,10 @@ namespace Projectile
     public struct ProjectileInfo
     {
         public int lm;//layerMask
-        public UnityEngine.Mesh ms;
+        public Mesh ms;
         public Type ty;
         public Action<Vector3> ef;
-        public ProjectileInfo(int layerMask, UnityEngine.Mesh mesh, Type type,Action<Vector3> effect)
+        public ProjectileInfo(int layerMask, Mesh mesh, Type type,Action<Vector3> effect)
         {   
             lm = layerMask;
             ms = mesh;
@@ -62,15 +62,14 @@ namespace Projectile
             mesh.mesh = info.ms;
             thisInfo[0] = info;
             eleapse = 0;
-            
         }
 
-
+        
         // ReSharper disable Unity.PerformanceAnalysis
         private void Bullet()
         {
-            thisTransform.position += targetPos * (Time.deltaTime * speed*3); 
-            if (Physics.OverlapSphereNonAlloc(thisTransform.position, range*0.05f, colliders,
+            thisTransform.position += targetPos * (Time.deltaTime * speed); 
+            if (Physics.OverlapCapsuleNonAlloc(thisTransform.position, thisTransform.position+ thisTransform.forward*(Time.deltaTime * speed),range*0.05f, colliders,
                     thisInfo[0].lm^(1<<9|1<<0)) > 0)
             {
                 colliders[0].TryGetComponent(out target);

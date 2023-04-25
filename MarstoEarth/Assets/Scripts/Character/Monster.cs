@@ -1,11 +1,9 @@
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Skill;
 
 
 namespace Character
@@ -13,7 +11,7 @@ namespace Character
     
     public class Monster : Character
     {
-        private static readonly Vector3[] FourDirection = 
+        private static readonly Vector3[] trackingDirection = 
             {Vector3.forward,Vector3.right,Vector3.back,Vector3.left };
 
         private Vector3[] patrolPoints;
@@ -41,6 +39,7 @@ namespace Character
 
         protected Skill.Skill skill;
         public EnemyType enemyType;
+        //private NavMeshHit hit;
 
         private IEnumerator StuckCheck()
         {
@@ -82,7 +81,14 @@ namespace Character
             base.Awake();
             patrolPoints = new Vector3[4];
             for (int i = 0; i < patrolPoints.Length; i++)
-                patrolPoints[i]=  thisCurTransform.position + FourDirection[i] * (sightLength * 2);
+                patrolPoints[i] = thisCurTransform.position + trackingDirection[i] * (sightLength * 2);
+            //if (NavMesh.SamplePosition(patrolPoints[i], out hit, sightLength * 2, NavMesh.AllAreas))
+            //    patrolPoints[i] = hit.position;                    
+            //else
+            //    Debug.LogWarning("목적지 위치가 NavMesh 영역 밖에 있습니다.");
+                
+            
+
      
             positions = new List<float>();
             trackingPermission = true;
@@ -102,9 +108,10 @@ namespace Character
             hpBar.gameObject.SetActive(false);
         }
 
-        protected override void BaseUpdate()
+        protected override bool BaseUpdate()
         {
-            base.BaseUpdate();
+            if (!base.BaseUpdate())
+                return false;
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
             if (showHpEleapse > 0)
             {
@@ -112,6 +119,8 @@ namespace Character
                 if(showHpEleapse<=0) hpBar.gameObject.SetActive(false);
             }
             hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
+
+            return true;
         }
 
 
@@ -120,6 +129,7 @@ namespace Character
         {
             StopCoroutine(StuckCheckCoroutine);
             ai.enabled = false;
+            anim.SetBool(onTarget, target = null);
             Vector3 point = thisCurTransform.position;
             point.y = 0;
             SpawnManager.DropOptanium(point);
@@ -132,24 +142,27 @@ namespace Character
             if(!dying)return;
             target = null;
             hp = characterStat.maxHP;
-            patrolPoints = new Vector3[4];
+            ai.enabled = true;
+
             for (int i = 0; i < patrolPoints.Length; i++)
-                patrolPoints[i]=  thisCurTransform.position + FourDirection[i] * (sightLength * 2);
+                patrolPoints[i] = thisCurTransform.position + trackingDirection[i] * (sightLength * 2);
+
      
             lastPosition = thisCurTransform.position;
             patrolIdx = Random.Range(0, 4);
-           
+
+            Debug.Log(patrolPoints[patrolIdx]);
             ai.SetDestination(patrolPoints[patrolIdx]);
             hpBar.value = 1;
             hpBar.gameObject.SetActive(true);
             
             col.enabled = true;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
-            ai.enabled = true;
+           
             dying = false;
         }
 
-        protected override void Attack()
+        protected override bool Attack()
         {
             anim.SetBool(attacking,isAttacking = false );
             positions.Clear();
@@ -160,24 +173,26 @@ namespace Character
                 float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position-thisCurTransform.forward*range), Vector3.up);
                 if((angle < 0 ? -angle : angle) < viewAngle-60)
                 {
-                    if (skill && skill.Use(this)) return;
-                    base.Attack();
+                    if (skill && skill.Use(this)) return false;
+                    return base.Attack();
 
                 }else
                     Debug.Log("회피 이펙트");
             }else
                 Debug.Log("회피 이펙트");
+            return true;
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        protected internal override void Hited(Vector3 attacker, float dmg,float penetrate=0)
+        protected internal override bool Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
             
-            base.Hited(attacker, dmg, penetrate);
-            if (dying) return;
+            if(!base.Hited(attacker, dmg, penetrate))
+                return false;
             hpBar.gameObject.SetActive(true);
-            showHpEleapse = 4;
+            showHpEleapse = 4;            
             ai.SetDestination(SpawnManager.Instance.playerTransform.position);
+            return true;
         }
     }
 }

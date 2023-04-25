@@ -55,7 +55,7 @@ namespace Projectile
             thisTransform = transform;
 
             projectileInfo = new ProjectileInfo(layerMask,
-                ResourceManager.Instance.projectileMesh[(int)Mesh.Bullet1].sharedMesh,
+                ResourceManager.Instance.projectileMesh[(int)projectileMesh.Bullet1].sharedMesh,
                 Type.Bullet, (point) =>
                 {
                     int count = Physics.OverlapSphereNonAlloc(point, range * .2f, colliders, layerMask);

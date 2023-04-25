@@ -9,7 +9,7 @@ namespace Skill
     {
         private SPC block;
         private bool parrying;
-        private Action<Vector3, float, float> temp;
+        private Func<Vector3, float, float,bool> temp;
         
         private readonly Collider[] colliders = new Collider[8];
         private Character.Character targetCh;
@@ -20,12 +20,13 @@ namespace Skill
                 temp = ch.Hit;
                 ch.Hit = (attacker, dmg, penetrate) =>
                 {
-                    ch.Hited(attacker, dmg*0.2f, penetrate);                    
-                    if (parrying||Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, colliders, ch.layerMask) < 1) return;                    
+                    ch.Hited(attacker, dmg*0.2f, penetrate);
+                    if (parrying || Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, colliders, ch.layerMask) < 1) return true;
                     attacker = colliders[0].transform.position;
                     attacker.y = ch.transform.position.y;
                     ch.transform.LookAt(attacker);
                     ch.anim.SetBool($"parring", parrying = true);
+                    return true;
                 };
             }, (ch) => {
                 
