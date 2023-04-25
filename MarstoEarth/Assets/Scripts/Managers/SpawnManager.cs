@@ -148,6 +148,7 @@ public class SpawnManager : Singleton<SpawnManager>
         {
             Debug.Log("룸 클리어!");
             curNode.IsNodeCleared = true;
+            InGameManager.Instance.OnRoomCleared();
             if (curNode.isBossNode)
             {
                 Debug.Log("보스 클리어!");
