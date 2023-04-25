@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-
+/*
+ * 스턴 상태일때는 
+ */
 namespace Character
 {
     public abstract class Character : MonoBehaviour
@@ -23,16 +25,14 @@ namespace Character
         protected Character targetCharacter;
         protected Collider[] colliders;
         private float nockBackResist ;
-        [HideInInspector] public bool dying;
+        
         public Skill.Skill onSkill { get; set; }
         private float SPCActionWeight;
         public Vector3 impact { get; set; }
         public float dmg { get; set; }
-        public float coolDecrease { get; set; }
         public float speed { get; set; }
         public float def { get; set; }
         public float duration { get; set; }
-        
         public float range { get; set; }
         public float viewAngle { get; set; }
         private float _hp;
@@ -56,9 +56,27 @@ namespace Character
         private List<Skill.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
-        public Action<Vector3,float,float> Hit;
+        public Func<Vector3,float,float,bool> Hit;
         int buffElementIdx;
+        public bool _stun;
+        public bool stun
+        {
+            get => _stun;
+            set
+            {
+                if (value)
+                {
+                    anim.SetBool(attacking, false);
+                    anim.SetBool(onTarget, false);
+                }
+                else
+                    anim.SetBool(onTarget, target);
+                _stun= value;
+            }
+        }
+        public bool immune;
 
+        [HideInInspector] public bool dying;
 
         protected virtual void Awake()
         {
@@ -69,7 +87,6 @@ namespace Character
             nockBackResist = characterStat.maxHP * 0.1f;
             impact = Vector3.zero;
             dmg = characterStat.dmg;
-            coolDecrease = characterStat.coolDecrease;
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;
@@ -86,34 +103,40 @@ namespace Character
         }
 
         protected virtual void Start()
-        {
-            hpBar =Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.transform);
-            projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
+        {            
+            projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet,null);
         }
 
-        protected virtual void Attack()
+        protected virtual bool Attack()
         {
-            if (!target) return;
+            if (!target) return false;
             target.gameObject.TryGetComponent(out targetCharacter);
             targetCharacter.Hit(thisCurTransform.position,dmg,0);
+            return true;
         }
         
         protected virtual IEnumerator Die()
         {
             dying = true;
-            Destroy(hpBar.gameObject);
-            Destroy(col);
-            
+            hpBar.gameObject.SetActive(false);
+            col.enabled = false;
+            Buffs.Clear();
             anim.Play($"Die",2,0);
             anim.SetLayerWeight(2,1);
-            yield return new WaitForSeconds(5);
-            Destroy(gameObject);
-            // InGameManager.Instance.OnMonsterCleared();
+            yield return new WaitForSeconds(3);
+            
+            if(this is Monster)
+                SpawnManager.Instance.ReleaseMonster((Monster)this);
+            else
+                Destroy(gameObject);
+
+
+            //InGameManager.Instance.OnMonsterCleared();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        protected virtual void BaseUpdate()
+        protected virtual bool BaseUpdate()
         {
             if (impact.magnitude > 0.1f)
             {
@@ -121,29 +144,37 @@ namespace Character
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
             if (dying)
-                return;
+                return false;
+         
+
+            for (buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
+                Buffs[buffElementIdx].Activation(this);
+
+            if (stun)
+                return false;
 
             SPCActionWeight =
                 Mathf.Clamp(
                     SPCActionWeight += Time.deltaTime * (onSkill && onSkill.skillInfo.clipLayer == 2 ? 3 : -2), 0, 1);
             
             anim.SetLayerWeight(2, SPCActionWeight);
-
-            for(buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
-                Buffs[buffElementIdx].Activation(this);
-            
+            return true;
         }
-        protected internal virtual void Hited(Vector3 attacker, float dmg,float penetrate=0)
+        protected internal virtual bool Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
-            if(dying)
-                return; 
+            if (immune)
+                return false;
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
+           
             hpBar.value = hp / characterStat.maxHP;
             Vector3 horizonPosition = thisCurTransform.position;
             attacker.y = horizonPosition.y;
             impact += (horizonPosition - attacker).normalized*(dmg*(1/nockBackResist));
+            if (dying)
+                return false;
+            return true;
         }
 
         public void AddBuff(Skill.SPC buff)
@@ -161,9 +192,7 @@ namespace Character
         public void PlaySkillClip(Skill.Skill skill)
         {
             onSkill = skill;
-            
-            anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);
-            //StartCoroutine(ClipBack(anim.GetCurrentAnimatorClipInfo(2)[0].clip.length));
+            anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);            
         }
         public void SkillEffect()
         {

@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+
+using System;
 using UnityEngine;
 using Cinemachine;
 
@@ -8,15 +8,31 @@ public class CinemachineManager : Singleton<CinemachineManager>
     public CinemachineBrain camManager;
     public CinemachineVirtualCamera playerCam;
     public CinemachineVirtualCamera bossCam;
-
+    public Transform follower;
+    
+    private Vector3 curAngle;
+    private float cameraSpeed ;
     void Start()
     {
-        playerCam.Follow = SpawnManager.Instance.player.cameraView;
-        bossCam.Follow = SpawnManager.Instance.player.cameraView;
+        playerCam.Follow = follower;
+        bossCam.Follow = follower;
+        cameraSpeed = 300;
+        curAngle = SpawnManager.Instance.player.camPoint.eulerAngles;
     }
 
-    void Update()
+    private void Update()
     {
-        
+        curAngle.y += Input.GetAxis("Mouse X") * cameraSpeed * Time.deltaTime;
+        try
+        {
+            follower.position = SpawnManager.Instance.player.camPoint.position;
+
+            follower.rotation = Quaternion.Euler(curAngle);
+
+        }
+        catch (NullReferenceException)
+        {
+            //플레이어 트렌스폼이 없습니다.
+        }
     }
 }

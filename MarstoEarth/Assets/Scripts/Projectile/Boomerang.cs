@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +9,7 @@ namespace Projectile
         private Transform caster;
         private Vector3 targetPoint;
         private float range;
+        private float duration;
         private float damage;
         private float speed;
         private readonly Collider[] colliders = new Collider[8];
@@ -17,12 +18,13 @@ namespace Projectile
         private bool isReturn;
         
         private Character.Character enemy; 
-        public void Init(Transform ct,Vector3 tp, float rg, float dmg, float sp, int lm)
+        public void Init(Transform ct,Vector3 tp,float dr, float rg, float dmg, float sp, int lm)
         {
             caster = ct;
             targetPoint = tp;
             range = rg;
             damage = dmg;
+            duration = dr;
             speed = sp;
             layerMask=lm;
             transform.position = ct.position+ct.forward;
@@ -37,7 +39,8 @@ namespace Projectile
             {
                 colliders[i].TryGetComponent(out enemy);
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                enemy.Hit(transform.position, damage*1.5f, 0);
+                if (!enemy.Hit(transform.position, damage * 1.5f, 0)) continue;
+                enemy.AddBuff(new Skill.SPC(duration, (ch) => ch.stun = true, (ch) => ch.stun = false));
             }
             Destroy(gameObject);
         }

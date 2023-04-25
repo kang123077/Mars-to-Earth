@@ -7,7 +7,7 @@ namespace Skill
         {
             this.skillInfo = skillInfo;
             projectileInfo = new Projectile.ProjectileInfo(0,
-                ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Grenade].sharedMesh,
+                ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Grenade].sharedMesh,
                 Projectile.Type.Cannon,null);
         }
         protected override bool Activate()

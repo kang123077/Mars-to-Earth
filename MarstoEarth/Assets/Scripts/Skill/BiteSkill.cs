@@ -23,7 +23,7 @@ namespace Skill
             casterPoint= caster.transform.position;
 
             caster.target.TryGetComponent(out targetCh);
-            targetBite = new SPC(10, (target) =>
+            targetBite = new SPC(10,(target)=> target.stun=true,(target) =>
             {
                 target.transform.position = LH.position-caster.transform.up*1.5f;
                 target.Hit(casterPoint,skillInfo.dmg * Time.deltaTime,0);
@@ -31,7 +31,8 @@ namespace Skill
                 {
                     target.RemoveBuff(targetBite);
                 }
-            });
+            }, (target) => target.stun = false);
+
             bite = new SPC(10, (ch) => {
 
                 targetCh.AddBuff(targetBite);

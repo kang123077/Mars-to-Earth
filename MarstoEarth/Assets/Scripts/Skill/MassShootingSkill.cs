@@ -15,13 +15,13 @@ namespace Skill
         {
             this.skillInfo = skillInfo;
             projectileInfo = new Projectile.ProjectileInfo(0,
-                ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
+                ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet, null);
 
             massShooting = new SPC(0, null, (ch) =>
             {
                 
-                Transform ctr = ch.transform;
+                Transform ctr = ((Player)ch).muzzle;
                 atkEleapse += Time.deltaTime;
                 aniEleapse += Time.deltaTime;
                 if (aniEleapse > 0.2f)
@@ -34,6 +34,8 @@ namespace Skill
                     SpawnManager.Instance.Launch(ctr.position, ctr.forward, skillInfo.dmg + ch.dmg * 0.1f, 2,
                         20 + ch.speed * 2, skillInfo.range * 0.3f + ch.range * 0.1f, ref projectileInfo);
                     atkEleapse -= speed;
+
+                    ch.impact -= 0.25f * ctr.forward;
                 }
             }, (ch) =>
             {
@@ -43,6 +45,8 @@ namespace Skill
         }
         protected override bool Activate()
         {
+            if(((Player)caster).isRun)
+                return false;
             caster.PlaySkillClip(this); 
             
             projectileInfo.lm = caster.layerMask;

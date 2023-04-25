@@ -17,7 +17,7 @@ MonoBehaviour:
   skillType: 0
   clipName: MassShooting
   clipLayer: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 865940b3c02f5f541ad845fedfd69c15, type: 3}
   dmg: 15
   duration: 8
   range: 8

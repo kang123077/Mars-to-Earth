@@ -1,42 +1,43 @@
 using Skill;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character
 {
-
     public class Player : Character
     {
+        public Vector3 InputDir;
+        public Transform camPoint;
 
-       // private RaycastHit hitInfo;
-       // private Vector3 mouseDir;
+        public new Transform target
+        {
+            get => _target;
+            set
+            {
+                CinemachineManager.Instance.playerCam.gameObject.SetActive(!value);
+                CinemachineManager.Instance.bossCam.gameObject.SetActive(value);
+                _target = CinemachineManager.Instance.bossCam.LookAt = value;
+            }
+        }
+
+        private Transform _target;
+        [SerializeField] public Transform muzzle;
+
+        [HideInInspector] public bool onCharge;
+
+        protected List<Skill.Skill> actives;
+
         private float xInput;
         private float zInput;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
         private static readonly int IsRun = Animator.StringToHash("isRun");
         private Collider[] itemColliders;
-        private KeyCode key;
-        private LayerMask obstacleMask;
-        private Transform _target;
-        private Vector3 characterMovingDir;
-        public new Transform target
-        {
-            get
-            {
-                return _target;
-            }
-            set
-            {
-                CinemachineManager.Instance.playerCam.gameObject.SetActive(!value);
-                CinemachineManager.Instance.bossCam.gameObject.SetActive(value);
-                _target = CinemachineManager.Instance.bossCam.LookAt = value;                
-            }
-        }
-
         private Projectile.ProjectileInfo chargeProjectileInfo;
-        public bool onCharge;
-        protected List<Skill.Skill> actives;
+
+        private KeyCode key;
+
         private KeyCode[] keys = new[]
         {
             KeyCode.UpArrow,
@@ -49,12 +50,15 @@ namespace Character
             KeyCode.A
         };
 
-        private bool isRun;
+        public bool isRun;
         private float lastInputTime;
-        public Vector3 InputDir;
-        public Transform cameraView;
-        private float cameraSpeed ;
-        private float NoneTargetEleapse;
+
+        private float hitScreenAlphaValue;
+        private UnityEngine.UI.Image hitScreen;
+        private Color hitScreenColor;
+
+        private Vector3 repoterForward;
+        private Vector3 targetDir;
 
         protected override void Awake()
         {
@@ -62,9 +66,10 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
+
             chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
-                ResourceManager.Instance.projectileMesh[(int)Projectile.Mesh.Bullet1].sharedMesh,
-                Projectile.Type.Bullet,  (point) =>
+                ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
+                Projectile.Type.Bullet, (point) =>
                 {
                     int count = Physics.OverlapSphereNonAlloc(point,
                         5 + range * 0.2f, colliders,
@@ -73,14 +78,19 @@ namespace Character
                     {
                         colliders[i].TryGetComponent(out targetCharacter);
                         if (targetCharacter)
-                            targetCharacter.Hit(point, 25 + dmg * 2f,0);
+                        {
+                            if (!targetCharacter.Hit(point, 25 + dmg * 2f, 0)) continue;
+                            //targetCharacter.AddBuff(new SPC()=>{ })
+                        }                            
                     }
                 });
-
-            cameraSpeed = 300;
+            hitScreen = ((CombatUI)UIManager.Instance.UIs[(int)UIType.Combat]).hitScreen;
+            hitScreenColor = hitScreen.color;
         }
+
         protected override void Start()
         {
+            
             base.Start();
             //퀵슬롯 구현후 삭제
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
@@ -98,45 +108,43 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
 
-            hpBar.TryGetComponent(out RectTransform hpRect);
-            
-            hpRect.anchoredPosition = new Vector2(0, -Screen.height*2/5);
-
-            //hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 2f);
+            hpBar = ((CombatUI)UIManager.Instance.UIs[(int)UIType.Combat]).playerHP;
         }
+
         protected void Update()
         {
+            if (!BaseUpdate())
+                return;
             Vector3 position = thisCurTransform.position;
-            //Physics.Raycast(mainCam.ScreenPointToRay(Input.mousePosition), out hitInfo, Mathf.Infinity,1<<0);
-            //mouseDir = hitInfo.point - position;
+
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
             InputDir = new Vector3(xInput, 0, zInput);
-            BaseUpdate();
-            if (dying)
-                return;
+
+            if (hitScreenAlphaValue > 0)
+            {
+                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / characterStat.maxHP);
+                hitScreenColor.a = hitScreenAlphaValue;
+                hitScreen.color = hitScreenColor;
+            }
 
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
                 getItem.Use(this);
             }
+
             if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
                 return;
-            #region MovingMan
 
-            var rotInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-            var rot = transform.eulerAngles;
-            rot.y += rotInput.x * cameraSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.Euler(rot);
+            #region MovingMan
 
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
                 {
-
-                    InputDir.x *=  0.71f;
-                    InputDir.z *=  0.71f;
+                    InputDir.x *= 0.71f;
+                    InputDir.z *= 0.71f;
                 }
 
                 if (Input.anyKey)
@@ -146,9 +154,11 @@ namespace Character
                         if (Input.GetKeyDown(keyCode))
                         {
                             if (Time.time - lastInputTime < 0.3f && key == keyCode)
-                            {   //연속으로 두번왓는지 확인
-                                anim.SetBool(IsRun, isRun = true);
+                            {
+                                //연속으로 두번왓는지 확인
+                                anim.SetBool(IsRun,  isRun = true&& onSkill is not MassShootingSkill);
                             }
+
                             key = keyCode;
                             lastInputTime = Time.time;
                             break;
@@ -157,63 +167,95 @@ namespace Character
                 }
                 else
                     anim.SetBool(IsRun, isRun = false);
-                InputDir = transform.rotation *InputDir;
-                characterMovingDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
-                
-                anim.SetFloat(X, characterMovingDir.x);
-                anim.SetFloat(Z, characterMovingDir.z);
 
-                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1));
+                InputDir = CinemachineManager.Instance.follower.rotation * InputDir;
+                thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1f));
+
+                Vector3 lowerDir = (thisCurTransform.InverseTransformPoint(thisCurTransform.position + InputDir));
+
+                anim.SetFloat(X, lowerDir.x);
+                anim.SetFloat(Z, lowerDir.z);
             }
 
-            thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward, isRun ? InputDir :
-                    target ? target.position - position : thisCurTransform.forward, 6 * Time.deltaTime, 0);
 
+            if (target)
+            {
+                Vector3 targetPos = target.position;
+                targetPos.y = 0;
+                targetDir = targetPos - position;
+            }
+
+            repoterForward = CinemachineManager.Instance.follower.forward;
+            repoterForward.y = 0;
+
+            thisCurTransform.forward =
+                Vector3.RotateTowards(thisCurTransform.forward,
+                    isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
 
             #endregion
 
             #region Targeting
+
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
+            float minCoLength = 1000;
             if (!target)
             {
-                int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders,
+                int size = Physics.OverlapSphereNonAlloc(position, range - 1, colliders,
                     1 << 6);
-                if (size > 0)
-                {
-                    float minCoLength = 1000;
-                    for (int i = 0; i < size; i++)
-                    {
-                        float angle = Vector3.SignedAngle(thisCurTransform.forward, colliders[i].transform.position - position, Vector3.up);
 
-                        if ((angle < 0 ? -angle : angle) < viewAngle)
+                for (int i = 0; i < size; i++)
+                {
+                    float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position,
+                        Vector3.up);
+                    if ((angle < 0 ? -angle : angle) < viewAngle - 5)
+                    {
+                        float coLeng = Vector3.Distance(colliders[i].transform.position, position);
+                        if (minCoLength > coLeng)
                         {
-                            float coLeng = Vector3.Distance(colliders[i].transform.position, position);
-                            if (minCoLength > coLeng)
-                            {
-                                minCoLength = coLeng;
-                                target = colliders[i].transform;
-                            }
+                            minCoLength = coLeng;
+                            target = colliders[i].transform;
                         }
                     }
-                    anim.SetBool(onTarget, target);
                 }
+
+                anim.SetBool(onTarget, target);
             }
             else
             {
-                float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - position, Vector3.up);
-
-                if ((angle < 0 ? -angle : angle) > viewAngle || Vector3.Distance(target.position, thisCurTransform.position) > range + .5f)
+                Vector3 repoterPosition = CinemachineManager.Instance.follower.position;
+                repoterPosition.y = 1;
+                int size = Physics.OverlapCapsuleNonAlloc(repoterPosition,
+                    repoterPosition + repoterForward * range, 0.5f, colliders, layerMask);
+                switch (size)
                 {
-                    NoneTargetEleapse += Time.deltaTime;
-                    if(NoneTargetEleapse>2.5f)
-                    {
-                        NoneTargetEleapse -= 2.5f;
-                        anim.SetBool(onTarget, target = null);
-                    }
+                    case 1:
+                        target = colliders[0].transform;
+                        break;
+                    case > 1:
+                        {
+                            for (int i = 0; i < size; i++)
+                            {
+                                float coLeng = Vector3.Distance(colliders[i].transform.position, position);
+                                if (minCoLength > coLeng)
+                                {
+                                    minCoLength = coLeng;
+                                    target = colliders[i].transform;
+                                }
+                            }
+                            break;
+                        }
+                    default:
+                        {
+                            float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
+                            if ((angle < 0 ? -angle : angle) > viewAngle + 5 ||
+                                Vector3.Distance(target.position, position) > range + 1)
+                                anim.SetBool(onTarget, target = null);
+                            break;
+                        }
                 }
             }
+
             #endregion
 
             if (Input.GetKeyDown(KeyCode.Q))
@@ -222,13 +264,14 @@ namespace Character
             }
             else if (Input.GetKeyDown(KeyCode.E))
             {
-
                 actives[1].Use(this);
-            }else if (Input.GetKeyDown(KeyCode.R))
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
 
             {
                 actives[2].Use(this);
-            }else if (Input.GetKeyDown(KeyCode.Space))
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
             {
                 actives[13].Use(this);
                 Debug.Log(onSkill);
@@ -243,9 +286,9 @@ namespace Character
             }
             else if (Input.GetKeyDown(KeyCode.Keypad2))
             {
-
                 actives[5].Use(this);
-            } else if (Input.GetKeyDown(KeyCode.Keypad3))
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad3))
             {
                 actives[6].Use(this);
             }
@@ -255,41 +298,55 @@ namespace Character
             }
             else if (Input.GetKeyDown(KeyCode.Keypad5))
             {
-
                 actives[8].Use(this);
-            }else if (Input.GetKeyDown(KeyCode.Keypad6))
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad6))
             {
                 actives[9].Use(this);
-            }else if (Input.GetKeyDown(KeyCode.Keypad7))
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad7))
             {
                 actives[10].Use(this);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad8))
             {
                 actives[11].Use(this);
-            }else if (Input.GetKeyDown(KeyCode.Keypad9))
+            }
+            else if (Input.GetKeyDown(KeyCode.Keypad9))
             {
                 actives[12].Use(this);
             }
 
         }
 
-        protected override void Attack()
+        protected override bool Attack()
         {
-
-            Vector3 forward = thisCurTransform.forward;
+            Vector3 muzzleForward = muzzle.forward;
             if (onCharge)
             {
-                SpawnManager.Instance.Launch(thisCurTransform.position,forward,0 ,1+duration*0.5f, 20+speed*2,range*0.5f, ref chargeProjectileInfo);
+                SpawnManager.Instance.Launch(muzzle.position, muzzleForward, 0, 1 + duration * 0.5f, 30 + speed * 2,
+                    range * 0.5f, ref chargeProjectileInfo);
 
-                impact -= (45 + dmg * 0.5f) * 0.1f * forward;
+                impact -= (45 + dmg * 0.5f) * 0.1f * muzzleForward;
                 onCharge = false;
             }
-                
-            else
-                SpawnManager.Instance.Launch(thisCurTransform.position,forward,
-                    dmg ,1+duration*0.5f, 20+speed*2,range*0.5f, ref projectileInfo);
 
+            else
+            {
+                SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
+                    dmg, 1 + duration * 0.5f, 30 + speed * 2, range * 0.5f, ref projectileInfo);
+                impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
+            }
+            return true;
+        }
+
+        protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
+        {
+            
+            hitScreenAlphaValue += dmg * 3 * (1 / characterStat.maxHP);
+            hitScreenColor.a = hitScreenAlphaValue;
+            hitScreen.color = hitScreenColor;
+            return base.Hited(attacker, dmg, penetrate);
         }
     }
 }
