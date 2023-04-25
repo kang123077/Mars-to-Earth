@@ -99,27 +99,27 @@ public class NodeGenerator : MonoBehaviour
         {
             if (node.east == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, nodeParentTF);
+                GameObject wallObject = Instantiate(wallPrefab, node.transform);
                 wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
                 wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
                 MapManager.walls.Add(wallObject);
             }
             if (node.west == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, nodeParentTF);
+                GameObject wallObject = Instantiate(wallPrefab, node.transform);
                 wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
                 wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
                 MapManager.walls.Add(wallObject);
             }
             if (node.south == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, nodeParentTF);
+                GameObject wallObject = Instantiate(wallPrefab, node.transform);
                 wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
                 MapManager.walls.Add(wallObject);
             }
             if (node.north == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, nodeParentTF);
+                GameObject wallObject = Instantiate(wallPrefab, node.transform);
                 wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
                 MapManager.walls.Add(wallObject);
             }

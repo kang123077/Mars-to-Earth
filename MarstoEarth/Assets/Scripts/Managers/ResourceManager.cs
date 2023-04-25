@@ -67,7 +67,6 @@ public class ResourceManager : Singleton<ResourceManager>
     public SkillInfo[] skillInfos;
     public Character.Character[] enemys;
     public List<Skill.Skill> skills= new();
-    // public Dictionary<EnemyType, GameObject> enemies = new();
 
 
     protected override void Awake()

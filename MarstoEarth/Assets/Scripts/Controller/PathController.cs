@@ -16,14 +16,15 @@ public class PathController : MonoBehaviour
         gate_1 = transform.GetChild(0).GetComponent<GateController>();
         gate_2 = transform.GetChild(1).GetComponent<GateController>();
         pathCollider = GetComponent<Collider>();
+        // Delegate 구독
     }
     private void Update()
     {
         if (MapManager.Instance.isMapGenerateFinished == true
             && roomClearChecker == false)
         {
-            // parent.OnRoomCleared += OnRoomCleared;
-            // children.OnRoomCleared += OnRoomCleared;
+            parent.OnRoomCleared += OnRoomCleared;
+            children.OnRoomCleared += OnRoomCleared;
             roomClearChecker = true;
         }
     }
@@ -79,20 +80,26 @@ public class PathController : MonoBehaviour
             }
         }
     }
-
-    void DelayedAction()
+    private void OnRoomCleared(NodeInfo clearedNode)
     {
-        if (parent.isNodeCleared == false)
+        if (clearedNode.isNodeCleared)
         {
-            SpawnManager.Instance.NodeSpawn(parent);
-            gate_1.GateOpen();
-            pathCollider.enabled = false;
-        }
-        if (children.isNodeCleared == false)
-        {
-            SpawnManager.Instance.NodeSpawn(children);
-            gate_2.GateOpen();
-            pathCollider.enabled = false;
+            if (clearedNode == parent)
+            {
+                gate_1.GateOpen();
+                if (children.isNodeCleared)
+                {
+                    gate_2.GateOpen();
+                }
+            }
+            else
+            {
+                gate_2.GateOpen();
+                if (parent.isNodeCleared)
+                {
+                    gate_1.GateOpen();
+                }
+            }
         }
     }
 

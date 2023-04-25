@@ -13,6 +13,24 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo south;
     public bool isNodeCleared;
     public BoxCollider nodeCollider;
+
+    public delegate void RoomClearedHandler(NodeInfo clearedNode);
+    public event RoomClearedHandler OnRoomCleared;
+
+    public bool IsNodeCleared
+    {
+        get { return isNodeCleared; }
+        set
+        {
+            isNodeCleared = value;
+            Debug.Log("setNodeCleared");
+            if (OnRoomCleared != null)
+            {
+                OnRoomCleared(this);
+            }
+        }
+    }
+
     private void Awake()
     {
         nodeCollider = GetComponent<BoxCollider>();

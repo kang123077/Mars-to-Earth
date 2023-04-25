@@ -92,21 +92,19 @@ public class SpawnManager : Singleton<SpawnManager>
             case EnemyPool.Normal:
                 NormalType[] normals = (NormalType[])Enum.GetValues(typeof(NormalType));
                 NormalType normalType = normals[UnityEngine.Random.Range(0, normals.Length)];
-                MonsterObjectPoolling(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), normalType.ToString()));
-                Debug.Log(normalType.ToString());
+                MonsterObjectPooling(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), normalType.ToString()));
                 break;
             case EnemyPool.Elite:
                 EliteType[] elites = (EliteType[])Enum.GetValues(typeof(EliteType));
                 EliteType eliteType = elites[UnityEngine.Random.Range(0, elites.Length)];
-                Debug.Log(eliteType.ToString());
-                MonsterObjectPoolling(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), eliteType.ToString()));
+                MonsterObjectPooling(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), eliteType.ToString()));
                 break;
             default:
                 break;
         }
     }
 
-    public void MonsterObjectPoolling(Vector3 spawnPoint, EnemyType type)
+    public void MonsterObjectPooling(Vector3 spawnPoint, EnemyType type)
     {
         if (monsters.Count == 0)
         {
@@ -138,9 +136,8 @@ public class SpawnManager : Singleton<SpawnManager>
         if (monsters.Count == 0)
         {
             Debug.Log("룸 클리어!");
-            curNode.isNodeCleared = true;
-            curNode.nodeCollider.enabled = false;
-            MapManager.Instance.UpdateGate();
+            curNode.IsNodeCleared = true;
+            // MapManager.Instance.UpdateGate();
         }
     }
 
