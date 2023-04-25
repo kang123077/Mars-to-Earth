@@ -24,7 +24,7 @@ namespace Character
             positions.Clear();
             travelDistance = 0;
             SpawnManager.Instance.Launch(thisCurTransform.position,
-                target ? target.position : thisCurTransform.forward * range, dmg, 2 + duration * 0.5f, 20 + speed * 2,
+                target ? target.position : thisCurTransform.forward * range, dmg, 2 + duration * 0.5f, 15 + speed * 2,
                 range * 0.1f, ref projectileInfo);
             return true;
         }

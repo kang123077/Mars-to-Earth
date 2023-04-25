@@ -8,7 +8,6 @@ namespace Character
         {
             if (!BaseUpdate())
                 return;
-
             if (target)
             {
                 ai.SetDestination(target.position);

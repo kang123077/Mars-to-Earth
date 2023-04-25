@@ -78,7 +78,10 @@ namespace Character
                     {
                         colliders[i].TryGetComponent(out targetCharacter);
                         if (targetCharacter)
-                            targetCharacter.Hit(point, 25 + dmg * 2f, 0);
+                        {
+                            if (!targetCharacter.Hit(point, 25 + dmg * 2f, 0)) continue;
+                            //targetCharacter.AddBuff(new SPC()=>{ })
+                        }                            
                     }
                 });
             hitScreen = ((CombatUI)UIManager.Instance.UIs[(int)UIType.Combat]).hitScreen;
@@ -87,6 +90,7 @@ namespace Character
 
         protected override void Start()
         {
+            
             base.Start();
             //퀵슬롯 구현후 삭제
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
@@ -178,7 +182,7 @@ namespace Character
             {
                 Vector3 targetPos = target.position;
                 targetPos.y = 0;
-                targetDir = targetPos - thisCurTransform.position;
+                targetDir = targetPos - position;
             }
 
             repoterForward = CinemachineManager.Instance.follower.forward;
@@ -197,7 +201,7 @@ namespace Character
             float minCoLength = 1000;
             if (!target)
             {
-                int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range - 1, colliders,
+                int size = Physics.OverlapSphereNonAlloc(position, range - 1, colliders,
                     1 << 6);
 
                 for (int i = 0; i < size; i++)
@@ -239,14 +243,13 @@ namespace Character
                                     target = colliders[i].transform;
                                 }
                             }
-
                             break;
                         }
                     default:
                         {
                             float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
                             if ((angle < 0 ? -angle : angle) > viewAngle + 5 ||
-                                Vector3.Distance(target.position, thisCurTransform.position) > range + 1)
+                                Vector3.Distance(target.position, position) > range + 1)
                                 anim.SetBool(onTarget, target = null);
                             break;
                         }
@@ -321,7 +324,7 @@ namespace Character
             Vector3 muzzleForward = muzzle.forward;
             if (onCharge)
             {
-                SpawnManager.Instance.Launch(muzzle.position, muzzleForward, 0, 1 + duration * 0.5f, 20 + speed * 2,
+                SpawnManager.Instance.Launch(muzzle.position, muzzleForward, 0, 1 + duration * 0.5f, 30 + speed * 2,
                     range * 0.5f, ref chargeProjectileInfo);
 
                 impact -= (45 + dmg * 0.5f) * 0.1f * muzzleForward;
@@ -331,7 +334,7 @@ namespace Character
             else
             {
                 SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
-                    dmg, 1 + duration * 0.5f, 20 + speed * 2, range * 0.5f, ref projectileInfo);
+                    dmg, 1 + duration * 0.5f, 30 + speed * 2, range * 0.5f, ref projectileInfo);
                 impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
             }
             return true;
@@ -341,6 +344,8 @@ namespace Character
         {
             
             hitScreenAlphaValue += dmg * 3 * (1 / characterStat.maxHP);
+            hitScreenColor.a = hitScreenAlphaValue;
+            hitScreen.color = hitScreenColor;
             return base.Hited(attacker, dmg, penetrate);
         }
     }

@@ -46,32 +46,36 @@ namespace Character
             while (true)
             {
                 yield return new WaitForSeconds(0.2f);
-                float curMoveDistance = Vector3.Distance(lastPosition, ((Component)this).transform.position);
-                travelDistance += curMoveDistance;
-                positions.Add(curMoveDistance);
-                if (positions.Count >= 10)
+                if (!stun)
                 {
-                    travelDistance -= positions[0];
-                    positions.RemoveAt(0);
-                    if (travelDistance < 1f)
+                    float curMoveDistance = Vector3.Distance(lastPosition,thisCurTransform.position);
+                    travelDistance += curMoveDistance;
+                    positions.Add(curMoveDistance);
+                    if (positions.Count >= 10)
                     {
-                        if (!isAttacking){
-                         trackingPermission = false;
-                        target = null;
-                        
-                        int randIdx ;
-                        do randIdx = Random.Range(0, 4);
-                        while (patrolIdx == randIdx);
-                        patrolIdx = randIdx;
-                        ai.SetDestination(patrolPoints[patrolIdx]);
-                        positions.Clear();
-                        travelDistance = 0;
+                        travelDistance -= positions[0];
+                        positions.RemoveAt(0);
+                        if (travelDistance < 1f)
+                        {
+                            if (!isAttacking)
+                            {
+                                trackingPermission = false;
+                                target = null;
+
+                                int randIdx;
+                                do randIdx = Random.Range(0, 4);
+                                while (patrolIdx == randIdx);
+                                patrolIdx = randIdx;
+                                ai.SetDestination(patrolPoints[patrolIdx]);
+                                positions.Clear();
+                                travelDistance = 0;
+                            }
                         }
+                        else
+                            trackingPermission = true;
                     }
-                    else
-                        trackingPermission = true;
+                    lastPosition = transform.position;
                 }
-                lastPosition = transform.position;
             }
            
         }
@@ -86,10 +90,6 @@ namespace Character
             //    patrolPoints[i] = hit.position;                    
             //else
             //    Debug.LogWarning("목적지 위치가 NavMesh 영역 밖에 있습니다.");
-                
-            
-
-     
             positions = new List<float>();
             trackingPermission = true;
             colliders = new Collider[1];
@@ -99,7 +99,7 @@ namespace Character
             ai.SetDestination(patrolPoints[patrolIdx]);
             ai.stoppingDistance = range-1;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
-            anim.keepAnimatorStateOnDisable=true;
+            anim.keepAnimatorStateOnDisable=true; // 껏다켜져도 애니메이션이 작동하게 하는 프로퍼티
         }
         protected override void Start()
         {
@@ -151,10 +151,9 @@ namespace Character
             lastPosition = thisCurTransform.position;
             patrolIdx = Random.Range(0, 4);
 
-            Debug.Log(patrolPoints[patrolIdx]);
             ai.SetDestination(patrolPoints[patrolIdx]);
             hpBar.value = 1;
-            hpBar.gameObject.SetActive(true);
+            hpBar.gameObject.SetActive(false);
             
             col.enabled = true;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
@@ -175,7 +174,6 @@ namespace Character
                 {
                     if (skill && skill.Use(this)) return false;
                     return base.Attack();
-
                 }else
                     Debug.Log("회피 이펙트");
             }else
@@ -186,11 +184,10 @@ namespace Character
         // ReSharper disable Unity.PerformanceAnalysis
         protected internal override bool Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
-            
             if(!base.Hited(attacker, dmg, penetrate))
                 return false;
             hpBar.gameObject.SetActive(true);
-            showHpEleapse = 4;            
+            showHpEleapse = 4;
             ai.SetDestination(SpawnManager.Instance.playerTransform.position);
             return true;
         }

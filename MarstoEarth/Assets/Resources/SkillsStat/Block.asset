@@ -18,8 +18,8 @@ MonoBehaviour:
   clipName: Block
   clipLayer: 2
   icon: {fileID: 0}
-  dmg: 35
-  duration: 1.2
+  dmg: 25
+  duration: 10
   range: 3
   cool: 4
   speed: 0

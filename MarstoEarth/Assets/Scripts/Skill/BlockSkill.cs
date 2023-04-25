@@ -20,7 +20,7 @@ namespace Skill
                 temp = ch.Hit;
                 ch.Hit = (attacker, dmg, penetrate) =>
                 {
-                    ch.Hited(attacker, dmg*0.2f, penetrate);
+                    if(!ch.Hited(attacker, dmg * 0.2f, penetrate))return false;
                     if (parrying || Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, colliders, ch.layerMask) < 1) return true;
                     attacker = colliders[0].transform.position;
                     attacker.y = ch.transform.position.y;
@@ -54,7 +54,8 @@ namespace Skill
                 colliders[i].TryGetComponent(out targetCh);
                 if (targetCh)
                 {
-                    targetCh.Hit(transPos, skillInfo.dmg + caster.dmg * 0.5f, 0);
+                    if (!targetCh.Hit(transPos, skillInfo.dmg + caster.dmg * 0.5f, 0)) return;
+                    targetCh.AddBuff(new SPC(skillInfo.duration*0.5f + caster.duration * 0.1f, (ch) => ch.stun = true, (ch) => ch.stun = false));
                     targetCh.impact -= targetCh.transform.forward*3;
                 }
             }

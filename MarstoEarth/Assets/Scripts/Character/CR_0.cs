@@ -27,6 +27,7 @@ namespace Character
                 anim.SetBool(attacking, isAttacking = false);
                 block.Use(this);
                 blockEleapse = 0;
+                return false;
             }
             
             ai.SetDestination(SpawnManager.Instance.playerTransform.position);

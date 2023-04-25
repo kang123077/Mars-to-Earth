@@ -45,7 +45,7 @@ namespace Skill
         }
         protected override bool Activate()
         {
-            if (((Player)caster).isRun)
+            if(((Player)caster).isRun)
                 return false;
             caster.PlaySkillClip(this); 
             

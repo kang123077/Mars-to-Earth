@@ -58,8 +58,22 @@ namespace Character
 
         public Func<Vector3,float,float,bool> Hit;
         int buffElementIdx;
-
-        public bool stun;
+        public bool _stun;
+        public bool stun
+        {
+            get => _stun;
+            set
+            {
+                if (value)
+                {
+                    anim.SetBool(attacking, false);
+                    anim.SetBool(onTarget, false);
+                }
+                else
+                    anim.SetBool(onTarget, target);
+                _stun= value;
+            }
+        }
         public bool immune;
 
         [HideInInspector] public bool dying;
