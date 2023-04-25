@@ -4,15 +4,17 @@ using UnityEngine;
 
 
 public enum UIType
+
 {
     Combat,
     Card,
     MiniMap,
     Setting,
 }
-public class UIManager : Singleton<UIManager>
+public class UIManager :Singleton<UIManager>
 {
     public UI[] UIs;
+   
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
 
@@ -25,6 +27,7 @@ public class UIManager : Singleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.Confined;
         //currentView = UIs[(int)UIType.Combat];
+
     }
 
     public void ShowUI(UIType uiType)
@@ -48,3 +51,4 @@ public class UIManager : Singleton<UIManager>
         currentView.Show();
     }
 }
+

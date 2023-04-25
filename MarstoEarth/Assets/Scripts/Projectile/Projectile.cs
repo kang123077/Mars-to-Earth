@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Projectile
 {
-    public enum Mesh
+    public enum projectileMesh
     {
         Bullet1,
         Grenade
@@ -17,10 +17,10 @@ namespace Projectile
     public struct ProjectileInfo
     {
         public int lm;//layerMask
-        public UnityEngine.Mesh ms;
+        public Mesh ms;
         public Type ty;
         public Action<Vector3> ef;
-        public ProjectileInfo(int layerMask, UnityEngine.Mesh mesh, Type type,Action<Vector3> effect)
+        public ProjectileInfo(int layerMask, Mesh mesh, Type type,Action<Vector3> effect)
         {   
             lm = layerMask;
             ms = mesh;
@@ -54,24 +54,22 @@ namespace Projectile
             duration = dr;
             speed = sp;
             range = rg;
-            trail.widthMultiplier = range * 0.4f;
+            trail.widthMultiplier = range * 0.2f;
             trail.emitting = true;
             transform.localScale = range*0.05f*Vector3.one;
-            transform.position = ap + new Vector3(0, 1.35f, 0);
+            transform.position = ap;
             transform.forward = tp;
             mesh.mesh = info.ms;
             thisInfo[0] = info;
             eleapse = 0;
-            
-            //trail.SetPositions(new Vector3[] { transform.position });
         }
 
-
+        
         // ReSharper disable Unity.PerformanceAnalysis
         private void Bullet()
         {
-            thisTransform.position += targetPos * (Time.deltaTime * speed*3); 
-            if (Physics.OverlapSphereNonAlloc(thisTransform.position, range*0.1f, colliders,
+            thisTransform.position += targetPos * (Time.deltaTime * speed); 
+            if (Physics.OverlapCapsuleNonAlloc(thisTransform.position, thisTransform.position+ thisTransform.forward*(Time.deltaTime * speed),range*0.05f, colliders,
                     thisInfo[0].lm^(1<<9|1<<0)) > 0)
             {
                 colliders[0].TryGetComponent(out target);

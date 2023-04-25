@@ -6,7 +6,6 @@ namespace Character
     public class StatInfo : ScriptableObject
     {
         public float dmg;
-        public float coolDecrease;
         public float speed;
         public float def;
         public float duration;

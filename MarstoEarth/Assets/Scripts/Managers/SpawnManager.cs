@@ -2,6 +2,7 @@ using Character;
 using Projectile;
 using Skill;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -13,8 +14,26 @@ public class SpawnManager : Singleton<SpawnManager>
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public bool playerInstantiateFinished = false;
+
     private NodeInfo curNode;
-    public List<Monster> monsters;
+
+    private int _curMonsterCount;
+
+    public int curMonsterCount
+    {
+        get =>_curMonsterCount;
+        set{
+            Debug.Log(value);
+            if (value == 0)
+            {
+                curNode.isNodeCleared = true;
+                curNode.nodeCollider.enabled = false;
+                MapManager.Instance.UpdateGate();
+            }
+            _curMonsterCount = value;
+        }
+    }
+    public List<Monster> monsterPool;
 
     public int curNormal = 3;
     public int curElite = 1;
@@ -23,7 +42,8 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         base.Awake();
 
-
+        player = Instantiate(player);
+        playerTransform = player.gameObject.transform;
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
                 Projectile.Projectile copyPrefab = Instantiate(projectilePrefab);
@@ -93,6 +113,7 @@ public class SpawnManager : Singleton<SpawnManager>
                 return;
             }
         }
+
         switch (pool)
         {
             case EnemyPool.Normal:
@@ -141,9 +162,9 @@ public class SpawnManager : Singleton<SpawnManager>
         Monster newMonster = Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity).GetComponent<Monster>();
         monsters.Add(newMonster);
     }
-
-    public void ClearCheck()
+    public void GetMonster(Vector3 spawnPoint, EnemyType type)
     {
+
         if (monsters.Count == 0)
         {
             Debug.Log("룸 클리어!");
@@ -155,8 +176,33 @@ public class SpawnManager : Singleton<SpawnManager>
             }
             // MapManager.Instance.UpdateGate();
         }
-    }
+    
 
+        Character.Character target;
+        int findIdx = monsterPool.FindIndex((monster) => monster.enemyType == type);
+
+
+        if (findIdx < 0)
+            target = Instantiate(ResourceManager.Instance.enemys[(int)type],spawnPoint,Quaternion.identity);
+        else
+        {
+            target = monsterPool[findIdx];
+            target.transform.position= spawnPoint;
+            monsterPool.RemoveAt(findIdx);
+            Debug.Log("있어서 가져옴");
+        }
+
+        curMonsterCount++;
+        target.gameObject.SetActive(true);
+    }
+    public void ReleaseMonster(Monster target)
+    {
+        target.gameObject.SetActive(false);
+        curMonsterCount--;
+        monsterPool.Add(target);
+        Debug.Log("반납함");
+    }
+   
     public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {
         Projectile.Projectile projectile = projectileManagedPool.Get();

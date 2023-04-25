@@ -38,7 +38,7 @@ namespace Skill
             boomerangSlot.SetActive(false);
             boomerang= boomerangSlot.AddComponent<Projectile.Boomerang>();
             
-            boomerang.Init(caster.transform, caster.transform.position+caster.transform.forward*skillInfo.range,
+            boomerang.Init(caster.transform, caster.transform.position+caster.transform.forward*skillInfo.range, skillInfo.duration+caster.duration*0.5f,
                 skillInfo.range + caster.range * 0.5f,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.speed + caster.speed * 0.5f,
                 caster.layerMask);
             

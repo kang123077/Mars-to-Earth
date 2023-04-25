@@ -3,76 +3,53 @@ using UnityEngine;
 
 namespace Skill
 {
-    public struct CurCool
-    {
-        public bool isCombo;
-        public float cool;
-    }
+   
     public abstract class Skill
     {
-        public SkillInfo skillInfo;        
-        float lastUsedTime;
+        public SkillInfo skillInfo;     
+        
         protected Character.Character caster;
         protected float comboCount = 1;
         protected float curCount = 1;
-        private float cool;
         
-        public CurCool curCool
+        public float lastUsedTime;
+        private float originCoolTime;
+        private bool _isCombo;
+        public bool isCombo
         {
-            get {
-                if (curCount <= comboCount && Time.time < lastUsedTime + cool * (1 / comboCount))
-                {
-                    return new CurCool
-                    {
-                        isCombo = true,
-                        cool = cool * (1 / comboCount)
-                    };
-                }
-                else
-                {
-                    return new CurCool
-                    {
-                        isCombo = false,
-                        cool = cool * (curCount - 1) / comboCount
-                    };
-                }
+            get
+            {
+                curCoolTime= _isCombo? originCoolTime*(1/comboCount):originCoolTime* (curCount-1)/comboCount;
+                return _isCombo;
             }
+            set => _isCombo = value;
         }
-
-        // ReSharper disable Unity.PerformanceAnalysis
+        
+        public float curCoolTime;
         public static implicit operator bool(Skill obj)
         {
             return obj != null;
         }
+        
         public bool Use(Character.Character caster)
         {
             if (caster.onSkill is not null) return false;
             
             if (!this.caster) {
                 this.caster = caster;
+                isCombo = false;
             }
-
-            cool = skillInfo.cool - (skillInfo.cool * 0.01f * caster.coolDecrease);
-         
-            if (curCount<=comboCount&& Time.time<lastUsedTime + cool*(1/comboCount))
-            {
-                if (!Activate())
-                    return false;
-                curCount++;
-                lastUsedTime = Time.time;
-                return true;
-            }
-            else if (Time.time > lastUsedTime + cool* (curCount-1)/comboCount)
-            {
+            originCoolTime = skillInfo.cool - (skillInfo.cool*0.01f*caster.speed);
+            
+            if(!isCombo)
                 curCount = 1;
-                if (!Activate())
-                    return false;
-                curCount++;
-                lastUsedTime = Time.time;
-                return true;
-            }
-
-            return false;
+            if (!Activate())
+                return false;
+            curCount++;
+            lastUsedTime = Time.time;
+            isCombo = curCount <= comboCount;
+            
+            return true;
         }
         protected abstract bool Activate();
         public abstract void Effect();
