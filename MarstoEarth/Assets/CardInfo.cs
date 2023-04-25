@@ -8,15 +8,29 @@ public class CardInfo : MonoBehaviour
     public Image cardSkillIconRight;
     public TextMeshProUGUI cardLeftText;
     public TextMeshProUGUI cardRightText;
+    private Skill.SkillInfo[] skillInfo;
+    public Skill.SkillInfo[] selectedSkillInfo;
+    private CardUIControll cardUIControll;
+    bool isCardConBool;
 
-    void Start()
+    private void Awake()
     {
         // Resources 폴더에서 스킬 정보 로드하기
-        Skill.SkillInfo[] skillInfo = Resources.LoadAll<Skill.SkillInfo>("SkillsStat");
+        skillInfo = Resources.LoadAll<Skill.SkillInfo>("SkillsStat");
+    }
+    void Start()
+    {
+        isCardConBool = true;
+        cardUIControll = GetComponent<CardUIControll>();
+        selectedSkillInfo = new Skill.SkillInfo[4];
+    }
+
+    public void CardInit()
+    {
         // 랜덤한 스킬 아이콘 선택하기
         int randomIndexLeft = Random.Range(0, skillInfo.Length);
         int randomIndexRight = Random.Range(0, skillInfo.Length);
-        SkillIcon(skillInfo ,randomIndexLeft, randomIndexRight);
+        SkillIcon(skillInfo, randomIndexLeft, randomIndexRight);
         SkillDescription(skillInfo, randomIndexLeft, randomIndexRight);
     }
 
@@ -45,6 +59,6 @@ public class CardInfo : MonoBehaviour
 
     void Update()
     {
-
+        
     }
 }

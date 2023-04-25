@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +12,9 @@ public class CardUIControll : MonoBehaviour
 
     Vector2 orglcScale;
     Vector2 orgrcScale;
+    // 초기화 -1 이유 : 유효하지 않는 인덱스 값을 통해 안정성
+    public int selectedCardIndex = -1;
+
     private void Awake()
     {
         orglcTrans = leftCard.gameObject.transform.position;
@@ -38,6 +40,7 @@ public class CardUIControll : MonoBehaviour
 
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(true);
+        selectedCardIndex = -1;
     }
 
     void ScaleUpLeftCard()
@@ -47,6 +50,7 @@ public class CardUIControll : MonoBehaviour
 
         leftCard.gameObject.transform.position = new Vector2(960f, pos.y);
         leftCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
+        selectedCardIndex = 0;
         StartCoroutine(HideCardUI());
         ScaleDownRightCard();
     }
@@ -59,10 +63,11 @@ public class CardUIControll : MonoBehaviour
     void ScaleUpRightCard()
     {
         Vector2 pos = rightCard.transform.position;
-        leftCard.transform.SetAsLastSibling();
+        rightCard.transform.SetAsLastSibling();
 
         rightCard.gameObject.transform.position = new Vector2(960f, pos.y);
         rightCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
+        selectedCardIndex = 1;
         StartCoroutine(HideCardUI());
         ScaleDownLeftCard();
     }
@@ -74,7 +79,7 @@ public class CardUIControll : MonoBehaviour
 
     IEnumerator HideCardUI()
     {
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 1f;
         Init();
         gameObject.SetActive(false);

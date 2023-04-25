@@ -177,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftCard: {fileID: 1657554525}
   rightCard: {fileID: 244673878}
+  selectedCardIndex: -1
 --- !u!114 &59439015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,6 +194,7 @@ MonoBehaviour:
   cardSkillIconRight: {fileID: 651693742}
   cardLeftText: {fileID: 767878016}
   cardRightText: {fileID: 1928489646}
+  selectedSkillInfo: []
 --- !u!1 &198877651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,6 +1814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clearedRooms: 0
   cardUICon: {fileID: 59439012}
+  cardInfo: {fileID: 59439015}
 --- !u!4 &1546933625
 Transform:
   m_ObjectHideFlags: 0
