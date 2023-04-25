@@ -1996,10 +1996,12 @@ MonoBehaviour:
   anim: {fileID: 8155533566884809010}
   col: {fileID: 4849788643660579073}
   target: {fileID: 0}
+  _stun: 0
+  immune: 0
   dying: 0
   ai: {fileID: 4461040968777881720}
   sightLength: 20
-  enemyType: 6
+  enemyType: 5
   LH: {fileID: 8155533566875756202}
 --- !u!1 &8155533566875335506
 GameObject:
