@@ -16,13 +16,13 @@ public class PathController : MonoBehaviour
         gate_1 = transform.GetChild(0).GetComponent<GateController>();
         gate_2 = transform.GetChild(1).GetComponent<GateController>();
         pathCollider = GetComponent<Collider>();
-        // Delegate 구독
     }
     private void Update()
     {
         if (MapManager.Instance.isMapGenerateFinished == true
             && roomClearChecker == false)
         {
+            // Delegate 구독
             parent.OnRoomCleared += OnRoomCleared;
             children.OnRoomCleared += OnRoomCleared;
             roomClearChecker = true;
@@ -101,6 +101,7 @@ public class PathController : MonoBehaviour
                 }
             }
         }
+        Debug.Log("OnRoomCleared");
     }
 
     private void OnTriggerExit(Collider other)

@@ -26,11 +26,13 @@ public class SpawnManager : Singleton<SpawnManager>
             Debug.Log(value);
             if (value == 0)
             {
-                curNode.isNodeCleared = true;
+                curNode.IsNodeCleared = true;
                 InGameManager.Instance.OnRoomCleared();
+                Debug.Log("룸 클리어!");
                 if (curNode.isBossNode)
                 {
                     Debug.Log("보스 클리어!");
+                    Debug.Log("게임 클리어!");
                 }
             }
             _curMonsterCount = value;
@@ -133,6 +135,7 @@ public class SpawnManager : Singleton<SpawnManager>
                 BossType[] bosses = (BossType[])Enum.GetValues(typeof(BossType));
                 BossType bossType = bosses[UnityEngine.Random.Range(0, bosses.Length)];
                 GetMonster(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), bossType.ToString()));
+                Debug.Log(bossType.ToString());
                 break;
             default:
                 break;
@@ -143,7 +146,6 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         Character.Character target;
         int findIdx = monsterPool.FindIndex((monster) => monster.enemyType == type);
-
 
         if (findIdx < 0)
             target = Instantiate(ResourceManager.Instance.enemys[(int)type],spawnPoint,Quaternion.identity);

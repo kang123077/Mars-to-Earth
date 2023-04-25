@@ -19,7 +19,7 @@ public enum EnemyType
     cr43,
     cr44,
     kamikaze,
-    titan,
+    titan
 }
 public enum EliteType
 {
