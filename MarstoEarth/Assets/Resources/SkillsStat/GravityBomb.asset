@@ -17,7 +17,7 @@ MonoBehaviour:
   skillType: 0
   clipName: TossGrenade
   clipLayer: 1
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b359eccc5d7876241a1a9309879405b5, type: 3}
   dmg: 25
   duration: 10
   range: 12

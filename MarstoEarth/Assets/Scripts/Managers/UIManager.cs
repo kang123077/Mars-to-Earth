@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 public enum UIType
+
 {
     Combat,
     Card,
@@ -22,12 +23,10 @@ public class UIManager :Singleton<UIManager>
         base.Awake();
         DontDestroyOnLoad(gameObject);
     }
-    
-
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
-        currentView = UIs[(int)UIType.Combat];
+        //currentView = UIs[(int)UIType.Combat];
     }
 
     public void ShowUI(UIType uiType)
@@ -50,6 +49,5 @@ public class UIManager :Singleton<UIManager>
         currentView = uiStack.Pop();
         currentView.Show();
     }
-
-
 }
+

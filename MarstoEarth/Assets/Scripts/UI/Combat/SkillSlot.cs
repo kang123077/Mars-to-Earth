@@ -1,3 +1,4 @@
+
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ public class SkillSlot : MonoBehaviour
 {
     public Image skillImage;
     public Image coolDown;
+
     public Skill.Skill skill;
     public void Init(Skill.Skill inputSkill)
     {
@@ -30,4 +32,3 @@ public class SkillSlot : MonoBehaviour
             
     }
 }
-

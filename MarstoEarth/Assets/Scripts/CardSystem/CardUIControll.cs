@@ -1,88 +1,92 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CardUIControll : MonoBehaviour
 {
-    //[SerializeField] private Button leftCard;
-    //[SerializeField] private Button rightCard;
+    [SerializeField] private Button leftCard;
+    [SerializeField] private Button rightCard;
 
-    //Vector2 orglcTrans;
-    //Vector2 orgrcTrans;
+    Vector2 orglcTrans;
+    Vector2 orgrcTrans;
 
-    //Vector2 orglcScale;
-    //Vector2 orgrcScale;
-    //private void Awake()
-    //{
-    //    orglcTrans = leftCard.gameObject.transform.position;
-    //    orgrcTrans = rightCard.gameObject.transform.position;
+    Vector2 orglcScale;
+    Vector2 orgrcScale;
+    // 초기화 -1 이유 : 유효하지 않는 인덱스 값을 통해 안정성
+    public int selectedCardIndex = -1;
 
-    //    orglcScale = leftCard.gameObject.transform.localScale;
-    //    orgrcScale = rightCard.gameObject.transform.localScale;
-    //}
+    private void Awake()
+    {
+        orglcTrans = leftCard.gameObject.transform.position;
+        orgrcTrans = rightCard.gameObject.transform.position;
 
-    //void Start()
-    //{
-    //    leftCard.onClick.AddListener(ScaleUpLeftCard);
-    //    rightCard.onClick.AddListener(ScaleUpRightCard);
-    //}
+        orglcScale = leftCard.gameObject.transform.localScale;
+        orgrcScale = rightCard.gameObject.transform.localScale;
+    }
 
-    //void Init()
-    //{
-    //    leftCard.gameObject.transform.position = orglcTrans;
-    //    rightCard.gameObject.transform.position = orgrcTrans;
+    void Start()
+    {
+        leftCard.onClick.AddListener(ScaleUpLeftCard);
+        rightCard.onClick.AddListener(ScaleUpRightCard);
+    }
 
-    //    leftCard.gameObject.transform.localScale = orglcScale;
-    //    rightCard.gameObject.transform.localScale = orgrcScale;
-    //}
+    void Init()
+    {
+        leftCard.gameObject.transform.position = orglcTrans;
+        rightCard.gameObject.transform.position = orgrcTrans;
 
-    //void ScaleUpLeftCard()
-    //{
-    //    Vector2 pos = leftCard.transform.position;
-    //    leftCard.transform.SetAsLastSibling();
+        leftCard.gameObject.transform.localScale = orglcScale;
+        rightCard.gameObject.transform.localScale = orgrcScale;
 
-    //    leftCard.gameObject.transform.position = new Vector2(400f, pos.y);
-    //    leftCard.gameObject.transform.localScale = new Vector3(1.5f, 1.5f);
-    //    StartCoroutine(HideCardUI());
-    //    ScaleDownRightCard();
-    //}
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(true);
+        selectedCardIndex = -1;
+    }
 
-    //void ScaleDownLeftCard()
-    //{
-    //    leftCard.gameObject.SetActive(false);
-    //}
+    void ScaleUpLeftCard()
+    {
+        Vector2 pos = leftCard.transform.position;
+        leftCard.transform.SetAsLastSibling();
 
-    //void ScaleUpRightCard()
-    //{
-    //    Vector2 pos = rightCard.transform.position;
-    //    leftCard.transform.SetAsLastSibling();
+        leftCard.gameObject.transform.position = new Vector2(960f, pos.y);
+        leftCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
+        selectedCardIndex = 0;
+        StartCoroutine(HideCardUI());
+        ScaleDownRightCard();
+    }
 
-    //    rightCard.gameObject.transform.position = new Vector2(400f, pos.y);
-    //    rightCard.gameObject.transform.localScale = new Vector3(1.5f, 1.5f);
-    //    StartCoroutine(HideCardUI());
-    //    ScaleDownLeftCard();
-    //}
+    void ScaleDownLeftCard()
+    {
+        leftCard.gameObject.SetActive(false);
+    }
 
-    //void ScaleDownRightCard()
-    //{
-    //    rightCard.gameObject.SetActive(false);
-    //}
+    void ScaleUpRightCard()
+    {
+        Vector2 pos = rightCard.transform.position;
+        rightCard.transform.SetAsLastSibling();
 
-    //IEnumerator HideCardUI()
-    //{
-    //    yield return new WaitForSecondsRealtime(1f);
-    //    Time.timeScale = 1f;
-    //    leftCard.gameObject.SetActive(false);
-    //    rightCard.gameObject.SetActive(false);
-    //    InGameManager.Instance.skillUICon.SetActive(true);
-    //    Init();
-    //}
+        rightCard.gameObject.transform.position = new Vector2(960f, pos.y);
+        rightCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
+        selectedCardIndex = 1;
+        StartCoroutine(HideCardUI());
+        ScaleDownLeftCard();
+    }
 
+    void ScaleDownRightCard()
+    {
+        rightCard.gameObject.SetActive(false);
+    }
 
+    IEnumerator HideCardUI()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 1f;
+        Init();
+        gameObject.SetActive(false);
+    }
 
-    //void Update()
-    //{
-        
-    //}
+    void Update()
+    {
+
+    }
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   skillType: 0
   clipName: SPCEffect
   clipLayer: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b2e334b8b493def47a012a8b4cdefcae, type: 3}
   dmg: 5
   duration: 30
   range: 5

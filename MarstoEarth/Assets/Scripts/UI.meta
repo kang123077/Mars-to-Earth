@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:MarstoEarth/Assets/Resources/Sprites/Icons.meta
+guid: ca38aba874218e24b8951db1a3a3791b
+========
 guid: 1ad3863e08cc100408d29a93fe104678
+>>>>>>>> origin/85-skill-update:MarstoEarth/Assets/Scripts/UI.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

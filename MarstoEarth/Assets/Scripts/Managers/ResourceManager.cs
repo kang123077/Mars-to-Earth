@@ -4,10 +4,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyPool
+{
+    Normal,
+    Elite,
+    Boss,
+    Desert
+}
+
 public enum EnemyType
 {
-    cr42, cr43, cr44,cr0,
-    scout,kamikaze
+    cr0,
+    cr42,
+    cr43,
+    cr44,
+    kamikaze,
+    titan
 }
 public enum EliteType
 {
@@ -19,6 +31,15 @@ public enum BossType
     titan
 }
 
+public enum NormalType
+{
+    cr42, cr43, cr44
+}
+
+public enum desertPool
+{
+    cr0, cr42, cr43
+}
 
 public enum SkillName
 {

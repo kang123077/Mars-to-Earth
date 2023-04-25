@@ -1,3 +1,4 @@
+
 using Character;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ public class CombatUI : UI
 {
     public SkillSlot[] skillSlots;
     public UnityEngine.UI.Slider playerHP;
+
     public UnityEngine.UI.Image hitScreen;
     private int curSkillCount;
 
@@ -21,6 +23,7 @@ public class CombatUI : UI
     public void ClickSkill(int idx)
     {
         if (curSkillCount <= idx) return;
+
         SkillSlot slot = skillSlots[idx];
         if(!slot.skill.isCombo&&slot.coolDown.fillAmount<=0||slot.skill.isCombo)
             slot.skill.Use(SpawnManager.Instance.player);

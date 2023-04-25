@@ -10,11 +10,13 @@ using UnityEngine.Pool;
 public class SpawnManager : Singleton<SpawnManager>
 {
     public Player player;
-    [HideInInspector]public Transform playerTransform;
+    [HideInInspector] public Transform playerTransform;
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public bool playerInstantiateFinished = false;
-    public NodeInfo curNode;
+
+    private NodeInfo curNode;
+
     private int _curMonsterCount;
 
     public int curMonsterCount
@@ -24,20 +26,29 @@ public class SpawnManager : Singleton<SpawnManager>
             Debug.Log(value);
             if (value == 0)
             {
-                curNode.isNodeCleared = true;
-                curNode.nodeCollider.enabled = false;
-                MapManager.Instance.UpdateGate();
+                curNode.IsNodeCleared = true;
+                InGameManager.Instance.OnRoomCleared();
+                Debug.Log("룸 클리어!");
+                if (curNode.isBossNode)
+                {
+                    Debug.Log("보스 클리어!");
+                    Debug.Log("게임 클리어!");
+                }
             }
             _curMonsterCount = value;
         }
     }
     public List<Monster> monsterPool;
 
+    public int curNormal = 3;
+    public int curElite = 1;
+
     protected override void Awake()
     {
         base.Awake();
-        player = Instantiate(player);
-        playerTransform = player.gameObject.transform;
+
+        //player = Instantiate(player);
+        //playerTransform = player.gameObject.transform;
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
                 Projectile.Projectile copyPrefab = Instantiate(projectilePrefab);
@@ -52,6 +63,7 @@ public class SpawnManager : Singleton<SpawnManager>
         if (MapManager.Instance.isMapGenerateFinished && playerInstantiateFinished == false)
         {
             FirstInit();
+            playerInstantiateFinished = true;
         }
     }
 
@@ -59,24 +71,37 @@ public class SpawnManager : Singleton<SpawnManager>
     public void FirstInit()
     {
         curNode = MapManager.nodes[0];
-        playerInstantiateFinished = true;
-
-        for(int i = 0; i < 2; i++)
-        {
-            RandomSpawnMonster(curNode.transform.position);
-        }
+        player = Instantiate(player);
+        playerTransform = player.gameObject.transform;
+        NodeSpawn(curNode);
     }
 
     public void NodeSpawn(NodeInfo spawnNode)
     {
         curNode = spawnNode;
-        for (int i = 0; i < 3; i++)
+        if (spawnNode.isBossNode)
         {
-            RandomSpawnMonster(curNode.transform.position);
+            RandomSpawnMonster(curNode.transform.position, EnemyPool.Boss);
+            // 쫄들을 소환할수도 있긴 함
+            return;
+        }
+        for (int i = 0; i < curNormal; i++)
+        {
+            RandomSpawnMonster(curNode.transform.position, EnemyPool.Normal);
+        }
+        for (int i = 0; i < curElite; i++)
+        {
+            RandomSpawnMonster(curNode.transform.position, EnemyPool.Elite);
         }
     }
 
-    public void RandomSpawnMonster(Vector3 spawnPoint)
+    public void BossSpawn(NodeInfo spawnNode)
+    {
+        curNode = spawnNode;
+        // SpawnBoss(curnode.Transform.Position);
+    }
+
+    public void RandomSpawnMonster(Vector3 spawnPoint, EnemyPool pool)
     {
         // 랜덤 위치 계산
         float xRange = UnityEngine.Random.Range(-20f, 20f);
@@ -89,18 +114,33 @@ public class SpawnManager : Singleton<SpawnManager>
             if (hitColliders[i].tag == "Monster")
             {
                 // 이미 Monster가 있으면 함수를 다시 실행
-                RandomSpawnMonster(spawnPoint);
+                RandomSpawnMonster(spawnPoint, pool);
                 return;
             }
         }
-        //노말 엘리트 
-        // Enum 값 배열 생성
-        EnemyType[] values = (EnemyType[])Enum.GetValues(typeof(EnemyType));
-        // 랜덤 값 선택
-        EnemyType randomType = values[UnityEngine.Random.Range(0, values.Length)];
-        GetMonster(randomPosition, randomType);
 
-    }    
+        switch (pool)
+        {
+            case EnemyPool.Normal:
+                NormalType[] normals = (NormalType[])Enum.GetValues(typeof(NormalType));
+                NormalType normalType = normals[UnityEngine.Random.Range(0, normals.Length)];
+                GetMonster(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), normalType.ToString()));
+                break;
+            case EnemyPool.Elite:
+                EliteType[] elites = (EliteType[])Enum.GetValues(typeof(EliteType));
+                EliteType eliteType = elites[UnityEngine.Random.Range(0, elites.Length)];
+                GetMonster(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), eliteType.ToString()));
+                break;
+            case EnemyPool.Boss:
+                BossType[] bosses = (BossType[])Enum.GetValues(typeof(BossType));
+                BossType bossType = bosses[UnityEngine.Random.Range(0, bosses.Length)];
+                GetMonster(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), bossType.ToString()));
+                Debug.Log(bossType.ToString());
+                break;
+            default:
+                break;
+        }
+    }
 
     public void GetMonster(Vector3 spawnPoint, EnemyType type)
     {
