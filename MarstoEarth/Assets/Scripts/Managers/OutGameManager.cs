@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class OutGameManager : Singleton<OutGameManager>
@@ -9,6 +8,8 @@ public class OutGameManager : Singleton<OutGameManager>
         base.Awake();
     }
 
-
-    
+    public void SceneChage(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 }

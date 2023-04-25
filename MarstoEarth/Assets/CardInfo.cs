@@ -11,7 +11,6 @@ public class CardInfo : MonoBehaviour
     private Skill.SkillInfo[] skillInfo;
     public Skill.SkillInfo[] selectedSkillInfo;
     private CardUIControll cardUIControll;
-    bool isCardConBool;
 
     private void Awake()
     {
@@ -20,7 +19,6 @@ public class CardInfo : MonoBehaviour
     }
     void Start()
     {
-        isCardConBool = true;
         cardUIControll = GetComponent<CardUIControll>();
         selectedSkillInfo = new Skill.SkillInfo[4];
     }
