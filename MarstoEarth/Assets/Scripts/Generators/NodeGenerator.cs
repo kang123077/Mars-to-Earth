@@ -14,6 +14,7 @@ public class NodeGenerator : MonoBehaviour
     public GameObject wallPrefab;
     public float nodeSpacing;
     public Transform nodeParentTF;
+    public Material bossMaterial;
     private void Awake()
     {
     }
@@ -35,7 +36,6 @@ public class NodeGenerator : MonoBehaviour
     /// <returns></returns>
     public NodeInfo GenerateNodes(MapInfo mapInfo, int x, int y, int distance, int? parentDir, int seed)
     {
-        
         // 최초 진입 시 seed_number로 랜덤 초기화 seed_number가 0일 경우 초기화 X
         // 노드 생성기에서 사용 할 새로운 Random 생성
         if (mapInfo.seed_Number != 0 && seed == 0)
@@ -57,7 +57,7 @@ public class NodeGenerator : MonoBehaviour
         nodeObject.transform.position = new Vector3(x * nodeSpacing, 0, y * nodeSpacing);
         nodeObject.name = "nodePrefab " + x.ToString() + ", " + y.ToString();
         NodeInfo nodeInfo = nodeObject.GetComponent<NodeInfo>();
-        nodeInfo.x = x; nodeInfo.y = y;
+        nodeInfo.x = x; nodeInfo.y = y; nodeInfo.distance = distance;
         // nodeInfo에 node추가 ( nodes.Count 증가 )
         MapManager.nodes.Add(nodeInfo);
         // 방이 각 방향을 체크했는지 나타내는 로컬 리스트
@@ -89,6 +89,7 @@ public class NodeGenerator : MonoBehaviour
             CreatePathWall();
             // 생성한 모든 노드, 패스, 벽 회전
             // RotateAllNodes();
+            CheckBossNode(nodeInfo);
         }
         return nodeInfo;
     }
@@ -385,6 +386,21 @@ public class NodeGenerator : MonoBehaviour
         // This code should never be reached, but we need to return something
         return 0;
     }
+
+    public void CheckBossNode(NodeInfo startNode)
+    {
+        MapManager.bossNode = startNode;
+        foreach(NodeInfo node in MapManager.nodes)
+        {
+            if (node.distance >= MapManager.bossNode.distance)
+            {
+                MapManager.bossNode = node;
+            }
+        }
+        MapManager.bossNode.isBossNode = true;
+        MapManager.bossNode.transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = bossMaterial;
+    }
+
     /*
     // 배정 된 방향 && 노드 갯수 확인
     if (east == 1 && nodes.Count <= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)

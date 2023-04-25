@@ -449,6 +449,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 2969398592852570286, guid: a600ecc6932ca1e48a0773765509ea4c, type: 3}
   nodeSpacing: 60
   nodeParentTF: {fileID: 66668291}
+  bossMaterial: {fileID: -4565884009001823619, guid: 6a2b2a14c1b25ba41b13114b33a4ead4, type: 3}
 --- !u!4 &244907127
 Transform:
   m_ObjectHideFlags: 0
@@ -2635,7 +2636,6 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   projectilePrefab: {fileID: 7739833361423966859, guid: 4a99ec8f6364bc64d9d59786f4218424, type: 3}
   playerInstantiateFinished: 0
-  curNode: {fileID: 0}
   monsters: []
   curNormal: 3
   curElite: 1

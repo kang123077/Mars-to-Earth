@@ -11,6 +11,7 @@ public class MapManager : Singleton<MapManager>
     public TMP_InputField inputField;
 
     public static List<NodeInfo> nodes;
+    public static NodeInfo bossNode;
     public static List<PathController> paths;
     public static List<GameObject> walls;
     public Transform nodesTF;

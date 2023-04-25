@@ -13,7 +13,7 @@ public class SpawnManager : Singleton<SpawnManager>
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public bool playerInstantiateFinished = false;
-    public NodeInfo curNode;
+    private NodeInfo curNode;
     public List<Monster> monsters;
 
     public int curNormal = 3;
@@ -38,6 +38,7 @@ public class SpawnManager : Singleton<SpawnManager>
         if (MapManager.Instance.isMapGenerateFinished && playerInstantiateFinished == false)
         {
             FirstInit();
+            playerInstantiateFinished = true;
         }
     }
 
@@ -47,13 +48,18 @@ public class SpawnManager : Singleton<SpawnManager>
         curNode = MapManager.nodes[0];
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
-        playerInstantiateFinished = true;
         NodeSpawn(curNode);
     }
 
     public void NodeSpawn(NodeInfo spawnNode)
     {
         curNode = spawnNode;
+        if (spawnNode.isBossNode)
+        {
+            RandomSpawnMonster(curNode.transform.position, EnemyPool.Boss);
+            // 쫄들을 소환할수도 있긴 함
+            return;
+        }
         for (int i = 0; i < curNormal; i++)
         {
             RandomSpawnMonster(curNode.transform.position, EnemyPool.Normal);
@@ -99,6 +105,11 @@ public class SpawnManager : Singleton<SpawnManager>
                 EliteType eliteType = elites[UnityEngine.Random.Range(0, elites.Length)];
                 MonsterObjectPooling(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), eliteType.ToString()));
                 break;
+            case EnemyPool.Boss:
+                BossType[] bosses = (BossType[])Enum.GetValues(typeof(BossType));
+                BossType bossType = bosses[UnityEngine.Random.Range(0, bosses.Length)];
+                MonsterObjectPooling(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), bossType.ToString()));
+                break;
             default:
                 break;
         }
@@ -137,6 +148,10 @@ public class SpawnManager : Singleton<SpawnManager>
         {
             Debug.Log("룸 클리어!");
             curNode.IsNodeCleared = true;
+            if (curNode.isBossNode)
+            {
+                Debug.Log("보스 클리어!");
+            }
             // MapManager.Instance.UpdateGate();
         }
     }

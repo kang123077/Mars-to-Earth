@@ -15,7 +15,9 @@ public enum EnemyPool
 public enum EnemyType
 {
     cr0,
-    cr42, cr43, cr44,
+    cr42,
+    cr43,
+    cr44,
     kamikaze,
     titan,
 }

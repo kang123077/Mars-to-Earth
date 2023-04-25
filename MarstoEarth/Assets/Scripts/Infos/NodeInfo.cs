@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mime;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -7,11 +8,13 @@ public class NodeInfo : MonoBehaviour
 {
     public int x;
     public int y;
+    public int distance;
     public NodeInfo east;
     public NodeInfo west;
     public NodeInfo north;
     public NodeInfo south;
     public bool isNodeCleared;
+    public bool isBossNode;
     public BoxCollider nodeCollider;
 
     public delegate void RoomClearedHandler(NodeInfo clearedNode);
@@ -34,6 +37,7 @@ public class NodeInfo : MonoBehaviour
     private void Awake()
     {
         nodeCollider = GetComponent<BoxCollider>();
+        isBossNode = false;
     }
 
     private void OnTriggerEnter(Collider other)
