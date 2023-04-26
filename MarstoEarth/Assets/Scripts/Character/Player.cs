@@ -114,12 +114,12 @@ namespace Character
             hpBar = combatUI.playerHP;
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public override void AddBuff(SPC buff)
         {
             base.AddBuff(buff);
-            //버프에 맞는 스프라이트
-            //combatUI.ConnectSPCImage();
-            Debug.Log(" 추가 "+buff.id);
+            combatUI.ConnectSPCImage(ResourceManager.Instance.skillInfos[buff.iconNum].icon);
+            
         }
         // ReSharper disable Unity.PerformanceAnalysis
         public override int RemoveBuff(SPC buff)
@@ -127,7 +127,6 @@ namespace Character
             int findIndex= base.RemoveBuff(buff);
             Destroy(combatUI.SPCSlots[findIndex].gameObject);
             combatUI.SPCSlots.RemoveAt(findIndex);
-            Debug.Log(" 삭제 " );
             return -1;
            
         }
@@ -136,8 +135,9 @@ namespace Character
             if (!base.BaseUpdate())
                 return false;
             for (buffElementIdx = 0; buffElementIdx < Buffs.Count; buffElementIdx++)
-                combatUI.SPCSlots[Buffs[buffElementIdx].id].fillAmount = Buffs[buffElementIdx].currentTime * (1 / Buffs[buffElementIdx].duration);
-            return true;
+                combatUI.SPCSlots[buffElementIdx].fillAmount = Buffs[buffElementIdx].currentTime * (1 / Buffs[buffElementIdx].duration);
+            
+            return !stun;
         }
         protected void Update()
         {

@@ -58,7 +58,10 @@ public enum SkillName
     Bite,
     Block,
     Charge,
+    stun,
+    slow,
 }
+
 
 public class ResourceManager : Singleton<ResourceManager>
 {
@@ -70,8 +73,6 @@ public class ResourceManager : Singleton<ResourceManager>
     public Sprite[] SPCIcon;
     public List<Skill.Skill> skills = new();
 
-    //public int[] ints= new int[] {1,2,3 };
-    //public enum[] grade = new enum[]{EnemyType};
     protected override void Awake()
     {
         base.Awake();

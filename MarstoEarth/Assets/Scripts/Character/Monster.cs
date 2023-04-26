@@ -110,13 +110,13 @@ namespace Character
             if (!base.BaseUpdate())
                 return false;
             anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
+            
             if (showHpEleapse > 0)
             {
                 showHpEleapse -= Time.deltaTime;
                 if(showHpEleapse<=0) hpBar.gameObject.SetActive(false);
             }
-
-            return true;
+            return !stun;
         }
 
 

@@ -40,7 +40,7 @@ namespace Projectile
                 colliders[i].TryGetComponent(out enemy);
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 if (!enemy.Hit(transform.position, damage * 1.5f, 0)) continue;
-                enemy.AddBuff(new Skill.SPC(duration, (ch) => ch.stun = true, (ch) => ch.stun = false));
+                enemy.AddBuff(new Skill.SPC(duration, (ch) => ch.stun = true, (ch) => ch.stun = false,(int)SkillName.Boomerang));
             }
             Destroy(gameObject);
         }

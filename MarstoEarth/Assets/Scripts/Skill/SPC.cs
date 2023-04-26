@@ -16,7 +16,7 @@ namespace Skill
         private static int IdCount = 0;
         public readonly int id;
         public float duration;
-        //public UnityEngine.UI.Image icon;
+        public int iconNum;
         public float currentTime;
         public Action<Character.Character> Apply;
         public Action<Character.Character> Remove;
@@ -27,28 +27,34 @@ namespace Skill
         {
             currentTime = this.duration = duration;
         }
-        public SPC(float duration, Action<Character.Character> apply,Action<Character.Character> remove)
+        public SPC(float duration, Action<Character.Character> apply,Action<Character.Character> remove, int iconNum)
         {
             currentTime = this.duration = duration;
             Apply = apply;
             Remove = remove;
             Dots = null;
+            this.iconNum = iconNum;
+            
             id = IdCount++;
         }
-        public SPC(float duration, Action<Character.Character> dots)
+        public SPC(float duration, Action<Character.Character> dots,int iconNum)
         {
             currentTime = this.duration=duration;
             Dots = dots;
             Apply = null;
             Remove =null;
+            this.iconNum = iconNum;
+            
             id = IdCount++;
         }
-        public SPC(float duration,Action<Character.Character> apply, Action<Character.Character> dots,Action<Character.Character> remove)
+        public SPC(float duration,Action<Character.Character> apply, Action<Character.Character> dots,Action<Character.Character> remove,int iconNum)
         {
             currentTime = this.duration=duration;
             Apply = apply;
             Dots = dots;
             Remove = remove;
+            this.iconNum = iconNum;
+            
             id = IdCount++;
         }
         

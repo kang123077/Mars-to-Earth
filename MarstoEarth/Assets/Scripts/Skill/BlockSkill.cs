@@ -8,6 +8,7 @@ namespace Skill
     public class BlockSkill : Skill
     {
         private SPC block;
+        private SPC parring;
         private bool parrying;
         private Func<Vector3, float, float,bool> temp;
         
@@ -18,6 +19,7 @@ namespace Skill
             this.skillInfo = skillInfo;
             block = new SPC(0, (ch) => {
                 temp = ch.Hit;
+                
                 ch.Hit = (attacker, dmg, penetrate) =>
                 {
                     if(!ch.Hited(attacker, dmg * 0.2f, penetrate))return false;
@@ -33,7 +35,10 @@ namespace Skill
                 ch.Hit = temp;
                 if (parrying) return;
                 ch.onSkill = null;
-            });
+            },(int)SkillName.Block);
+
+            parring = new SPC(0, (ch) => ch.stun = true,
+                (ch) => ch.stun = false, (int)SkillName.stun);
         }
         protected override bool Activate()
         {
@@ -55,7 +60,8 @@ namespace Skill
                 if (targetCh)
                 {
                     if (!targetCh.Hit(transPos, skillInfo.dmg + caster.dmg * 0.5f, 0)) return;
-                    targetCh.AddBuff(new SPC(skillInfo.duration*0.5f + caster.duration * 0.1f, (ch) => ch.stun = true, (ch) => ch.stun = false));
+                    parring.Init(skillInfo.duration + caster.duration * 0.2f);
+                    targetCh.AddBuff(parring);
                     targetCh.impact -= targetCh.transform.forward*3;
                 }
             }

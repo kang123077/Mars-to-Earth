@@ -40,7 +40,7 @@ namespace Skill
             }, (ch) =>
             {
                 ch.SkillEffect();
-            });
+            },(int)SkillName.MassShooting);
 
         }
         protected override bool Activate()

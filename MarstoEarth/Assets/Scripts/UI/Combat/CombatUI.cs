@@ -21,9 +21,9 @@ public class CombatUI : UI
     public void ConnectSPCImage(Sprite icon)
     {
         UnityEngine.UI.Image spcClone = Instantiate(SPCPrefab, SPCSlotsTransform);
+        spcClone.sprite = icon;
         spcClone.gameObject.SetActive(true); 
         SPCSlots.Add(spcClone);
-        Debug.Log(SPCSlots.Count);
     }
 
 

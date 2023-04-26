@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -276,6 +276,7 @@ MonoBehaviour:
   playerHP: {fileID: 2135215937}
   hitScreen: {fileID: 1756515518}
   SPCSlotsTransform: {fileID: 228533298}
+  SPCSlots: []
   SPCPrefab: {fileID: 1952066174}
 --- !u!1 &152518565
 GameObject:
@@ -1072,6 +1073,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc75d5e419006b24da20b824347de825, type: 2}
   - {fileID: 11400000, guid: f27bad3d52e54e84ca98f37836c8000b, type: 2}
   - {fileID: 11400000, guid: e27e62748caea3342be04bd984a50430, type: 2}
+  - {fileID: 11400000, guid: 6d55c2ea59c49264aaa6cb6be2c49836, type: 2}
+  - {fileID: 11400000, guid: e345a90eb16e5f54db6ea29461bd15e0, type: 2}
   enemys:
   - {fileID: 6770917455191006859, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
   - {fileID: 6770917455191006859, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}

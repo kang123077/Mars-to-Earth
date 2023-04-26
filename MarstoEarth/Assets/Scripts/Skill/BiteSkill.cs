@@ -18,7 +18,7 @@ namespace Skill
                 target.Hit(casterPoint, skillInfo.dmg * Time.deltaTime, 0);
                 if (caster.dying)
                     target.RemoveBuff(targetBite);
-            },(target)=>target.stun=false);
+            },(target)=>target.stun=false,(int)SkillName.Bite);
         }
         protected override bool Activate()
         {

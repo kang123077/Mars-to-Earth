@@ -10,7 +10,7 @@ namespace Character
 {
     public abstract class Character : MonoBehaviour
     {
-
+        public static readonly int MotionTime = Animator.StringToHash("motionTime");
         protected static readonly int animSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
         protected static readonly int onTarget = Animator.StringToHash("onTarget");
@@ -25,16 +25,16 @@ namespace Character
         protected Character targetCharacter;
         protected Collider[] colliders;
         private float nockBackResist ;
-        
-        public Skill.Skill onSkill { get; set; }
+
+        public Skill.Skill onSkill;
         private float SPCActionWeight;
-        public Vector3 impact { get; set; }
-        public float dmg { get; set; }
-        public float speed { get; set; }
-        public float def { get; set; }
-        public float duration { get; set; }
-        public float range { get; set; }
-        public float viewAngle { get; set; }
+        public Vector3 impact;
+        public float dmg;
+        public float speed;
+        public float def;
+        public float duration;
+        public float range;
+        public float viewAngle;
         private float _hp;
         protected internal float hp
         {
@@ -142,15 +142,11 @@ namespace Character
             }
             if (dying)
                 return false;
-         
 
             for (buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
             {
                 Buffs[buffElementIdx].Activation(this);
             }
-
-            if (stun)
-                return false;
 
             SPCActionWeight =
                 Mathf.Clamp(
@@ -181,19 +177,19 @@ namespace Character
             if (buff.isStun)
                 stun = true;
             buff.Apply?.Invoke(this);
-            //id체크로 같은 버프가 걸려있는지 체크해야함
+            //id체크로 같은 버프가 걸려있는지 체크해야함 
             Buffs.Add(buff);
 
         }
         // ReSharper disable Unity.PerformanceAnalysis
-        public virtual int RemoveBuff(Skill.SPC buff)
+        public virtual int RemoveBuff(Skill.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
         {
-            if (buff.isStun)//추후 공통상태이상 리스트를 만들어 확인하도록 수정
+            if (buff.isStun)//추후 리소스매니저에 공통상태이상 리스트를 만들어 확인하도록 수정
                 if(Buffs.Count(el => el.isStun)<=1)
                     stun= false;
             
             buff.Remove?.Invoke(this);
-            int findIndex = Buffs.FindIndex((el)=>ReferenceEquals(el,buff));
+            int findIndex = Buffs.FindIndex((el)=>el==buff);
             Buffs.RemoveAt(findIndex);
             return findIndex;
         }

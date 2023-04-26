@@ -15,7 +15,7 @@ namespace Skill
         {
             this.skillInfo = skillInfo;
             comboCount = 2;
-            distortion = new SPC(1.5f, null, (ch) =>
+            distortion = new SPC(0, null, (ch) =>
             {
                 ch.transform.position = Vector3.MoveTowards(ch.transform.position, targetPoint, (skillInfo.speed + ch.speed * 0.5f) * Time.deltaTime);
                 if (ch.transform.position == targetPoint)
@@ -26,7 +26,7 @@ namespace Skill
             }, (ch) =>
             {
                 ch.SkillEffect();
-            });
+            },(int)SkillName.Distortion);
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -36,7 +36,7 @@ namespace Skill
             switch (curCount)
             {
                 case 1:
-                    distortion.Init(0.8f);
+                    distortion.Init(skillInfo.duration+caster.duration*0.5f);
                     caster.onSkill = this;
                     firstPos=caster.transform.position;
                     targetPoint= caster.target? caster.target.position-caster.target.transform.forward : caster.transform.position+(caster.transform.forward*(skillInfo.range + caster.range * 0.5f));
