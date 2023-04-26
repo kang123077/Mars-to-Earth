@@ -143,7 +143,6 @@ namespace Character
             for (int i = 0; i < patrolPoints.Length; i++)
                 patrolPoints[i] = thisCurTransform.position + trackingDirection[i] * (sightLength * 2);
 
-     
             lastPosition = thisCurTransform.position;
             patrolIdx = Random.Range(0, 4);
 

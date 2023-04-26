@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Linq;
 /*
  * 스턴 상태일때는 
  */
@@ -53,11 +53,11 @@ namespace Character
         }
         public int layerMask { get; set; }
 
-        private List<Skill.SPC> Buffs;
+        public List<Skill.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
         public Func<Vector3,float,float,bool> Hit;
-        int buffElementIdx;
+        protected int buffElementIdx;
         public bool _stun;
         public bool stun
         {
@@ -145,7 +145,9 @@ namespace Character
          
 
             for (buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
+            {
                 Buffs[buffElementIdx].Activation(this);
+            }
 
             if (stun)
                 return false;
@@ -174,17 +176,26 @@ namespace Character
             return true;
         }
 
-        public void AddBuff(Skill.SPC buff)
+        public virtual void AddBuff(Skill.SPC buff)
         {
+            if (buff.isStun)
+                stun = true;
             buff.Apply?.Invoke(this);
-            Buffs.Add(buff);//같은 버프가 걸려있는지 체크해야함
+            //id체크로 같은 버프가 걸려있는지 체크해야함
+            Buffs.Add(buff);
 
         }
         // ReSharper disable Unity.PerformanceAnalysis
-        public void RemoveBuff(Skill.SPC buff)
+        public virtual int RemoveBuff(Skill.SPC buff)
         {
+            if (buff.isStun)//추후 공통상태이상 리스트를 만들어 확인하도록 수정
+                if(Buffs.Count(el => el.isStun)<=1)
+                    stun= false;
+            
             buff.Remove?.Invoke(this);
-            Buffs.Remove(buff);
+            int findIndex = Buffs.FindIndex((el)=>ReferenceEquals(el,buff));
+            Buffs.RemoveAt(findIndex);
+            return findIndex;
         }
         public void PlaySkillClip(Skill.Skill skill)
         {

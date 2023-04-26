@@ -1,6 +1,8 @@
 using Skill;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Networking.Types;
 using UnityEngine.Serialization;
 
 namespace Character
@@ -59,7 +61,7 @@ namespace Character
 
         private Vector3 repoterForward;
         private Vector3 targetDir;
-
+        public CombatUI combatUI;
         protected override void Awake()
         {
             base.Awake();
@@ -108,9 +110,35 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
 
-            hpBar = ((CombatUI)UIManager.Instance.UIs[(int)UIType.Combat]).playerHP;
+            combatUI = ((CombatUI)UIManager.Instance.UIs[(int)UIType.Combat]);
+            hpBar = combatUI.playerHP;
         }
 
+        public override void AddBuff(SPC buff)
+        {
+            base.AddBuff(buff);
+            //버프에 맞는 스프라이트
+            //combatUI.ConnectSPCImage();
+            Debug.Log(" 추가 "+buff.id);
+        }
+        // ReSharper disable Unity.PerformanceAnalysis
+        public override int RemoveBuff(SPC buff)
+        {
+            int findIndex= base.RemoveBuff(buff);
+            Destroy(combatUI.SPCSlots[findIndex].gameObject);
+            combatUI.SPCSlots.RemoveAt(findIndex);
+            Debug.Log(" 삭제 " );
+            return -1;
+           
+        }
+        protected override bool BaseUpdate()
+        {
+            if (!base.BaseUpdate())
+                return false;
+            for (buffElementIdx = 0; buffElementIdx < Buffs.Count; buffElementIdx++)
+                combatUI.SPCSlots[Buffs[buffElementIdx].id].fillAmount = Buffs[buffElementIdx].currentTime * (1 / Buffs[buffElementIdx].duration);
+            return true;
+        }
         protected void Update()
         {
             if (!BaseUpdate())

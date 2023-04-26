@@ -24,7 +24,7 @@ namespace Character
         {
             if (!base.Attack()) return false;
             biteEleapse++;
-            if (biteEleapse <= 10) return true;
+            if (biteEleapse <= 3) return true;
             bite.Use(this);
             biteEleapse = 0;
             return true;

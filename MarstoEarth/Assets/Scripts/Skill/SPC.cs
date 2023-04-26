@@ -1,25 +1,27 @@
 using System;
 using UnityEngine;
+
 namespace Skill
 {
-    public enum conditionType
-    {
-        atkUp,
-        atkDown,
-        cunfusion,
-        restraint,
-        faint
-    }
+    //public enum ConditionType
+    //{
+    //    atkUp,
+    //    atkDown,
+    //    cunfusion,
+    //    restraint,
+    //    stun
+    //}
     public class SPC 
     {
+        private static int IdCount = 0;
+        public readonly int id;
         public float duration;
-        public UnityEngine.UI.Image icon;
-        
-        private float currentTime;
-
+        //public UnityEngine.UI.Image icon;
+        public float currentTime;
         public Action<Character.Character> Apply;
         public Action<Character.Character> Remove;
         public Action<Character.Character> Dots;
+        public bool isStun;
 
         public void Init(float duration)
         {
@@ -27,10 +29,11 @@ namespace Skill
         }
         public SPC(float duration, Action<Character.Character> apply,Action<Character.Character> remove)
         {
-            currentTime = this.duration=duration;
+            currentTime = this.duration = duration;
             Apply = apply;
             Remove = remove;
             Dots = null;
+            id = IdCount++;
         }
         public SPC(float duration, Action<Character.Character> dots)
         {
@@ -38,6 +41,7 @@ namespace Skill
             Dots = dots;
             Apply = null;
             Remove =null;
+            id = IdCount++;
         }
         public SPC(float duration,Action<Character.Character> apply, Action<Character.Character> dots,Action<Character.Character> remove)
         {
@@ -45,14 +49,15 @@ namespace Skill
             Apply = apply;
             Dots = dots;
             Remove = remove;
+            id = IdCount++;
         }
         
         public void Activation(Character.Character character)
-        {
+        {            
             if(currentTime>0)
             {
                 currentTime -= Time.deltaTime;
-                //icon.fillAmount = currentTime * (1/duration);
+                
                 Dots?.Invoke(character);
             }
             else

@@ -59,6 +59,7 @@ public enum SkillName
     Block,
     Charge,
 }
+
 public class ResourceManager : Singleton<ResourceManager>
 {
     public UnityEngine.UI.Slider hpBar;
@@ -66,6 +67,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public MeshFilter[] projectileMesh;
     public SkillInfo[] skillInfos;
     public Character.Monster[] enemys;
+    public Sprite[] SPCIcon;
     public List<Skill.Skill> skills = new();
 
     //public int[] ints= new int[] {1,2,3 };
