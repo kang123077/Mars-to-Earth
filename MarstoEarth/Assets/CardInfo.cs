@@ -1,5 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine;
+using System.Linq;
 using TMPro;
 
 public class CardInfo : MonoBehaviour
@@ -8,39 +9,28 @@ public class CardInfo : MonoBehaviour
     public Image cardSkillIconRight;
     public TextMeshProUGUI cardLeftText;
     public TextMeshProUGUI cardRightText;
-    private Skill.SkillInfo[] skillInfo;
-    public int randomIndexLeft;
-    public int randomIndexRight;
-
-    private void Awake()
-    {
-        // Resources 폴더에서 스킬 정보 로드하기
-        skillInfo = Resources.LoadAll<Skill.SkillInfo>("SkillsStat");
-    }
-    void Start()
-    {
-
-    }
+    [HideInInspector]public int randomIndexLeft;
+    [HideInInspector]public int randomIndexRight;
 
     public void CardInit()
     {
         // 랜덤한 스킬 아이콘 선택하기
-        randomIndexLeft = Random.Range(0, skillInfo.Length);
-        randomIndexRight = Random.Range(0, skillInfo.Length);
-        SkillIcon(skillInfo, randomIndexLeft, randomIndexRight);
-        SkillDescription(skillInfo, randomIndexLeft, randomIndexRight);
+        randomIndexLeft = Random.Range(0, InGameManager.Instance.inGameSkillInfo.Count);
+        randomIndexRight = Random.Range(0, InGameManager.Instance.inGameSkillInfo.Count);
+        SkillIcon(randomIndexLeft, randomIndexRight);
+        SkillDescription(randomIndexLeft, randomIndexRight);
     }
 
-    public void SkillIcon(Skill.SkillInfo[] skillInfo, int leftIndex, int rightIndex)
+    public void SkillIcon(int leftIndex, int rightIndex)
     {
-        Sprite randomSkillIconLeft = skillInfo[leftIndex].icon;
-        Sprite randomSkillIconRight = skillInfo[rightIndex].icon;
+        Sprite randomSkillIconLeft = InGameManager.Instance.inGameSkillInfo[leftIndex].icon;
+        Sprite randomSkillIconRight = InGameManager.Instance.inGameSkillInfo[rightIndex].icon;
 
         // 같은 아이콘이 나올 때 Left 아이콘의 인덱스를 늘려 중복을 피함
         if (randomSkillIconLeft == randomSkillIconRight)
         {
-            rightIndex = (rightIndex + 1) % skillInfo.Length;
-            randomSkillIconLeft = skillInfo[rightIndex].icon;
+            rightIndex = (rightIndex + 1) % InGameManager.Instance.inGameSkillInfo.Count;
+            randomSkillIconLeft = InGameManager.Instance.inGameSkillInfo[rightIndex].icon;
         }
 
         // 카드 이미지에 선택된 스킬 아이콘 할당하기
@@ -48,10 +38,10 @@ public class CardInfo : MonoBehaviour
         cardSkillIconRight.sprite = randomSkillIconRight;
     }
 
-    public void SkillDescription(Skill.SkillInfo[] skillInfo, int leftInfo, int rightInfo)
+    public void SkillDescription(int leftInfo, int rightInfo)
     {
-        cardLeftText.text = skillInfo[leftInfo].name + "\n\n" + skillInfo[leftInfo].description;
-        cardRightText.text = skillInfo[rightInfo].name + "\n\n" + skillInfo[rightInfo].description;
+        cardLeftText.text = InGameManager.Instance.inGameSkillInfo[leftInfo].name + "\n\n" + InGameManager.Instance.inGameSkillInfo[leftInfo].description;
+        cardRightText.text = InGameManager.Instance.inGameSkillInfo[rightInfo].name + "\n\n" + InGameManager.Instance.inGameSkillInfo[rightInfo].description;
     }
 
     void Update()

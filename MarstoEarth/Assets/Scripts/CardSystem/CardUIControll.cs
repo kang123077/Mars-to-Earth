@@ -47,11 +47,11 @@ public class CardUIControll : UI
     {
         Vector2 pos = leftCard.transform.position;
         leftCard.transform.SetAsLastSibling();
-
         leftCard.gameObject.transform.position = new Vector2(960f, pos.y);
         leftCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
-        combatUI.LearnSkill(cardInfo.randomIndexLeft);
-        Debug.Log(cardInfo.randomIndexLeft);
+        int skillIndex = cardInfo.randomIndexRight;
+        combatUI.LearnSkill(skillIndex);
+        InGameManager.Instance.inGameSkillInfo.RemoveAt(skillIndex);
         StartCoroutine(HideCardUI());
         ScaleDownRightCard();
     }
@@ -65,11 +65,11 @@ public class CardUIControll : UI
     {
         Vector2 pos = rightCard.transform.position;
         rightCard.transform.SetAsLastSibling();
-
         rightCard.gameObject.transform.position = new Vector2(960f, pos.y);
         rightCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
-        combatUI.LearnSkill(cardInfo.randomIndexRight);
-        Debug.Log(cardInfo.randomIndexRight);
+        int skillIndex = cardInfo.randomIndexRight;
+        combatUI.LearnSkill(skillIndex);
+        InGameManager.Instance.inGameSkillInfo.RemoveAt(skillIndex);
         StartCoroutine(HideCardUI());
         ScaleDownLeftCard();
     }
