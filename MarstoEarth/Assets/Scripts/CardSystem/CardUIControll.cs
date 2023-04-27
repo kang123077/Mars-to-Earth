@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardUIControll : MonoBehaviour
+public class CardUIControll : UI
 {
     [SerializeField] private Button leftCard;
     [SerializeField] private Button rightCard;
@@ -12,8 +12,9 @@ public class CardUIControll : MonoBehaviour
 
     Vector2 orglcScale;
     Vector2 orgrcScale;
-    // 초기화 -1 이유 : 유효하지 않는 인덱스 값을 통해 안정성
-    public int selectedCardIndex = -1;
+
+    public CardInfo cardInfo;
+    public CombatUI combatUI;
 
     private void Awake()
     {
@@ -40,7 +41,6 @@ public class CardUIControll : MonoBehaviour
 
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(true);
-        selectedCardIndex = -1;
     }
 
     void ScaleUpLeftCard()
@@ -50,7 +50,8 @@ public class CardUIControll : MonoBehaviour
 
         leftCard.gameObject.transform.position = new Vector2(960f, pos.y);
         leftCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
-        selectedCardIndex = 0;
+        combatUI.LearnSkill(cardInfo.randomIndexLeft);
+        Debug.Log(cardInfo.randomIndexLeft);
         StartCoroutine(HideCardUI());
         ScaleDownRightCard();
     }
@@ -67,7 +68,8 @@ public class CardUIControll : MonoBehaviour
 
         rightCard.gameObject.transform.position = new Vector2(960f, pos.y);
         rightCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
-        selectedCardIndex = 1;
+        combatUI.LearnSkill(cardInfo.randomIndexRight);
+        Debug.Log(cardInfo.randomIndexRight);
         StartCoroutine(HideCardUI());
         ScaleDownLeftCard();
     }

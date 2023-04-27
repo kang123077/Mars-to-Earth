@@ -9,8 +9,8 @@ public class CardInfo : MonoBehaviour
     public TextMeshProUGUI cardLeftText;
     public TextMeshProUGUI cardRightText;
     private Skill.SkillInfo[] skillInfo;
-    public Skill.SkillInfo[] selectedSkillInfo;
-    private CardUIControll cardUIControll;
+    public int randomIndexLeft;
+    public int randomIndexRight;
 
     private void Awake()
     {
@@ -19,15 +19,14 @@ public class CardInfo : MonoBehaviour
     }
     void Start()
     {
-        cardUIControll = GetComponent<CardUIControll>();
-        selectedSkillInfo = new Skill.SkillInfo[4];
+
     }
 
     public void CardInit()
     {
         // 랜덤한 스킬 아이콘 선택하기
-        int randomIndexLeft = Random.Range(0, skillInfo.Length);
-        int randomIndexRight = Random.Range(0, skillInfo.Length);
+        randomIndexLeft = Random.Range(0, skillInfo.Length);
+        randomIndexRight = Random.Range(0, skillInfo.Length);
         SkillIcon(skillInfo, randomIndexLeft, randomIndexRight);
         SkillDescription(skillInfo, randomIndexLeft, randomIndexRight);
     }
