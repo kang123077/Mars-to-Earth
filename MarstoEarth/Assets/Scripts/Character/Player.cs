@@ -61,7 +61,7 @@ namespace Character
 
         private Vector3 repoterForward;
         private Vector3 targetDir;
-        public CombatUI combatUI;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -86,8 +86,7 @@ namespace Character
                         }                            
                     }
                 });
-            hitScreen = ((CombatUI)UIManager.Instance.UIs[(int)UIType.Combat]).hitScreen;
-            hitScreenColor = hitScreen.color;
+           
         }
 
         protected override void Start()
@@ -110,8 +109,9 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
 
-            combatUI = ((CombatUI)UIManager.Instance.UIs[(int)UIType.Combat]);
             hpBar = combatUI.playerHP;
+            hitScreen = combatUI.hitScreen;
+            hitScreenColor = hitScreen.color;
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -137,6 +137,13 @@ namespace Character
             for (buffElementIdx = 0; buffElementIdx < Buffs.Count; buffElementIdx++)
                 combatUI.SPCSlots[buffElementIdx].fillAmount = Buffs[buffElementIdx].currentTime * (1 / Buffs[buffElementIdx].duration);
             
+            if (!stun &&hitScreenAlphaValue > 0)
+            {
+                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / characterStat.maxHP);
+                hitScreenColor.a = hitScreenAlphaValue;
+                hitScreen.color = hitScreenColor;
+            }
+
             return !stun;
         }
         protected void Update()
@@ -149,12 +156,7 @@ namespace Character
             zInput = Input.GetAxis("Vertical");
             InputDir = new Vector3(xInput, 0, zInput);
 
-            if (hitScreenAlphaValue > 0)
-            {
-                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / characterStat.maxHP);
-                hitScreenColor.a = hitScreenAlphaValue;
-                hitScreen.color = hitScreenColor;
-            }
+          
 
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
@@ -370,11 +372,13 @@ namespace Character
 
         protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
         {
-            
+            if (!base.Hited(attacker, dmg, penetrate)) return false;
+            if (!(hitScreenAlphaValue < 0.8f)) return true;
             hitScreenAlphaValue += dmg * 3 * (1 / characterStat.maxHP);
             hitScreenColor.a = hitScreenAlphaValue;
             hitScreen.color = hitScreenColor;
-            return base.Hited(attacker, dmg, penetrate);
+
+            return true;
         }
     }
 }

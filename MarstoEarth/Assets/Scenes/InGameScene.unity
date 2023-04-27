@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -275,7 +275,7 @@ MonoBehaviour:
   - {fileID: 1779440735}
   playerHP: {fileID: 2135215937}
   hitScreen: {fileID: 1756515518}
-  DMGText: {fileID: 0}
+  DMGText: {fileID: 3824723967832218509, guid: 06bc07fce2a8be748956652d4ecfa865, type: 3}
   SPCSlotsTransform: {fileID: 228533298}
   SPCSlots: []
   SPCPrefab: {fileID: 1952066174}

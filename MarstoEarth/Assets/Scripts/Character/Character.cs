@@ -20,6 +20,7 @@ namespace Character
         
         protected Camera mainCam;
         protected UnityEngine.UI.Slider hpBar;
+        protected static CombatUI combatUI;
         protected Transform thisCurTransform;
         [HideInInspector] public Transform target;
         protected Character targetCharacter;
@@ -106,6 +107,8 @@ namespace Character
         {            
             projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet,null);
+            
+            combatUI = (CombatUI)UIManager.Instance.UIs[(int)UIType.Combat];
         }
 
         protected virtual bool Attack()
@@ -157,19 +160,26 @@ namespace Character
         }
         protected internal virtual bool Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
-            if (immune)
+            if (dying)
                 return false;
+            DamageText dt = combatUI.DMGTextPool.Get();
+            dt.transform.position = thisCurTransform.position+new Vector3(0,.8f,0);
+            dt.gameObject.SetActive(true);
+            if (immune)
+            {
+                dt.text.text = "Miss";
+                return false;
+            }
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
-           
+            dt.text.text = $"{dmg}";
             hpBar.value = hp / characterStat.maxHP;
             Vector3 horizonPosition = thisCurTransform.position;
             attacker.y = horizonPosition.y;
             impact += (horizonPosition - attacker).normalized*(dmg*(1/nockBackResist));
-            if (dying)
-                return false;
-            return true;
+            
+            return !dying;
         }
 
         public virtual bool AddBuff(Skill.SPC buff)

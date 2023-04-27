@@ -100,7 +100,7 @@ namespace Character
         protected override void Start()
         {
             base.Start();
-            hpBar = Instantiate(ResourceManager.Instance.hpBar, UIManager.Instance.UIs[(int)UIType.Combat].transform);
+            hpBar = Instantiate(ResourceManager.Instance.hpBar, combatUI.transform);
             hpBar.gameObject.SetActive(false);
         }
 

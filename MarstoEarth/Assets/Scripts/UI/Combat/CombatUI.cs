@@ -1,4 +1,5 @@
 
+
 using Character;
 using System;
 using System.Collections;
@@ -24,7 +25,7 @@ public class CombatUI : UI
     {
         DMGTextPool = new ObjectPool<DamageText>(() =>
         {
-            DamageText copyPrefab = Instantiate(DMGText);
+            DamageText copyPrefab = Instantiate(DMGText,transform);
             copyPrefab.gameObject.SetActive(false);
             return copyPrefab;
         }, actionOnRelease: (dt) => dt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
@@ -32,14 +33,11 @@ public class CombatUI : UI
 
     public void ConnectSPCImage(Sprite icon)
     {
-        UnityEngine.UI.Image spcClone = Instantiate(SPCPrefab, SPCSlotsTransform);
+        UnityEngine.UI.Image spcClone = Instantiate(SPCPrefab,SPCSlotsTransform);
         spcClone.sprite = icon;
         spcClone.gameObject.SetActive(true); 
         SPCSlots.Add(spcClone);
     }
-
-    
-
 
     public void LearnSkill(int skillName)
     {

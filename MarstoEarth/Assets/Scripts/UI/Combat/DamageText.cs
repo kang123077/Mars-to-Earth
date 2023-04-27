@@ -1,36 +1,48 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class DamageText : MonoBehaviour
 {
-    private float moveSpeed;
-    private float alphaSpeed;
-    private float destroyTime;
+    private static float moveSpeed;
+    private static float alphaSpeed;
     public TextMeshPro text;
     Color alpha;
-    public int damage;
+    
+    private float lifeTime;
+    private static float duration;
 
+    private static CombatUI combatUI;
+    private static Transform follower;
     // Start is called before the first frame update
     void Start()
     {
-        moveSpeed = 2.0f;
-        alphaSpeed = 2.0f;
-        destroyTime = 2.0f;
-
+        moveSpeed = 2f;
+        alphaSpeed = .7f;
+        duration= 1.2f;
         alpha = text.color;
-        text.text = damage.ToString();
-        
-        //2초가 지나면 오브젝트풀에 반환
+        combatUI = (CombatUI)UIManager.Instance.UIs[(int)UIType.Combat];
+        follower = CinemachineManager.Instance.follower;
+    }
+
+    private void OnEnable()
+    {
+        lifeTime = duration;
+        alpha.a = 1;
+        text.color = alpha;
     }
 
     // Update is called once per frame
     void Update()
     {
+        lifeTime -= Time.deltaTime;
+        transform.rotation = follower.rotation;
+        if (lifeTime < 0)
+            combatUI.DMGTextPool.Release(this);
         transform.Translate(new Vector3(0, moveSpeed * Time.deltaTime, 0)); // 텍스트 위치
-
-        alpha.a = Mathf.Lerp(alpha.a, 0, Time.deltaTime * alphaSpeed); // 텍스트 알파값
+        alpha.a -= Time.deltaTime * alphaSpeed; // 텍스트 알파값
         text.color = alpha;
     }
 
