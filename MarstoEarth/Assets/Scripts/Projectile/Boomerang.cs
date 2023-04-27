@@ -1,3 +1,4 @@
+using Skill;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Projectile
         private List<Collider> colliderList = new ();
         private int layerMask;
         private bool isReturn;
-        
+        private SPC stun;
         private Character.Character enemy; 
         public void Init(Transform ct,Vector3 tp,float dr, float rg, float dmg, float sp, int lm)
         {
@@ -28,6 +29,8 @@ namespace Projectile
             speed = sp;
             layerMask=lm;
             transform.position = ct.position+ct.forward;
+            stun= new SPC(0, (ch) => ch.stun = true,
+                (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
         }
 
         public void Bomb()
@@ -40,7 +43,8 @@ namespace Projectile
                 colliders[i].TryGetComponent(out enemy);
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 if (!enemy.Hit(transform.position, damage * 1.5f, 0)) continue;
-                enemy.AddBuff(new Skill.SPC(duration, (ch) => ch.stun = true, (ch) => ch.stun = false,(int)SkillName.Boomerang));
+                stun.Init(duration);
+                enemy.AddBuff(stun);                
             }
             Destroy(gameObject);
         }

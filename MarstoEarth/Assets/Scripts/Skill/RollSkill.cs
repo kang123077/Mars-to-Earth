@@ -17,7 +17,7 @@ namespace Skill
             {
                 ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed + ch.speed));
                 ch.anim.SetFloat(Character.Character.MotionTime,(roll.duration-roll.currentTime)*(1/roll.duration));
-            },(ch)=>ch.SkillEffect(),(int)SkillName.Roll);
+            },(ch)=>ch.SkillEffect(),skillInfo.icon);
         }
         protected override bool Activate()
         {

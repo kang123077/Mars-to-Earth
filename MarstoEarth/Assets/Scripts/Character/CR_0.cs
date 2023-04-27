@@ -1,4 +1,6 @@
+using Skill;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Character
@@ -8,15 +10,22 @@ namespace Character
         private Skill.Skill block;
 
         private float blockEleapse;
-
+        private Skill.SPC parring;
         protected override void Start()
         {
             base.Start();
-
+            parring = new SPC(0, (ch) => ch.stun = true,
+             (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
             block = new Skill.BlockSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Block]);
             blockEleapse = 8;
         }
-
+        protected override bool Attack()
+        {
+            if(! base.Attack()) return false;
+            parring.Init(0.6f);
+            targetCharacter.AddBuff(parring);
+            return true;
+        }
         protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
         {
             if (!base.Hited(attacker, dmg, penetrate))
@@ -42,6 +51,7 @@ namespace Character
             if (target)
             {
                 ai.SetDestination(target.position);
+                
                 if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
                 {
                     ai.ResetPath();

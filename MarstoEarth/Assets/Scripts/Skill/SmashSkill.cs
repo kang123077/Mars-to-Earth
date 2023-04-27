@@ -16,7 +16,7 @@ namespace Skill
             smash = new SPC(10, (ch) =>
             {
                 ch.transform.position += dir * (Time.deltaTime * speed);
-            },(int)SkillName.Smash);
+            },skillInfo.icon);
 
         }
         protected override bool Activate()

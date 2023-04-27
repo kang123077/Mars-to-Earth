@@ -115,11 +115,11 @@ namespace Character
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public override void AddBuff(SPC buff)
+        public override bool AddBuff(SPC buff)
         {
-            base.AddBuff(buff);
-            combatUI.ConnectSPCImage(ResourceManager.Instance.skillInfos[buff.iconNum].icon);
-            
+            if (!base.AddBuff(buff)) return false;
+            combatUI.ConnectSPCImage(buff.icon);
+            return true;            
         }
         // ReSharper disable Unity.PerformanceAnalysis
         public override int RemoveBuff(SPC buff)

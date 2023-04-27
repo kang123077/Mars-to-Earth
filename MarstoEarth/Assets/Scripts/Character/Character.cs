@@ -172,22 +172,24 @@ namespace Character
             return true;
         }
 
-        public virtual void AddBuff(Skill.SPC buff)
+        public virtual bool AddBuff(Skill.SPC buff)
         {
-            if (buff.isStun)
-                stun = true;
             buff.Apply?.Invoke(this);
-            //id체크로 같은 버프가 걸려있는지 체크해야함 
-            Buffs.Add(buff);
 
+            Skill.SPC findBuff = Buffs.Find((el) =>ReferenceEquals(el.icon, buff.icon));
+
+           
+            if (findBuff is null)
+                Buffs.Add(buff);
+            else if (findBuff.currentTime < buff.duration)            
+                findBuff.Init(buff.duration);               
+            
+
+            return findBuff is null;
         }
         // ReSharper disable Unity.PerformanceAnalysis
         public virtual int RemoveBuff(Skill.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
-        {
-            if (buff.isStun)//추후 리소스매니저에 공통상태이상 리스트를 만들어 확인하도록 수정
-                if(Buffs.Count(el => el.isStun)<=1)
-                    stun= false;
-            
+        {           
             buff.Remove?.Invoke(this);
             int findIndex = Buffs.FindIndex((el)=>el==buff);
             Buffs.RemoveAt(findIndex);

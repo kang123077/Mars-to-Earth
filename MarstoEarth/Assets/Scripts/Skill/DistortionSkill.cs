@@ -8,7 +8,6 @@ namespace Skill
         private readonly Collider[] colliders = new Collider[8];
         private Character.Character enemy;
         Vector3 firstPos;
-        private int layerMask;
         SPC distortion;
         Vector3 targetPoint;
         public DistortionSkill(SkillInfo skillInfo)
@@ -26,7 +25,7 @@ namespace Skill
             }, (ch) =>
             {
                 ch.SkillEffect();
-            },(int)SkillName.Distortion);
+            },skillInfo.icon);
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

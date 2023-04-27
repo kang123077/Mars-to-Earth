@@ -2353,6 +2353,13 @@ MonoBehaviour:
   anim: {fileID: 7673487250857332701}
   col: {fileID: 8675458328526890443}
   target: {fileID: 0}
+  impact: {x: 0, y: 0, z: 0}
+  dmg: 0
+  speed: 0
+  def: 0
+  duration: 0
+  range: 0
+  viewAngle: 0
   _stun: 0
   immune: 0
   dying: 0
@@ -2361,6 +2368,7 @@ MonoBehaviour:
   muzzle: {fileID: 8012712200323029387}
   onCharge: 0
   isRun: 0
+  combatUI: {fileID: 0}
 --- !u!54 &-6828465308735864369
 Rigidbody:
   m_ObjectHideFlags: 0

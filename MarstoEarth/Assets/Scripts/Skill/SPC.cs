@@ -11,53 +11,43 @@ namespace Skill
     //    restraint,
     //    stun
     //}
-    public class SPC 
+    public class SPC //: ICloneable
     {
-        private static int IdCount = 0;
-        public readonly int id;
         public float duration;
-        public int iconNum;
+        public Sprite icon;
         public float currentTime;
         public Action<Character.Character> Apply;
         public Action<Character.Character> Remove;
         public Action<Character.Character> Dots;
-        public bool isStun;
 
         public void Init(float duration)
         {
             currentTime = this.duration = duration;
         }
-        public SPC(float duration, Action<Character.Character> apply,Action<Character.Character> remove, int iconNum)
+        public SPC(float duration, Action<Character.Character> apply,Action<Character.Character> remove, Sprite icon)
         {
             currentTime = this.duration = duration;
             Apply = apply;
             Remove = remove;
             Dots = null;
-            this.iconNum = iconNum;
-            
-            id = IdCount++;
+            this.icon = icon;
         }
-        public SPC(float duration, Action<Character.Character> dots,int iconNum)
+        public SPC(float duration, Action<Character.Character> dots, Sprite icon)
         {
             currentTime = this.duration=duration;
             Dots = dots;
             Apply = null;
             Remove =null;
-            this.iconNum = iconNum;
-            
-            id = IdCount++;
+            this.icon = icon;
         }
-        public SPC(float duration,Action<Character.Character> apply, Action<Character.Character> dots,Action<Character.Character> remove,int iconNum)
+        public SPC(float duration,Action<Character.Character> apply, Action<Character.Character> dots,Action<Character.Character> remove, Sprite icon)
         {
             currentTime = this.duration=duration;
             Apply = apply;
             Dots = dots;
             Remove = remove;
-            this.iconNum = iconNum;
-            
-            id = IdCount++;
+            this.icon = icon;
         }
-        
         public void Activation(Character.Character character)
         {            
             if(currentTime>0)
@@ -71,6 +61,10 @@ namespace Skill
                 character.RemoveBuff(this);
             }
         }
+        //public object Clone()
+        //{
+        //    return new SPC(0, Apply, Dots, Remove, icon);
+        //}
 
     }
 }

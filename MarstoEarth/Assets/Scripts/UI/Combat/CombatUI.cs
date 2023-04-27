@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class CombatUI : UI
 {
@@ -12,11 +13,22 @@ public class CombatUI : UI
 
     public UnityEngine.UI.Slider playerHP;
     public UnityEngine.UI.Image hitScreen;
-
+    public IObjectPool<DamageText> DMGTextPool;
+    public DamageText DMGText;
 
     public RectTransform SPCSlotsTransform;
     public List<UnityEngine.UI.Image> SPCSlots = new();
     public UnityEngine.UI.Image SPCPrefab;
+
+    private void Awake()
+    {
+        DMGTextPool = new ObjectPool<DamageText>(() =>
+        {
+            DamageText copyPrefab = Instantiate(DMGText);
+            copyPrefab.gameObject.SetActive(false);
+            return copyPrefab;
+        }, actionOnRelease: (dt) => dt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
+    }
 
     public void ConnectSPCImage(Sprite icon)
     {
@@ -26,6 +38,7 @@ public class CombatUI : UI
         SPCSlots.Add(spcClone);
     }
 
+    
 
 
     public void LearnSkill(int skillName)

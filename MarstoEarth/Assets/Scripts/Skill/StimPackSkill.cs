@@ -16,7 +16,7 @@ namespace Skill
             }, (ch) =>
             {
                 ch.speed -= skillInfo.speed;
-            },(int)SkillName.Stimpack);
+            },skillInfo.icon);
         }
         protected override bool Activate()
         {

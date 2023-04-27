@@ -35,10 +35,11 @@ namespace Skill
                 ch.Hit = temp;
                 if (parrying) return;
                 ch.onSkill = null;
-            },(int)SkillName.Block);
-
+            }, skillInfo.icon);
             parring = new SPC(0, (ch) => ch.stun = true,
-                (ch) => ch.stun = false, (int)SkillName.stun);
+                (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
+
+
         }
         protected override bool Activate()
         {

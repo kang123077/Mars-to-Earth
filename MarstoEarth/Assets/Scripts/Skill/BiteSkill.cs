@@ -6,7 +6,7 @@ namespace Skill
 {
     public class BiteSkill : Skill
     {
-        static SPC targetBite;
+        SPC targetBite;
         private Vector3 casterPoint;
         private Character.Character targetCh;
         public BiteSkill(SkillInfo skillInfo, Transform LH)
@@ -18,7 +18,7 @@ namespace Skill
                 target.Hit(casterPoint, skillInfo.dmg * Time.deltaTime, 0);
                 if (caster.dying)
                     target.RemoveBuff(targetBite);
-            },(target)=>target.stun=false,(int)SkillName.Bite);
+            },(target)=>target.stun=false,skillInfo.icon);
         }
         protected override bool Activate()
         {

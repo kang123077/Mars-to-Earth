@@ -160,6 +160,7 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount++;
         target.gameObject.SetActive(true);
     }
+
     public void ReleaseMonster(Monster target)
     {
         target.gameObject.SetActive(false);
