@@ -7,15 +7,15 @@ public class PathController : MonoBehaviour
 {
     public NodeInfo parent;
     public NodeInfo children;
+    public bool isColliderIn = false;
+    public Collider innerCollider;
     private GateController gate_1;
     private GateController gate_2;
-    private Collider pathCollider;
     private bool roomClearChecker = false;
     private void Awake()
     {
         gate_1 = transform.GetChild(0).GetComponent<GateController>();
         gate_2 = transform.GetChild(1).GetComponent<GateController>();
-        pathCollider = GetComponent<Collider>();
     }
     private void Update()
     {
@@ -58,69 +58,71 @@ public class PathController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void EnterEvent(Collider other)
     {
         if (other.tag == "Player")
         {
             // Collider에 진입 시 다음 방 몬스터 생성하고 문 열어줌, 다시 닫아주진 않는걸로
-            // MapManager.Instance.CloseAllGate();
-            gate_1.GateClose();
-            gate_2.GateClose();
-            if (parent.isNodeCleared == false)
+            // gate_1(parent방향)으로 진입
+            if (gate_1.isGateOpen)
             {
-                SpawnManager.Instance.NodeSpawn(parent);
-                gate_1.GateOpen();
-                pathCollider.enabled = false;
-            }
-            if (children.isNodeCleared == false)
-            {
-                SpawnManager.Instance.NodeSpawn(children);
-                gate_2.GateOpen();
-                pathCollider.enabled = false;
-            }
-        }
-    }
-    private void OnRoomCleared(NodeInfo clearedNode)
-    {
-        if (clearedNode.isNodeCleared)
-        {
-            if (clearedNode == parent)
-            {
-                gate_1.GateOpen();
-                if (children.isNodeCleared)
+                gate_1.GateClose();
+                if (!children.isNodeCleared)
                 {
-                    gate_2.GateOpen();
+                    SpawnManager.Instance.NodeSpawn(children);
+                    innerCollider.gameObject.SetActive(false);
                 }
+                gate_2.GateOpen();
             }
+            // gate_2(children방향)으로 진입
             else
             {
-                gate_2.GateOpen();
-                if (parent.isNodeCleared)
+                gate_2.GateClose();
+                if (!parent.IsNodeCleared)
                 {
-                    gate_1.GateOpen();
+                    SpawnManager.Instance.NodeSpawn(parent);
+                    innerCollider.gameObject.SetActive(false);
                 }
+                gate_1.GateOpen();
             }
         }
-        Debug.Log("OnRoomCleared");
     }
 
-    private void OnTriggerExit(Collider other)
+    public void ExitEvent(Collider other)
     {
-        if (other.tag == "Player")
+        if (parent.isNodeCleared && children.isNodeCleared && other.tag == "Player")
         {
             // CloseGate();
         }
     }
 
+    private void OnRoomCleared(NodeInfo clearedNode)
+    {
+        innerCollider.gameObject.SetActive(true);
+        if (clearedNode.isNodeCleared)
+        {
+            if (clearedNode == parent)
+            {
+                gate_1.GateOpen();
+            }
+            else
+            {
+                gate_2.GateOpen();
+            }
+        }
+    }
+
     public void CloseGate()
     {
-        gate_1.isGateOpen = false;
-        gate_2.isGateOpen = false;
+        gate_1.GateClose();
+        gate_2.GateClose();
     }
 }
 
 public enum Relation
 {
+    // 노드 생성 시 부모 방향 (gate_1)
     Parent,
+    // 노드 생성 시 자식 방향 (gate_2)
     Children,
 }

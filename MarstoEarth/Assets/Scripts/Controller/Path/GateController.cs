@@ -17,16 +17,16 @@ public class GateController : MonoBehaviour
     public void GateOpen()
     {
         animator.SetBool("isGateOpen", true);
+        isGateOpen = true;
         navMeshObstacle.enabled = false;
         gameObject.layer = 10;
-        Debug.Log("게이트오픈");
     }
 
     public void GateClose()
     {
         animator.SetBool("isGateOpen", false);
+        isGateOpen = false;
         navMeshObstacle.enabled = true;
         gameObject.layer = 9;
-        Debug.Log("게이트클로즈");
     }
 }
