@@ -13,7 +13,7 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo south;
     public bool isBossNode;
     public BoxCollider nodeCollider;
-    private List<MeshRenderer> meshRenderers;
+    public List<MeshRenderer> meshRenderers;
     private bool nodeInitFinished;
 
 
@@ -33,8 +33,8 @@ public class NodeInfo : MonoBehaviour
         }
     }
 
-    public delegate void RoomrenderedHandler(bool value);
-    public event RoomrenderedHandler OnRoomRendered;
+    public delegate void RoomRenderedHandler();
+    public event RoomRenderedHandler OnRoomRendered;
     public bool isNodeRendered;
     public bool IsNodeRendered
     {
@@ -44,7 +44,7 @@ public class NodeInfo : MonoBehaviour
             isNodeRendered = value;
             if (OnRoomRendered != null)
             {
-                OnRoomRendered(value);
+                OnRoomRendered();
             }
         }
     }
@@ -55,14 +55,13 @@ public class NodeInfo : MonoBehaviour
         meshRenderers = new List<MeshRenderer>();
         isBossNode = false;
         nodeInitFinished = false;
-        IsNodeRendered = true;
-        CollectMeshRenderers(transform);
     }
 
     private void Update()
     {
         if (SpawnManager.Instance.spawnInstantiateFinished && !nodeInitFinished)
         {
+            CollectMeshRenderers(transform);
             if (SpawnManager.Instance.curNode != this)
             {
                 SetMeshRendererEnabled(false);
@@ -93,10 +92,12 @@ public class NodeInfo : MonoBehaviour
     }
     public void SetMeshRendererEnabled(bool isEnabled)
     {
-            for (int i = 0; i < meshRenderers.Count; i++)
-            {
-                meshRenderers[i].enabled = isEnabled;
-            }
+
+        IsNodeRendered = isEnabled;
+        for (int i = 0; i < meshRenderers.Count; i++)
+        {
+            meshRenderers[i].enabled = isEnabled;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

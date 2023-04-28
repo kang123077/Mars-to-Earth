@@ -29,8 +29,9 @@ public class PathController : MonoBehaviour
             // Delegate 구독
             parent.OnRoomCleared += OnRoomCleared;
             children.OnRoomCleared += OnRoomCleared;
-            parent.OnRoomRendered += OnRoomRendered;
-            children.OnRoomRendered += OnRoomRendered;
+            parent.OnRoomRendered += CheckNeighborNode;
+            children.OnRoomRendered += CheckNeighborNode;
+            CheckNeighborNode();
             roomClearChecker = true;
         }
     }
@@ -54,11 +55,25 @@ public class PathController : MonoBehaviour
             CollectMeshRenderers(child);
         }
     }
+
+    public void CheckNeighborNode()
+    {
+        if (SpawnManager.Instance.curNode == parent ||
+            SpawnManager.Instance.curNode == children)
+        {
+            SetMeshRendererEnabled(true);
+        }
+        else
+        {
+            SetMeshRendererEnabled(false);
+            CloseGate();
+        }
+    }
+
     public void SetMeshRendererEnabled(bool isEnabled)
     {
         for (int i = 0; i < meshRenderers.Count; i++)
         {
-            Debug.Log("false하라고");
             meshRenderers[i].enabled = isEnabled;
         }
     }
@@ -101,8 +116,16 @@ public class PathController : MonoBehaviour
             // gate_1(parent방향)으로 진입
             if (gate_1.isGateOpen)
             {
+                SpawnManager.Instance.curNode = children;
+                if (children.isNodeCleared)
+                {
+                    // 이미 깬 곳이면 바로 true 줘서 주변 문 열리도록
+                    children.IsNodeCleared = true;
+                }
                 gate_1.GateClose();
-                if (!children.isNodeCleared)
+                Invoke("SetParentMeshFalse", 2.0f);
+                children.SetMeshRendererEnabled(true);
+                if (!children.IsNodeCleared)
                 {
                     SpawnManager.Instance.NodeSpawn(children);
                     innerCollider.gameObject.SetActive(false);
@@ -112,7 +135,15 @@ public class PathController : MonoBehaviour
             // gate_2(children방향)으로 진입
             else
             {
+                SpawnManager.Instance.curNode = parent;
+                if (parent.isNodeCleared)
+                {
+                    // 이미 깬 곳이면 바로 true 줘서 주변 문 열리도록
+                    parent.IsNodeCleared = true;
+                }
                 gate_2.GateClose();
+                Invoke("SetChildrenMeshFalse", 2.0f);
+                parent.SetMeshRendererEnabled(true);
                 if (!parent.IsNodeCleared)
                 {
                     SpawnManager.Instance.NodeSpawn(parent);
@@ -121,6 +152,15 @@ public class PathController : MonoBehaviour
                 gate_1.GateOpen();
             }
         }
+    }
+
+    public void SetChildrenMeshFalse()
+    {
+        children.SetMeshRendererEnabled(false);
+    }
+    public void SetParentMeshFalse()
+    {
+        parent.SetMeshRendererEnabled(false);
     }
 
     public void ExitEvent(Collider other)
@@ -145,11 +185,6 @@ public class PathController : MonoBehaviour
                 gate_2.GateOpen();
             }
         }
-    }
-
-    private void OnRoomRendered(bool value)
-    {
-        SetMeshRendererEnabled(value);
     }
 
     public void CloseGate()

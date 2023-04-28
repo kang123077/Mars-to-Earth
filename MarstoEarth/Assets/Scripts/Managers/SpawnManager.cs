@@ -78,7 +78,6 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void NodeSpawn(NodeInfo spawnNode)
     {
-        curNode = spawnNode;
         if (spawnNode.isBossNode)
         {
             RandomSpawnMonster(curNode.transform.position, EnemyPool.Boss);
