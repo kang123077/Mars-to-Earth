@@ -2353,6 +2353,8 @@ MonoBehaviour:
   anim: {fileID: 7673487250857332701}
   col: {fileID: 8675458328526890443}
   target: {fileID: 0}
+  targetCharacter: {fileID: 0}
+  colliders: []
   muzzle: {fileID: 8012712200323029387}
   impact: {x: 0, y: 0, z: 0}
   dmg: 0
@@ -2366,8 +2368,10 @@ MonoBehaviour:
   dying: 0
   InputDir: {x: 0, y: 0, z: 0}
   camPoint: {fileID: 3434857689237907732}
-  onCharge: 0
   isRun: 0
+  effects:
+  - {fileID: 7889686971387219983}
+  - {fileID: 7867731782484411030}
 --- !u!54 &-6828465308735864369
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3009,7 +3013,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8159907720028639162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.53, z: 1.21}
+  m_LocalPosition: {x: 0.247, y: 1.697, z: 1.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3083,6 +3087,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46264f9e12caed4cb53e7c2ad64aa54, type: 3}
+--- !u!198 &7889686971387219983 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198533653044838976, guid: b46264f9e12caed4cb53e7c2ad64aa54, type: 3}
+  m_PrefabInstance: {fileID: 8051478673844523599}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8046857144918096129 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4702343032138574, guid: b46264f9e12caed4cb53e7c2ad64aa54, type: 3}
@@ -3145,6 +3154,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 059c6bc0c88d9e44c98a815958888e74, type: 3}
+--- !u!198 &7867731782484411030 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198241727305714792, guid: 059c6bc0c88d9e44c98a815958888e74, type: 3}
+  m_PrefabInstance: {fileID: 8065814527179968254}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8061646925200431168 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4291090912794302, guid: 059c6bc0c88d9e44c98a815958888e74, type: 3}

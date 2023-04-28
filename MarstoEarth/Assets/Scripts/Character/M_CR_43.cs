@@ -10,7 +10,7 @@ namespace Character
     {
 
 
-        protected override bool Attack()
+        protected override bool Attacked()
         {
             if (dying)
                 return false;

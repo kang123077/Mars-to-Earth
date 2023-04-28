@@ -20,9 +20,9 @@ namespace Character
             block.Init(this);
             blockEleapse = 8;
         }
-        protected override bool Attack()
+        protected override bool Attacked()
         {
-            if(! base.Attack()) return false;
+            if(! base.Attacked()) return false;
             parring.Init(0.3f);
             targetCharacter.AddBuff(parring);
             return true;

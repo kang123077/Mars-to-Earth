@@ -23,8 +23,8 @@ namespace Character
         protected static CombatUI combatUI;
         protected Transform thisCurTransform;
         [HideInInspector] public Transform target;
-        protected Character targetCharacter;
-        protected Collider[] colliders;
+        public Character targetCharacter;
+        public Collider[] colliders;
         private float nockBackResist ;
 
         public Transform muzzle;
@@ -59,6 +59,7 @@ namespace Character
         protected Projectile.ProjectileInfo projectileInfo;
 
         public Func<Vector3,float,float,bool> Hit;
+        public Func<bool> Attacken;
         protected int buffElementIdx;
         public bool _stun;
         public bool stun
@@ -101,7 +102,9 @@ namespace Character
             layerMask = (1 << 3 | 1 << 6 ) ^ 1 << gameObject.layer;
 
             anim.SetFloat(animSpeed, 1 + speed * 0.05f);
+            
             Hit = Hited;
+            Attacken = Attacked;
         }
 
         protected virtual void Start()
@@ -110,9 +113,17 @@ namespace Character
                 Projectile.Type.Bullet,null);
             
             combatUI = (CombatUI)UIManager.Instance.UIs[(int)UIType.Combat];
+           
         }
 
-        protected virtual bool Attack()
+        private void Attack()
+        {
+            //애니메이션 이벤트가 델리게이트를 찾지못하는 이슈 때문에
+            //Attack함수를 거쳐 델리게이트를 실행하도록 함
+            Attacken();
+        }
+
+        protected virtual bool Attacked()
         {
             if (!target) return false;
             target.gameObject.TryGetComponent(out targetCharacter);

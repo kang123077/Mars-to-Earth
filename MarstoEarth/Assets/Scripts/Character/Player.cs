@@ -1,9 +1,6 @@
 using Skill;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.Networking.Types;
-using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -25,8 +22,6 @@ namespace Character
 
         private Transform _target;
 
-        [HideInInspector] public bool onCharge;
-
         protected List<Skill.Skill> actives;
 
         private float xInput;
@@ -35,7 +30,6 @@ namespace Character
         private static readonly int Z = Animator.StringToHash("z");
         private static readonly int IsRun = Animator.StringToHash("isRun");
         private Collider[] itemColliders;
-        private Projectile.ProjectileInfo chargeProjectileInfo;
 
         private KeyCode key;
 
@@ -60,6 +54,8 @@ namespace Character
 
         private Vector3 repoterForward;
         private Vector3 targetDir;
+
+        public ParticleSystem[] effects;
         
         protected override void Awake()
         {
@@ -68,23 +64,7 @@ namespace Character
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
 
-            chargeProjectileInfo = new Projectile.ProjectileInfo(layerMask,
-                ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
-                Projectile.Type.Bullet, (point) =>
-                {
-                    int count = Physics.OverlapSphereNonAlloc(point,
-                        5 + range * 0.2f, colliders,
-                        layerMask);
-                    for (int i = 0; i < count; i++)
-                    {
-                        colliders[i].TryGetComponent(out targetCharacter);
-                        if (targetCharacter)
-                        {
-                            if (!targetCharacter.Hit(point, 25 + dmg * 2f, 0)) continue;
-                            //targetCharacter.AddBuff(new SPC()=>{ })
-                        }                            
-                    }
-                });
+            
            
         }
 
@@ -352,24 +332,16 @@ namespace Character
 
         }
 
-        protected override bool Attack()
+        protected override bool Attacked()
         {
             Vector3 muzzleForward = muzzle.forward;
-            if (onCharge)
-            {
-                SpawnManager.Instance.Launch(muzzle.position, muzzleForward, 0, 1 + duration * 0.5f, 30 + speed * 2,
-                    range * 0.5f, ref chargeProjectileInfo);
-
-                impact -= (45 + dmg * 0.5f) * 0.1f * muzzleForward;
-                onCharge = false;
-            }
-
-            else
-            {
-                SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
-                    dmg, 1 + duration * 0.5f, 30 + speed * 2, range * 0.5f, ref projectileInfo);
-                impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
-            }
+            
+            effects[0].Play();
+            effects[1].Play();
+            SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
+                dmg, 1 + duration * 0.5f, 30 + speed * 2, range * 0.5f, ref projectileInfo);
+            impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
+            
             return true;
         }
 

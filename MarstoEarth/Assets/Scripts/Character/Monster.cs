@@ -156,7 +156,7 @@ namespace Character
             dying = false;
         }
 
-        protected override bool Attack()
+        protected override bool Attacked()
         {
             anim.SetBool(attacking,isAttacking = false );
             positions.Clear();
@@ -167,7 +167,7 @@ namespace Character
                 float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position-thisCurTransform.forward*range), Vector3.up);
                 if((angle < 0 ? -angle : angle) < viewAngle-60)
                 {
-                    return base.Attack();
+                    return base.Attacked();
                 }else
                     Debug.Log("회피 이펙트");
             }else

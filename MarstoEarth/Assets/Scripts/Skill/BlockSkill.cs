@@ -12,8 +12,6 @@ namespace Skill
         private bool parrying;
         private Func<Vector3, float, float,bool> temp;
         
-        private readonly Collider[] colliders = new Collider[8];
-        private Character.Character targetCh;
         public BlockSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Block];
@@ -23,8 +21,8 @@ namespace Skill
                 ch.Hit = (attacker, dmg, penetrate) =>
                 {
                     if(!ch.Hited(attacker, dmg * 0.2f, penetrate))return false;
-                    if (parrying || Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, colliders, ch.layerMask) < 1) return true;
-                    attacker = colliders[0].transform.position;
+                    if (parrying || Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, caster.colliders, ch.layerMask) < 1) return true;
+                    attacker = caster.colliders[0].transform.position;
                     attacker.y = ch.transform.position.y;
                     ch.transform.LookAt(attacker);
                     ch.anim.SetBool($"parring", parrying = true);
@@ -54,16 +52,16 @@ namespace Skill
         public override void Effect()
         {
             Vector3 transPos= caster.transform.position;
-            int size = Physics.OverlapSphereNonAlloc(transPos, skillInfo.range + caster.range * 0.2f, colliders, caster.layerMask);
+            int size = Physics.OverlapSphereNonAlloc(transPos, skillInfo.range + caster.range * 0.2f, caster.colliders, caster.layerMask);
             for(int i =0; i < size; i++)
             {
-                colliders[i].TryGetComponent(out targetCh);
-                if (targetCh)
+                caster.colliders[i].TryGetComponent(out caster.targetCharacter);
+                if (caster.targetCharacter)
                 {
-                    if (!targetCh.Hit(transPos, skillInfo.dmg + caster.dmg * 0.5f, 0)) return;
+                    if (!caster.targetCharacter.Hit(transPos, skillInfo.dmg + caster.dmg * 0.5f, 0)) return;
                     parring.Init(skillInfo.duration + caster.duration * 0.2f);
-                    targetCh.AddBuff(parring);
-                    targetCh.impact -= targetCh.transform.forward*3;
+                    caster.targetCharacter.AddBuff(parring);
+                    caster.targetCharacter.impact -= caster.targetCharacter.transform.forward*3;
                 }
             }
         }

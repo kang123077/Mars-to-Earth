@@ -22,11 +22,11 @@ namespace Character
             jumpEleapse = 8;
         }
 
-        protected override bool Attack()
+        protected override bool Attacked()
         {
-            if (!base.Attack()) return false;
+            if (!base.Attacked()) return false;
             biteEleapse++;
-            if (biteEleapse <= 3) return true;
+            if (biteEleapse <= 6) return true;
             bite.Use();
             biteEleapse = 0;
             return true;

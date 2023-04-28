@@ -30,7 +30,7 @@ namespace Skill
         {
             return obj != null;
         }
-        public void Init(Character.Character caster)
+        public virtual void Init(Character.Character caster)
         {
             this.caster = caster;
             isCombo = false;

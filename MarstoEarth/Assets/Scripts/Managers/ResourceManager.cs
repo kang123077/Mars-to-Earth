@@ -81,6 +81,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public List<Skill.Skill> skills = new();
 
     public Sprite[] commonSPCIcon;
+    
 
     protected override void Awake()
     {
