@@ -1,7 +1,5 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using System.Net.Mime;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class NodeInfo : MonoBehaviour
@@ -13,20 +11,21 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo west;
     public NodeInfo north;
     public NodeInfo south;
-    public bool isNodeCleared;
     public bool isBossNode;
     public BoxCollider nodeCollider;
+    private List<MeshRenderer> meshRenderers;
+    private bool nodeInitFinished;
+
 
     public delegate void RoomClearedHandler(NodeInfo clearedNode);
     public event RoomClearedHandler OnRoomCleared;
-
+    public bool isNodeCleared;
     public bool IsNodeCleared
     {
         get { return isNodeCleared; }
         set
         {
             isNodeCleared = value;
-            Debug.Log("setNodeCleared");
             if (OnRoomCleared != null)
             {
                 OnRoomCleared(this);
@@ -34,10 +33,70 @@ public class NodeInfo : MonoBehaviour
         }
     }
 
+    public delegate void RoomrenderedHandler(bool value);
+    public event RoomrenderedHandler OnRoomRendered;
+    public bool isNodeRendered;
+    public bool IsNodeRendered
+    {
+        get { return isNodeRendered; }
+        set
+        {
+            isNodeRendered = value;
+            if (OnRoomRendered != null)
+            {
+                OnRoomRendered(value);
+            }
+        }
+    }
+
     private void Awake()
     {
         nodeCollider = GetComponent<BoxCollider>();
+        meshRenderers = new List<MeshRenderer>();
         isBossNode = false;
+        nodeInitFinished = false;
+        IsNodeRendered = true;
+        CollectMeshRenderers(transform);
+    }
+
+    private void Update()
+    {
+        if (SpawnManager.Instance.spawnInstantiateFinished && !nodeInitFinished)
+        {
+            if (SpawnManager.Instance.curNode != this)
+            {
+                SetMeshRendererEnabled(false);
+                IsNodeRendered = false;
+            }
+            nodeInitFinished = true;
+        }
+    }
+
+    private void CollectMeshRenderers(Transform transform)
+    {
+        foreach (Transform child in transform)
+        {
+            // Check if the child object has the desired script attached 11 = Minimap
+            if (child.GetComponent(typeof(MeshRenderer)) != null && child.gameObject.layer != 11)
+            {
+                // If the child has the script attached, add its MeshRenderer to the list
+                MeshRenderer meshRenderer = child.GetComponent<MeshRenderer>();
+                if (meshRenderer != null)
+                {
+                    meshRenderers.Add(meshRenderer);
+                }
+            }
+
+            // Recursively call the CollectMeshRenderers function on each child object
+            CollectMeshRenderers(child);
+        }
+    }
+    public void SetMeshRendererEnabled(bool isEnabled)
+    {
+            for (int i = 0; i < meshRenderers.Count; i++)
+            {
+                meshRenderers[i].enabled = isEnabled;
+            }
     }
 
     private void OnTriggerEnter(Collider other)

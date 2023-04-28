@@ -32,6 +32,12 @@ public class MapManager : Singleton<MapManager>
     {
         GenerateNewSeed();
         GenerateMapCall();
+        InactiveMap();
+    }
+
+    public void InactiveMap()
+    {
+
     }
 
     public void GenerateMapCall()

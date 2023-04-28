@@ -12,10 +12,14 @@ public class PathController : MonoBehaviour
     private GateController gate_1;
     private GateController gate_2;
     private bool roomClearChecker = false;
+
+    private List<MeshRenderer> meshRenderers;
     private void Awake()
     {
         gate_1 = transform.GetChild(0).GetComponent<GateController>();
         gate_2 = transform.GetChild(1).GetComponent<GateController>();
+        meshRenderers = new List<MeshRenderer>();
+        CollectMeshRenderers(transform);
     }
     private void Update()
     {
@@ -25,9 +29,40 @@ public class PathController : MonoBehaviour
             // Delegate 구독
             parent.OnRoomCleared += OnRoomCleared;
             children.OnRoomCleared += OnRoomCleared;
+            parent.OnRoomRendered += OnRoomRendered;
+            children.OnRoomRendered += OnRoomRendered;
             roomClearChecker = true;
         }
     }
+
+    private void CollectMeshRenderers(Transform transform)
+    {
+        foreach (Transform child in transform)
+        {
+            // Check if the child object has the desired script attached 11 = Minimap
+            if (child.GetComponent(typeof(MeshRenderer)) != null && child.gameObject.layer != 11)
+            {
+                // If the child has the script attached, add its MeshRenderer to the list
+                MeshRenderer meshRenderer = child.GetComponent<MeshRenderer>();
+                if (meshRenderer != null)
+                {
+                    meshRenderers.Add(meshRenderer);
+                }
+            }
+
+            // Recursively call the CollectMeshRenderers function on each child object
+            CollectMeshRenderers(child);
+        }
+    }
+    public void SetMeshRendererEnabled(bool isEnabled)
+    {
+        for (int i = 0; i < meshRenderers.Count; i++)
+        {
+            Debug.Log("false하라고");
+            meshRenderers[i].enabled = isEnabled;
+        }
+    }
+
     public void AddNeighbor(NodeInfo neighbor, Relation relation)
     {
         switch (relation)
@@ -110,6 +145,11 @@ public class PathController : MonoBehaviour
                 gate_2.GateOpen();
             }
         }
+    }
+
+    private void OnRoomRendered(bool value)
+    {
+        SetMeshRendererEnabled(value);
     }
 
     public void CloseGate()

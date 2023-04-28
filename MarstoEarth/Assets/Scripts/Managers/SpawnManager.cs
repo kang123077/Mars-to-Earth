@@ -13,9 +13,9 @@ public class SpawnManager : Singleton<SpawnManager>
     [HideInInspector] public Transform playerTransform;
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
-    public bool playerInstantiateFinished = false;
+    public bool spawnInstantiateFinished = false;
 
-    private NodeInfo curNode;
+    public NodeInfo curNode;
 
     private int _curMonsterCount;
 
@@ -60,10 +60,10 @@ public class SpawnManager : Singleton<SpawnManager>
 
     protected void Update()
     {
-        if (MapManager.Instance.isMapGenerateFinished && playerInstantiateFinished == false)
+        if (MapManager.Instance.isMapGenerateFinished && spawnInstantiateFinished == false)
         {
             FirstInit();
-            playerInstantiateFinished = true;
+            spawnInstantiateFinished = true;
         }
     }
 

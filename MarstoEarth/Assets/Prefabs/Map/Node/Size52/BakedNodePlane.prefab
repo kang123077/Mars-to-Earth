@@ -810,6 +810,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7015866655225297470}
     m_Modifications:
+    - target: {fileID: 2078792800061281902, guid: 13efe7f9dc6fb6049b12ccd0a775e7db, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2086691592564086482, guid: 13efe7f9dc6fb6049b12ccd0a775e7db, type: 3}
       propertyPath: m_Name
       value: BakedNodeCubes0
