@@ -13,6 +13,7 @@ namespace Skill
             this.skillInfo = skillInfo;
             roll = new SPC(0, (ch) =>
             {
+
                 ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed + ch.speed));
                 if (ch.onSkill is null)
                     ch.RemoveBuff(roll);
