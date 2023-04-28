@@ -6,9 +6,9 @@ namespace Skill
 {
     public class SpiderMineSkill : Skill
     {
-        public SpiderMineSkill(SkillInfo skillInfo)
+        public SpiderMineSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.SpiderMine];
         }
         protected override bool Activate()
         {

@@ -3,9 +3,9 @@ namespace Skill
     public class GrenadeSkill : Skill
     {
         private Projectile.ProjectileInfo projectileInfo;
-        public GrenadeSkill(SkillInfo skillInfo)
+        public GrenadeSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Grenade];
             projectileInfo = new Projectile.ProjectileInfo(0,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Grenade].sharedMesh,
                 Projectile.Type.Cannon,null);

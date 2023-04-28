@@ -87,21 +87,21 @@ public class ResourceManager : Singleton<ResourceManager>
         base.Awake();
         //skillInfos = Resources.LoadAll<SkillInfo>("SkillsStat");
 
-        skills.Add(new RollSkill(skillInfos[(int)SkillName.Roll]));//플레이어 전용
-        skills.Add(new SmashSkill(skillInfos[(int)SkillName.Smash]));
-        skills.Add(new StimPackSkill(skillInfos[(int)SkillName.Stimpack]));
-        skills.Add(new GrenadeSkill(skillInfos[(int)SkillName.Grenade]));
-        skills.Add(new GardianSkill(skillInfos[(int)SkillName.Gardian]));
-        skills.Add(new GravityBombSkill(skillInfos[(int)SkillName.GravityBomb]));
-        skills.Add(new SpiderMineSkill(skillInfos[(int)SkillName.SpiderMine]));
-        skills.Add(new HyperionSkill(skillInfos[(int)SkillName.Hyperion]));
-        skills.Add(new BoomerangSkill(skillInfos[(int)SkillName.Boomerang]));
-        skills.Add(new DistortionSkill(skillInfos[(int)SkillName.Distortion]));
-        skills.Add(new AegisBarrierSkill(skillInfos[(int)SkillName.AegisBarrier]));
-        skills.Add(new MassShootingSkill(skillInfos[(int)SkillName.MassShooting]));
+        skills.Add(new RollSkill());//플레이어 전용
+        skills.Add(new SmashSkill());
+        skills.Add(new StimPackSkill());
+        skills.Add(new GrenadeSkill());
+        skills.Add(new GardianSkill());
+        skills.Add(new GravityBombSkill());
+        skills.Add(new SpiderMineSkill());
+        skills.Add(new HyperionSkill());
+        skills.Add(new BoomerangSkill());
+        skills.Add(new DistortionSkill());
+        skills.Add(new AegisBarrierSkill());
+        skills.Add(new MassShootingSkill());
         skills.Add(null);// bite는 몬스터 전용스킬
-        skills.Add(new BlockSkill(skillInfos[(int)SkillName.Block]));
-        skills.Add(new ChargeSkill(skillInfos[(int)SkillName.Charge]));//플레이어 전용
+        skills.Add(new BlockSkill());
+        skills.Add(new ChargeSkill());//플레이어 전용
 
         DontDestroyOnLoad(gameObject);
     }

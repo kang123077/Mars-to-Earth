@@ -24,7 +24,6 @@ namespace Character
         }
 
         private Transform _target;
-        [SerializeField] public Transform muzzle;
 
         [HideInInspector] public bool onCharge;
 
@@ -93,7 +92,7 @@ namespace Character
         {
             
             base.Start();
-            //퀵슬롯 구현후 삭제
+            //테스트용
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Grenade]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.GravityBomb]);
@@ -108,7 +107,11 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Smash]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
-
+            foreach(var a in actives)
+            {
+                a.Init(this);
+            }
+            //테스트용 actives
             hpBar = combatUI.playerHP;
             hitScreen = combatUI.hitScreen;
             hitScreenColor = hitScreen.color;
@@ -290,61 +293,61 @@ namespace Character
 
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                actives[0].Use(this);
+                actives[0].Use();
             }
             else if (Input.GetKeyDown(KeyCode.E))
             {
-                actives[1].Use(this);
+                actives[1].Use();
             }
             else if (Input.GetKeyDown(KeyCode.R))
 
             {
-                actives[2].Use(this);
+                actives[2].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
-                actives[13].Use(this);
+                actives[13].Use();
                 Debug.Log(onSkill);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad0))
             {
-                actives[3].Use(this);
+                actives[3].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad1))
             {
-                actives[4].Use(this);
+                actives[4].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad2))
             {
-                actives[5].Use(this);
+                actives[5].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad3))
             {
-                actives[6].Use(this);
+                actives[6].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad4))
             {
-                actives[7].Use(this);
+                actives[7].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad5))
             {
-                actives[8].Use(this);
+                actives[8].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad6))
             {
-                actives[9].Use(this);
+                actives[9].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad7))
             {
-                actives[10].Use(this);
+                actives[10].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad8))
             {
-                actives[11].Use(this);
+                actives[11].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad9))
             {
-                actives[12].Use(this);
+                actives[12].Use();
             }
 
         }

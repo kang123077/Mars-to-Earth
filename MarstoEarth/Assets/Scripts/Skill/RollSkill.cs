@@ -10,9 +10,9 @@ namespace Skill
         private Vector3 dir;
         
 
-        public RollSkill(SkillInfo skillInfo)
+        public RollSkill()
         {
-            this.skillInfo = skillInfo;
+            this.skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Roll];
             roll = new SPC(0,(ch)=>ch.immune=true, (ch) =>
             {
                 ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed + ch.speed));

@@ -7,7 +7,7 @@ namespace Character
     {
         private Skill.Skill jumpAttack;
         private float jumpEleapse;
-        [SerializeField] private Transform LH;
+       
 
         private Skill.Skill bite;
         private byte biteEleapse;
@@ -15,8 +15,10 @@ namespace Character
         {
             base.Start();
 
-            bite = new Skill.BiteSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Bite], LH);
-            jumpAttack = new Skill.SmashSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Smash]);
+            bite = new Skill.BiteSkill( muzzle);
+            bite.Init(this);
+            jumpAttack = new Skill.SmashSkill();
+            jumpAttack.Init(this);
             jumpEleapse = 8;
         }
 
@@ -25,7 +27,7 @@ namespace Character
             if (!base.Attack()) return false;
             biteEleapse++;
             if (biteEleapse <= 3) return true;
-            bite.Use(this);
+            bite.Use();
             biteEleapse = 0;
             return true;
         }
@@ -59,7 +61,7 @@ namespace Character
                     }
                     else if (jumpEleapse > 10 && targetDistance > range * 2.5f)
                     {
-                        jumpAttack.Use(this);
+                        jumpAttack.Use();
                         jumpEleapse = 0;
                     }
                 }

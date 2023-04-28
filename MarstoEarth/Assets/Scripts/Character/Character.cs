@@ -27,6 +27,7 @@ namespace Character
         protected Collider[] colliders;
         private float nockBackResist ;
 
+        public Transform muzzle;
         public Skill.Skill onSkill;
         private float SPCActionWeight;
         public Vector3 impact;

@@ -6,9 +6,9 @@ namespace Skill
 {
     public class ChargeSkill : Skill
     {
-        public ChargeSkill(SkillInfo skillInfo)
+        public ChargeSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Charge];
         }
         protected override bool Activate()
         {

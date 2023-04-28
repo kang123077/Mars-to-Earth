@@ -12,9 +12,9 @@ namespace Skill
             new Vector3(0.866f,0,-0.5f),
             new Vector3(-0.866f,0,-0.5f),
         };
-        public GardianSkill(SkillInfo skillInfo)
+        public GardianSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Gardian]; 
         }
         protected override bool Activate()
         {

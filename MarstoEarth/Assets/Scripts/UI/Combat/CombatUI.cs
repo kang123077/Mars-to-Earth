@@ -44,6 +44,7 @@ public class CombatUI : UI
         
         if (curSkillCount > skillSlots.Length - 1) return;
         skillSlots[curSkillCount].Init(ResourceManager.Instance.skills[(int)skillName]);
+        skillSlots[curSkillCount].skill.Init(SpawnManager.Instance.player);
         curSkillCount++;
         
     }
@@ -53,7 +54,7 @@ public class CombatUI : UI
 
         SkillSlot slot = skillSlots[idx];
         if(!slot.skill.isCombo&&slot.coolDown.fillAmount<=0||slot.skill.isCombo)
-            slot.skill.Use(SpawnManager.Instance.player);
+            slot.skill.Use();
     }
 
 }

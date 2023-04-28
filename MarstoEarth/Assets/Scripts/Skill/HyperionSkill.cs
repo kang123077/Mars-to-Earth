@@ -6,9 +6,9 @@ namespace Skill
     public class HyperionSkill : Skill
     {       
 
-        public HyperionSkill(SkillInfo skillInfo)
+        public HyperionSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Hyperion];
         }
         protected override bool Activate()
         {

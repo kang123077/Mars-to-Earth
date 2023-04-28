@@ -11,9 +11,9 @@ namespace Skill
         float aniEleapse ;
         private SPC massShooting;
         private float speed;
-        public MassShootingSkill(SkillInfo skillInfo)
+        public MassShootingSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.MassShooting];
             projectileInfo = new Projectile.ProjectileInfo(0,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet, null);

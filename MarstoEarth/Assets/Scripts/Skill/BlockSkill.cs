@@ -14,9 +14,9 @@ namespace Skill
         
         private readonly Collider[] colliders = new Collider[8];
         private Character.Character targetCh;
-        public BlockSkill(SkillInfo skillInfo)
+        public BlockSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Block];
             block = new SPC(0, (ch) => {
                 temp = ch.Hit;
                 

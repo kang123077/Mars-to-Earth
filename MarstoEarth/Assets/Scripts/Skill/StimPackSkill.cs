@@ -7,9 +7,9 @@ namespace Skill
     {
         private SPC StimPack;
 
-        public StimPackSkill(SkillInfo skillInfo)
+        public StimPackSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Stimpack]; 
             StimPack = new SPC(0, (ch) =>
             {
                 ch.speed += skillInfo.speed;

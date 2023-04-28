@@ -9,9 +9,9 @@ namespace Skill
         SPC targetBite;
         private Vector3 casterPoint;
         private Character.Character targetCh;
-        public BiteSkill(SkillInfo skillInfo, Transform LH)
+        public BiteSkill( Transform LH)
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Bite];
             targetBite = new SPC(10,(target)=> target.stun=true, (target) =>
             {
                 target.transform.position = LH.position - caster.transform.up * 1.5f;

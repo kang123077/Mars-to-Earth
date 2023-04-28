@@ -15,14 +15,15 @@ namespace Character
         {
             base.Start();
             parring = new SPC(0, (ch) => ch.stun = true,
-             (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
-            block = new Skill.BlockSkill(ResourceManager.Instance.skillInfos[(int)SkillName.Block]);
+             (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);           
+            block = new BlockSkill();
+            block.Init(this);
             blockEleapse = 8;
         }
         protected override bool Attack()
         {
             if(! base.Attack()) return false;
-            parring.Init(0.6f);
+            parring.Init(0.3f);
             targetCharacter.AddBuff(parring);
             return true;
         }
@@ -34,7 +35,7 @@ namespace Character
             {
                 anim.Play("Moving", 1);
                 anim.SetBool(attacking, isAttacking = false);
-                block.Use(this);
+                block.Use();
                 blockEleapse = 0;
                 return false;
             }

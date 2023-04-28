@@ -7,9 +7,9 @@ namespace Skill
     public class BoomerangSkill : Skill
     {
         private Projectile.Boomerang boomerang;
-        public BoomerangSkill(SkillInfo skillInfo)
+        public BoomerangSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Boomerang];
             comboCount = 2;
         }
         // ReSharper disable Unity.PerformanceAnalysis

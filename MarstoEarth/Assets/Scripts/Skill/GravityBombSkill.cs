@@ -8,9 +8,9 @@ namespace Skill
         // readonly Collider[] colliders;
         
         private Projectile.ProjectileInfo projectileInfo;
-        public GravityBombSkill(SkillInfo skillInfo)
+        public GravityBombSkill()
         {
-            this.skillInfo = skillInfo;
+            this.skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.GravityBomb];
             projectileInfo = new Projectile.ProjectileInfo(0,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Grenade].sharedMesh,
                 Projectile.Type.Cannon, (point) =>

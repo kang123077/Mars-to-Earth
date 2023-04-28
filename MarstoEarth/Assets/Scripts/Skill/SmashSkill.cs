@@ -10,9 +10,9 @@ namespace Skill
         private SPC smash;
         private float speed;
         private Vector3 dir;
-        public SmashSkill(SkillInfo skillInfo )
+        public SmashSkill( )
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Smash];
             smash = new SPC(10, (ch) =>
             {
                 ch.transform.position += dir * (Time.deltaTime * speed);

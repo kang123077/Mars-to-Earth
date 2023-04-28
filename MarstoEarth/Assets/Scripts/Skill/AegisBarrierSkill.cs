@@ -5,9 +5,9 @@ namespace Skill
 {
     public class AegisBarrierSkill : Skill
     {
-        public AegisBarrierSkill(SkillInfo skillInfo)
+        public AegisBarrierSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.AegisBarrier];
         }
         protected override bool Activate()
         {

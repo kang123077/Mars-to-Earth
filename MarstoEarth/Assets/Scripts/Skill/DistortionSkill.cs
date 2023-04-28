@@ -10,9 +10,9 @@ namespace Skill
         Vector3 firstPos;
         SPC distortion;
         Vector3 targetPoint;
-        public DistortionSkill(SkillInfo skillInfo)
+        public DistortionSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Distortion];
             comboCount = 2;
             distortion = new SPC(0, null, (ch) =>
             {
