@@ -8,20 +8,19 @@ namespace Skill
     {
         private SPC roll;
         private Vector3 dir;
-        
 
         public RollSkill()
         {
-            this.skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Roll];
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Roll];
             roll = new SPC(0,(ch)=>ch.immune=true, (ch) =>
             {
                 ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed + ch.speed));
                 ch.anim.SetFloat(Character.Character.MotionTime,(roll.duration-roll.currentTime)*(1/roll.duration));
+               
             },(ch)=>ch.SkillEffect(),skillInfo.icon);
         }
         protected override bool Activate()
-        {
-            
+        {            
             dir= ((Player)caster).InputDir.normalized;
             if (dir.magnitude < 0.1f)
                 dir = caster.transform.forward;
@@ -29,7 +28,6 @@ namespace Skill
             caster.transform.forward = dir;
             caster.PlaySkillClip(this); 
             caster.AddBuff(roll);
-            
             return true;
         }
         public override void Effect()

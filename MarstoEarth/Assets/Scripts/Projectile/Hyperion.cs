@@ -5,19 +5,9 @@ using UnityEngine;
 
 namespace Projectile
 {
-    public class Hyperion : MonoBehaviour
+    public class Hyperion : Installation
     {
-        private float speed;
-        private float lifeTime;
-        private float duration;
-        private float range;
-        private float dmg;
-        private int layerMask;
-
-        private Transform thisTransform;
-        private Character.Character target;
-
-        private readonly Collider[] colliders = new Collider[6];
+        
         private float atkSpd;
         private static readonly Vector3[] ports = new Vector3[16]
         {
@@ -44,15 +34,9 @@ namespace Projectile
         private ProjectileInfo projectileInfo;
         private float eleapse;
 
-        public void Init(int lm, float dg, float rg, float dr, float sp)
+        public override void Init(int lm, float dg, float rg, float dr, float sp)
         {
-            layerMask = lm;
-            dmg = dg;
-            range = rg;
-            lifeTime = duration = dr;
-            speed = sp;
-            atkSpd = 10 *(1/ speed);
-            thisTransform = transform;
+            base.Init(lm, dg, rg, dr, sp);
 
             projectileInfo = new ProjectileInfo(layerMask,
                 ResourceManager.Instance.projectileMesh[(int)projectileMesh.Bullet1].sharedMesh,
@@ -66,7 +50,7 @@ namespace Projectile
                             target.Hit(point, dmg,0);
                     }
                 });
-
+            atkSpd = 10 * (1 / speed);
             curPorts = new Transform[16];
             for (int i = 0; i < 16; i++)
             {
@@ -79,9 +63,7 @@ namespace Projectile
 
         private void Update()
         {
-            lifeTime -= Time.deltaTime;
-            if (lifeTime < 0)
-                Destroy(gameObject);
+            BaseUpdate();
             thisTransform.position += thisTransform.forward * (Time.deltaTime * speed * 0.2f);
             eleapse += Time.deltaTime;
             if (eleapse > atkSpd)
@@ -94,9 +76,6 @@ namespace Projectile
                         ref projectileInfo);
                 }
             }
-
-
         }
-
     }
 }

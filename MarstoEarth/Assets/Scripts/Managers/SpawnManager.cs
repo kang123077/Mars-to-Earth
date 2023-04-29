@@ -14,6 +14,7 @@ public class SpawnManager : Singleton<SpawnManager>
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public bool playerInstantiateFinished = false;
+    public ParticleSystem[] effects;
 
     private NodeInfo curNode;
 

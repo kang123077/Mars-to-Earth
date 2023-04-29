@@ -10,12 +10,13 @@ namespace Skill
         private Projectile.ProjectileInfo projectileInfo;
         public GravityBombSkill()
         {
-            this.skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.GravityBomb];
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.GravityBomb];
             projectileInfo = new Projectile.ProjectileInfo(0,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Grenade].sharedMesh,
                 Projectile.Type.Cannon, (point) =>
                 {
-                    GameObject gravitySlot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    // GameObject gravitySlot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    GameObject gravitySlot = Object.Instantiate(skillInfo.effects[0]).gameObject;
                     gravitySlot.SetActive(false);
                     gravitySlot.transform.position = point;
                     Projectile.GravityEffect gravity = gravitySlot.AddComponent<Projectile.GravityEffect>();

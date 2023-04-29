@@ -2,8 +2,6 @@ using Skill;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public enum EnemyPool
@@ -68,6 +66,7 @@ public enum CommonSPC
 {
     stun,
     slow,
+    bleeding
 }
 
 

@@ -11,16 +11,15 @@ namespace Character
 
         public new Transform target
         {
-            get => _target;
+            get => base.target;
             set
             {
                 CinemachineManager.Instance.playerCam.gameObject.SetActive(!value);
                 CinemachineManager.Instance.bossCam.gameObject.SetActive(value);
-                _target = CinemachineManager.Instance.bossCam.LookAt = value;
+                base.target = CinemachineManager.Instance.bossCam.LookAt = value;
             }
         }
 
-        private Transform _target;
 
         protected List<Skill.Skill> actives;
 
@@ -71,6 +70,7 @@ namespace Character
         protected override void Start()
         {
             
+            
             base.Start();
             //테스트용
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
@@ -111,7 +111,6 @@ namespace Character
             Destroy(combatUI.SPCSlots[findIndex].gameObject);
             combatUI.SPCSlots.RemoveAt(findIndex);
             return -1;
-           
         }
         protected override bool BaseUpdate()
         {
@@ -138,8 +137,6 @@ namespace Character
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
             InputDir = new Vector3(xInput, 0, zInput);
-
-          
 
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {

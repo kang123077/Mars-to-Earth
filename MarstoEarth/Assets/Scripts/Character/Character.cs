@@ -105,6 +105,7 @@ namespace Character
             
             Hit = Hited;
             Attacken = Attacked;
+            
         }
 
         protected virtual void Start()
@@ -187,6 +188,7 @@ namespace Character
             hp -= dmg;
             dt.text.text = $"{dmg}";
             hpBar.value = hp / characterStat.maxHP;
+                
             Vector3 horizonPosition = thisCurTransform.position;
             attacker.y = horizonPosition.y;
             impact += (horizonPosition - attacker).normalized*(dmg*(1/nockBackResist));
@@ -196,14 +198,15 @@ namespace Character
 
         public virtual bool AddBuff(Skill.SPC buff)
         {
-            buff.Apply?.Invoke(this);
-
-            Skill.SPC findBuff = Buffs.Find((el) =>ReferenceEquals(el.icon, buff.icon));
-
            
+            Skill.SPC findBuff = Buffs.Find((el) =>ReferenceEquals(el.icon, buff.icon));
+                       
             if (findBuff is null)
+            {
+                buff.Apply?.Invoke(this);
                 Buffs.Add(buff);
-            else if (findBuff.currentTime < buff.duration)            
+            }
+            else if (findBuff.currentTime < buff.duration)
                 findBuff.Init(buff.duration);               
             
 

@@ -4,22 +4,14 @@ using UnityEngine;
 
 namespace Projectile
 {
-    public class Gardian : MonoBehaviour
+    public class Gardian : Installation
     {
-        private readonly Collider[] colliders = new Collider[5];
-        private float dmg;
-        private int layerMask;
-        private float range;
-        private float speed;
-
+       
         public void Init(int lm, float dg, float rg, float sp)
         {
-            layerMask = lm;
-            dmg = dg;
-            range = rg;
-            speed = sp;
+            base.Init(lm, dg, rg, 0, sp);
+           
         }
-
         private void Awake()
         {
             StartCoroutine(attack(1 / speed));

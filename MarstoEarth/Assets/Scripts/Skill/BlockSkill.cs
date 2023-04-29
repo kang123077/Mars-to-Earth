@@ -22,6 +22,7 @@ namespace Skill
                 {
                     if(!ch.Hited(attacker, dmg * 0.2f, penetrate))return false;
                     if (parrying || Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, caster.colliders, ch.layerMask) < 1) return true;
+                    UnityEngine.Object.Instantiate(skillInfo.effects[0], ch.muzzle);
                     attacker = caster.colliders[0].transform.position;
                     attacker.y = ch.transform.position.y;
                     ch.transform.LookAt(attacker);

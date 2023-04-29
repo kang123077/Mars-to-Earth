@@ -16,7 +16,7 @@ namespace Skill
         public ChargeSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Charge];
-            effectsLength = (byte)skillInfo.effects.Length;
+            effectsLength = (byte)(skillInfo.effects.Length-1);
         }
         public override void Init(Character.Character caster)
         {
@@ -35,9 +35,9 @@ namespace Skill
                         if (caster.targetCharacter)
                         {
                             if (!caster.targetCharacter.Hit(point, skillInfo.dmg + caster.dmg * 2f, 0)) continue;
-                            //targetCharacter.AddBuff(new SPC()=>{ })
-                        }                            
+                        } 
                     }
+                    Object.Instantiate(skillInfo.effects[^1], point,Quaternion.identity);
                 });
 
             for (byte i = 0; i < effectsLength; i++)

@@ -99,6 +99,9 @@ MonoBehaviour:
   trail: {fileID: -4957055802082099746}
   mesh: {fileID: -4727255426922234163}
   eleapse: 0
+  effects:
+  - {fileID: 198628060487912908, guid: 9a905dc8b3b361840bb50c14f05926a9, type: 3}
+  - {fileID: 198880425136568428, guid: f171ac3dbb620c44e81cd88ddee1cbbd, type: 3}
 --- !u!33 &-4727255426922234163
 MeshFilter:
   m_ObjectHideFlags: 0

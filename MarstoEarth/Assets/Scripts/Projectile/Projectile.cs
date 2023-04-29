@@ -64,18 +64,22 @@ namespace Projectile
             eleapse = 0;
         }
 
+        // 파티클시스템을 여기서 가지고있을게 아니고
+        // 스폰매니저에서 오브젝트풀링을 통해 껏다 켯다 해야함
+
         
         // ReSharper disable Unity.PerformanceAnalysis
         private void Bullet()
         {
             thisTransform.position += targetPos * (Time.deltaTime * speed); 
             if (Physics.OverlapCapsuleNonAlloc(thisTransform.position, thisTransform.position+ thisTransform.forward*(Time.deltaTime * speed),range*0.05f, colliders,
-                    thisInfo[0].lm^(1<<9|1<<0)) > 0)
+                    thisInfo[0].lm|1<<9|1<<0) > 0)
             {
                 colliders[0].TryGetComponent(out target);
                 if (target)
                     target.Hit(attackerPos, dmg,0);
                 thisInfo[0].ef?.Invoke(thisTransform.position);
+                //effects[(int)Type.Bullet].Play();
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             }
         }
@@ -93,13 +97,14 @@ namespace Projectile
             if (fracComplete < 1) return;
             
             int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
-                thisInfo[0].lm);
+                thisInfo[0].lm|1<<9|1<<0);
             for (int i = 0; i < count; i++)
             {
                 colliders[i].TryGetComponent(out target);
                 if (target)
                     target.Hit(attackerPos, dmg,0);
             }
+            //effects[(int)Type.Cannon].Play();
             thisInfo[0].ef?.Invoke(thisTransform.position);
             SpawnManager.Instance.projectileManagedPool.Release(this);
             

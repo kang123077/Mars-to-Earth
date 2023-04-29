@@ -6,18 +6,9 @@ using UnityEngine;
 
 namespace Projectile
 {
-    public class AegisBarrier : MonoBehaviour
+    public class AegisBarrier : Installation
     {
-        private float speed;
-        private float lifeTime;
-        private float range;
-        private float dmg;
-        private int layerMask;
-
-        private Transform thisTransform;
-        private int size;
-        private readonly Collider[] colliders = new Collider[8];
-
+       
         private static readonly Vector3[] ports = new Vector3[8]
         {
             new Vector3(-.875f, .0f, .0f),
@@ -35,43 +26,32 @@ namespace Projectile
         private Vector3 targetPoint;
 
         private Projectile pj;
-        private Character.Character ch;
-        public void Init(int lm, float dg, float rg, float dr, float sp)
-        {
-            layerMask = lm | 1<<8;
-            dmg = dg;
-            range = rg;
-            lifeTime =  dr;
-            speed = sp;
-            thisTransform = transform;
+        public new void Init(int lm, float dg, float rg, float dr, float sp)
+        {            
+            base.Init(lm, dg, rg, dr, sp);
+            
             startPoint= thisTransform.position;
             curPorts = new Transform[8];
             for (int i = 0; i < 8; i++)
             {
                 GameObject port = GameObject.CreatePrimitive(PrimitiveType.Cube);
-
                 port.layer = 4;
                 port.transform.localScale = range * 0.2f*Vector3.one;
                 port.transform.position = transform.position + range * ports[i];
                 curPorts[i] = port.transform;
                 port.transform.SetParent(transform);
             }
+            targetPoint = thisTransform.position + thisTransform.forward * range;
         }
-        private void Awake()
-        {
-            targetPoint =thisTransform.position+ thisTransform.forward * range;
-        }
+       
         private void Update()
         {
-            lifeTime -= Time.deltaTime;
-            if (lifeTime < 0)
-                Destroy(gameObject);
+            BaseUpdate();
             thisTransform.position = Vector3.MoveTowards(thisTransform.position, targetPoint, speed * Time.deltaTime);
             
-            size = Physics.OverlapBoxNonAlloc(thisTransform.position, new Vector3(range, 20,2), colliders, Quaternion.LookRotation(thisTransform.forward), layerMask);
+            int size = Physics.OverlapBoxNonAlloc(thisTransform.position, new Vector3(range, 20,2), colliders, Quaternion.LookRotation(thisTransform.forward), layerMask);
             for (int i = 0; i < size; i++)
             {
-                
                 if (colliders[i].gameObject.layer == 8)
                 {                    
                     colliders[i].TryGetComponent(out pj);
@@ -80,13 +60,10 @@ namespace Projectile
                 }
                 else
                 {
-                    colliders[i].TryGetComponent(out ch);
-                    ch.impact += (ch.transform.position - startPoint).normalized*dmg;
+                    colliders[i].TryGetComponent(out target);
+                    target.impact += (target.transform.position - startPoint).normalized*dmg;
                 }
-                
             }
-
         }
-
     }
 }

@@ -5,29 +5,20 @@ using UnityEngine;
 
 namespace Projectile
 {
-    public class Boomerang : MonoBehaviour
+    public class Boomerang : Installation
     {
         private Transform caster;
         private Vector3 targetPoint;
-        private float range;
-        private float duration;
-        private float damage;
-        private float speed;
-        private readonly Collider[] colliders = new Collider[8];
+ 
         private List<Collider> colliderList = new ();
-        private int layerMask;
+    
         private bool isReturn;
         private SPC stun;
-        private Character.Character enemy; 
         public void Init(Transform ct,Vector3 tp,float dr, float rg, float dmg, float sp, int lm)
         {
+            base.Init(lm, dmg, rg, dr, sp);
             caster = ct;
             targetPoint = tp;
-            range = rg;
-            damage = dmg;
-            duration = dr;
-            speed = sp;
-            layerMask=lm;
             transform.position = ct.position+ct.forward;
             stun= new SPC(0, (ch) => ch.stun = true,
                 (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
@@ -40,11 +31,11 @@ namespace Projectile
                 layerMask);
             for (int i = 0; i < count; i++)
             {
-                colliders[i].TryGetComponent(out enemy);
+                colliders[i].TryGetComponent(out target);
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                if (!enemy.Hit(transform.position, damage * 1.5f, 0)) continue;
+                if (!target.Hit(transform.position, dmg * 1.5f, 0)) continue;
                 stun.Init(duration);
-                enemy.AddBuff(stun);                
+                target.AddBuff(stun);                
             }
             Destroy(gameObject);
         }
@@ -64,9 +55,9 @@ namespace Projectile
             {
                 if (colliderList.Find(el => colliders[i] == el)) continue;
                 colliderList.Add(colliders[i]);
-                colliders[i].TryGetComponent(out enemy);
+                colliders[i].TryGetComponent(out target);
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                enemy.Hit(position, damage, 0);
+                target.Hit(position, dmg, 0);
             }
             
 

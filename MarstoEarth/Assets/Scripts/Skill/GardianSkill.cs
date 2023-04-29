@@ -34,7 +34,9 @@ namespace Skill
                 skillInfo.speed + caster.speed * 0.5f);
             for (int i = 0; i < 3; i++)
             {
-                GameObject sattlliteSlot = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                GameObject sattlliteSlot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                sattlliteSlot.transform.localScale = Vector3.one* 0.2f;
+                UnityEngine.Object.Instantiate (skillInfo.effects[0], sattlliteSlot.transform);
                 sattlliteSlot.transform.position = gardianSlot.transform.position+points[i]*skillInfo.range;
                 sattlliteSlot.transform.LookAt(gardianSlot.transform.position);
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
