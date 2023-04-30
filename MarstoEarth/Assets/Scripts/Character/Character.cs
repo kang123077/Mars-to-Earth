@@ -32,11 +32,21 @@ namespace Character
         private float SPCActionWeight;
         [HideInInspector] public Vector3 impact;
         [HideInInspector] public float dmg;
-        [HideInInspector] public float speed;
         [HideInInspector] public float def;
         [HideInInspector] public float duration;
         [HideInInspector] public float range;
         [HideInInspector] public float viewAngle;
+        private float _speed;
+
+        public float speed
+        {
+            get => _speed;
+            set
+            {
+                anim.SetFloat(animSpeed, 1 + value * 0.05f);
+                _speed = value;
+            }
+        }
         private float _hp;
         protected internal float hp
         {
@@ -62,8 +72,8 @@ namespace Character
         public Func<Vector3,float,float,bool> Hit;
         public Func<bool> Attacken;
         protected int buffElementIdx;
-        private bool _stun;
-        public bool stun
+        protected bool _stun;
+        public virtual bool stun
         {
             get => _stun;
             set
@@ -72,6 +82,7 @@ namespace Character
                 {
                     anim.SetBool(attacking, false);
                     anim.SetBool(onTarget, false);
+                    
                 }
                 else
                     anim.SetBool(onTarget, target);

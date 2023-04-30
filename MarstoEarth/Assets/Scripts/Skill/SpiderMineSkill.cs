@@ -19,7 +19,7 @@ namespace Skill
 
         public override void Effect()
         {
-            GameObject spiderMineSlot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            GameObject spiderMineSlot = UnityEngine.Object.Instantiate(skillInfo.effects[0], caster.transform).gameObject;
 
             spiderMineSlot.SetActive(false);
             spiderMineSlot.transform.position = caster.transform.position;

@@ -9,6 +9,16 @@ namespace Character
         public Vector3 InputDir;
         public Transform camPoint;
 
+       public override bool stun
+            {
+                get => _stun;
+                set
+                {
+                    base.stun = value;
+                    anim.SetBool(IsRun, !value && isRun);
+                    _stun= value;
+                }
+            }
         public new Transform target
         {
             get => base.target;
@@ -19,7 +29,7 @@ namespace Character
                 base.target = CinemachineManager.Instance.bossCam.LookAt = value;
             }
         }
-
+        
 
         protected List<Skill.Skill> actives;
 
@@ -161,7 +171,7 @@ namespace Character
                             if (Time.time - lastInputTime < 0.3f && key == keyCode)
                             {
                                 //연속으로 두번왓는지 확인
-                                anim.SetBool(IsRun,  isRun = true&& onSkill is not MassShootingSkill);
+                                anim.SetBool(IsRun,  isRun=true && onSkill is not MassShootingSkill);
                             }
 
                             key = keyCode;

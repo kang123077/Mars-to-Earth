@@ -10,6 +10,7 @@ namespace Skill
         private SPC smash;
         private float speed;
         private Vector3 dir;
+        private ParticleSystem effect;
         public SmashSkill( )
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Smash];
@@ -19,6 +20,13 @@ namespace Skill
             },skillInfo.icon);
 
         }
+
+        public override void Init(Character.Character caster)
+        {
+            base.Init(caster);
+            effect= UnityEngine.Object.Instantiate(skillInfo.effects[^1], caster.transform);
+        }
+
         protected override bool Activate()
         {
             caster.PlaySkillClip(this); // 재생할 애니메이션 호출
@@ -33,12 +41,14 @@ namespace Skill
         public override void Effect()
         {   
             caster.RemoveBuff(smash);
+            effect.Play();
             int count = Physics.OverlapSphereNonAlloc(caster.transform.position, skillInfo.range+caster.range*0.5f, colliders, caster.layerMask);
             for(int i=0; i<count; i++)
             {
                 colliders[i].TryGetComponent(out Character.Character enemy);
                 enemy?.Hit(caster.transform.position, skillInfo.dmg+caster.dmg*0.5f, 0);
             }
+            SpawnManager.Instance.GetEffect(caster.transform.position,skillInfo.effects[0]);
         }
     }
 }

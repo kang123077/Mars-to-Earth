@@ -10,12 +10,12 @@ namespace Character
        
 
         private Skill.Skill bite;
-        private byte biteEleapse;
+        private byte biteEleapse=5;
         protected override void Start()
         {
             base.Start();
 
-            bite = new Skill.BiteSkill( muzzle);
+            bite = new Skill.BiteSkill();
             bite.Init(this);
             jumpAttack = new Skill.SmashSkill();
             jumpAttack.Init(this);

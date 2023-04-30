@@ -23,3 +23,4 @@ MonoBehaviour:
   speed: 5
   effects:
   - {fileID: 198018749353404848, guid: a22bb852cf433044e8752ea7fe62f570, type: 3}
+  - {fileID: 198156828135952296, guid: 6066b7833d493734a9af353bbd046758, type: 3}

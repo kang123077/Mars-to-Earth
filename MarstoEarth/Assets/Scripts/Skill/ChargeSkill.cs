@@ -37,7 +37,7 @@ namespace Skill
                             if (!caster.targetCharacter.Hit(point, skillInfo.dmg + caster.dmg * 2f, 0)) continue;
                         } 
                     }
-                    Object.Instantiate(skillInfo.effects[^1], point,Quaternion.identity);
+                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1]);
                 });
 
             for (byte i = 0; i < effectsLength; i++)

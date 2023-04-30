@@ -2,6 +2,7 @@ using Character;
 using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace Skill
 {
@@ -11,6 +12,7 @@ namespace Skill
         private SPC parring;
         private bool parrying;
         private Func<Vector3, float, float,bool> temp;
+        private ParticleSystem effect;
         
         public BlockSkill()
         {
@@ -22,7 +24,7 @@ namespace Skill
                 {
                     if(!ch.Hited(attacker, dmg * 0.2f, penetrate))return false;
                     if (parrying || Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, caster.colliders, ch.layerMask) < 1) return true;
-                    UnityEngine.Object.Instantiate(skillInfo.effects[0], ch.muzzle);
+                    
                     attacker = caster.colliders[0].transform.position;
                     attacker.y = ch.transform.position.y;
                     ch.transform.LookAt(attacker);
@@ -37,9 +39,14 @@ namespace Skill
             }, skillInfo.icon);
             parring = new SPC(0, (ch) => ch.stun = true,
                 (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
-
-
         }
+
+        public override void Init(Character.Character caster)
+        {
+            base.Init(caster);
+            effect =UnityEngine.Object.Instantiate(skillInfo.effects[0], caster.transform);
+        }
+
         protected override bool Activate()
         {
             caster.anim.SetBool($"parring", parrying = false);            
@@ -65,6 +72,7 @@ namespace Skill
                     caster.targetCharacter.impact -= caster.targetCharacter.transform.forward*3;
                 }
             }
+            effect.Play();
         }
     }
 }

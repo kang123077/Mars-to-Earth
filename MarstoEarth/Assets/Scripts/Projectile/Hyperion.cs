@@ -1,14 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Skill;
 using UnityEngine;
 
 namespace Projectile
 {
     public class Hyperion : Installation
     {
-        
         private float atkSpd;
+
         private static readonly Vector3[] ports = new Vector3[16]
         {
             new Vector3(.2f, .0f, .2f),
@@ -33,11 +34,18 @@ namespace Projectile
 
         private ProjectileInfo projectileInfo;
         private float eleapse;
+        public ParticleSystem particleRange;
 
         public override void Init(int lm, float dg, float rg, float dr, float sp)
         {
             base.Init(lm, dg, rg, dr, sp);
-
+            if (!particleRange)
+            {
+                particleRange= Instantiate(ResourceManager.Instance.skillInfos[(int)SkillName.Hyperion].effects[1],
+                    thisTransform.position - new Vector3(0, thisTransform.position.y, 0), Quaternion.identity);
+                particleRange.transform.SetParent(thisTransform);
+            }
+            
             projectileInfo = new ProjectileInfo(layerMask,
                 ResourceManager.Instance.projectileMesh[(int)projectileMesh.Bullet1].sharedMesh,
                 Type.Bullet, (point) =>
@@ -47,17 +55,21 @@ namespace Projectile
                     {
                         colliders[i].TryGetComponent(out target);
                         if (target)
-                            target.Hit(point, dmg,0);
+                            target.Hit(point, dmg, 0);
                     }
+
+                    SpawnManager.Instance.GetEffect(point,
+                        ResourceManager.Instance.skillInfos[(int)SkillName.Hyperion].effects[0]);
                 });
             atkSpd = 10 * (1 / speed);
             curPorts = new Transform[16];
             for (int i = 0; i < 16; i++)
             {
                 GameObject port = new();
-                port.transform.position = transform.position + range * ports[i];
+                port.transform.position = thisTransform.position + range * ports[i];
                 curPorts[i] = port.transform;
-                port.transform.SetParent(transform);
+                port.layer = 8;
+                port.transform.SetParent(thisTransform);
             }
         }
 
@@ -65,6 +77,7 @@ namespace Projectile
         {
             BaseUpdate();
             thisTransform.position += thisTransform.forward * (Time.deltaTime * speed * 0.2f);
+
             eleapse += Time.deltaTime;
             if (eleapse > atkSpd)
             {
@@ -72,7 +85,7 @@ namespace Projectile
                 for (int i = 0; i < 4; i++)
                 {
                     Vector3 shotPoint = curPorts[i * 4 + UnityEngine.Random.Range(1, 5) - 1].position;
-                    SpawnManager.Instance.Launch(shotPoint, Vector3.down, dmg, duration * 0.1f, speed*1.5f, range,
+                    SpawnManager.Instance.Launch(shotPoint, Vector3.down, dmg, 2 , 30+speed, range*0.1f,
                         ref projectileInfo);
                 }
             }

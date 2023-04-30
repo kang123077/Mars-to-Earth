@@ -8,18 +8,33 @@ namespace Skill
     {
         private SPC roll;
         private Vector3 dir;
-
+        private ParticleSystem effect;
         public RollSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Roll];
-            roll = new SPC(0,(ch)=>ch.immune=true, (ch) =>
+            roll = new SPC(0,(ch)=>
+            {
+                effect.Play();
+                ch.immune = true;
+            }, (ch) =>
             {
 
                 ch.transform.position += dir * (Time.deltaTime * (skillInfo.speed + ch.speed));
                 ch.anim.SetFloat(Character.Character.MotionTime,(roll.duration-roll.currentTime)*(1/roll.duration));
                
-            },(ch)=>ch.SkillEffect(),skillInfo.icon);
+            },(ch)=>
+            {
+                effect.Stop();
+                ch.SkillEffect();
+            },skillInfo.icon);
         }
+
+        public override void Init(Character.Character caster)
+        {
+            base.Init(caster);
+            effect= UnityEngine.Object.Instantiate(skillInfo.effects[^1], caster.transform);
+        }
+
         protected override bool Activate()
         {            
             dir= ((Player)caster).InputDir.normalized;
