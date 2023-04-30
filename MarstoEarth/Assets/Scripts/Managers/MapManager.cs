@@ -32,13 +32,18 @@ public class MapManager : Singleton<MapManager>
     {
         GenerateNewSeed();
         GenerateMapCall();
+        InactiveMap();
+        isMapGenerateFinished = true;
+    }
+
+    public void InactiveMap()
+    {
     }
 
     public void GenerateMapCall()
     {
         mapGenerator.GenerateMap();
         GenerateNavMesh();
-        isMapGenerateFinished = true;
     }
 
     public void TestInitMapInfo()
@@ -139,6 +144,16 @@ public class MapManager : Singleton<MapManager>
             path.UpdateGate();
         }
     }
+
+    public void UpdateGateMesh()
+    {
+        foreach (PathController path in paths)
+        {
+            Debug.Log("왜안돼");
+            path.CheckNeighborNode();
+        }
+    }
+
     public void CloseAllGate()
     {
         foreach (PathController path in paths)

@@ -16,7 +16,8 @@ public class SpawnManager : Singleton<SpawnManager>
     public bool playerInstantiateFinished = false;
     public ParticleSystem[] effects;
 
-    private NodeInfo curNode;
+
+    public NodeInfo curNode;
 
     private int _curMonsterCount;
 
@@ -61,10 +62,10 @@ public class SpawnManager : Singleton<SpawnManager>
 
     protected void Update()
     {
-        if (MapManager.Instance.isMapGenerateFinished && playerInstantiateFinished == false)
+        if (MapManager.Instance.isMapGenerateFinished && spawnInstantiateFinished == false)
         {
             FirstInit();
-            playerInstantiateFinished = true;
+            spawnInstantiateFinished = true;
         }
     }
 
@@ -79,7 +80,6 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void NodeSpawn(NodeInfo spawnNode)
     {
-        curNode = spawnNode;
         if (spawnNode.isBossNode)
         {
             RandomSpawnMonster(curNode.transform.position, EnemyPool.Boss);
