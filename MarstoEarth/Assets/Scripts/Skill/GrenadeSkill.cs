@@ -17,8 +17,7 @@ namespace Skill
                ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Grenade].sharedMesh,
                Projectile.Type.Cannon, (point) =>
                {
-                   Object.Instantiate(skillInfo.effects[0], point,Quaternion.identity);
-                   GameObject fireSlot = Object.Instantiate(skillInfo.effects[1]).gameObject;
+                   GameObject fireSlot = Object.Instantiate(skillInfo.effects[0]).gameObject;
                    fireSlot.SetActive(false);
                    fireSlot.transform.position = point;
                    Projectile.Fire fire = fireSlot.AddComponent<Projectile.Fire>();

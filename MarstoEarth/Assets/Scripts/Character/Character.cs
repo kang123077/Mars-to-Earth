@@ -24,19 +24,19 @@ namespace Character
         protected Transform thisCurTransform;
         [HideInInspector] public Transform target;
         public Character targetCharacter;
-        public Collider[] colliders;
+        [HideInInspector] public Collider[] colliders;
         private float nockBackResist ;
 
         public Transform muzzle;
         public Skill.Skill onSkill;
         private float SPCActionWeight;
-        public Vector3 impact;
-        public float dmg;
-        public float speed;
-        public float def;
-        public float duration;
-        public float range;
-        public float viewAngle;
+        [HideInInspector] public Vector3 impact;
+        [HideInInspector] public float dmg;
+        [HideInInspector] public float speed;
+        [HideInInspector] public float def;
+        [HideInInspector] public float duration;
+        [HideInInspector] public float range;
+        [HideInInspector] public float viewAngle;
         private float _hp;
         protected internal float hp
         {
@@ -53,15 +53,16 @@ namespace Character
                 _hp = value;
             }
         }
-        public int layerMask { get; set; }
 
-        public List<Skill.SPC> Buffs;
+        [HideInInspector] public int layerMask;
+
+        protected List<Skill.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
         public Func<Vector3,float,float,bool> Hit;
         public Func<bool> Attacken;
         protected int buffElementIdx;
-        public bool _stun;
+        private bool _stun;
         public bool stun
         {
             get => _stun;
@@ -77,8 +78,7 @@ namespace Character
                 _stun= value;
             }
         }
-        public bool immune;
-
+        [HideInInspector] public bool immune;
         [HideInInspector] public bool dying;
 
         protected virtual void Awake()

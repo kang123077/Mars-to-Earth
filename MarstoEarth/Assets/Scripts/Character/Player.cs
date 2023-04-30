@@ -62,15 +62,10 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
-
-            
-           
         }
 
         protected override void Start()
         {
-            
-            
             base.Start();
             //테스트용
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
