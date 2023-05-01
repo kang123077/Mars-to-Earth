@@ -202,7 +202,7 @@ namespace Character
 
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
-
+            
             thisCurTransform.forward =
                 Vector3.RotateTowards(thisCurTransform.forward,
                     isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
@@ -213,62 +213,33 @@ namespace Character
 
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
-            float minCoLength = 1000;
-            if (!target)
+            
+            float minAngle = 180;
+            int size = Physics.OverlapSphereNonAlloc(position, sightLength-1 , colliders,
+                layerMask);
+            
+            for (int i = 0; i < size; i++)
             {
-                int size = Physics.OverlapSphereNonAlloc(position, range - 1, colliders,
-                    1 << 6);
-
-                for (int i = 0; i < size; i++)
+                float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position,
+                    Vector3.up);
+                angle = angle < 0 ? -angle : angle;
+                if (angle < viewAngle - 5)
                 {
-                    float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position,
-                        Vector3.up);
-                    if ((angle < 0 ? -angle : angle) < viewAngle - 5)
+                    if (minAngle > angle)
                     {
-                        float coLeng = Vector3.Distance(colliders[i].transform.position, position);
-                        if (minCoLength > coLeng)
-                        {
-                            minCoLength = coLeng;
-                            target = colliders[i].transform;
-                        }
+                        minAngle = angle;
+                        anim.SetBool(onTarget, target = colliders[i].transform);
                     }
                 }
-
-                anim.SetBool(onTarget, target);
             }
-            else
+           
+            if (minAngle>179&&target)
             {
-                Vector3 repoterPosition = CinemachineManager.Instance.follower.position;
-                repoterPosition.y = 1;
-                int size = Physics.OverlapCapsuleNonAlloc(repoterPosition,
-                    repoterPosition + repoterForward * range, 0.5f, colliders, layerMask);
-                switch (size)
-                {
-                    case 1:
-                        target = colliders[0].transform;
-                        break;
-                    case > 1:
-                        {
-                            for (int i = 0; i < size; i++)
-                            {
-                                float coLeng = Vector3.Distance(colliders[i].transform.position, position);
-                                if (minCoLength > coLeng)
-                                {
-                                    minCoLength = coLeng;
-                                    target = colliders[i].transform;
-                                }
-                            }
-                            break;
-                        }
-                    default:
-                        {
-                            float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
-                            if ((angle < 0 ? -angle : angle) > viewAngle + 5 ||
-                                Vector3.Distance(target.position, position) > range + 1)
-                                anim.SetBool(onTarget, target = null);
-                            break;
-                        }
-                }
+                float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
+                angle = angle < 0 ? -angle : angle;
+                if ((angle < 0 ? -angle : angle) > viewAngle + 5 ||
+                    Vector3.Distance(target.position, position) > sightLength + 1)
+                    anim.SetBool(onTarget, target = null);
             }
 
             #endregion
@@ -354,7 +325,6 @@ namespace Character
             hitScreenAlphaValue += dmg * 3 * (1 / characterStat.maxHP);
             hitScreenColor.a = hitScreenAlphaValue;
             hitScreen.color = hitScreenColor;
-
             return true;
         }
     }

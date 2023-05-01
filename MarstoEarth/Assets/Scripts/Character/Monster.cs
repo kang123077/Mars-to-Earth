@@ -24,7 +24,7 @@ namespace Character
         private Vector3 lastPosition;
         protected float travelDistance;
         
-        [SerializeField] protected float sightLength;
+        
 
         private bool _isAttacking;
         protected bool isAttacking { get { return _isAttacking; } 

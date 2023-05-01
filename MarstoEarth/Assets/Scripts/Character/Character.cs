@@ -36,8 +36,8 @@ namespace Character
         [HideInInspector] public float duration;
         [HideInInspector] public float range;
         [HideInInspector] public float viewAngle;
+        [HideInInspector] public float sightLength;
         private float _speed;
-
         public float speed
         {
             get => _speed;
@@ -107,6 +107,7 @@ namespace Character
             hp = characterStat.maxHP;
             range = characterStat.range;
             viewAngle = characterStat.viewAngle;
+            sightLength = characterStat.sightLength;
             onSkill = null;
             
             Buffs = new List<Skill.SPC>();
@@ -244,5 +245,10 @@ namespace Character
                 onSkill = null;
             }
         }
+
+        // public static float getAngle()
+        // {
+        //     
+        // }
     }
 }
