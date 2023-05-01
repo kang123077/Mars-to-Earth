@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
   m_Name: SpiderMine
   m_EditorClassIdentifier: 
-  skillId: 0
   description: 
-  skillType: 0
   clipName: SPCEffect
   clipLayer: 2
   icon: {fileID: 21300000, guid: b2e334b8b493def47a012a8b4cdefcae, type: 3}
@@ -23,3 +21,7 @@ MonoBehaviour:
   range: 6
   cool: 5
   speed: 8
+  effects:
+  - {fileID: 198178158004898454, guid: 32880282445ce1e46b8159e9eb1d8a6a, type: 3}
+  - {fileID: 198065432653121384, guid: f6d201bc8595a5b4f92f70df92d33aed, type: 3}
+  - {fileID: 198880425136568428, guid: f171ac3dbb620c44e81cd88ddee1cbbd, type: 3}

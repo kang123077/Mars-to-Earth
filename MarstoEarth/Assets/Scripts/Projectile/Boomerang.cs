@@ -19,7 +19,7 @@ namespace Projectile
             base.Init(lm, dmg, rg, dr, sp);
             caster = ct;
             targetPoint = tp;
-            transform.position = ct.position+Vector3.up;
+            transform.position = ct.position;
             stun= new SPC(0, (ch) => ch.stun = true,
                 (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
         }

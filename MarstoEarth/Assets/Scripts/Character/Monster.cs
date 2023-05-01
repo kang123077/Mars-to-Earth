@@ -23,16 +23,33 @@ namespace Character
         protected bool trackingPermission;
         private Vector3 lastPosition;
         protected float travelDistance;
-        
-        
+       
+
+        public override Transform target
+        {
+            get => base.target;
+            set
+            {
+                if (value && !isAttacking)
+                    ai.speed = speed * 1.3f;
+                else
+                    ai.speed = speed;
+                
+                base.target = value;
+            } 
+        }
 
         private bool _isAttacking;
-        protected bool isAttacking { get { return _isAttacking; } 
+        protected bool isAttacking {
+            get =>_isAttacking;  
             set {
                 if (!value && target)
-                    ai.speed=speed*1.4f;
+                    ai.speed=speed*1.3f;
                 else
                     ai.speed=speed;
+                anim.SetBool(attacking, value);
+                positions.Clear();
+                travelDistance = 0;
                 _isAttacking= value;
             } }
 
@@ -82,10 +99,7 @@ namespace Character
             patrolPoints = new Vector3[4];
             for (int i = 0; i < patrolPoints.Length; i++)
                 patrolPoints[i] = thisCurTransform.position + trackingDirection[i] * (sightLength * 2);
-            //if (NavMesh.SamplePosition(patrolPoints[i], out hit, sightLength * 2, NavMesh.AllAreas))
-            //    patrolPoints[i] = hit.position;                    
-            //else
-            //    Debug.LogWarning("목적지 위치가 NavMesh 영역 밖에 있습니다.");
+            
             positions = new List<float>();
             trackingPermission = true;
             colliders = new Collider[1];
@@ -125,7 +139,7 @@ namespace Character
         {
             StopCoroutine(StuckCheckCoroutine);
             ai.enabled = false;
-            anim.SetBool(onTarget, target = null);
+            target = null;
             Vector3 point = thisCurTransform.position;
             point.y = 0;
             SpawnManager.DropOptanium(point);
@@ -158,9 +172,8 @@ namespace Character
 
         protected override bool Attacked()
         {
-            anim.SetBool(attacking,isAttacking = false );
-            positions.Clear();
-            travelDistance = 0;
+            isAttacking = false ;
+            
             int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders, 1 << 3);
             if (target&&size > 0)
             {

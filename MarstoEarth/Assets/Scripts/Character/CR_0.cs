@@ -32,7 +32,7 @@ namespace Character
             if (blockEleapse > 15)
             {
                 anim.Play("Moving", 1);
-                anim.SetBool(attacking, isAttacking = false);
+                isAttacking = false;
                 block.Use();
                 blockEleapse = 0;
                 return false;
@@ -70,10 +70,10 @@ namespace Character
                 if (targetDistance <= sightLength * 1f)
                 {
                     if (targetDistance <= range + 0.5f)
-                        anim.SetBool(attacking, isAttacking = true);
+                         isAttacking = true;
                 }
                 else
-                    anim.SetBool(onTarget, target = null);
+                    target = null;
             }
             else
             {
@@ -81,14 +81,13 @@ namespace Character
                 int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength, colliders, 1 << 3);
                 if (size > 0)
                 {
-                    float angle = Vector3.SignedAngle(thisCurTransform.forward,
-                        colliders[0].transform.position - thisCurTransform.position, Vector3.up);
+                    float angle = Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
+                        
                     if ((angle < 0 ? -angle : angle) < viewAngle ||
                         Vector3.Distance(colliders[0].transform.position, thisCurTransform.position) <
-                        sightLength * 0.3f)
+                        sightLength * 0.4f)
                     {
-                        anim.SetBool(onTarget, target = colliders[0].transform);
-                        ai.speed = speed * 1.4f;
+                        target = colliders[0].transform;
                     }
                 }
             }

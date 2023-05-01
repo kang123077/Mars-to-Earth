@@ -14,11 +14,11 @@ namespace Projectile
         private Transform targetTr;
         private void Update()
         {
+            
             BaseUpdate();
             if (targetTr)
             {
-                thisTransform.LookAt(targetTr.position);
-                thisTransform.position += Time.deltaTime * speed * thisTransform.forward;
+                thisTransform.position = Vector3.MoveTowards(thisTransform.position, targetTr.position, Time.deltaTime * speed);
                 if (Vector3.Distance(thisTransform.position, targetTr.position) < 0.2f)
                 {
                     int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range * 0.3f, colliders,
@@ -29,7 +29,7 @@ namespace Projectile
                         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                         target.Hit(thisTransform.position, dmg, 0);
                     }
-
+                    SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.SpiderMine].effects[^1]);
                     Destroy(gameObject);
                 }
             }

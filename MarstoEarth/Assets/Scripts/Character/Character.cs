@@ -22,7 +22,19 @@ namespace Character
         protected UnityEngine.UI.Slider hpBar;
         protected static CombatUI combatUI;
         protected Transform thisCurTransform;
-        [HideInInspector] public Transform target;
+
+        private Transform _target;
+
+        public virtual Transform target
+        {
+            get => _target;
+            set
+            {
+                anim.SetBool(onTarget, value);
+                _target = value;
+            }
+        }
+        
         public Character targetCharacter;
         [HideInInspector] public Collider[] colliders;
         private float nockBackResist ;
@@ -38,7 +50,7 @@ namespace Character
         [HideInInspector] public float viewAngle;
         [HideInInspector] public float sightLength;
         private float _speed;
-        public float speed
+        public virtual float speed
         {
             get => _speed;
             set
@@ -246,9 +258,6 @@ namespace Character
             }
         }
 
-        // public static float getAngle()
-        // {
-        //     
-        // }
+       
     }
 }

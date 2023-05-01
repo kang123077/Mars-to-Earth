@@ -17,7 +17,7 @@ public class Installation : MonoBehaviour
     protected readonly Collider[] colliders = new Collider[6];
     public virtual void Init(int lm, float dg, float rg, float dr, float sp)
     {
-        layerMask = lm | 1 << 8;
+        layerMask = lm;
         dmg = dg;
         range = rg;
         lifeTime = duration= dr;

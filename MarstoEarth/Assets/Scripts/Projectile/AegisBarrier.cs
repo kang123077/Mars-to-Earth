@@ -9,18 +9,18 @@ namespace Projectile
        
         private static readonly Vector3[] ports = new Vector3[8]
         {
-            new Vector3(-.875f, .0f, .0f),
-            new Vector3(-.625f, .0f, .0f),
-            new Vector3(-.375f, .0f, .0f),
-            new Vector3(-.125f, .0f, .0f),
-            new Vector3(.125f, .0f, .0f),
-            new Vector3(.375f, .0f, .0f),
-            new Vector3(.625f, .0f, .0f),
-            new Vector3(.875f, .0f, .0f),
+            new (-.875f, .5f, .0f),
+            new (-.625f, .5f, .0f),
+            new (-.375f, .5f, .0f),
+            new (-.125f, .5f, .0f),
+            new (.125f, .5f, .0f),
+            new (.375f, .5f, .0f),
+            new (.625f, .5f, .0f),
+            new (.875f, .5f, .0f),
         };
 
         private Vector3 targetPoint;
-        private ParticleSystem[] effects = new ParticleSystem[8];
+        //private ParticleSystem[] effects = new ParticleSystem[8];
         private Projectile pj;
         private float curEleapse;
         private static float pauseEffectEleapse=0.5f;
@@ -38,7 +38,7 @@ namespace Projectile
             startPoint =transform.position = caster.transform.position - forward*2;
             for (int i = 0; i < 8; i++)
             {
-                GameObject port = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                GameObject port = Instantiate(ResourceManager.Instance.skillInfos[(int)SkillName.AegisBarrier].effects[^1]).gameObject;
                 port.layer = 4;
                 port.transform.localScale = range * 0.2f*Vector3.one;
                 port.transform.position = transform.position + range * ports[i];
@@ -46,7 +46,7 @@ namespace Projectile
             }
             transform.forward = forward;
             targetPoint = thisTransform.position + thisTransform.forward * range;
-            ot.size = new Vector3(range*1.8f, 20, range*0.3f);
+            ot.size = new Vector3(range*1.8f, 18, range*0.2f);
         }
        
         private void Update()
@@ -59,13 +59,13 @@ namespace Projectile
                 if (curEleapse > pauseEffectEleapse)
                     casterCh.enabled = pause = true;
             }
-            int size = Physics.OverlapBoxNonAlloc(thisTransform.position, new Vector3(range*2, 20, range*0.4f), colliders, Quaternion.LookRotation(thisTransform.forward), layerMask);
+            int size = Physics.OverlapBoxNonAlloc(thisTransform.position, new Vector3(range, 10, range*0.15f), colliders, Quaternion.LookRotation(thisTransform.forward), layerMask|(1<<8));
             for (int i = 0; i < size; i++)
             {
                 if (colliders[i].gameObject.layer == 8)
                 {                    
                     colliders[i].TryGetComponent(out pj);
-                    if (pj.thisInfo[0].lm !=(layerMask^1<<8))
+                    if (pj.thisInfo[0].lm !=layerMask)
                         Destroy(pj.gameObject);
                 }
                 else

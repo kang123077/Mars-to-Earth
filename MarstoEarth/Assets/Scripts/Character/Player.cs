@@ -19,7 +19,7 @@ namespace Character
                     _stun= value;
                 }
             }
-        public new Transform target
+        public override Transform target
         {
             get => base.target;
             set
@@ -54,7 +54,17 @@ namespace Character
             KeyCode.A
         };
 
-        public bool isRun;
+        private bool _isRun;
+
+        public bool isRun
+        {
+            get => _isRun;
+            set
+            {
+                anim.SetBool(IsRun, value);
+                _isRun = value;
+            }
+        }
         private float lastInputTime;
 
         private float hitScreenAlphaValue;
@@ -171,7 +181,8 @@ namespace Character
                             if (Time.time - lastInputTime < 0.3f && key == keyCode)
                             {
                                 //연속으로 두번왓는지 확인
-                                anim.SetBool(IsRun,  isRun=true && onSkill is not MassShootingSkill);
+                                if (onSkill is not MassShootingSkill)
+                                    isRun = true;
                             }
 
                             key = keyCode;
@@ -181,7 +192,7 @@ namespace Character
                     }
                 }
                 else
-                    anim.SetBool(IsRun, isRun = false);
+                    isRun = false;
 
                 InputDir = CinemachineManager.Instance.follower.rotation * InputDir;
                 thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1f));
@@ -193,20 +204,12 @@ namespace Character
             }
 
 
-            if (target)
-            {
-                Vector3 targetPos = target.position;
-                targetPos.y = 0;
-                targetDir = targetPos - position;
-            }
+            
 
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
             
-            thisCurTransform.forward =
-                Vector3.RotateTowards(thisCurTransform.forward,
-                    isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
-
+            
             #endregion
 
             #region Targeting
@@ -214,36 +217,50 @@ namespace Character
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
             
-            float minAngle = 180;
             int size = Physics.OverlapSphereNonAlloc(position, sightLength-1 , colliders,
                 layerMask);
-            
+            float minAngle = 180;
+            float angle;
             for (int i = 0; i < size; i++)
             {
-                float angle = Vector3.SignedAngle(repoterForward, colliders[i].transform.position - position,
-                    Vector3.up);
+                angle=Mathf.Acos(Vector3.Dot(repoterForward, (colliders[i].transform.position - position).normalized)) * Mathf.Rad2Deg;
+                
                 angle = angle < 0 ? -angle : angle;
                 if (angle < viewAngle - 5)
                 {
                     if (minAngle > angle)
                     {
                         minAngle = angle;
-                        anim.SetBool(onTarget, target = colliders[i].transform);
+                        target = colliders[i].transform;
                     }
                 }
             }
-           
+            if (target)
+            {
+                Vector3 targetPos = target.position;
+                targetPos.y = 0;
+                targetDir = targetPos - position;
+            }
             if (minAngle>179&&target)
             {
-                float angle = Vector3.SignedAngle(repoterForward, target.position - position, Vector3.up);
+                angle =Mathf.Acos(Vector3.Dot(repoterForward, targetDir.normalized)) * Mathf.Rad2Deg;
+
                 angle = angle < 0 ? -angle : angle;
                 if ((angle < 0 ? -angle : angle) > viewAngle + 5 ||
                     Vector3.Distance(target.position, position) > sightLength + 1)
-                    anim.SetBool(onTarget, target = null);
+                    target = null;
             }
+
+       
+            thisCurTransform.forward =
+                Vector3.RotateTowards(thisCurTransform.forward,
+                    isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
 
             #endregion
 
+            #region Test
+
+            
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 actives[0].Use();
@@ -303,6 +320,8 @@ namespace Character
                 actives[12].Use();
             }
 
+
+            #endregion
         }
 
         protected override bool Attacked()

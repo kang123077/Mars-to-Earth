@@ -1,8 +1,5 @@
-using Projectile;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
 
 namespace Character
 {
@@ -19,10 +16,8 @@ namespace Character
         {
             if (dying)
                 return false;
-            anim.SetBool(attacking, isAttacking = false);
-
-            positions.Clear();
-            travelDistance = 0;
+            isAttacking= false;
+            
             SpawnManager.Instance.Launch(thisCurTransform.position,
                 target ? target.position : thisCurTransform.forward * range, dmg, 2 + duration * 0.5f, 15 + speed * 2,
                 range * 0.1f, ref projectileInfo);
@@ -48,11 +43,11 @@ namespace Character
                 if (targetDistance <= sightLength * 2f)
                 {
                     if (!(targetDistance <= range)) return;
-                    anim.SetBool(attacking, isAttacking = true);
+                    isAttacking= true;
                 }
                 else
                 {
-                    anim.SetBool(onTarget, target = null);
+                    target = null;
                 }
             }
             else
@@ -61,12 +56,14 @@ namespace Character
                 int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength, colliders, 1 << 3);
                 if (size > 0)
                 {
-                    float angle = Vector3.SignedAngle(thisCurTransform.forward,
-                        colliders[0].transform.position - thisCurTransform.position, Vector3.up);
+                    float angle = Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
+      
                     if ((angle < 0 ? -angle : angle) < viewAngle ||
                         Vector3.Distance(colliders[0].transform.position, thisCurTransform.position) <
-                        sightLength * 0.3f)
-                        anim.SetBool(onTarget, target = colliders[0].transform);
+                        sightLength * 0.4f)
+                    {
+                        target = colliders[0].transform;
+                    }
                 }
             }
 
