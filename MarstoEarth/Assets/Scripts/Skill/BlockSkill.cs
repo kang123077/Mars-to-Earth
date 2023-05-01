@@ -24,7 +24,7 @@ namespace Skill
                 {
                     if(!ch.Hited(attacker, dmg * 0.2f, penetrate))return false;
                     if (parrying || Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, caster.colliders, ch.layerMask) < 1) return true;
-                    
+                    effect.Play();
                     attacker = caster.colliders[0].transform.position;
                     attacker.y = ch.transform.position.y;
                     ch.transform.LookAt(attacker);
@@ -59,6 +59,7 @@ namespace Skill
         // ReSharper disable Unity.PerformanceAnalysis
         public override void Effect()
         {
+            effect.Stop();
             Vector3 transPos= caster.transform.position;
             int size = Physics.OverlapSphereNonAlloc(transPos, skillInfo.range + caster.range * 0.2f, caster.colliders, caster.layerMask);
             for(int i =0; i < size; i++)
@@ -72,7 +73,7 @@ namespace Skill
                     caster.targetCharacter.impact -= caster.targetCharacter.transform.forward*3;
                 }
             }
-            effect.Play();
+            
         }
     }
 }
