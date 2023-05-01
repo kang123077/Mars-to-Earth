@@ -1,33 +1,27 @@
+using Skill;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Projectile
 {
-    public class Boomerang : MonoBehaviour
+    public class Boomerang : Installation
     {
         private Transform caster;
         private Vector3 targetPoint;
-        private float range;
-        private float duration;
-        private float damage;
-        private float speed;
-        private readonly Collider[] colliders = new Collider[8];
+ 
         private List<Collider> colliderList = new ();
-        private int layerMask;
+    
         private bool isReturn;
-        
-        private Character.Character enemy; 
+        private SPC stun;
         public void Init(Transform ct,Vector3 tp,float dr, float rg, float dmg, float sp, int lm)
         {
+            base.Init(lm, dmg, rg, dr, sp);
             caster = ct;
             targetPoint = tp;
-            range = rg;
-            damage = dmg;
-            duration = dr;
-            speed = sp;
-            layerMask=lm;
-            transform.position = ct.position+ct.forward;
+            transform.position = ct.position+Vector3.up;
+            stun= new SPC(0, (ch) => ch.stun = true,
+                (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
         }
 
         public void Bomb()
@@ -37,11 +31,13 @@ namespace Projectile
                 layerMask);
             for (int i = 0; i < count; i++)
             {
-                colliders[i].TryGetComponent(out enemy);
+                colliders[i].TryGetComponent(out target);
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                if (!enemy.Hit(transform.position, damage * 1.5f, 0)) continue;
-                enemy.AddBuff(new Skill.SPC(duration, (ch) => ch.stun = true, (ch) => ch.stun = false));
+                if (!target.Hit(transform.position, dmg * 1.5f, 0)) continue;
+                stun.Init(duration);
+                target.AddBuff(stun);                
             }
+            SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.Boomerang].effects[^1]);
             Destroy(gameObject);
         }
         void Update()
@@ -60,9 +56,9 @@ namespace Projectile
             {
                 if (colliderList.Find(el => colliders[i] == el)) continue;
                 colliderList.Add(colliders[i]);
-                colliders[i].TryGetComponent(out enemy);
+                colliders[i].TryGetComponent(out target);
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                enemy.Hit(position, damage, 0);
+                target.Hit(position, dmg, 0);
             }
             
 

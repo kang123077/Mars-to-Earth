@@ -6,39 +6,52 @@ namespace Skill
 {
     public class BiteSkill : Skill
     {
-        private Transform LH;
-        static SPC bite ;
-        static SPC targetBite ;
+        SPC targetBite;
         private Vector3 casterPoint;
         private Character.Character targetCh;
-        public BiteSkill(SkillInfo skillInfo, Transform LH)
+        private byte timeCount;
+        private float curEleapse;
+        private static float eleapse=0.2f;
+        private ParticleSystem effect;
+        public BiteSkill( )
         {
-            this.skillInfo = skillInfo;
-            this.LH = LH;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Bite];
         }
+
+        public override void Init(Character.Character caster)
+        {
+            base.Init(caster);
+            effect= UnityEngine.Object.Instantiate(skillInfo.effects[0], caster.muzzle);
+            targetBite = new SPC(10,(target)=> target.stun=true, (target) =>
+            {
+                if (caster.dying)
+                    target.RemoveBuff(targetBite);
+                curEleapse += Time.deltaTime;
+                timeCount++;
+                if (curEleapse > eleapse)
+                {
+                    effect.Play();
+                    target.Hit(casterPoint, skillInfo.dmg * Time.deltaTime* timeCount, 0);
+                    curEleapse -= eleapse;
+                    timeCount = 0;
+                }
+                
+                target.transform.position = caster.muzzle.position + Vector3.down * 1.5f;
+                
+            },(target)=>target.stun=false,skillInfo.icon);
+
+        }
+
         protected override bool Activate()
         {
             caster.PlaySkillClip(this);
 
-            casterPoint= caster.transform.position;
+            casterPoint = caster.transform.position;
 
             caster.target.TryGetComponent(out targetCh);
-            targetBite = new SPC(10,(target)=> target.stun=true,(target) =>
-            {
-                target.transform.position = LH.position-caster.transform.up*1.5f;
-                target.Hit(casterPoint,skillInfo.dmg * Time.deltaTime,0);
-                if (caster.dying)
-                {
-                    target.RemoveBuff(targetBite);
-                }
-            }, (target) => target.stun = false);
 
-            bite = new SPC(10, (ch) => {
-
-                targetCh.AddBuff(targetBite);
-            },(ch)=>ch.SkillEffect());
+            targetCh.AddBuff(targetBite);
             
-            caster.AddBuff(bite);
             return true;
         }
         // ReSharper disable Unity.PerformanceAnalysis

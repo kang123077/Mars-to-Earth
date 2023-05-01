@@ -5,9 +5,9 @@ namespace Skill
 {
     public class AegisBarrierSkill : Skill
     {
-        public AegisBarrierSkill(SkillInfo skillInfo)
+        public AegisBarrierSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.AegisBarrier];
         }
         protected override bool Activate()
         {
@@ -21,14 +21,15 @@ namespace Skill
             GameObject aegisBarrierSlot = new();
             aegisBarrierSlot.SetActive(false);
 
+        
+            
             Projectile.AegisBarrier aegisBarrier = aegisBarrierSlot.AddComponent<Projectile.AegisBarrier>();
-
-            aegisBarrierSlot.transform.position = caster.transform.position - caster.transform.forward*2;
+            
             aegisBarrier.Init(caster.layerMask, 1 + caster.dmg * 0.02f, skillInfo.range + caster.range * 0.5f,
-                skillInfo.duration + caster.duration * 0.5f, skillInfo.speed + caster.speed * 0.5f);
-            aegisBarrierSlot.transform.forward = caster.transform.forward;
-
+                skillInfo.duration + caster.duration * 0.5f, skillInfo.speed + caster.speed * 0.5f,caster.transform);
+            
             aegisBarrierSlot.SetActive(true);
+
 
         }
     }

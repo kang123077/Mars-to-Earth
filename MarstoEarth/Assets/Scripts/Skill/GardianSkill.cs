@@ -1,6 +1,7 @@
 using Character;
 using System;
 using UnityEngine;
+using Object = System.Object;
 
 namespace Skill
 {
@@ -12,9 +13,9 @@ namespace Skill
             new Vector3(0.866f,0,-0.5f),
             new Vector3(-0.866f,0,-0.5f),
         };
-        public GardianSkill(SkillInfo skillInfo)
+        public GardianSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Gardian]; 
         }
         protected override bool Activate()
         {
@@ -34,12 +35,16 @@ namespace Skill
                 skillInfo.speed + caster.speed * 0.5f);
             for (int i = 0; i < 3; i++)
             {
-                GameObject sattlliteSlot = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                sattlliteSlot.transform.position = gardianSlot.transform.position+points[i]*skillInfo.range;
+                var sattlliteSlot =
+                    UnityEngine.Object.Instantiate(ResourceManager.Instance.skillInfos[(int)SkillName.Gardian]
+                        .effects[1]);
+                sattlliteSlot.transform.localScale = Vector3.one* 0.2f;
+                UnityEngine.Object.Instantiate (skillInfo.effects[0], sattlliteSlot.transform);
+                sattlliteSlot.transform.position = gardianSlot.transform.position+points[i]*skillInfo.range*0.6f;
                 sattlliteSlot.transform.LookAt(gardianSlot.transform.position);
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
 
-                Projectile.Gardian satllite = sattlliteSlot.AddComponent<Projectile.Gardian>();
+                Projectile.Gardian satllite = sattlliteSlot.gameObject.AddComponent<Projectile.Gardian>();
                 satllite.Init(caster.layerMask,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.range + caster.range * 0.5f,skillInfo.speed+caster.speed*0.2f)  ;
                 
             }

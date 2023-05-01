@@ -6,9 +6,9 @@ namespace Skill
 {
     public class SpiderMineSkill : Skill
     {
-        public SpiderMineSkill(SkillInfo skillInfo)
+        public SpiderMineSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.SpiderMine];
         }
         protected override bool Activate()
         {
@@ -19,7 +19,7 @@ namespace Skill
 
         public override void Effect()
         {
-            GameObject spiderMineSlot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            GameObject spiderMineSlot = UnityEngine.Object.Instantiate(skillInfo.effects[0], caster.transform).gameObject;
 
             spiderMineSlot.SetActive(false);
             spiderMineSlot.transform.position = caster.transform.position;

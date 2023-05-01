@@ -4,6 +4,7 @@ using Skill;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -13,12 +14,9 @@ public class SpawnManager : Singleton<SpawnManager>
     [HideInInspector] public Transform playerTransform;
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
-    public bool playerInstantiateFinished = false;
-
-    private NodeInfo curNode;
-
+    public bool spawnInstantiateFinished = false;
+    public NodeInfo curNode;
     private int _curMonsterCount;
-
     public int curMonsterCount
     {
         get =>_curMonsterCount;
@@ -39,7 +37,7 @@ public class SpawnManager : Singleton<SpawnManager>
         }
     }
     public List<Monster> monsterPool;
-
+    public List<ParticleSystem> effectPool;
     public int curNormal = 3;
     public int curElite = 1;
 
@@ -60,10 +58,10 @@ public class SpawnManager : Singleton<SpawnManager>
 
     protected void Update()
     {
-        if (MapManager.Instance.isMapGenerateFinished && playerInstantiateFinished == false)
+        if (MapManager.Instance.isMapGenerateFinished && spawnInstantiateFinished == false)
         {
             FirstInit();
-            playerInstantiateFinished = true;
+            spawnInstantiateFinished = true;
         }
     }
 
@@ -78,7 +76,6 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void NodeSpawn(NodeInfo spawnNode)
     {
-        curNode = spawnNode;
         if (spawnNode.isBossNode)
         {
             RandomSpawnMonster(curNode.transform.position, EnemyPool.Boss);
@@ -160,6 +157,7 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount++;
         target.gameObject.SetActive(true);
     }
+
     public void ReleaseMonster(Monster target)
     {
         target.gameObject.SetActive(false);
@@ -167,6 +165,36 @@ public class SpawnManager : Singleton<SpawnManager>
         monsterPool.Add(target);
         Debug.Log("반납함");
     }
+    public void GetEffect(Vector3 spawnPoint, ParticleSystem particle, Vector3 scale =default)
+    {
+        ParticleSystem target;
+        int findIdx = effectPool.FindIndex((el) => el.name == $"{particle.name}(Clone)");
+
+        if (findIdx < 0)
+        {
+            target = Instantiate(particle,spawnPoint,Quaternion.identity);
+            target.gameObject.SetActive(false);
+            ParticleSystem.MainModule main = target.main;
+            main.stopAction = ParticleSystemStopAction.Callback;
+            target.AddComponent<ReleaseEffect>();
+        }
+        else
+        {
+            target = effectPool[findIdx];
+            target.transform.position= spawnPoint;
+            effectPool.RemoveAt(findIdx);
+            
+            Debug.Log("있어서 가져옴");
+        }
+
+        if (scale == default)
+            scale = Vector3.one;
+        target.transform.localScale = scale;
+        target.gameObject.SetActive(true);
+        target.Play();
+    }
+
+  
    
     public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {

@@ -45,6 +45,7 @@ namespace Projectile
         private Character.Character target;
         public float eleapse;
         Transform thisTransform;
+        public ParticleSystem[] effects;
         public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
         {
             trail.Clear();
@@ -64,18 +65,24 @@ namespace Projectile
             eleapse = 0;
         }
 
+        // 파티클시스템을 여기서 가지고있을게 아니고
+        // 스폰매니저에서 오브젝트풀링을 통해 껏다 켯다 해야함
+
         
         // ReSharper disable Unity.PerformanceAnalysis
         private void Bullet()
         {
             thisTransform.position += targetPos * (Time.deltaTime * speed); 
-            if (Physics.OverlapCapsuleNonAlloc(thisTransform.position, thisTransform.position+ thisTransform.forward*(Time.deltaTime * speed),range*0.05f, colliders,
-                    thisInfo[0].lm^(1<<9|1<<0)) > 0)
+            Vector3 position = thisTransform.position;
+            if (Physics.OverlapCapsuleNonAlloc(position, position+ thisTransform.forward*(Time.deltaTime * speed),range*0.05f, colliders,
+                    thisInfo[0].lm|1<<9|1<<0) > 0)
             {
                 colliders[0].TryGetComponent(out target);
                 if (target)
                     target.Hit(attackerPos, dmg,0);
-                thisInfo[0].ef?.Invoke(thisTransform.position);
+                
+                thisInfo[0].ef?.Invoke(position);
+                SpawnManager.Instance.GetEffect(position,effects[(int)Type.Bullet]); 
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             }
         }
@@ -91,16 +98,17 @@ namespace Projectile
             thisTransform.position = Vector3.Slerp(riseRelCenter, setRelCenter, fracComplete);
             thisTransform.position += center;
             if (fracComplete < 1) return;
-            
-            int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
-                thisInfo[0].lm);
+            Vector3 position = thisTransform.position;
+            int count = Physics.OverlapSphereNonAlloc(position, range, colliders,
+                thisInfo[0].lm|1<<9|1<<0);
             for (int i = 0; i < count; i++)
             {
                 colliders[i].TryGetComponent(out target);
                 if (target)
                     target.Hit(attackerPos, dmg,0);
             }
-            thisInfo[0].ef?.Invoke(thisTransform.position);
+            SpawnManager.Instance.GetEffect(position,effects[(int)Type.Cannon]); 
+            thisInfo[0].ef?.Invoke(position);
             SpawnManager.Instance.projectileManagedPool.Release(this);
             
         }

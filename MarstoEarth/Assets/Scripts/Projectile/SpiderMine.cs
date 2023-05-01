@@ -5,52 +5,29 @@ using UnityEngine;
 
 namespace Projectile
 {
-    public class SpiderMine : MonoBehaviour
+    public class SpiderMine : Installation
     {
-        private float speed;
-        private float lifeTime;
-        private float range;
-        private float dmg;
-        private int layerMask;
-
-        private Transform thisTransform;
-        private Transform target;
+       
         private float maxDist = 1000;
         private static float curDist;
-        private readonly Collider[] colliders = new Collider[6];
-        private Character.Character enemy;
-        public void Init(int lm, float dg, float rg, float dr, float sp)
-        {
-            layerMask = lm;
-            dmg = dg;
-            range = rg;
-            lifeTime = dr;
-            speed = sp;
-        }
 
-        private void Awake()
-        {
-            thisTransform = transform;
-        }
-
+        private Transform targetTr;
         private void Update()
         {
-            lifeTime -= Time.deltaTime;
-            if (lifeTime < 0)
-                Destroy(gameObject);
-            if (target)
+            BaseUpdate();
+            if (targetTr)
             {
-                thisTransform.LookAt(target.position);
+                thisTransform.LookAt(targetTr.position);
                 thisTransform.position += Time.deltaTime * speed * thisTransform.forward;
-                if (Vector3.Distance(thisTransform.position, target.position) < 0.2f)
+                if (Vector3.Distance(thisTransform.position, targetTr.position) < 0.2f)
                 {
                     int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range * 0.3f, colliders,
                         layerMask);
                     for (int i = 0; i < count; i++)
                     {
-                        colliders[i].TryGetComponent(out enemy);
+                        colliders[i].TryGetComponent(out target);
                         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                        enemy.Hit(thisTransform.position, dmg, 0);
+                        target.Hit(thisTransform.position, dmg, 0);
                     }
 
                     Destroy(gameObject);
@@ -64,7 +41,7 @@ namespace Projectile
                     curDist = Vector3.Distance(thisTransform.position, colliders[i].transform.position);
                     if (curDist < maxDist)
                     {
-                        target = colliders[i].transform;
+                        targetTr = colliders[i].transform;
                         maxDist = curDist;
                     }
                 }
