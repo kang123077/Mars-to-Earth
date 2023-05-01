@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: M_Titan
   m_EditorClassIdentifier: 
   dmg: 25
-  coolDecrease: 0
   speed: 6
   def: 5
   duration: 0
   maxHP: 450
   range: 5
+  sightLength: 25
   viewAngle: 85

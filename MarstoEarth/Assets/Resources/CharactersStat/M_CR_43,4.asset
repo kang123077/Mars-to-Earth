@@ -17,6 +17,6 @@ MonoBehaviour:
   def: 0
   duration: 0
   maxHP: 45
-  range: 12
+  range: 16
   sightLength: 20
   viewAngle: 80
