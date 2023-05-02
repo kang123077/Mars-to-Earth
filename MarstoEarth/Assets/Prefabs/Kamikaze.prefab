@@ -2358,11 +2358,21 @@ MonoBehaviour:
   anim: {fileID: 6011407653224782468}
   col: {fileID: 8384843151837268747}
   target: {fileID: 0}
+  targetCharacter: {fileID: 0}
+  colliders: []
+  muzzle: {fileID: 0}
+  impact: {x: 0, y: 0, z: 0}
+  dmg: 0
+  speed: 0
+  def: 0
+  duration: 0
+  range: 0
+  viewAngle: 0
   _stun: 0
   immune: 0
   dying: 0
   ai: {fileID: 8391662847705199536}
-  sightLength: 10
+  sightLength: 22
   enemyType: 4
 --- !u!1 &5925347178222821698
 GameObject:

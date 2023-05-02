@@ -1,6 +1,7 @@
 using Character;
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Skill
 {
@@ -11,14 +12,19 @@ namespace Skill
         float aniEleapse ;
         private SPC massShooting;
         private float speed;
-        public MassShootingSkill(SkillInfo skillInfo)
+        private ParticleSystem[] effects = new ParticleSystem[2];
+        
+        private byte effectsLength;
+        public MassShootingSkill()
         {
-            this.skillInfo = skillInfo;
-            projectileInfo = new Projectile.ProjectileInfo(0,
-                ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
-                Projectile.Type.Bullet, null);
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.MassShooting];
+            
 
-            massShooting = new SPC(0, null, (ch) =>
+            massShooting = new SPC(0, (ch) =>
+            {
+                for ( byte i=0; i< effectsLength; i++)
+                    effects[i].Play();
+            }, (ch) =>
             {
                 
                 Transform ctr = ((Player)ch).muzzle;
@@ -39,8 +45,25 @@ namespace Skill
                 }
             }, (ch) =>
             {
+                for ( byte i=0; i< effectsLength; i++)
+                    effects[i].Stop();
                 ch.SkillEffect();
-            });
+            },skillInfo.icon);
+            effectsLength = (byte)skillInfo.effects.Length;
+        }
+
+        public override void Init(Character.Character caster)
+        {
+            base.Init(caster);
+            projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
+                ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
+                Projectile.Type.Bullet, null);
+            
+            for (byte i = 0; i < effectsLength; i++)
+            {
+                effects[i]= Object.Instantiate(skillInfo.effects[i], caster.muzzle);
+                effects[i].Stop();
+            }
 
         }
         protected override bool Activate()
@@ -48,8 +71,6 @@ namespace Skill
             if(((Player)caster).isRun)
                 return false;
             caster.PlaySkillClip(this); 
-            
-            projectileInfo.lm = caster.layerMask;
             massShooting.Init (skillInfo.duration + caster.duration * 0.5f);
             
             speed = 2/(skillInfo.speed + caster.speed * 0.5f);

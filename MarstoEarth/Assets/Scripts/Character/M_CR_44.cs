@@ -15,7 +15,7 @@ namespace Character
             projectileInfo.ty = Projectile.Type.Cannon;
         }
 
-        protected override bool Attack()
+        protected override bool Attacked()
         {
             if (dying)
                 return false;

@@ -30,15 +30,15 @@ namespace Skill
         {
             return obj != null;
         }
-        
-        public bool Use(Character.Character caster)
+        public virtual void Init(Character.Character caster)
+        {
+            this.caster = caster;
+            isCombo = false;
+        }
+        public bool Use()
         {
             if (caster.onSkill is not null) return false;
             
-            if (!this.caster) {
-                this.caster = caster;
-                isCombo = false;
-            }
             originCoolTime = skillInfo.cool - (skillInfo.cool*0.01f*caster.speed);
             
             if(!isCombo)

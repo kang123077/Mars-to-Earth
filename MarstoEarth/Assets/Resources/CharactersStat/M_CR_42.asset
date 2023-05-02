@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: M_CR_42
   m_EditorClassIdentifier: 
   dmg: 10
-  coolDecrease: 0
   speed: 5
   def: 0
   duration: 0
   maxHP: 45
-  range: 2.5
+  range: 3
+  sightLength: 20
   viewAngle: 80

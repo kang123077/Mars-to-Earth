@@ -8,14 +8,13 @@ namespace Skill
         private readonly Collider[] colliders = new Collider[8];
         private Character.Character enemy;
         Vector3 firstPos;
-        private int layerMask;
         SPC distortion;
         Vector3 targetPoint;
-        public DistortionSkill(SkillInfo skillInfo)
+        public DistortionSkill()
         {
-            this.skillInfo = skillInfo;
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Distortion];
             comboCount = 2;
-            distortion = new SPC(1.5f, null, (ch) =>
+            distortion = new SPC(0, null, (ch) =>
             {
                 ch.transform.position = Vector3.MoveTowards(ch.transform.position, targetPoint, (skillInfo.speed + ch.speed * 0.5f) * Time.deltaTime);
                 if (ch.transform.position == targetPoint)
@@ -26,7 +25,7 @@ namespace Skill
             }, (ch) =>
             {
                 ch.SkillEffect();
-            });
+            },skillInfo.icon);
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -36,7 +35,7 @@ namespace Skill
             switch (curCount)
             {
                 case 1:
-                    distortion.Init(0.8f);
+                    distortion.Init(skillInfo.duration+caster.duration*0.5f);
                     caster.onSkill = this;
                     firstPos=caster.transform.position;
                     targetPoint= caster.target? caster.target.position-caster.target.transform.forward : caster.transform.position+(caster.transform.forward*(skillInfo.range + caster.range * 0.5f));

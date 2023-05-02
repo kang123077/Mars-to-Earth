@@ -13,10 +13,11 @@ namespace Character
         private Vector3 hidingDir;
         private float dist;
 
+        private Skill.Skill skill;
         protected override void Start()
         {
             base.Start();
-            skill = new Skill.SpiderMineSkill(ResourceManager.Instance.skillInfos[(int)SkillName.SpiderMine]);
+            skill = new Skill.SpiderMineSkill();
         }
 
         protected void Update()
@@ -41,7 +42,7 @@ namespace Character
                     skillDelay -= Time.deltaTime;
                     if (skillDelay < 0)
                     {
-                        if (!skill.Use(this)) return;
+                        if (!skill.Use()) return;
                         skillDelay = 5;
                         target = null;
                     }

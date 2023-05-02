@@ -13,9 +13,9 @@ namespace Skill
     [CreateAssetMenu(fileName = "New SkillInfo", menuName = "SkillInfo")]
     public class SkillInfo:ScriptableObject
     {
-        public int skillId;
+        
         public string description;
-        public SkillType skillType;
+        //public SkillType skillType;
         public string clipName;
         public byte clipLayer;
         public Sprite icon;
@@ -24,6 +24,7 @@ namespace Skill
         public byte range;
         public byte cool;
         public byte speed;
+        public ParticleSystem[] effects;
     }
 }
 

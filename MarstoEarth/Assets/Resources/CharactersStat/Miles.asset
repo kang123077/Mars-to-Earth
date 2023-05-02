@@ -15,7 +15,8 @@ MonoBehaviour:
   dmg: 15
   speed: 4.5
   def: 0
-  duration: 0
+  duration: 0.5
   maxHP: 1200
-  range: 18
+  range: 1
+  sightLength: 20
   viewAngle: 95

@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Linq;
 /*
  * 스턴 상태일때는 
  */
@@ -10,7 +10,7 @@ namespace Character
 {
     public abstract class Character : MonoBehaviour
     {
-
+        public static readonly int MotionTime = Animator.StringToHash("motionTime");
         protected static readonly int animSpeed = Animator.StringToHash("movingSpeed");
         protected static readonly int attacking = Animator.StringToHash("attacking");
         protected static readonly int onTarget = Animator.StringToHash("onTarget");
@@ -20,21 +20,33 @@ namespace Character
         
         protected Camera mainCam;
         protected UnityEngine.UI.Slider hpBar;
+        protected static CombatUI combatUI;
         protected Transform thisCurTransform;
         [HideInInspector] public Transform target;
-        protected Character targetCharacter;
-        protected Collider[] colliders;
+        public Character targetCharacter;
+        [HideInInspector] public Collider[] colliders;
         private float nockBackResist ;
-        
-        public Skill.Skill onSkill { get; set; }
+
+        public Transform muzzle;
+        public Skill.Skill onSkill;
         private float SPCActionWeight;
-        public Vector3 impact { get; set; }
-        public float dmg { get; set; }
-        public float speed { get; set; }
-        public float def { get; set; }
-        public float duration { get; set; }
-        public float range { get; set; }
-        public float viewAngle { get; set; }
+        [HideInInspector] public Vector3 impact;
+        [HideInInspector] public float dmg;
+        [HideInInspector] public float def;
+        [HideInInspector] public float duration;
+        [HideInInspector] public float range;
+        [HideInInspector] public float viewAngle;
+        [HideInInspector] public float sightLength;
+        private float _speed;
+        public float speed
+        {
+            get => _speed;
+            set
+            {
+                anim.SetFloat(animSpeed, 1 + value * 0.05f);
+                _speed = value;
+            }
+        }
         private float _hp;
         protected internal float hp
         {
@@ -51,15 +63,17 @@ namespace Character
                 _hp = value;
             }
         }
-        public int layerMask { get; set; }
 
-        private List<Skill.SPC> Buffs;
+        [HideInInspector] public int layerMask;
+
+        protected List<Skill.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
         public Func<Vector3,float,float,bool> Hit;
-        int buffElementIdx;
-        public bool _stun;
-        public bool stun
+        public Func<bool> Attacken;
+        protected int buffElementIdx;
+        protected bool _stun;
+        public virtual bool stun
         {
             get => _stun;
             set
@@ -68,14 +82,14 @@ namespace Character
                 {
                     anim.SetBool(attacking, false);
                     anim.SetBool(onTarget, false);
+                    
                 }
                 else
                     anim.SetBool(onTarget, target);
                 _stun= value;
             }
         }
-        public bool immune;
-
+        [HideInInspector] public bool immune;
         [HideInInspector] public bool dying;
 
         protected virtual void Awake()
@@ -93,29 +107,43 @@ namespace Character
             hp = characterStat.maxHP;
             range = characterStat.range;
             viewAngle = characterStat.viewAngle;
+            sightLength = characterStat.sightLength;
             onSkill = null;
             
             Buffs = new List<Skill.SPC>();
             layerMask = (1 << 3 | 1 << 6 ) ^ 1 << gameObject.layer;
 
             anim.SetFloat(animSpeed, 1 + speed * 0.05f);
+            
             Hit = Hited;
+            Attacken = Attacked;
+            
         }
 
         protected virtual void Start()
         {            
             projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet,null);
+            
+            combatUI = (CombatUI)UIManager.Instance.UIs[(int)UIType.Combat];
+           
         }
 
-        protected virtual bool Attack()
+        private void Attack()
+        {
+            //애니메이션 이벤트가 델리게이트를 찾지못하는 이슈 때문에
+            //Attack함수를 거쳐 델리게이트를 실행하도록 함
+            Attacken();
+        }
+
+        protected virtual bool Attacked()
         {
             if (!target) return false;
             target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform.position,dmg,0);
-            return true;
+            return targetCharacter.Hit(thisCurTransform.position,dmg,0);
         }
         
+        // ReSharper disable Unity.PerformanceAnalysis
         protected virtual IEnumerator Die()
         {
             dying = true;
@@ -130,9 +158,6 @@ namespace Character
                 SpawnManager.Instance.ReleaseMonster((Monster)this);
             else
                 Destroy(gameObject);
-
-
-            //InGameManager.Instance.OnMonsterCleared();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -145,13 +170,11 @@ namespace Character
             }
             if (dying)
                 return false;
-         
 
             for (buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
+            {
                 Buffs[buffElementIdx].Activation(this);
-
-            if (stun)
-                return false;
+            }
 
             SPCActionWeight =
                 Mathf.Clamp(
@@ -162,32 +185,52 @@ namespace Character
         }
         protected internal virtual bool Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
-            if (immune)
+            if (dying)
                 return false;
+            DamageText dt = combatUI.DMGTextPool.Get();
+            dt.transform.position = thisCurTransform.position+new Vector3(0,.8f,0);
+            dt.gameObject.SetActive(true);
+            if (immune)
+            {
+                dt.text.text = "Miss";
+                return false;
+            }
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
-           
+            dt.text.text = $"{dmg}";
             hpBar.value = hp / characterStat.maxHP;
+                
             Vector3 horizonPosition = thisCurTransform.position;
             attacker.y = horizonPosition.y;
             impact += (horizonPosition - attacker).normalized*(dmg*(1/nockBackResist));
-            if (dying)
-                return false;
-            return true;
+            
+            return !dying;
         }
 
-        public void AddBuff(Skill.SPC buff)
+        public virtual bool AddBuff(Skill.SPC buff)
         {
-            buff.Apply?.Invoke(this);
-            Buffs.Add(buff);//같은 버프가 걸려있는지 체크해야함
+           
+            Skill.SPC findBuff = Buffs.Find((el) =>ReferenceEquals(el.icon, buff.icon));
+                       
+            if (findBuff is null)
+            {
+                buff.Apply?.Invoke(this);
+                Buffs.Add(buff);
+            }
+            else if (findBuff.currentTime < buff.duration)
+                findBuff.Init(buff.duration);               
+            
 
+            return findBuff is null;
         }
         // ReSharper disable Unity.PerformanceAnalysis
-        public void RemoveBuff(Skill.SPC buff)
-        {
+        public virtual int RemoveBuff(Skill.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
+        {           
             buff.Remove?.Invoke(this);
-            Buffs.Remove(buff);
+            int findIndex = Buffs.FindIndex((el)=>el==buff);
+            Buffs.RemoveAt(findIndex);
+            return findIndex;
         }
         public void PlaySkillClip(Skill.Skill skill)
         {
@@ -202,5 +245,10 @@ namespace Character
                 onSkill = null;
             }
         }
+
+        // public static float getAngle()
+        // {
+        //     
+        // }
     }
 }

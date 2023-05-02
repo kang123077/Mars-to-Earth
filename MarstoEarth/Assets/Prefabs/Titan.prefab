@@ -1996,6 +1996,14 @@ MonoBehaviour:
   anim: {fileID: 8155533566884809010}
   col: {fileID: 4849788643660579073}
   target: {fileID: 0}
+  muzzle: {fileID: 8155533566875756202}
+  impact: {x: 0, y: 0, z: 0}
+  dmg: 0
+  speed: 0
+  def: 0
+  duration: 0
+  range: 0
+  viewAngle: 0
   _stun: 0
   immune: 0
   dying: 0

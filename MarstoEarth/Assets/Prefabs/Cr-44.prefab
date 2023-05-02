@@ -532,6 +532,8 @@ MonoBehaviour:
   anim: {fileID: 1746034949274918956}
   col: {fileID: 834222165867339239}
   target: {fileID: 0}
+  _stun: 0
+  immune: 0
   dying: 0
   ai: {fileID: 7042346500219913515}
   sightLength: 17

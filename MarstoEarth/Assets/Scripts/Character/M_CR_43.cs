@@ -9,9 +9,8 @@ namespace Character
     public class M_CR_43 : Monster
     {
 
-        [SerializeField] private Transform muzzle;
 
-        protected override bool Attack()
+        protected override bool Attacked()
         {
             if (dying)
                 return false;
