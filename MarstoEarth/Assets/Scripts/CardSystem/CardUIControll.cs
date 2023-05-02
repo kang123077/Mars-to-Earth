@@ -45,14 +45,9 @@ public class CardUIControll : UI
 
     void ScaleUpLeftCard()
     {
-        Vector2 pos = leftCard.transform.position;
-        leftCard.transform.SetAsLastSibling();
-        leftCard.gameObject.transform.position = new Vector2(960f, pos.y);
-        leftCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
-        int skillIndex = cardInfo.randomIndexRight;
-        combatUI.LearnSkill(skillIndex);
-        InGameManager.Instance.inGameSkillInfo.RemoveAt(skillIndex);
-        StartCoroutine(HideCardUI());
+        MoveNSize(leftCard);
+        int skillIndex = cardInfo.randomIndexLeft;
+        SkillPlus(skillIndex);
         ScaleDownRightCard();
     }
 
@@ -63,15 +58,27 @@ public class CardUIControll : UI
 
     void ScaleUpRightCard()
     {
-        Vector2 pos = rightCard.transform.position;
-        rightCard.transform.SetAsLastSibling();
-        rightCard.gameObject.transform.position = new Vector2(960f, pos.y);
-        rightCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
+        MoveNSize(rightCard);
         int skillIndex = cardInfo.randomIndexRight;
+        SkillPlus(skillIndex);
+        ScaleDownLeftCard();
+    }
+
+    void MoveNSize(Button button)
+    {
+        Vector2 pos = button.gameObject.transform.position;
+        button.transform.SetAsLastSibling();
+        button.gameObject.transform.position = new Vector2(960f, pos.y);
+        // LeanTween.move(button.gameObject, new Vector2(960f, pos.y), 1.0f).setEase(LeanTweenType.easeOutBounce);
+        Debug.Log(button.gameObject.transform.position);
+        button.gameObject.transform.localScale = new Vector2(1.4f, 1.4f);
+    }
+
+    void SkillPlus(int skillIndex)
+    {
         combatUI.LearnSkill(skillIndex);
         InGameManager.Instance.inGameSkillInfo.RemoveAt(skillIndex);
         StartCoroutine(HideCardUI());
-        ScaleDownLeftCard();
     }
 
     void ScaleDownRightCard()
@@ -85,10 +92,5 @@ public class CardUIControll : UI
         Time.timeScale = 1f;
         Init();
         gameObject.SetActive(false);
-    }
-
-    void Update()
-    {
-
     }
 }

@@ -21,6 +21,16 @@ public class CardInfo : MonoBehaviour
         SkillDescription(randomIndexLeft, randomIndexRight);
     }
 
+    public void CardReroll()
+    {
+        // 랜덤한 스킬 아이콘 선택하기
+        randomIndexLeft = Random.Range(0, InGameManager.Instance.inGameSkillInfo.Count);
+        randomIndexRight = Random.Range(0, InGameManager.Instance.inGameSkillInfo.Count);
+        SkillIcon(randomIndexLeft, randomIndexRight);
+        SkillDescription(randomIndexLeft, randomIndexRight);
+        transform.GetChild(2).gameObject.SetActive(false);
+    }
+
     public void SkillIcon(int leftIndex, int rightIndex)
     {
         Sprite randomSkillIconLeft = InGameManager.Instance.inGameSkillInfo[leftIndex].icon;
