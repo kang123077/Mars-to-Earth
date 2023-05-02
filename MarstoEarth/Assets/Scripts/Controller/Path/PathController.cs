@@ -116,51 +116,51 @@ public class PathController : MonoBehaviour
             // gate_1(parent방향)으로 진입
             if (gate_1.isGateOpen)
             {
+                gate_1.GateClose();
                 SpawnManager.Instance.curNode = children;
                 if (children.isNodeCleared)
                 {
                     // 이미 깬 곳이면 바로 true 줘서 주변 문 열리도록
                     children.IsNodeCleared = true;
                 }
-                gate_1.GateClose();
-                Invoke("SetParentMeshFalse", 2.0f);
-                children.SetMeshRendererEnabled(true);
-                if (!children.IsNodeCleared)
+                else
                 {
                     SpawnManager.Instance.NodeSpawn(children);
                     innerCollider.gameObject.SetActive(false);
                 }
-                gate_2.GateOpen();
+                Invoke("SetParentMeshFalse", 2.0f);
+                children.IsNodeRendered = true;
             }
             // gate_2(children방향)으로 진입
             else
             {
+                gate_2.GateClose();
                 SpawnManager.Instance.curNode = parent;
                 if (parent.isNodeCleared)
                 {
                     // 이미 깬 곳이면 바로 true 줘서 주변 문 열리도록
                     parent.IsNodeCleared = true;
                 }
-                gate_2.GateClose();
-                Invoke("SetChildrenMeshFalse", 2.0f);
-                parent.SetMeshRendererEnabled(true);
-                if (!parent.IsNodeCleared)
+                else
                 {
                     SpawnManager.Instance.NodeSpawn(parent);
                     innerCollider.gameObject.SetActive(false);
                 }
-                gate_1.GateOpen();
+                Invoke("SetChildrenMeshFalse", 2.0f);
+                parent.IsNodeRendered = true;
             }
         }
     }
 
     public void SetChildrenMeshFalse()
     {
-        children.SetMeshRendererEnabled(false);
+        children.IsNodeRendered = false;
+        gate_1.GateOpen();
     }
     public void SetParentMeshFalse()
     {
-        parent.SetMeshRendererEnabled(false);
+        parent.IsNodeRendered = false;
+        gate_2.GateOpen();
     }
 
     public void ExitEvent(Collider other)

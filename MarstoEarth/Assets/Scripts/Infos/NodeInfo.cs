@@ -45,6 +45,7 @@ public class NodeInfo : MonoBehaviour
             if (OnRoomRendered != null)
             {
                 OnRoomRendered();
+                SetMeshRendererEnabled(value);
             }
         }
     }
@@ -92,8 +93,6 @@ public class NodeInfo : MonoBehaviour
     }
     public void SetMeshRendererEnabled(bool isEnabled)
     {
-
-        IsNodeRendered = isEnabled;
         for (int i = 0; i < meshRenderers.Count; i++)
         {
             meshRenderers[i].enabled = isEnabled;
