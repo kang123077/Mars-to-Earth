@@ -2069,6 +2069,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftCard: {fileID: 1851396377}
   rightCard: {fileID: 1276017008}
+  rerollButton: {fileID: 1686393437}
   cardInfo: {fileID: 739434982}
   combatUI: {fileID: 1635536065}
 --- !u!1 &765348435

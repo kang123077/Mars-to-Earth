@@ -6,6 +6,7 @@ public class CardUIControll : UI
 {
     [SerializeField] private Button leftCard;
     [SerializeField] private Button rightCard;
+    [SerializeField] private Button rerollButton;
 
     Vector2 orglcTrans;
     Vector2 orgrcTrans;
@@ -41,6 +42,7 @@ public class CardUIControll : UI
 
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(2).gameObject.SetActive(true);
     }
 
     void ScaleUpLeftCard()
@@ -54,6 +56,7 @@ public class CardUIControll : UI
     void ScaleDownLeftCard()
     {
         leftCard.gameObject.SetActive(false);
+        rerollButton.gameObject.SetActive(false);
     }
 
     void ScaleUpRightCard()
@@ -68,9 +71,7 @@ public class CardUIControll : UI
     {
         Vector2 pos = button.gameObject.transform.position;
         button.transform.SetAsLastSibling();
-        button.gameObject.transform.position = new Vector2(960f, pos.y);
-        // LeanTween.move(button.gameObject, new Vector2(960f, pos.y), 1.0f).setEase(LeanTweenType.easeOutBounce);
-        Debug.Log(button.gameObject.transform.position);
+        button.gameObject.transform.position = new Vector3(960f, pos.y);
         button.gameObject.transform.localScale = new Vector2(1.4f, 1.4f);
     }
 
@@ -84,6 +85,7 @@ public class CardUIControll : UI
     void ScaleDownRightCard()
     {
         rightCard.gameObject.SetActive(false);
+        rerollButton.gameObject.SetActive(false);
     }
 
     IEnumerator HideCardUI()
