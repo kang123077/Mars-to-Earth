@@ -1,5 +1,6 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using Skill;
 using UnityEngine;
 
 namespace Item
@@ -7,13 +8,31 @@ namespace Item
     public class Item : MonoBehaviour
     {
         public ItemType type;
+        
+        private SPC[] spcs;
+       
 
+        // public Item()
+        // {
+        //    
+        //     spcs= new SPC[4]
+        //     {
+        //         new( (ch) => { }, ResourceManager.Instance.itemInfos[1].SPC_Sprite),
+        //         new( (ch) => { }, ResourceManager.Instance.itemInfos[1].SPC_Sprite),
+        //         new((ch) => { }, ResourceManager.Instance.itemInfos[2].SPC_Sprite),
+        //         new( (ch) => { }, ResourceManager.Instance.itemInfos[3].SPC_Sprite),
+        //     };
+        // }
+
+        
+        //        
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Player player)
         {
             switch (type)
             {
                 case ItemType.Heal:
+                    
                     Debug.Log("힐!!@!@!");
                     break;
                 case ItemType.Boost:

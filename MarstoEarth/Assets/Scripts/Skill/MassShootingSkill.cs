@@ -9,18 +9,19 @@ namespace Skill
     {
         private Projectile.ProjectileInfo projectileInfo;
         float atkEleapse ;
-        float aniEleapse ;
         private SPC massShooting;
         private float speed;
         private ParticleSystem[] effects = new ParticleSystem[2];
         
         private byte effectsLength;
+        private static readonly int Parring = Animator.StringToHash("parring");
+
         public MassShootingSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.MassShooting];
             
 
-            massShooting = new SPC(0, (ch) =>
+            massShooting = new SPC( (ch) =>
             {
                 for ( byte i=0; i< effectsLength; i++)
                     effects[i].Play();
@@ -29,12 +30,7 @@ namespace Skill
                 
                 Transform ctr = ((Player)ch).muzzle;
                 atkEleapse += Time.deltaTime;
-                aniEleapse += Time.deltaTime;
-                if (aniEleapse > 0.2f)
-                {
-                    ch.PlaySkillClip(this);
-                    aniEleapse -= 0.2f;
-                }
+                
                 if (atkEleapse > speed)
                 {
                     SpawnManager.Instance.Launch(ctr.position, ctr.forward, skillInfo.dmg + ch.dmg * 0.1f, 2,
@@ -47,6 +43,7 @@ namespace Skill
             {
                 for ( byte i=0; i< effectsLength; i++)
                     effects[i].Stop();
+                caster.anim.SetBool(Parring,false);
                 ch.SkillEffect();
             },skillInfo.icon);
             effectsLength = (byte)skillInfo.effects.Length;
@@ -68,7 +65,9 @@ namespace Skill
         {
             if(((Player)caster).isRun)
                 return false;
+            caster.anim.SetBool(Parring,true);
             caster.PlaySkillClip(this); 
+            
             massShooting.Init (skillInfo.duration + caster.duration * 0.5f);
             
             speed = 2/(skillInfo.speed + caster.speed * 0.5f);

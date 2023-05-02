@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 /*
  * 스턴 상태일때는 
  */
@@ -35,7 +34,7 @@ namespace Character
             }
         }
         
-        public Character targetCharacter;
+        [HideInInspector] public Character targetCharacter;
         [HideInInspector] public Collider[] colliders;
         private float nockBackResist ;
 
@@ -69,12 +68,13 @@ namespace Character
             {
                 if (value > characterStat.maxHP)
                     value = characterStat.maxHP;
+                _hp = value;
+                hpBar.value = hp / characterStat.maxHP;
                 if (value <= 0)
                 {
                     SpawnManager.Instance.player.target=null;
                     StartCoroutine(Die());
                 }
-                _hp = value;
             }
         }
 
@@ -118,7 +118,7 @@ namespace Character
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;
-            hp = characterStat.maxHP;
+            _hp = characterStat.maxHP;
             range = characterStat.range;
             viewAngle = characterStat.viewAngle;
             sightLength = characterStat.sightLength;
@@ -213,7 +213,7 @@ namespace Character
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
             dt.text.text = $"{dmg}";
-            hpBar.value = hp / characterStat.maxHP;
+            
                 
             Vector3 horizonPosition = thisCurTransform.position;
             attacker.y = horizonPosition.y;

@@ -12,7 +12,7 @@ namespace Character
         protected override void Start()
         {
             base.Start();
-            parring = new SPC(0, (ch) => ch.stun = true,
+            parring = new SPC((ch) => ch.stun = true,
              (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);           
             block = new BlockSkill();
             block.Init(this);

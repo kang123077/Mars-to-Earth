@@ -17,7 +17,7 @@ namespace Skill
         public BlockSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Block];
-            block = new SPC(0, (ch) => {
+            block = new SPC( (ch) => {
                 temp = ch.Hit;
                 
                 ch.Hit = (attacker, dmg, penetrate) =>
@@ -37,7 +37,7 @@ namespace Skill
                 if (parrying) return;
                 ch.onSkill = null;
             }, skillInfo.icon);
-            parring = new SPC(0, (ch) => ch.stun = true,
+            parring = new SPC( (ch) => ch.stun = true,
                 (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
         }
 

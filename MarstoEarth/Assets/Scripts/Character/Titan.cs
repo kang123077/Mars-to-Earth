@@ -38,20 +38,20 @@ namespace Character
                 return;
             if (target)
             {
-                ai.SetDestination(target.position);
                 if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
                 {
                     positions.Clear();
                     travelDistance = 0;
                     return;
                 }
+                ai.SetDestination(target.position);
 
                 Vector3 targetPosition = target.position;
                 var position = thisCurTransform.position;
                 position.y = targetPosition.y;
                 thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward,
                     targetPosition - position, 3 * Time.deltaTime, 0);
-                float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
+                float targetDistance = Vector3.Distance(targetPosition, position);
                 if (targetDistance <= sightLength)
                 {
                     jumpEleapse += Time.deltaTime;
@@ -59,7 +59,7 @@ namespace Character
                     {
                          isAttacking = true;
                     }
-                    else if (jumpEleapse > 10 && targetDistance > range * 2.5f)
+                    else if (jumpEleapse > 15 && targetDistance > range * 2.5f)
                     {
                         jumpAttack.Use();
                         jumpEleapse = 0;

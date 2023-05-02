@@ -7,9 +7,6 @@ namespace Skill
         SPC targetBite;
         private Vector3 casterPoint;
         private Character.Character targetCh;
-        private byte timeCount;
-        private float curEleapse;
-        private static float eleapse = 0.2f;
         private ParticleSystem effect;
 
         public BiteSkill()
@@ -20,21 +17,17 @@ namespace Skill
         public override void Init(Character.Character caster)
         {
             base.Init(caster);
-            effect = UnityEngine.Object.Instantiate(skillInfo.effects[0], caster.muzzle);
-            targetBite = new SPC(10, (target) => target.stun = true, (target) =>
+            effect = Object.Instantiate(skillInfo.effects[0], caster.muzzle);
+            targetBite = new SPC((target) => target.stun = true, (target) =>
             {
                 if (caster.dying)
                     target.RemoveBuff(targetBite);
-                curEleapse += Time.deltaTime;
-                timeCount++;
-                if (curEleapse > eleapse)
+                targetBite.Tick((count) =>
                 {
                     effect.Play();
-                    target.Hit(casterPoint, skillInfo.dmg * Time.deltaTime * timeCount, 0);
-                    curEleapse -= eleapse;
-                    timeCount = 0;
-                }
-
+                    target.Hit(casterPoint, skillInfo.dmg * Time.deltaTime * count, 0);
+                });
+                
                 target.transform.position = caster.muzzle.position + Vector3.down * 1.5f;
             }, (target) => target.stun = false, skillInfo.icon);
         }
@@ -44,10 +37,8 @@ namespace Skill
             caster.PlaySkillClip(this);
 
             casterPoint = caster.transform.position;
-
-            caster.target.TryGetComponent(out targetCh);
-
-            targetCh.AddBuff(targetBite);
+            targetBite.Init(10);
+            caster.targetCharacter.AddBuff(targetBite);
 
             return true;
         }
@@ -55,7 +46,7 @@ namespace Skill
         // ReSharper disable Unity.PerformanceAnalysis
         public override void Effect()
         {
-            targetCh.RemoveBuff(targetBite);
+            caster.targetCharacter.RemoveBuff(targetBite);
         }
     }
 }

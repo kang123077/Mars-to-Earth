@@ -8,23 +8,16 @@ namespace Projectile
     public class Fire : Installation
     {
         private SPC fire;
-        private byte timeCount;
-        private float curEleapse;
-        private static float eleapse=0.2f;
+        
         private void Awake()
         {
             
-            fire = new SPC(0, (ch) =>
+            fire = new SPC( (ch) =>
             {
-                curEleapse += Time.deltaTime;
-                timeCount++;
-                if (curEleapse > eleapse)
+                fire.Tick((count) =>
                 {
-                    ch.Hit(ch.transform.position, dmg * Time.deltaTime, 0);
-                    curEleapse -= eleapse;
-                    timeCount = 0;
-                }
-                
+                    ch.Hit(ch.transform.position, dmg * Time.deltaTime*count, 0);
+                });
             }, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.bleeding]);
         }
         void Update()

@@ -3,14 +3,6 @@ using UnityEngine;
 
 namespace Skill
 {
-    //public enum ConditionType
-    //{
-    //    atkUp,
-    //    atkDown,
-    //    cunfusion,
-    //    restraint,
-    //    stun
-    //}
     public class SPC //: ICloneable
     {
         public float duration;
@@ -19,30 +11,35 @@ namespace Skill
         public Action<Character.Character> Apply;
         public Action<Character.Character> Remove;
         public Action<Character.Character> Dots;
+        
+        private static float eleapse = 0.2f;
+        private float curEleapse;
+        private int curCount;
 
         public void Init(float duration)
         {
             currentTime = this.duration = duration;
         }
-        public SPC(float duration, Action<Character.Character> apply,Action<Character.Character> remove, Sprite icon)
+        public void Init(Sprite icon)
         {
-            currentTime = this.duration = duration;
+            this.icon = icon;
+        }
+        public SPC(Action<Character.Character> apply,Action<Character.Character> remove, Sprite icon)
+        {
             Apply = apply;
             Remove = remove;
             Dots = null;
             this.icon = icon;
         }
-        public SPC(float duration, Action<Character.Character> dots, Sprite icon)
+        public SPC( Action<Character.Character> dots, Sprite icon)
         {
-            currentTime = this.duration=duration;
             Dots = dots;
             Apply = null;
             Remove =null;
             this.icon = icon;
         }
-        public SPC(float duration,Action<Character.Character> apply, Action<Character.Character> dots,Action<Character.Character> remove, Sprite icon)
+        public SPC(Action<Character.Character> apply, Action<Character.Character> dots,Action<Character.Character> remove, Sprite icon)
         {
-            currentTime = this.duration=duration;
             Apply = apply;
             Dots = dots;
             Remove = remove;
@@ -59,6 +56,16 @@ namespace Skill
             else
             {
                 character.RemoveBuff(this);
+            }
+        }
+        public void Tick(Action<int> action)
+        {
+            curEleapse += Time.deltaTime;
+            curCount++;
+            if (curEleapse>eleapse)
+            {
+                action(curCount);
+                curCount = 0;
             }
         }
         //public object Clone()

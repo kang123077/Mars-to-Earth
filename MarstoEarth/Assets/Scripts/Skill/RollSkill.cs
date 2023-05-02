@@ -12,7 +12,7 @@ namespace Skill
         public RollSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Roll];
-            roll = new SPC(0,(ch)=>
+            roll = new SPC((ch)=>
             {
                 effect.Play();
                 ch.immune = true;

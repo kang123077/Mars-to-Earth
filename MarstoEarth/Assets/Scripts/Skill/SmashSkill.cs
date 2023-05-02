@@ -14,7 +14,7 @@ namespace Skill
         public SmashSkill( )
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Smash];
-            smash = new SPC(10, (ch) =>
+            smash = new SPC( (ch) =>
             {
                 ch.transform.position += dir * (Time.deltaTime * speed);
             },skillInfo.icon);
@@ -30,17 +30,15 @@ namespace Skill
         protected override bool Activate()
         {
             caster.PlaySkillClip(this); // 재생할 애니메이션 호출
-            speed = (caster.speed + skillInfo.speed)*0.6f;
+            speed = caster.speed + skillInfo.speed*0.5f;
             dir =  caster.transform.forward;
-            
+            smash.Init(10);
             caster.AddBuff(smash);
-            
             return true;
         }
 
         public override void Effect()
-        {   
-            caster.RemoveBuff(smash);
+        {
             effect.Play();
             int count = Physics.OverlapSphereNonAlloc(caster.transform.position, skillInfo.range+caster.range*0.5f, colliders, caster.layerMask);
             for(int i=0; i<count; i++)
@@ -48,7 +46,7 @@ namespace Skill
                 colliders[i].TryGetComponent(out Character.Character enemy);
                 enemy?.Hit(caster.transform.position, skillInfo.dmg+caster.dmg*0.5f, 0);
             }
-            SpawnManager.Instance.GetEffect(caster.transform.position,skillInfo.effects[0]);
+            
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Projectile
             caster = ct;
             targetPoint = tp;
             transform.position = ct.position;
-            stun= new SPC(0, (ch) => ch.stun = true,
+            stun= new SPC((ch) => ch.stun = true,
                 (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
         }
 

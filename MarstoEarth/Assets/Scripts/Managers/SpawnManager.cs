@@ -163,7 +163,6 @@ public class SpawnManager : Singleton<SpawnManager>
             target = monsterPool[findIdx];
             target.transform.position = spawnPoint;
             monsterPool.RemoveAt(findIdx);
-            Debug.Log("있어서 가져옴");
         }
 
         curMonsterCount++;
@@ -175,23 +174,20 @@ public class SpawnManager : Singleton<SpawnManager>
         target.gameObject.SetActive(false);
         curMonsterCount--;
         monsterPool.Add(target);
-        Debug.Log("반납함");
     }
     public void GetEffect(Vector3 spawnPoint, ParticleSystem particle, Vector3 scale = default)
     {
         ReleaseEffect target;
         int findIdx = effectPool.FindIndex((el) => ReferenceEquals(el.refParticle, particle));
-        ParticleSystem targetParticle;
+        ;
         if (findIdx < 0)
         {
-            targetParticle = Instantiate(particle, spawnPoint, Quaternion.identity);
+            ParticleSystem targetParticle = Instantiate(particle, spawnPoint, Quaternion.identity);
             ParticleSystem.MainModule main = targetParticle.main;
             main.stopAction = ParticleSystemStopAction.Callback;
 
             target = targetParticle.AddComponent<ReleaseEffect>();
             target.refParticle = particle;
-            // targetParticle= Instantiate(particle, target.transform);
-
             target.gameObject.SetActive(false);
         }
         else
@@ -199,15 +195,12 @@ public class SpawnManager : Singleton<SpawnManager>
             target = effectPool[findIdx];
             target.transform.position = spawnPoint;
             effectPool.RemoveAt(findIdx);
-            targetParticle = target.GetComponentInChildren<ParticleSystem>();
-            Debug.Log("있어서 가져옴");
         }
 
         if (scale == default)
             scale = Vector3.one;
         target.transform.localScale = scale;
         target.gameObject.SetActive(true);
-        targetParticle.Play();
     }
 
 
@@ -236,8 +229,6 @@ public class SpawnManager : Singleton<SpawnManager>
             target = itemPool[findIdx];
             target.transform.position = spawnPoint;
             itemPool.RemoveAt(findIdx);
-
-            Debug.Log("있어서 가져옴");
         }
 
         target.gameObject.SetActive(true);

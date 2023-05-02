@@ -2388,7 +2388,7 @@ MonoBehaviour:
   targetCharacter: {fileID: 0}
   colliders: []
   muzzle: {fileID: 8012712200323029387}
-  handguard: {fileID: 0}
+  handguard: {fileID: 3510955087790388186}
   impact: {x: 0, y: 0, z: 0}
   dmg: 0
   def: 0
@@ -2401,7 +2401,6 @@ MonoBehaviour:
   dying: 0
   InputDir: {x: 0, y: 0, z: 0}
   camPoint: {fileID: 3434857689237907732}
-  handguard: {fileID: 8061646925200431168}
   effects:
   - {fileID: 7889686971387219983}
   - {fileID: 7867731782484411030}
