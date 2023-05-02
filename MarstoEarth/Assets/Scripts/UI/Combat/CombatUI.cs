@@ -1,5 +1,3 @@
-
-
 using Character;
 using System;
 using System.Collections;
@@ -41,12 +39,10 @@ public class CombatUI : UI
 
     public void LearnSkill(int skillName)
     {
-        
         if (curSkillCount > skillSlots.Length - 1) return;
         skillSlots[curSkillCount].Init(ResourceManager.Instance.skills[(int)skillName]);
         skillSlots[curSkillCount].skill.Init(SpawnManager.Instance.player);
         curSkillCount++;
-        
     }
     public void ClickSkill(int idx)
     {

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class InGameManager : Singleton<InGameManager>
@@ -5,10 +7,14 @@ public class InGameManager : Singleton<InGameManager>
     public int clearedRooms = 0; // 클리어한 룸 수를 저장하는 변수
     public GameObject cardUICon;
     public CardInfo cardInfo;
+    public List<Skill.SkillInfo> inGameSkillInfo;
+
     //public GameObject onTargetUICon;
     protected override void Awake()
     {
         base.Awake();
+        DontDestroyOnLoad(gameObject);
+        inGameSkillInfo = ResourceManager.Instance.skillInfos.ToList();
     }
 
     private void Start()
@@ -33,7 +39,7 @@ public class InGameManager : Singleton<InGameManager>
     public void OnRoomCleared()
     {
         clearedRooms++;
-        if (clearedRooms >= 2) // 2 개의 방을 클리어했을 때
+        if (clearedRooms >= 1) // 2 개의 방을 클리어했을 때
         {
             TriggerEvent();
         }
