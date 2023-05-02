@@ -73,7 +73,7 @@ public enum CommonSPC
 public class ResourceManager : Singleton<ResourceManager>
 {
     public UnityEngine.UI.Slider hpBar;
-    public Item.Item[] items;
+    public Item.ItemInfo[] itemInfos;
     public MeshFilter[] projectileMesh;
     public SkillInfo[] skillInfos;
     public Character.Monster[] enemys;

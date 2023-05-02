@@ -40,6 +40,8 @@ namespace Character
         private float nockBackResist ;
 
         public Transform muzzle;
+        public Transform handguard;
+
         public Skill.Skill onSkill;
         private float SPCActionWeight;
         [HideInInspector] public Vector3 impact;

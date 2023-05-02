@@ -141,8 +141,8 @@ namespace Character
             ai.enabled = false;
             target = null;
             Vector3 point = thisCurTransform.position;
-            point.y = 0;
-            SpawnManager.DropOptanium(point);
+            point.y = 0.8f;
+            SpawnManager.Instance.DropOptanium(point,Item.ItemType.Boost);
 
             return base.Die();
         }

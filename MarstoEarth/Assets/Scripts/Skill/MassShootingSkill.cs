@@ -58,13 +58,11 @@ namespace Skill
             projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet, null);
-            
-            for (byte i = 0; i < effectsLength; i++)
-            {
-                effects[i]= Object.Instantiate(skillInfo.effects[i], caster.muzzle);
-                effects[i].Stop();
-            }
 
+            effects[0] = Object.Instantiate(skillInfo.effects[0], caster.muzzle);
+            effects[0].Stop();
+            effects[1] = Object.Instantiate(skillInfo.effects[1], caster.handguard);
+            effects[1].Stop();
         }
         protected override bool Activate()
         {

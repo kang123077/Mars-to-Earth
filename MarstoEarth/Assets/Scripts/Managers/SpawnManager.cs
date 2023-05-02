@@ -1,26 +1,36 @@
 using Character;
+using Item;
 using Projectile;
 using Skill;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
+enum PoolType
+{
+    Projectile,
+    Effect,
+    Monster,
+    Item,
+}
 public class SpawnManager : Singleton<SpawnManager>
 {
     public Player player;
     [HideInInspector] public Transform playerTransform;
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
+    public Item.Item ItemPrefab;
+    public ReleaseEffect effectPrefab;
     public bool spawnInstantiateFinished = false;
     public NodeInfo curNode;
     private int _curMonsterCount;
     public int curMonsterCount
     {
-        get =>_curMonsterCount;
-        set{
+        get => _curMonsterCount;
+        set
+        {
             Debug.Log(value);
             if (value == 0)
             {
@@ -37,10 +47,12 @@ public class SpawnManager : Singleton<SpawnManager>
         }
     }
     public List<Monster> monsterPool;
-    public List<ParticleSystem> effectPool;
+    public List<ReleaseEffect> effectPool;
+    public List<Item.Item> itemPool;
     public int curNormal = 3;
     public int curElite = 1;
 
+    public Transform[] objectPool;
     protected override void Awake()
     {
         base.Awake();
@@ -145,11 +157,11 @@ public class SpawnManager : Singleton<SpawnManager>
         int findIdx = monsterPool.FindIndex((monster) => monster.enemyType == type);
 
         if (findIdx < 0)
-            target = Instantiate(ResourceManager.Instance.enemys[(int)type],spawnPoint,Quaternion.identity);
+            target = Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity);
         else
         {
             target = monsterPool[findIdx];
-            target.transform.position= spawnPoint;
+            target.transform.position = spawnPoint;
             monsterPool.RemoveAt(findIdx);
             Debug.Log("있어서 가져옴");
         }
@@ -165,25 +177,29 @@ public class SpawnManager : Singleton<SpawnManager>
         monsterPool.Add(target);
         Debug.Log("반납함");
     }
-    public void GetEffect(Vector3 spawnPoint, ParticleSystem particle, Vector3 scale =default)
+    public void GetEffect(Vector3 spawnPoint, ParticleSystem particle, Vector3 scale = default)
     {
-        ParticleSystem target;
-        int findIdx = effectPool.FindIndex((el) => el.name == $"{particle.name}(Clone)");
-
+        ReleaseEffect target;
+        int findIdx = effectPool.FindIndex((el) => ReferenceEquals(el.refParticle, particle));
+        ParticleSystem targetParticle;
         if (findIdx < 0)
         {
-            target = Instantiate(particle,spawnPoint,Quaternion.identity);
-            target.gameObject.SetActive(false);
-            ParticleSystem.MainModule main = target.main;
+            targetParticle = Instantiate(particle, spawnPoint, Quaternion.identity);
+            ParticleSystem.MainModule main = targetParticle.main;
             main.stopAction = ParticleSystemStopAction.Callback;
-            target.AddComponent<ReleaseEffect>();
+
+            target = targetParticle.AddComponent<ReleaseEffect>();
+            target.refParticle = particle;
+            // targetParticle= Instantiate(particle, target.transform);
+
+            target.gameObject.SetActive(false);
         }
         else
         {
             target = effectPool[findIdx];
-            target.transform.position= spawnPoint;
+            target.transform.position = spawnPoint;
             effectPool.RemoveAt(findIdx);
-            
+            targetParticle = target.GetComponentInChildren<ParticleSystem>();
             Debug.Log("있어서 가져옴");
         }
 
@@ -191,11 +207,11 @@ public class SpawnManager : Singleton<SpawnManager>
             scale = Vector3.one;
         target.transform.localScale = scale;
         target.gameObject.SetActive(true);
-        target.Play();
+        targetParticle.Play();
     }
 
-  
-   
+
+
     public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {
         Projectile.Projectile projectile = projectileManagedPool.Get();
@@ -203,10 +219,27 @@ public class SpawnManager : Singleton<SpawnManager>
         projectile.gameObject.SetActive(true);
     }
 
-    public static void DropOptanium(Vector3 postion)
+    public void DropOptanium(Vector3 spawnPoint, ItemType type)
     {
-        Instantiate(ResourceManager.Instance.items[0], postion, Quaternion.identity);
+        Item.Item target;
+        int findIdx = itemPool.FindIndex((el) => el.type == type);
 
+        if (findIdx < 0)
+        {
+            target = Instantiate(ItemPrefab, spawnPoint, Quaternion.identity);
+            Instantiate(ResourceManager.Instance.itemInfos[(int)type].thisParticle, target.transform);
+            target.type = type;
+
+        }
+        else
+        {
+            target = itemPool[findIdx];
+            target.transform.position = spawnPoint;
+            itemPool.RemoveAt(findIdx);
+
+            Debug.Log("있어서 가져옴");
+        }
+
+        target.gameObject.SetActive(true);
     }
-
 }

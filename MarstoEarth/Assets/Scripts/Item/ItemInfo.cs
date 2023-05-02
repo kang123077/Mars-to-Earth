@@ -6,9 +6,9 @@ namespace Item
 {
     public enum ItemType
     {
-        Optanium,
-        EXP,
         Heal,
+        Boost,
+        PowerUp,
         Shield,
     }
     [CreateAssetMenu(fileName = "New ItemInfo", menuName = "ItemInfo")]
@@ -16,7 +16,8 @@ namespace Item
     {
         public ItemType type;
         public int itemValue;
-        
-        
+        public ParticleSystem thisParticle;
+        public ParticleSystem targetParticle;
+        public Sprite SPC_Sprite;
     }
 }

@@ -8,7 +8,6 @@ namespace Character
     {
         public Vector3 InputDir;
         public Transform camPoint;
-
        public override bool stun
             {
                 get => _stun;

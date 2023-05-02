@@ -9,14 +9,14 @@ namespace Projectile
        
         private static readonly Vector3[] ports = new Vector3[8]
         {
-            new (-.875f, .5f, .0f),
-            new (-.625f, .5f, .0f),
-            new (-.375f, .5f, .0f),
-            new (-.125f, .5f, .0f),
-            new (.125f, .5f, .0f),
-            new (.375f, .5f, .0f),
-            new (.625f, .5f, .0f),
-            new (.875f, .5f, .0f),
+            new (-.875f, .6f, .0f),
+            new (-.625f, .6f, .0f),
+            new (-.375f, .6f, .0f),
+            new (-.125f, .6f, .0f),
+            new (.125f, .6f, .0f),
+            new (.375f, .6f, .0f),
+            new (.625f, .6f, .0f),
+            new (.875f, .6f, .0f),
         };
 
         private Vector3 targetPoint;
@@ -35,7 +35,8 @@ namespace Projectile
             casterCh.enabled = false;
             Vector3 forward = caster.transform.forward;
             forward.y = 0;
-            startPoint =transform.position = caster.transform.position - forward*2;
+            transform.position = caster.transform.position - forward * 2;
+            startPoint = transform.position - forward * 10;
             for (int i = 0; i < 8; i++)
             {
                 GameObject port = Instantiate(ResourceManager.Instance.skillInfos[(int)SkillName.AegisBarrier].effects[^1]).gameObject;

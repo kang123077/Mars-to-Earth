@@ -6,27 +6,31 @@ namespace Item
 {
     public class Item : MonoBehaviour
     {
-        [SerializeField]public ItemInfo itemInfo;
-        
+        public ItemType type;
+
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Player player)
         {
-            switch (itemInfo.type)
+            switch (type)
             {
                 case ItemType.Heal:
-                    player.hp += itemInfo.itemValue;
+                    Debug.Log("힐!!@!@!");
+                    break;
+                case ItemType.Boost:
+                    Debug.Log("스피드!!@!@!");
+                    break;
+                case ItemType.PowerUp:
+                    Debug.Log("공격력!!@!@!");
                     break;
                 case ItemType.Shield:
-                    player.def += itemInfo.itemValue;
+                    Debug.Log("방어!!@!@!");
                     break;
+
                
             }
             Debug.Log("아이템 사용 이팩트");
-            Destroy(gameObject);
-        }
-        
-
-        
+            SpawnManager.Instance.itemPool.Add(this);
+            gameObject.SetActive(false);
+        }        
     }
 }
-

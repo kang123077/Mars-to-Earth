@@ -1,18 +1,16 @@
-﻿
+
 using UnityEngine;
 
 namespace Skill
 {
     public class ReleaseEffect:MonoBehaviour
     {
-        
-        private ParticleSystem thisParticle;
+        public ParticleSystem refParticle;
         
         void OnParticleSystemStopped()
         {
             gameObject.SetActive(false);
-            TryGetComponent(out thisParticle);
-            SpawnManager.Instance.effectPool.Add(thisParticle);
+            SpawnManager.Instance.effectPool.Add(this);
         }
     }
 }
