@@ -10,44 +10,39 @@ namespace Item
         public ItemType type;
         
         private SPC[] spcs;
-       
 
-        // public Item()
-        // {
-        //    
-        //     spcs= new SPC[4]
-        //     {
-        //         new( (ch) => { }, ResourceManager.Instance.itemInfos[1].SPC_Sprite),
-        //         new( (ch) => { }, ResourceManager.Instance.itemInfos[1].SPC_Sprite),
-        //         new((ch) => { }, ResourceManager.Instance.itemInfos[2].SPC_Sprite),
-        //         new( (ch) => { }, ResourceManager.Instance.itemInfos[3].SPC_Sprite),
-        //     };
-        // }
+        static ItemInfo[] infos = new ItemInfo[3];
+        float[] temps= new float[2];
 
-        
-        //        
+        private void Awake()        
+        {
+            for(int i = 0; i< ResourceManager.Instance.itemInfos.Length;i++)
+            {
+                infos[i] = ResourceManager.Instance.itemInfos[i];
+            }
+
+            spcs = new SPC[3]
+            {
+                 new( (ch) => spcs[0].Tick((stack)=>{ch.hp+=stack* ch.characterStat.maxHP*0.01f; }),infos[0].SPC_Sprite),
+                 new( (ch) => {
+                     temps[0]= ch.speed;
+                     ch.speed+= temps[0]*0.2f;
+                 }, (ch) =>ch.speed-=temps[0]*0.2f, infos[1].SPC_Sprite),
+                 new((ch) => {
+                     temps[1]= ch.dmg;
+                     ch.dmg+= temps[1]*0.2f;
+                 },(ch)=>ch.dmg-=temps[1]*0.2f , infos[2].SPC_Sprite),
+            };
+        }
+
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Player player)
         {
-            switch (type)
-            {
-                case ItemType.Heal:
-                    
-                    Debug.Log("힐!!@!@!");
-                    break;
-                case ItemType.Boost:
-                    Debug.Log("스피드!!@!@!");
-                    break;
-                case ItemType.PowerUp:
-                    Debug.Log("공격력!!@!@!");
-                    break;
-                case ItemType.Shield:
-                    Debug.Log("방어!!@!@!");
-                    break;
-
-               
-            }
-            Debug.Log("아이템 사용 이팩트");
+            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle, 20);
+            effect.transform.SetParent(player.transform,true);
+            spcs[(int)type].Init(20);
+            player.AddBuff(spcs[(int)type]);
+            Debug.Log("사용");
             SpawnManager.Instance.itemPool.Add(this);
             gameObject.SetActive(false);
         }        

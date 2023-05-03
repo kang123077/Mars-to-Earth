@@ -276,7 +276,6 @@ namespace Character
             else if (Input.GetKeyDown(KeyCode.Space))
             {
                 actives[13].Use();
-                Debug.Log(onSkill);
             }
             else if (Input.GetKeyDown(KeyCode.Keypad0))
             {

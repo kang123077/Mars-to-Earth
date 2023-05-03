@@ -142,7 +142,7 @@ namespace Character
             target = null;
             Vector3 point = thisCurTransform.position;
             point.y = 0.8f;
-            SpawnManager.Instance.DropOptanium(point,Item.ItemType.Boost);
+            SpawnManager.Instance.DropItem(point,Item.ItemType.Boost);
 
             return base.Die();
         }

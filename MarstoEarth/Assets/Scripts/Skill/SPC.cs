@@ -14,7 +14,6 @@ namespace Skill
         
         private static float eleapse = 0.2f;
         private float curEleapse;
-        private int curCount;
 
         public void Init(float duration)
         {
@@ -58,14 +57,13 @@ namespace Skill
                 character.RemoveBuff(this);
             }
         }
-        public void Tick(Action<int> action)
+        public void Tick(Action<float> action)
         {
             curEleapse += Time.deltaTime;
-            curCount++;
             if (curEleapse>eleapse)
             {
-                action(curCount);
-                curCount = 0;
+                action(curEleapse);
+                curEleapse -= eleapse;
             }
         }
         //public object Clone()

@@ -22,10 +22,10 @@ namespace Skill
             {
                 if (caster.dying)
                     target.RemoveBuff(targetBite);
-                targetBite.Tick((count) =>
+                targetBite.Tick((stack) =>
                 {
                     effect.Play();
-                    target.Hit(casterPoint, skillInfo.dmg * Time.deltaTime * count, 0);
+                    target.Hit(casterPoint, skillInfo.dmg * stack, 0);
                 });
                 
                 target.transform.position = caster.muzzle.position + Vector3.down * 1.5f;

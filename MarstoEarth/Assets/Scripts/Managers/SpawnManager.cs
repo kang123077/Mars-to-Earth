@@ -175,11 +175,11 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount--;
         monsterPool.Add(target);
     }
-    public void GetEffect(Vector3 spawnPoint, ParticleSystem particle, Vector3 scale = default)
+    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, float duration=-1,Vector3 scale = default)
     {
         ReleaseEffect target;
         int findIdx = effectPool.FindIndex((el) => ReferenceEquals(el.refParticle, particle));
-        ;
+        
         if (findIdx < 0)
         {
             ParticleSystem targetParticle = Instantiate(particle, spawnPoint, Quaternion.identity);
@@ -199,8 +199,10 @@ public class SpawnManager : Singleton<SpawnManager>
 
         if (scale == default)
             scale = Vector3.one;
-        target.transform.localScale = scale;
+
+        target.Init(duration,scale);
         target.gameObject.SetActive(true);
+        return target;
     }
 
 
@@ -212,9 +214,10 @@ public class SpawnManager : Singleton<SpawnManager>
         projectile.gameObject.SetActive(true);
     }
 
-    public void DropOptanium(Vector3 spawnPoint, ItemType type)
+    public void DropItem(Vector3 spawnPoint, ItemType type)
     {
         Item.Item target;
+        type = (ItemType)UnityEngine.Random.Range(0, 3);
         int findIdx = itemPool.FindIndex((el) => el.type == type);
 
         if (findIdx < 0)

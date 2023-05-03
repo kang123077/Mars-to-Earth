@@ -112,7 +112,7 @@ namespace Character
                 mainCam= Camera.main;
             thisCurTransform = transform;
             target = null;
-            nockBackResist = characterStat.maxHP * 0.1f;
+            nockBackResist = characterStat.maxHP * 0.05f;
             impact = Vector3.zero;
             dmg = characterStat.dmg;
             speed = characterStat.speed;
