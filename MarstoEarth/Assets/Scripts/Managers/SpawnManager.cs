@@ -61,7 +61,7 @@ public class SpawnManager : Singleton<SpawnManager>
         //playerTransform = player.gameObject.transform;
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
-                Projectile.Projectile copyPrefab = Instantiate(projectilePrefab);
+                Projectile.Projectile copyPrefab = Instantiate(projectilePrefab,objectPool[(int)PoolType.Projectile]);
                 copyPrefab.gameObject.SetActive(false);
                 return copyPrefab;
             },
@@ -157,7 +157,7 @@ public class SpawnManager : Singleton<SpawnManager>
         int findIdx = monsterPool.FindIndex((monster) => monster.enemyType == type);
 
         if (findIdx < 0)
-            target = Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity);
+            target = Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity, objectPool[(int)PoolType.Monster]);
         else
         {
             target = monsterPool[findIdx];
@@ -182,7 +182,7 @@ public class SpawnManager : Singleton<SpawnManager>
         
         if (findIdx < 0)
         {
-            ParticleSystem targetParticle = Instantiate(particle, spawnPoint, Quaternion.identity);
+            ParticleSystem targetParticle = Instantiate(particle, spawnPoint, Quaternion.identity,objectPool[(int)PoolType.Effect]);
             ParticleSystem.MainModule main = targetParticle.main;
             main.stopAction = ParticleSystemStopAction.Callback;
 
@@ -214,15 +214,19 @@ public class SpawnManager : Singleton<SpawnManager>
         projectile.gameObject.SetActive(true);
     }
 
-    public void DropItem(Vector3 spawnPoint, ItemType type)
+    private int[] weight = { 3, 7, 11 };
+    public void DropItem(Vector3 spawnPoint, EnemyPool rank)
     {
+        if(weight[(int)rank]<UnityEngine.Random.Range(1, 11))
+            return;
         Item.Item target;
-        type = (ItemType)UnityEngine.Random.Range(0, 3);
+
+        ItemType type = (ItemType)UnityEngine.Random.Range(0, 3);
         int findIdx = itemPool.FindIndex((el) => el.type == type);
 
         if (findIdx < 0)
         {
-            target = Instantiate(ItemPrefab, spawnPoint, Quaternion.identity);
+            target = Instantiate(ItemPrefab, spawnPoint, Quaternion.identity,objectPool[(int)PoolType.Item]);
             Instantiate(ResourceManager.Instance.itemInfos[(int)type].thisParticle, target.transform);
             target.type = type;
 

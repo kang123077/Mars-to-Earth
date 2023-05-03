@@ -2631,11 +2631,23 @@ MonoBehaviour:
   characterStat: {fileID: 11400000, guid: a0431f36f15df8344aedad58fdd10408, type: 2}
   anim: {fileID: 6873869241703383193}
   col: {fileID: 5533809643652103506}
-  target: {fileID: 0}
+  targetCharacter: {fileID: 0}
+  colliders: []
+  muzzle: {fileID: 0}
+  handguard: {fileID: 0}
+  impact: {x: 0, y: 0, z: 0}
+  dmg: 0
+  def: 0
+  duration: 0
+  range: 0
+  viewAngle: 0
+  sightLength: 19
+  layerMask: 0
+  immune: 0
   dying: 0
   ai: {fileID: 2802570453688182174}
-  sightLength: 19
   enemyType: 0
+  rank: 1
 --- !u!1 &6873869241727543960
 GameObject:
   m_ObjectHideFlags: 0

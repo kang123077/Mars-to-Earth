@@ -54,6 +54,8 @@ namespace Character
             } }
 
         public EnemyType enemyType;
+
+        public EnemyPool rank;
         //private NavMeshHit hit;
 
         private IEnumerator StuckCheck()
@@ -142,7 +144,7 @@ namespace Character
             target = null;
             Vector3 point = thisCurTransform.position;
             point.y = 0.8f;
-            SpawnManager.Instance.DropItem(point,Item.ItemType.Boost);
+            SpawnManager.Instance.DropItem(point,rank);
 
             return base.Die();
         }

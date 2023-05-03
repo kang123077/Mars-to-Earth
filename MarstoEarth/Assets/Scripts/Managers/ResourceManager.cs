@@ -58,8 +58,6 @@ public enum SkillName
     Bite,
     Block,
     Charge,
-    stun,
-    slow,
 }
 
 public enum CommonSPC
@@ -88,7 +86,7 @@ public class ResourceManager : Singleton<ResourceManager>
         //skillInfos = Resources.LoadAll<SkillInfo>("SkillsStat");
 
         skills.Add(new RollSkill());//플레이어 전용
-        skills.Add(new SmashSkill());
+        skills.Add(null);//smash는 몬스터 전용스킬
         skills.Add(new StimPackSkill());
         skills.Add(new GrenadeSkill());
         skills.Add(new GardianSkill());

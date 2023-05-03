@@ -21,7 +21,6 @@ namespace Character
         protected UnityEngine.UI.Slider hpBar;
         protected static CombatUI combatUI;
         protected Transform thisCurTransform;
-
         private Transform _target;
 
         public virtual Transform target
@@ -96,7 +95,6 @@ namespace Character
                 {
                     anim.SetBool(attacking, false);
                     anim.SetBool(onTarget, false);
-                    
                 }
                 else
                     anim.SetBool(onTarget, target);
@@ -146,7 +144,7 @@ namespace Character
         private void Attack()
         {
             //애니메이션 이벤트가 델리게이트를 찾지못하는 이슈 때문에
-            //Attack함수를 거쳐 델리게이트를 실행하도록 함
+            //Attack함수를 거쳐 Attacken 델리게이트를 실행하도록 함
             Attacken();
         }
 
@@ -212,7 +210,7 @@ namespace Character
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
-            dt.text.text = $"{dmg}";
+            dt.text.text = $"{(int)dmg}";
             
                 
             Vector3 horizonPosition = thisCurTransform.position;

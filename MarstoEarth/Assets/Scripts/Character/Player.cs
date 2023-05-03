@@ -41,7 +41,7 @@ namespace Character
 
         private KeyCode key;
 
-        private KeyCode[] keys = new[]
+        private KeyCode[] moveKeys = new[]
         {
             KeyCode.UpArrow,
             KeyCode.RightArrow,
@@ -51,6 +51,13 @@ namespace Character
             KeyCode.D,
             KeyCode.S,
             KeyCode.A
+        };
+        private KeyCode[] skillKeys = new[]
+        {
+            KeyCode.Q,
+            KeyCode.E,
+            KeyCode.R,
+            KeyCode.Space
         };
 
         private bool _isRun;
@@ -98,7 +105,6 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.MassShooting]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Block]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Stimpack]);
-            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Smash]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
             foreach(var a in actives)
@@ -170,25 +176,26 @@ namespace Character
                     InputDir.x *= 0.71f;
                     InputDir.z *= 0.71f;
                 }
-
+                
                 if (Input.anyKey)
                 {
-                    foreach (KeyCode keyCode in keys)
+                    foreach (KeyCode keyCode in moveKeys)
                     {
                         if (Input.GetKeyDown(keyCode))
                         {
                             if (Time.time - lastInputTime < 0.3f && key == keyCode)
-                            {
-                                //연속으로 두번왓는지 확인
                                 if (onSkill is not MassShootingSkill)
                                     isRun = true;
-                            }
 
                             key = keyCode;
                             lastInputTime = Time.time;
                             break;
                         }
                     }
+
+                    for (int i=0; i<skillKeys.Length; i++)
+                        if (Input.GetKeyDown(skillKeys[i]))
+                            combatUI.ClickSkill(i);
                 }
                 else
                     isRun = false;
@@ -202,12 +209,8 @@ namespace Character
                 anim.SetFloat(Z, lowerDir.z);
             }
 
-
-            
-
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
-            
             
             #endregion
 
@@ -259,23 +262,23 @@ namespace Character
 
             #region Test
 
-            
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 actives[0].Use();
+                
             }
-            else if (Input.GetKeyDown(KeyCode.E))
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 actives[1].Use();
             }
-            else if (Input.GetKeyDown(KeyCode.R))
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
 
             {
                 actives[2].Use();
             }
-            else if (Input.GetKeyDown(KeyCode.Space))
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
             {
-                actives[13].Use();
+                actives[12].Use();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad0))
             {
@@ -312,10 +315,6 @@ namespace Character
             else if (Input.GetKeyDown(KeyCode.Keypad8))
             {
                 actives[11].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad9))
-            {
-                actives[12].Use();
             }
 
 

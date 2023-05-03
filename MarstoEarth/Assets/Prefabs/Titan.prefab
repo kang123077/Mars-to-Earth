@@ -1995,22 +1995,23 @@ MonoBehaviour:
   characterStat: {fileID: 11400000, guid: 20469149076a9bc4dbdba5e8d3c7fb20, type: 2}
   anim: {fileID: 8155533566884809010}
   col: {fileID: 4849788643660579073}
-  target: {fileID: 0}
+  targetCharacter: {fileID: 0}
+  colliders: []
   muzzle: {fileID: 8155533566875756202}
+  handguard: {fileID: 0}
   impact: {x: 0, y: 0, z: 0}
   dmg: 0
-  speed: 0
   def: 0
   duration: 0
   range: 0
   viewAngle: 0
-  _stun: 0
+  sightLength: 20
+  layerMask: 0
   immune: 0
   dying: 0
   ai: {fileID: 4461040968777881720}
-  sightLength: 20
   enemyType: 5
-  LH: {fileID: 8155533566875756202}
+  rank: 2
 --- !u!1 &8155533566875335506
 GameObject:
   m_ObjectHideFlags: 0
