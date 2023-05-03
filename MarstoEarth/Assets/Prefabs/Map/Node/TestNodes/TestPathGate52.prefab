@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 124466998181803054}
   - component: {fileID: 5100529720177276170}
   - component: {fileID: 5415245591042554543}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: OuterCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2391,7 +2391,7 @@ GameObject:
   - component: {fileID: 2176773571279159808}
   - component: {fileID: 7503698030496931335}
   - component: {fileID: 8394916877501336167}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: InnerCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

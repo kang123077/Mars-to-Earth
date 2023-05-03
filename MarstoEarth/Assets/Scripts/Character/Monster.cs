@@ -23,8 +23,6 @@ namespace Character
         protected bool trackingPermission;
         private Vector3 lastPosition;
         protected float travelDistance;
-        
-        
 
         private bool _isAttacking;
         protected bool isAttacking { get { return _isAttacking; } 

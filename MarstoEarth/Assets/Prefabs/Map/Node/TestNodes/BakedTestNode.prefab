@@ -394,7 +394,7 @@ GameObject:
   - component: {fileID: 9154454810325575720}
   - component: {fileID: 5113924248641478149}
   m_Layer: 0
-  m_Name: BakedNodePlane
+  m_Name: BakedTestNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
