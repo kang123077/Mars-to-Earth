@@ -6,11 +6,11 @@ public class InnerController : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (!pathController.isColliderIn)
+        if (pathController.isColliderOn)
         {
-            Debug.Log("innerEnter");
             pathController.EnterEvent(other);
-            pathController.isColliderIn = true;
+            gameObject.SetActive(false);
+            pathController.isColliderOn = false;
         }
     }
 }

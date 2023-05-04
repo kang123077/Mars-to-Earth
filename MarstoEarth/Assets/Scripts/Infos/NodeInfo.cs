@@ -19,7 +19,7 @@ public class NodeInfo : MonoBehaviour
 
     public delegate void RoomClearedHandler(NodeInfo clearedNode);
     public event RoomClearedHandler OnRoomCleared;
-    public bool isNodeCleared;
+    private bool isNodeCleared;
     public bool IsNodeCleared
     {
         get { return isNodeCleared; }
@@ -35,7 +35,7 @@ public class NodeInfo : MonoBehaviour
 
     public delegate void RoomRenderedHandler();
     public event RoomRenderedHandler OnRoomRendered;
-    public bool isNodeRendered;
+    private bool isNodeRendered;
     public bool IsNodeRendered
     {
         get { return isNodeRendered; }

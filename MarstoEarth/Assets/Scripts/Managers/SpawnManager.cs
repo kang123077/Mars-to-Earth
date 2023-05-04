@@ -15,12 +15,11 @@ public class SpawnManager : Singleton<SpawnManager>
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public bool spawnInstantiateFinished = false;
-    public NodeInfo curNode;
     private int _curMonsterCount;
     public int curMonsterCount
     {
-        get =>_curMonsterCount;
-        set{
+        get => _curMonsterCount;
+        set {
             Debug.Log(value);
             if (value == 0)
             {
@@ -40,6 +39,19 @@ public class SpawnManager : Singleton<SpawnManager>
     public List<ParticleSystem> effectPool;
     public int curNormal = 3;
     public int curElite = 1;
+    private NodeInfo _curNode;
+    public NodeInfo curNode
+    {
+        get { return _curNode; }
+        set
+        {
+            _curNode = value;
+            if (!curNode.IsNodeCleared)
+            {
+                NodeSpawn(curNode);
+            }
+        }
+    }
 
     protected override void Awake()
     {
@@ -71,7 +83,6 @@ public class SpawnManager : Singleton<SpawnManager>
         curNode = MapManager.nodes[0];
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
-        NodeSpawn(curNode);
     }
 
     public void NodeSpawn(NodeInfo spawnNode)

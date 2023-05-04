@@ -18,15 +18,16 @@ public class GateController : MonoBehaviour
     {
         animator.SetBool("isGateOpen", true);
         isGateOpen = true;
-        navMeshObstacle.enabled = false;
         gameObject.layer = 10;
+        Invoke("OnOpenAnimationMiddle", 0.5f);
+        navMeshObstacle.enabled = false;
     }
 
     public void GateClose()
     {
         animator.SetBool("isGateOpen", false);
         isGateOpen = false;
-        navMeshObstacle.enabled = true;
         gameObject.layer = 9;
+        navMeshObstacle.enabled = true;
     }
 }
