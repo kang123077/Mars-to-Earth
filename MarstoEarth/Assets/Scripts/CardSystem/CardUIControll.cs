@@ -17,7 +17,7 @@ public class CardUIControll : UI
     public CardInfo cardInfo;
     public CombatUI combatUI;
 
-    CardHover cardHover;
+    CardHover[] cardHovers;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class CardUIControll : UI
         orglcScale = leftCard.gameObject.transform.localScale;
         orgrcScale = rightCard.gameObject.transform.localScale;
 
-        cardHover = GetComponentInChildren<CardHover>();
+        cardHovers = GetComponentsInChildren<CardHover>();
     }
 
     void Start()
@@ -51,7 +51,7 @@ public class CardUIControll : UI
 
     void ScaleUpLeftCard()
     {
-        cardHover.isBool = true;
+        cardHovers[0].isBool = true;
         MoveNSize(leftCard);
         int skillIndex = cardInfo.randomIndexLeft;
         SkillPlus(skillIndex);
@@ -60,7 +60,7 @@ public class CardUIControll : UI
 
     void ScaleUpRightCard()
     {
-        cardHover.isBool = true;
+        cardHovers[1].isBool = true;
         MoveNSize(rightCard);
         int skillIndex = cardInfo.randomIndexRight;
         SkillPlus(skillIndex);
