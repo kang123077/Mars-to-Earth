@@ -14,16 +14,24 @@ public class SettingUI : UI
         gameObject.SetActive(false); // UI 비활성화
     }
 
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.F))
-        {
-            gameObject.SetActive(true); // UI 활성화
-        }
-    }
-
     public void OffSettingUI()
     {
+        Time.timeScale = 1f;
         gameObject.SetActive(false);
+    }
+
+    public void ResolutionChange()
+    {
+
+    }
+
+    public void GameReStart()
+    {
+        Debug.Log("게임을 재실행 합니다.");
+    }
+
+    public void GameExit()
+    {
+        Debug.Log("게임을 나갑니다.");
     }
 }

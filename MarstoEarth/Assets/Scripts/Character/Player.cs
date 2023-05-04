@@ -51,7 +51,7 @@ namespace Character
             KeyCode.W,
             KeyCode.D,
             KeyCode.S,
-            KeyCode.A
+            KeyCode.A,
         };
 
         public bool isRun;
