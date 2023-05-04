@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MiniMapController : MonoBehaviour
+public class MiniMapController : UI
 {
     private RawImage rawImage;
     private Vector2 screenSize;

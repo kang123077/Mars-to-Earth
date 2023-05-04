@@ -1,32 +1,50 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using Skill;
 using UnityEngine;
 
 namespace Item
 {
     public class Item : MonoBehaviour
     {
-        [SerializeField]public ItemInfo itemInfo;
+        public ItemType type;
         
+        private SPC[] spcs;
+
+        static ItemInfo[] infos = new ItemInfo[3];
+        float[] temps= new float[2];
+
+        private void Awake()        
+        {
+            for(int i = 0; i< ResourceManager.Instance.itemInfos.Length;i++)
+            {
+                infos[i] = ResourceManager.Instance.itemInfos[i];
+            }
+
+            spcs = new SPC[3]
+            {
+                 new( (ch) => spcs[0].Tick((stack)=>{ch.hp+=stack* ch.characterStat.maxHP*0.01f; }),infos[0].SPC_Sprite),
+                 new( (ch) => {
+                     temps[0]= ch.speed;
+                     ch.speed+= temps[0]*0.2f;
+                 }, (ch) =>ch.speed-=temps[0]*0.2f, infos[1].SPC_Sprite),
+                 new((ch) => {
+                     temps[1]= ch.dmg;
+                     ch.dmg+= temps[1]*0.2f;
+                 },(ch)=>ch.dmg-=temps[1]*0.2f , infos[2].SPC_Sprite),
+            };
+        }
+
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Player player)
         {
-            switch (itemInfo.type)
-            {
-                case ItemType.Heal:
-                    player.hp += itemInfo.itemValue;
-                    break;
-                case ItemType.Shield:
-                    player.def += itemInfo.itemValue;
-                    break;
-               
-            }
-            Debug.Log("아이템 사용 이팩트");
-            Destroy(gameObject);
-        }
-        
-
-        
+            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle, 20);
+            effect.transform.SetParent(player.transform,true);
+            spcs[(int)type].Init(20);
+            player.AddBuff(spcs[(int)type]);
+            Debug.Log("사용");
+            SpawnManager.Instance.itemPool.Add(this);
+            gameObject.SetActive(false);
+        }        
     }
 }
-

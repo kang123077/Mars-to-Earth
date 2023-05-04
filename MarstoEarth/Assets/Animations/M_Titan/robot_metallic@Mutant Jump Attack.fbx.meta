@@ -42,7 +42,7 @@ ModelImporter:
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 111
+      lastFrame: 79
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -62,7 +62,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.46392554
+      - time: 0.65232414
         functionName: SkillEffect
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 832f3f8426e4d034087436c008eac333, type: 3}

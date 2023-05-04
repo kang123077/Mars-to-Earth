@@ -19,8 +19,8 @@ MonoBehaviour:
   dmg: 15
   duration: 8
   range: 8
-  cool: 3
-  speed: 30
+  cool: 15
+  speed: 35
   effects:
   - {fileID: 198845034460101788, guid: 9e08e7eea9b67324f9c545b241004b0b, type: 3}
   - {fileID: 198223656074818568, guid: 109ef343c4e69a640b663ceabaa718b5, type: 3}

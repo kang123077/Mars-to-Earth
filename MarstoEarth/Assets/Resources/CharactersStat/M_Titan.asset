@@ -18,5 +18,5 @@ MonoBehaviour:
   duration: 0
   maxHP: 450
   range: 5
-  sightLength: 25
+  sightLength: 30
   viewAngle: 85

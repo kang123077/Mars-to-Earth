@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 /*
  * 스턴 상태일때는 
  */
@@ -22,12 +21,25 @@ namespace Character
         protected UnityEngine.UI.Slider hpBar;
         protected static CombatUI combatUI;
         protected Transform thisCurTransform;
-        [HideInInspector] public Transform target;
-        public Character targetCharacter;
+        private Transform _target;
+
+        public virtual Transform target
+        {
+            get => _target;
+            set
+            {
+                anim.SetBool(onTarget, value);
+                _target = value;
+            }
+        }
+        
+        [HideInInspector] public Character targetCharacter;
         [HideInInspector] public Collider[] colliders;
         private float nockBackResist ;
 
         public Transform muzzle;
+        public Transform handguard;
+
         public Skill.Skill onSkill;
         private float SPCActionWeight;
         [HideInInspector] public Vector3 impact;
@@ -38,7 +50,7 @@ namespace Character
         [HideInInspector] public float viewAngle;
         [HideInInspector] public float sightLength;
         private float _speed;
-        public float speed
+        public virtual float speed
         {
             get => _speed;
             set
@@ -55,12 +67,13 @@ namespace Character
             {
                 if (value > characterStat.maxHP)
                     value = characterStat.maxHP;
+                _hp = value;
+                hpBar.value = hp / characterStat.maxHP;
                 if (value <= 0)
                 {
                     SpawnManager.Instance.player.target=null;
                     StartCoroutine(Die());
                 }
-                _hp = value;
             }
         }
 
@@ -82,7 +95,6 @@ namespace Character
                 {
                     anim.SetBool(attacking, false);
                     anim.SetBool(onTarget, false);
-                    
                 }
                 else
                     anim.SetBool(onTarget, target);
@@ -98,13 +110,13 @@ namespace Character
                 mainCam= Camera.main;
             thisCurTransform = transform;
             target = null;
-            nockBackResist = characterStat.maxHP * 0.1f;
+            nockBackResist = characterStat.maxHP * 0.05f;
             impact = Vector3.zero;
             dmg = characterStat.dmg;
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;
-            hp = characterStat.maxHP;
+            _hp = characterStat.maxHP;
             range = characterStat.range;
             viewAngle = characterStat.viewAngle;
             sightLength = characterStat.sightLength;
@@ -132,7 +144,7 @@ namespace Character
         private void Attack()
         {
             //애니메이션 이벤트가 델리게이트를 찾지못하는 이슈 때문에
-            //Attack함수를 거쳐 델리게이트를 실행하도록 함
+            //Attack함수를 거쳐 Attacken 델리게이트를 실행하도록 함
             Attacken();
         }
 
@@ -198,8 +210,8 @@ namespace Character
             float penetratedDef = def * (100 - penetrate) * 0.01f;
             dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
             hp -= dmg;
-            dt.text.text = $"{dmg}";
-            hpBar.value = hp / characterStat.maxHP;
+            dt.text.text = $"{(int)dmg}";
+            
                 
             Vector3 horizonPosition = thisCurTransform.position;
             attacker.y = horizonPosition.y;
@@ -246,9 +258,6 @@ namespace Character
             }
         }
 
-        // public static float getAngle()
-        // {
-        //     
-        // }
+       
     }
 }

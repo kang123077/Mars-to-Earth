@@ -11,7 +11,7 @@ namespace Skill
         public StimPackSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Stimpack]; 
-            StimPack = new SPC(0, (ch) =>
+            StimPack = new SPC( (ch) =>
             {
                 for (byte i = 0; i < effectsLength; i++)
                     effects[i].Play();

@@ -39,7 +39,7 @@ namespace Character
                 Vector3 targetPosition = target.position;
                 if (!isAttacking)
                 {
-                    anim.SetBool(attacking, isAttacking = true);
+                    isAttacking = true;
                 }
 
                 if (attackReady)
@@ -54,8 +54,7 @@ namespace Character
                             target.gameObject.TryGetComponent(out targetCharacter);
                             targetCharacter.Hit(thisCurTransform.position, dmg, 0);
                         }
-
-                        anim.SetBool(attacking, isAttacking = false);
+                        isAttacking = false;
                         def -= 10;
                         attackReady = false;
                         target = null;
@@ -68,9 +67,11 @@ namespace Character
                 int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength, colliders, 1 << 3);
                 if (size > 0)
                 {
-                    float angle = Vector3.SignedAngle(thisCurTransform.forward,
-                        colliders[0].transform.position - thisCurTransform.position, Vector3.up);
-                    if ((angle < 0 ? -angle : angle) < viewAngle)
+                    float angle = Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
+
+                    if ((angle < 0 ? -angle : angle) < viewAngle ||
+                        Vector3.Distance(colliders[0].transform.position, thisCurTransform.position) <
+                        sightLength * 0.4f)
                     {
                         target = colliders[0].transform;
                     }

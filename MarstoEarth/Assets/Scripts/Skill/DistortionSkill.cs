@@ -14,7 +14,7 @@ namespace Skill
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Distortion];
             comboCount = 2;
-            distortion = new SPC(0, null, (ch) =>
+            distortion = new SPC( null, (ch) =>
             {
                 ch.transform.position = Vector3.MoveTowards(ch.transform.position, targetPoint, (skillInfo.speed + ch.speed * 0.5f) * Time.deltaTime);
                 if (ch.transform.position == targetPoint)
@@ -22,10 +22,7 @@ namespace Skill
                     ch.RemoveBuff(distortion);
                     ch.SkillEffect();
                 }
-            }, (ch) =>
-            {
-                ch.SkillEffect();
-            },skillInfo.icon);
+            }, (ch) =>ch.SkillEffect(),skillInfo.icon);
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

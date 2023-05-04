@@ -6,11 +6,10 @@ public class OuterController : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
-        if (pathController.isColliderIn)
+        if (!pathController.isColliderOn)
         {
-            Debug.Log("outerExit");
             pathController.ExitEvent(other);
-            pathController.isColliderIn = false;
+            pathController.isColliderOn = true;
         }
     }
 }

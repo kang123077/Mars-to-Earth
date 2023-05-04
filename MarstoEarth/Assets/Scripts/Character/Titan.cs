@@ -38,35 +38,35 @@ namespace Character
                 return;
             if (target)
             {
-                ai.SetDestination(target.position);
                 if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
                 {
                     positions.Clear();
                     travelDistance = 0;
                     return;
                 }
+                ai.SetDestination(target.position);
 
                 Vector3 targetPosition = target.position;
                 var position = thisCurTransform.position;
                 position.y = targetPosition.y;
                 thisCurTransform.forward = Vector3.RotateTowards(thisCurTransform.forward,
                     targetPosition - position, 3 * Time.deltaTime, 0);
-                float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
+                float targetDistance = Vector3.Distance(targetPosition, position);
                 if (targetDistance <= sightLength)
                 {
                     jumpEleapse += Time.deltaTime;
                     if (targetDistance <= range + 0.5f)
                     {
-                        anim.SetBool(attacking, isAttacking = true);
+                         isAttacking = true;
                     }
-                    else if (jumpEleapse > 10 && targetDistance > range * 2.5f)
+                    else if (jumpEleapse > 15 && targetDistance > range * 2.5f)
                     {
                         jumpAttack.Use();
                         jumpEleapse = 0;
                     }
                 }
                 else
-                    anim.SetBool(onTarget, target = null);
+                    target = null;
             }
             else
             {
@@ -74,13 +74,13 @@ namespace Character
                 int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength, colliders, 1 << 3);
                 if (size > 0)
                 {
-                    float angle = Vector3.SignedAngle(thisCurTransform.forward,
-                        colliders[0].transform.position - thisCurTransform.position, Vector3.up);
+                    float angle =Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
+
                     if ((angle < 0 ? -angle : angle) < viewAngle ||
                         Vector3.Distance(colliders[0].transform.position, thisCurTransform.position) <
-                        sightLength * 0.3f)
+                        sightLength * 0.4f)
                     {
-                        anim.SetBool(onTarget, target = colliders[0].transform);
+                        target = colliders[0].transform;
                     }
                 }
             }

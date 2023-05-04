@@ -10,6 +10,7 @@ using static UnityEditorInternal.VersionControl.ListControl;
 public class NodeGenerator : MonoBehaviour
 {
     public GameObject nodePrefab;
+    public GameObject nodePrefab2;
     public GameObject pathPrefab;
     public GameObject wallPrefab;
     public float nodeSpacing;
