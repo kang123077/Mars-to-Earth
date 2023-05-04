@@ -1,46 +1,73 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-public class CardHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class CardHover : MonoBehaviour, IPointerMoveHandler
 {
-    private RectTransform leftCardTransform;
-    private RectTransform rightCardTransform;
+    public RectTransform lcRT;
+    public RectTransform rcRT;
+    private Rect leftCard;
+    private Rect rightCard;
+    public Rect LC
+    {
+        get 
+        {
+            leftCard.x = lcRT.position.x - lcRT.rect.width * 0.5f;
+            leftCard.y = lcRT.position.y + lcRT.rect.height * 0.5f;
+            return leftCard;
+        }
+    }
+    public Rect RC
+    {
+        get
+        {
+            rightCard.x = rcRT.position.x - rcRT.rect.width * 0.5f;
+            rightCard.y = rcRT.position.y + rcRT.rect.height * 0.5f;
+            return rightCard;
+        }
+    }
+
 
     private void Awake()
     {
-        leftCardTransform = transform.GetChild(0).gameObject.GetComponent<RectTransform>();
-        rightCardTransform = transform.GetChild(1).gameObject.GetComponent<RectTransform>();
+        Init(LC, lcRT);
+        Init(RC, rcRT);
+    }
+
+    private void Init(Rect rect, RectTransform cardRT)
+    {
+        rect.x = cardRT.position.x - cardRT.rect.width * 0.5f;
+        rect.y = cardRT.position.y + cardRT.rect.height * 0.5f;
+        rect.width = cardRT.rect.width;
+        rect.height = cardRT.rect.height;
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Mouse entered CardUI");
-
-        if (eventData.pointerCurrentRaycast.gameObject.transform == leftCardTransform)
-        {
-            Debug.Log("Enter if 문은 돌고있다");
-            leftCardTransform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-        }
-        else if (eventData.pointerCurrentRaycast.gameObject.transform == rightCardTransform)
-        {
-            Debug.Log("Enter else if 문은 돌고있다");
-            rightCardTransform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
-        }
+        Debug.Log(lcRT.rect);
+        Debug.Log(LC);
+        ScaleFunc(LC, lcRT, eventData);
+        ScaleFunc(RC, rcRT, eventData);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Mouse exited CardUI");
 
-        if (eventData.pointerCurrentRaycast.gameObject.transform == leftCardTransform)
+    }
+
+    private void ScaleFunc(Rect RC, RectTransform rcTR, PointerEventData eventData)
+    {
+        if (RC.Contains(eventData.position))
         {
-            Debug.Log("Exit if 문은 돌고있다");
-            leftCardTransform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+            rcTR.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         }
-        else if (eventData.pointerCurrentRaycast.gameObject.transform == rightCardTransform)
+        else
         {
-            Debug.Log("Exit else if 문은 돌고있다");
-            rightCardTransform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
+            rcTR.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         }
     }
 }
