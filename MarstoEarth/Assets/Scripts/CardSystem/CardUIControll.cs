@@ -17,6 +17,8 @@ public class CardUIControll : UI
     public CardInfo cardInfo;
     public CombatUI combatUI;
 
+    CardHover cardHover;
+
     private void Awake()
     {
         orglcTrans = leftCard.gameObject.transform.position;
@@ -24,6 +26,8 @@ public class CardUIControll : UI
 
         orglcScale = leftCard.gameObject.transform.localScale;
         orgrcScale = rightCard.gameObject.transform.localScale;
+
+        cardHover = GetComponentInChildren<CardHover>();
     }
 
     void Start()
@@ -47,24 +51,20 @@ public class CardUIControll : UI
 
     void ScaleUpLeftCard()
     {
+        cardHover.isBool = true;
         MoveNSize(leftCard);
         int skillIndex = cardInfo.randomIndexLeft;
         SkillPlus(skillIndex);
-        ScaleDownRightCard();
-    }
-
-    void ScaleDownLeftCard()
-    {
-        leftCard.gameObject.SetActive(false);
-        rerollButton.gameObject.SetActive(false);
+        ScaleDownCard(rightCard, rerollButton);
     }
 
     void ScaleUpRightCard()
     {
+        cardHover.isBool = true;
         MoveNSize(rightCard);
         int skillIndex = cardInfo.randomIndexRight;
         SkillPlus(skillIndex);
-        ScaleDownLeftCard();
+        ScaleDownCard(leftCard, rerollButton);
     }
 
     void MoveNSize(Button button)
@@ -82,17 +82,17 @@ public class CardUIControll : UI
         StartCoroutine(HideCardUI());
     }
 
-    void ScaleDownRightCard()
+    void ScaleDownCard(Button button, Button reroll)
     {
-        rightCard.gameObject.SetActive(false);
-        rerollButton.gameObject.SetActive(false);
+        button.gameObject.SetActive(false);
+        reroll.gameObject.SetActive(false);
     }
 
     IEnumerator HideCardUI()
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 1f;
-        Init();
         gameObject.SetActive(false);
+        Init();
     }
 }

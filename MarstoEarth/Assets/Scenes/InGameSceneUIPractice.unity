@@ -2028,6 +2028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSkillIconLeft: {fileID: 470527357}
   cardSkillIconRight: {fileID: 229598687}
+  reroll: {fileID: 1686393435}
   cardLeftText: {fileID: 1591199098}
   cardRightText: {fileID: 1227825753}
   randomIndexLeft: 0
@@ -3042,9 +3043,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1276017006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b215f1056d3955b4eb88ce9e3370d789, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bec7efcc75cfdc479d9094fcfcded67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBool: 0
 --- !u!1 &1288576184
 GameObject:
   m_ObjectHideFlags: 0
@@ -4242,9 +4244,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1851396375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0486f430c6ddd04282f973a16d51924, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bec7efcc75cfdc479d9094fcfcded67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBool: 0
 --- !u!1 &1874141302
 GameObject:
   m_ObjectHideFlags: 0
