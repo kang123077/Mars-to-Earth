@@ -1225,7 +1225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809b0aa5568319d4987c9d7b7c605864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodePrefab: {fileID: 7015866655225297471, guid: 46460cd8b8c250549a5b9d79062af88d, type: 3}
+  nodePrefab: {fileID: 7015866655225297471, guid: d0b742de5695f4a4788099832899ee3b, type: 3}
   pathPrefab: {fileID: 6244779130016847854, guid: b5fafacc97fac0f4cb394447f002ab4d, type: 3}
   wallPrefab: {fileID: 2969398592852570286, guid: a600ecc6932ca1e48a0773765509ea4c, type: 3}
   nodeSpacing: 60
@@ -3909,7 +3909,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1635536065

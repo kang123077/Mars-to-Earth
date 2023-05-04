@@ -12,14 +12,13 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo north;
     public NodeInfo south;
     public bool isBossNode;
-    public BoxCollider nodeCollider;
-    public List<MeshRenderer> meshRenderers;
+    public bool isInside;
+    private List<MeshRenderer> meshRenderers;
     private bool nodeInitFinished;
-
 
     public delegate void RoomClearedHandler(NodeInfo clearedNode);
     public event RoomClearedHandler OnRoomCleared;
-    public bool isNodeCleared;
+    private bool isNodeCleared;
     public bool IsNodeCleared
     {
         get { return isNodeCleared; }
@@ -35,7 +34,7 @@ public class NodeInfo : MonoBehaviour
 
     public delegate void RoomRenderedHandler();
     public event RoomRenderedHandler OnRoomRendered;
-    public bool isNodeRendered;
+    private bool isNodeRendered;
     public bool IsNodeRendered
     {
         get { return isNodeRendered; }
@@ -45,13 +44,13 @@ public class NodeInfo : MonoBehaviour
             if (OnRoomRendered != null)
             {
                 OnRoomRendered();
+                SetMeshRendererEnabled(value);
             }
         }
     }
 
     private void Awake()
     {
-        nodeCollider = GetComponent<BoxCollider>();
         meshRenderers = new List<MeshRenderer>();
         isBossNode = false;
         nodeInitFinished = false;
@@ -92,8 +91,6 @@ public class NodeInfo : MonoBehaviour
     }
     public void SetMeshRendererEnabled(bool isEnabled)
     {
-
-        IsNodeRendered = isEnabled;
         for (int i = 0; i < meshRenderers.Count; i++)
         {
             meshRenderers[i].enabled = isEnabled;

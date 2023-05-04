@@ -21,6 +21,7 @@ public enum EnemyType
     kamikaze,
     titan
 }
+
 public enum EliteType
 {
     cr0,

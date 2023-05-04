@@ -15,12 +15,18 @@ public class SpawnManager : Singleton<SpawnManager>
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public bool spawnInstantiateFinished = false;
-    public NodeInfo curNode;
+    public List<Monster> monsterPool;
+    public List<ParticleSystem> effectPool;
+    public int curNormal = 3;
+    public int curElite = 1;
+    public GameObject outsideLight;
+    public GameObject insideLight;
     private int _curMonsterCount;
     public int curMonsterCount
     {
-        get =>_curMonsterCount;
-        set{
+        get => _curMonsterCount;
+        set
+        {
             Debug.Log(value);
             if (value == 0)
             {
@@ -36,10 +42,20 @@ public class SpawnManager : Singleton<SpawnManager>
             _curMonsterCount = value;
         }
     }
-    public List<Monster> monsterPool;
-    public List<ParticleSystem> effectPool;
-    public int curNormal = 3;
-    public int curElite = 1;
+    private NodeInfo _curNode;
+    public NodeInfo curNode
+    {
+        get { return _curNode; }
+        set
+        {
+            _curNode = value;
+            CheckLight(_curNode);
+            if (!curNode.IsNodeCleared)
+            {
+                NodeSpawn(curNode);
+            }
+        }
+    }
 
     protected override void Awake()
     {
@@ -71,7 +87,6 @@ public class SpawnManager : Singleton<SpawnManager>
         curNode = MapManager.nodes[0];
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
-        NodeSpawn(curNode);
     }
 
     public void NodeSpawn(NodeInfo spawnNode)
@@ -145,11 +160,11 @@ public class SpawnManager : Singleton<SpawnManager>
         int findIdx = monsterPool.FindIndex((monster) => monster.enemyType == type);
 
         if (findIdx < 0)
-            target = Instantiate(ResourceManager.Instance.enemys[(int)type],spawnPoint,Quaternion.identity);
+            target = Instantiate(ResourceManager.Instance.enemys[(int)type], spawnPoint, Quaternion.identity);
         else
         {
             target = monsterPool[findIdx];
-            target.transform.position= spawnPoint;
+            target.transform.position = spawnPoint;
             monsterPool.RemoveAt(findIdx);
             Debug.Log("있어서 가져옴");
         }
@@ -165,14 +180,14 @@ public class SpawnManager : Singleton<SpawnManager>
         monsterPool.Add(target);
         Debug.Log("반납함");
     }
-    public void GetEffect(Vector3 spawnPoint, ParticleSystem particle, Vector3 scale =default)
+    public void GetEffect(Vector3 spawnPoint, ParticleSystem particle, Vector3 scale = default)
     {
         ParticleSystem target;
         int findIdx = effectPool.FindIndex((el) => el.name == $"{particle.name}(Clone)");
 
         if (findIdx < 0)
         {
-            target = Instantiate(particle,spawnPoint,Quaternion.identity);
+            target = Instantiate(particle, spawnPoint, Quaternion.identity);
             target.gameObject.SetActive(false);
             ParticleSystem.MainModule main = target.main;
             main.stopAction = ParticleSystemStopAction.Callback;
@@ -181,9 +196,9 @@ public class SpawnManager : Singleton<SpawnManager>
         else
         {
             target = effectPool[findIdx];
-            target.transform.position= spawnPoint;
+            target.transform.position = spawnPoint;
             effectPool.RemoveAt(findIdx);
-            
+
             Debug.Log("있어서 가져옴");
         }
 
@@ -194,13 +209,19 @@ public class SpawnManager : Singleton<SpawnManager>
         target.Play();
     }
 
-  
-   
+
+
     public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {
         Projectile.Projectile projectile = projectileManagedPool.Get();
         projectile.Init(ap, tp, dg, dr, sp, rg, ref info);
         projectile.gameObject.SetActive(true);
+    }
+
+    public void CheckLight(NodeInfo curNode)
+    {
+        outsideLight.SetActive(!curNode.isInside);
+        insideLight.SetActive(curNode.isInside);
     }
 
     public static void DropOptanium(Vector3 postion)
