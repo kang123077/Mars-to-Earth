@@ -18,6 +18,8 @@ public class UIManager :Singleton<UIManager>
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
 
+    bool isBool;
+
     protected override void Awake()
     {
         base.Awake();
@@ -27,6 +29,23 @@ public class UIManager :Singleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.Confined;
         currentView = UIs[(int)UIType.Combat];
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(UIs[(int)UIType.Setting].gameObject.activeSelf != true)
+            {
+                UIs[(int)UIType.Setting].gameObject.SetActive(true); // UI 활성화
+                Time.timeScale = 0f;
+            }
+            else if (UIs[(int)UIType.Setting].gameObject.activeSelf == true)
+            {
+                UIs[(int)UIType.Setting].gameObject.SetActive(false); // UI 활성화
+                Time.timeScale = 1f;
+            }
+        }
     }
 
     public void ShowUI(UIType uiType)

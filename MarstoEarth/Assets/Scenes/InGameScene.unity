@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0056604696, g: 0.05049204, b: 0.08187662, a: 1}
+  m_IndirectSpecularColor: {r: 0.005706853, g: 0.0504621, b: 0.081910215, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1895,7 +1895,8 @@ MonoBehaviour:
   cardSkillIconRight: {fileID: 229598687}
   cardLeftText: {fileID: 1591199098}
   cardRightText: {fileID: 1227825753}
-  selectedSkillInfo: []
+  randomIndexLeft: 0
+  randomIndexRight: 0
 --- !u!224 &739434983
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1932,7 +1933,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftCard: {fileID: 1851396377}
   rightCard: {fileID: 1276017008}
-  selectedCardIndex: -1
+  cardInfo: {fileID: 739434982}
+  combatUI: {fileID: 1635536065}
 --- !u!1 &765348435
 GameObject:
   m_ObjectHideFlags: 0
@@ -2834,6 +2836,7 @@ MonoBehaviour:
   clearedRooms: 0
   cardUICon: {fileID: 739434981}
   cardInfo: {fileID: 739434982}
+  inGameSkillInfo: []
 --- !u!4 &1265708523
 Transform:
   m_ObjectHideFlags: 0

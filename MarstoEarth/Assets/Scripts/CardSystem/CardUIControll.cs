@@ -6,6 +6,7 @@ public class CardUIControll : UI
 {
     [SerializeField] private Button leftCard;
     [SerializeField] private Button rightCard;
+    [SerializeField] private Button rerollButton;
 
     Vector2 orglcTrans;
     Vector2 orgrcTrans;
@@ -16,6 +17,8 @@ public class CardUIControll : UI
     public CardInfo cardInfo;
     public CombatUI combatUI;
 
+    CardHover[] cardHovers;
+
     private void Awake()
     {
         orglcTrans = leftCard.gameObject.transform.position;
@@ -23,6 +26,8 @@ public class CardUIControll : UI
 
         orglcScale = leftCard.gameObject.transform.localScale;
         orgrcScale = rightCard.gameObject.transform.localScale;
+
+        cardHovers = GetComponentsInChildren<CardHover>();
     }
 
     void Start()
@@ -41,54 +46,53 @@ public class CardUIControll : UI
 
         transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(true);
+        transform.GetChild(2).gameObject.SetActive(true);
     }
 
     void ScaleUpLeftCard()
     {
-        Vector2 pos = leftCard.transform.position;
-        leftCard.transform.SetAsLastSibling();
-        leftCard.gameObject.transform.position = new Vector2(960f, pos.y);
-        leftCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
-        int skillIndex = cardInfo.randomIndexRight;
-        combatUI.LearnSkill(skillIndex);
-        InGameManager.Instance.inGameSkillInfo.RemoveAt(skillIndex);
-        StartCoroutine(HideCardUI());
-        ScaleDownRightCard();
-    }
-
-    void ScaleDownLeftCard()
-    {
-        leftCard.gameObject.SetActive(false);
+        cardHovers[0].isBool = true;
+        MoveNSize(leftCard);
+        int skillIndex = cardInfo.randomIndexLeft;
+        SkillPlus(skillIndex);
+        ScaleDownCard(rightCard, rerollButton);
     }
 
     void ScaleUpRightCard()
     {
-        Vector2 pos = rightCard.transform.position;
-        rightCard.transform.SetAsLastSibling();
-        rightCard.gameObject.transform.position = new Vector2(960f, pos.y);
-        rightCard.gameObject.transform.localScale = new Vector3(1.4f, 1.4f);
+        cardHovers[1].isBool = true;
+        MoveNSize(rightCard);
         int skillIndex = cardInfo.randomIndexRight;
+        SkillPlus(skillIndex);
+        ScaleDownCard(leftCard, rerollButton);
+    }
+
+    void MoveNSize(Button button)
+    {
+        Vector2 pos = button.gameObject.transform.position;
+        button.transform.SetAsLastSibling();
+        button.gameObject.transform.position = new Vector3(960f, pos.y);
+        button.gameObject.transform.localScale = new Vector2(1.4f, 1.4f);
+    }
+
+    void SkillPlus(int skillIndex)
+    {
         combatUI.LearnSkill(skillIndex);
         InGameManager.Instance.inGameSkillInfo.RemoveAt(skillIndex);
         StartCoroutine(HideCardUI());
-        ScaleDownLeftCard();
     }
 
-    void ScaleDownRightCard()
+    void ScaleDownCard(Button button, Button reroll)
     {
-        rightCard.gameObject.SetActive(false);
+        button.gameObject.SetActive(false);
+        reroll.gameObject.SetActive(false);
     }
 
     IEnumerator HideCardUI()
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 1f;
-        Init();
         gameObject.SetActive(false);
-    }
-
-    void Update()
-    {
-
+        Init();
     }
 }
