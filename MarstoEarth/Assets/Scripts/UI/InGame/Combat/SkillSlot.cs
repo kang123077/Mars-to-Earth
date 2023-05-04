@@ -10,7 +10,6 @@ public class SkillSlot : MonoBehaviour
     public Skill.Skill skill;
     public void Init(Skill.Skill inputSkill)
     {
-        
         skill = inputSkill;
         skillImage.sprite = skill.skillInfo.icon;
         skillImage.enabled = true;
