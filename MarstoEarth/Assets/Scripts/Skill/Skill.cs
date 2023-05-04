@@ -24,7 +24,7 @@ namespace Skill
             }
             set => _isCombo = value;
         }
-        
+
         public float curCoolTime;
         public static implicit operator bool(Skill obj)
         {
@@ -37,7 +37,7 @@ namespace Skill
         }
         public bool Use()
         {
-            if (caster.onSkill is not null) return false;
+            if (caster.onSkill && caster.onSkill!=this) return false;
             
             originCoolTime = skillInfo.cool - (skillInfo.cool*0.01f*caster.speed);
             

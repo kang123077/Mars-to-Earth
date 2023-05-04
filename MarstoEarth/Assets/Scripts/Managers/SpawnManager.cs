@@ -214,14 +214,16 @@ public class SpawnManager : Singleton<SpawnManager>
         projectile.gameObject.SetActive(true);
     }
 
-    private int[] weight = { 3, 7, 11 };
+
+    private int[] weight = { 2, 6, 10 };
+    public static System.Random rand = new();
     public void DropItem(Vector3 spawnPoint, EnemyPool rank)
     {
-        if(weight[(int)rank]<UnityEngine.Random.Range(1, 11))
+        if(weight[(int)rank]< rand.Next(0, 10))
             return;
         Item.Item target;
 
-        ItemType type = (ItemType)UnityEngine.Random.Range(0, 3);
+        ItemType type = (ItemType)rand.Next(0, 3);
         int findIdx = itemPool.FindIndex((el) => el.type == type);
 
         if (findIdx < 0)
@@ -229,7 +231,6 @@ public class SpawnManager : Singleton<SpawnManager>
             target = Instantiate(ItemPrefab, spawnPoint, Quaternion.identity,objectPool[(int)PoolType.Item]);
             Instantiate(ResourceManager.Instance.itemInfos[(int)type].thisParticle, target.transform);
             target.type = type;
-
         }
         else
         {

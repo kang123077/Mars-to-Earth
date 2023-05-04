@@ -22,10 +22,7 @@ namespace Skill
                     ch.RemoveBuff(distortion);
                     ch.SkillEffect();
                 }
-            }, (ch) =>
-            {
-                ch.SkillEffect();
-            },skillInfo.icon);
+            }, (ch) =>ch.SkillEffect(),skillInfo.icon);
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

@@ -193,9 +193,6 @@ namespace Character
                         }
                     }
 
-                    for (int i=0; i<skillKeys.Length; i++)
-                        if (Input.GetKeyDown(skillKeys[i]))
-                            combatUI.ClickSkill(i);
                 }
                 else
                     isRun = false;
@@ -259,7 +256,9 @@ namespace Character
                     isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
 
             #endregion
-
+            for (int i = 0; i < skillKeys.Length; i++)
+                if (Input.GetKeyDown(skillKeys[i]))
+                    combatUI.ClickSkill(i);
             #region Test
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -328,7 +327,7 @@ namespace Character
             effects[0].Play();
             effects[1].Play();
             SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
-                dmg, 1 + duration * 0.5f, 30 + speed * 2, range * 0.5f, ref projectileInfo);
+                dmg, 1 + duration * 0.5f, 35 + speed * 2, range * 0.5f, ref projectileInfo);
             impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
             
             return true;

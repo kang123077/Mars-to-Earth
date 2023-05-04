@@ -1,6 +1,7 @@
 
 
 using Character;
+using Skill;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,10 +52,13 @@ public class CombatUI : UI
     public void ClickSkill(int idx)
     {
         if (curSkillCount <= idx) return;
-
         SkillSlot slot = skillSlots[idx];
-        if(!slot.skill.isCombo&&slot.coolDown.fillAmount<=0||slot.skill.isCombo)
+
+        if((!slot.skill.isCombo&&slot.coolDown.fillAmount<=0)||
+           ( slot.skill.isCombo)|| (SpawnManager.Instance.player.onSkill is MassShootingSkill ))
+        {
             slot.skill.Use();
+        }
     }
 
 }
