@@ -7,7 +7,7 @@ public class PathController : MonoBehaviour
 {
     public NodeInfo parent;
     public NodeInfo children;
-    public bool isColliderOn = true;
+    public bool isColliderOn;
     public Collider innerCollider;
     private GateController gate_1;
     private GateController gate_2;
@@ -20,6 +20,7 @@ public class PathController : MonoBehaviour
         gate_2 = transform.GetChild(1).GetComponent<GateController>();
         meshRenderers = new List<MeshRenderer>();
         CollectMeshRenderers(transform);
+        isColliderOn = true;
     }
     private void Update()
     {

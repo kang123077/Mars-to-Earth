@@ -12,10 +12,9 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo north;
     public NodeInfo south;
     public bool isBossNode;
-    public BoxCollider nodeCollider;
-    public List<MeshRenderer> meshRenderers;
+    public bool isInside;
+    private List<MeshRenderer> meshRenderers;
     private bool nodeInitFinished;
-
 
     public delegate void RoomClearedHandler(NodeInfo clearedNode);
     public event RoomClearedHandler OnRoomCleared;
@@ -52,7 +51,6 @@ public class NodeInfo : MonoBehaviour
 
     private void Awake()
     {
-        nodeCollider = GetComponent<BoxCollider>();
         meshRenderers = new List<MeshRenderer>();
         isBossNode = false;
         nodeInitFinished = false;
