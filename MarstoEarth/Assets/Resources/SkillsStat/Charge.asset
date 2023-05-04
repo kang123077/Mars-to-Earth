@@ -20,7 +20,7 @@ MonoBehaviour:
   duration: 0
   range: 5
   cool: 3
-  speed: 30
+  speed: 35
   effects:
   - {fileID: 198586439706424864, guid: 0e56aef02a6fcc6408400ea7c75e13a7, type: 3}
   - {fileID: 198873560106806816, guid: d549624c880a76748ad05456efbce0a1, type: 3}

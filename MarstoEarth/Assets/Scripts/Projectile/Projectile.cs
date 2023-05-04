@@ -83,7 +83,8 @@ namespace Projectile
                 
                 thisInfo[0].ef?.Invoke(position);
                 SpawnManager.Instance.GetEffect(position,effects[(int)Type.Bullet]); 
-                SpawnManager.Instance.projectileManagedPool.Release(this);
+                if(gameObject.activeSelf)
+                    SpawnManager.Instance.projectileManagedPool.Release(this);
             }
         }
         // ReSharper disable Unity.PerformanceAnalysis

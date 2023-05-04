@@ -12,7 +12,7 @@ namespace Skill
         public RollSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Roll];
-            roll = new SPC(0,(ch)=>
+            roll = new SPC((ch)=>
             {
                 effect.Play();
                 ch.immune = true;
@@ -39,7 +39,9 @@ namespace Skill
         {            
             dir= ((Player)caster).InputDir.normalized;
             if (dir.magnitude < 0.1f)
+            {
                 dir = caster.transform.forward;
+            }
             roll.Init(skillInfo.duration+caster.duration*0.5f);
             caster.transform.forward = dir;
             caster.PlaySkillClip(this); 

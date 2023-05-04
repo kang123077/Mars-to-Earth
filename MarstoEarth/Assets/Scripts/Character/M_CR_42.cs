@@ -23,26 +23,26 @@ namespace Character
                 if (targetDistance <= sightLength * 1.5f)
                 {
                     if (!(targetDistance <= range)) return;
-                    anim.SetBool(attacking, isAttacking = true);
+                    isAttacking = true;
                 }
                 else
                 {
-                    anim.SetBool(onTarget, target = null);
+                    target = null;
                 }
             }
             else
             {
                 if (!trackingPermission) return;
-                int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength, colliders, 1 << 3);
+                int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength, colliders, layerMask);
                 if (size > 0)
                 {
-                    float angle = Vector3.SignedAngle(thisCurTransform.forward,
-                        colliders[0].transform.position - thisCurTransform.position, Vector3.up);
+                    float angle =Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
+                     
                     if ((angle < 0 ? -angle : angle) < viewAngle ||
                         Vector3.Distance(colliders[0].transform.position, thisCurTransform.position) <
-                        sightLength * 0.3f)
+                        sightLength * 0.4f)
                     {
-                        anim.SetBool(onTarget, target = colliders[0].transform);
+                         target = colliders[0].transform;
                     }
                 }
             }

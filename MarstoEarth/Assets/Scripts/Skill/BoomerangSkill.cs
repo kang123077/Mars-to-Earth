@@ -34,11 +34,12 @@ namespace Skill
         public override void Effect()
         {
 
-            GameObject boomerangSlot = UnityEngine.Object.Instantiate(skillInfo.effects[0], caster.transform).gameObject;
+            GameObject boomerangSlot = UnityEngine.Object.Instantiate(skillInfo.effects[0], caster.transform.position,Quaternion.identity).gameObject;
             boomerangSlot.SetActive(false);
             boomerang= boomerangSlot.AddComponent<Projectile.Boomerang>();
-            
-            boomerang.Init(caster.transform, caster.transform.position+caster.transform.forward*skillInfo.range+Vector3.up, skillInfo.duration+caster.duration*0.5f,
+
+            var transform = caster.muzzle.transform;
+            boomerang.Init(transform, transform.position+transform.forward*skillInfo.range+Vector3.up, skillInfo.duration+caster.duration*0.5f,
                 skillInfo.range + caster.range * 0.5f,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.speed + caster.speed * 0.5f,
                 caster.layerMask);
             

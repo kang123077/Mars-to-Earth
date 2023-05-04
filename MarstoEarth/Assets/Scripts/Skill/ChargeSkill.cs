@@ -40,13 +40,11 @@ namespace Skill
                     SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1]);
                 });
 
-            for (byte i = 0; i < effectsLength; i++)
-            {
-               effects[i]= Object.Instantiate(skillInfo.effects[i], caster.muzzle);
-               effects[i].Stop();
-            }
             
-            
+            effects[0]= Object.Instantiate(skillInfo.effects[0], caster.muzzle);            
+            effects[1] = Object.Instantiate(skillInfo.effects[1], caster.handguard);
+
+
         }
         protected override bool Activate()
         {

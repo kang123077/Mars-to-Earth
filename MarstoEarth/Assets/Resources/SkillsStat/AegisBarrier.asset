@@ -22,4 +22,4 @@ MonoBehaviour:
   cool: 3
   speed: 12
   effects:
-  - {fileID: 198985388140249450, guid: f36719335e2592340b7bbb6a8ea33882, type: 3}
+  - {fileID: 8384702941085284034, guid: 7ffd6822b816c9b428b2295eb5d7fa00, type: 3}
