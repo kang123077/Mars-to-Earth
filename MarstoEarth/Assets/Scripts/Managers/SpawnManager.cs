@@ -25,7 +25,6 @@ public class SpawnManager : Singleton<SpawnManager>
     public ReleaseEffect effectPrefab;
     public bool spawnInstantiateFinished = false;
     public List<Monster> monsterPool;
-    public List<ParticleSystem> effectPool;
     public int curNormal = 3;
     public int curElite = 1;
     public GameObject outsideLight;
@@ -51,11 +50,9 @@ public class SpawnManager : Singleton<SpawnManager>
             _curMonsterCount = value;
         }
     }
-    public List<Monster> monsterPool;
     public List<ReleaseEffect> effectPool;
     public List<Item.Item> itemPool;
-    public int curNormal = 3;
-    public int curElite = 1;
+
     private NodeInfo _curNode;
     public NodeInfo curNode
     {
