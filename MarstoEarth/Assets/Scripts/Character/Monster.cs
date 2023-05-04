@@ -23,8 +23,6 @@ namespace Character
         protected bool trackingPermission;
         private Vector3 lastPosition;
         protected float travelDistance;
-       
-
         public override Transform target
         {
             get => base.target;

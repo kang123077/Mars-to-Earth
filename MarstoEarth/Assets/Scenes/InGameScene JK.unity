@@ -1227,7 +1227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodePrefab: {fileID: 7015866655225297471, guid: 46460cd8b8c250549a5b9d79062af88d, type: 3}
-  pathPrefab: {fileID: 6244779130016847854, guid: b5fafacc97fac0f4cb394447f002ab4d, type: 3}
+  pathPrefab: {fileID: 6244779130016847854, guid: df0e15b5b71b8344191b2b3ffa2d12bd, type: 3}
   wallPrefab: {fileID: 2969398592852570286, guid: a600ecc6932ca1e48a0773765509ea4c, type: 3}
   nodeSpacing: 60
   nodeParentTF: {fileID: 1874141304}

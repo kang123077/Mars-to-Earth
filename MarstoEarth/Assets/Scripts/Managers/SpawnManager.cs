@@ -24,7 +24,12 @@ public class SpawnManager : Singleton<SpawnManager>
     public Item.Item ItemPrefab;
     public ReleaseEffect effectPrefab;
     public bool spawnInstantiateFinished = false;
-    public NodeInfo curNode;
+    public List<Monster> monsterPool;
+    public List<ParticleSystem> effectPool;
+    public int curNormal = 3;
+    public int curElite = 1;
+    public GameObject outsideLight;
+    public GameObject insideLight;
     private int _curMonsterCount;
     public int curMonsterCount
     {
@@ -51,6 +56,20 @@ public class SpawnManager : Singleton<SpawnManager>
     public List<Item.Item> itemPool;
     public int curNormal = 3;
     public int curElite = 1;
+    private NodeInfo _curNode;
+    public NodeInfo curNode
+    {
+        get { return _curNode; }
+        set
+        {
+            _curNode = value;
+            CheckLight(_curNode);
+            if (!curNode.IsNodeCleared)
+            {
+                NodeSpawn(curNode);
+            }
+        }
+    }
 
     public Transform[] objectPool;
     protected override void Awake()
@@ -83,7 +102,6 @@ public class SpawnManager : Singleton<SpawnManager>
         curNode = MapManager.nodes[0];
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
-        NodeSpawn(curNode);
     }
 
     public void NodeSpawn(NodeInfo spawnNode)
@@ -176,6 +194,7 @@ public class SpawnManager : Singleton<SpawnManager>
         monsterPool.Add(target);
     }
     public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, float duration=-1,Vector3 scale = default)
+
     {
         ReleaseEffect target;
         int findIdx = effectPool.FindIndex((el) => ReferenceEquals(el.refParticle, particle));
@@ -184,6 +203,7 @@ public class SpawnManager : Singleton<SpawnManager>
         {
             ParticleSystem targetParticle = Instantiate(particle, spawnPoint, Quaternion.identity,objectPool[(int)PoolType.Effect]);
             ParticleSystem.MainModule main = targetParticle.main;
+
             main.stopAction = ParticleSystemStopAction.Callback;
 
             target = targetParticle.AddComponent<ReleaseEffect>();
@@ -195,6 +215,7 @@ public class SpawnManager : Singleton<SpawnManager>
             target = effectPool[findIdx];
             target.transform.position = spawnPoint;
             effectPool.RemoveAt(findIdx);
+
         }
 
         if (scale == default)
@@ -217,6 +238,14 @@ public class SpawnManager : Singleton<SpawnManager>
 
     private int[] weight = { 2, 6, 10 };
     public static System.Random rand = new();
+ 
+
+    public void CheckLight(NodeInfo curNode)
+    {
+        outsideLight.SetActive(!curNode.isInside);
+        insideLight.SetActive(curNode.isInside);
+    }
+
     public void DropItem(Vector3 spawnPoint, EnemyPool rank)
     {
         if(weight[(int)rank]< rand.Next(0, 10))
