@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class SettingUI : UI
 {
-    public Slider backGroundSound;
-    public Slider effectSound;
-    public Dropdown screenSize;
+    public Slider maserVolume;
+    public Slider BGMVolume;
+    public Slider effectVolume;
 
     void Start()
     {
