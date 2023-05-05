@@ -1,8 +1,6 @@
 using Character;
 using System;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 namespace Skill
 {
@@ -45,6 +43,7 @@ namespace Skill
         {
             base.Init(caster);
             effect =UnityEngine.Object.Instantiate(skillInfo.effects[0], caster.transform);
+            
         }
 
         protected override bool Activate()

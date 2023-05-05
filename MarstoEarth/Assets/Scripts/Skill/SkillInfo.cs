@@ -5,17 +5,11 @@ using UnityEngine;
 namespace Skill
 {
  
-    public enum SkillType
-    {
-        ActiveSkill,
-        PassiveSkill,
-    }
     [CreateAssetMenu(fileName = "New SkillInfo", menuName = "SkillInfo")]
     public class SkillInfo:ScriptableObject
     {
         
         public string description;
-        //public SkillType skillType;
         public string clipName;
         public byte clipLayer;
         public Sprite icon;
@@ -27,12 +21,3 @@ namespace Skill
         public ParticleSystem[] effects;
     }
 }
-
-/*  public enum UsableCharacter
-    {
-        Common,
-        Rone,
-        Miles,
-        CR42
-    }
-*/
