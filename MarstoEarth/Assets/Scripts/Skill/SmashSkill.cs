@@ -13,11 +13,8 @@ namespace Skill
         private ParticleSystem effect;
         public SmashSkill( )
         {
-            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Smash];
-            smash = new SPC( (ch) =>
-            {
-                ch.transform.position += dir * (Time.deltaTime * speed);
-            },skillInfo.icon);
+            skillInfo = ResourceManager.Instance.OnlyMonsterSkillInfos[(int)OnlyMonsterSkill.Smash];
+            smash = new SPC( (ch) => ch.transform.position += dir * (Time.deltaTime * speed),skillInfo.icon);
 
         }
 

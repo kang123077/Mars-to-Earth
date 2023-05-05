@@ -11,7 +11,7 @@ namespace Skill
 
         public BiteSkill()
         {
-            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Bite];
+            skillInfo = ResourceManager.Instance.OnlyMonsterSkillInfos[(int)OnlyMonsterSkill.Bite];
         }
 
         public override void Init(Character.Character caster)

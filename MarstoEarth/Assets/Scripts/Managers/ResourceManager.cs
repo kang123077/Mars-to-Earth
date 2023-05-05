@@ -45,7 +45,6 @@ public enum desertPool
 public enum SkillName
 {
     Roll,
-    Smash,
     Stimpack,
     Grenade,
     Gardian,
@@ -56,9 +55,14 @@ public enum SkillName
     Distortion,
     AegisBarrier,
     MassShooting,
-    Bite,
     Block,
     Charge,
+}
+
+public enum OnlyMonsterSkill
+{
+    Smash,
+    Bite,
 }
 
 public enum CommonSPC
@@ -75,11 +79,10 @@ public class ResourceManager : Singleton<ResourceManager>
     public Item.ItemInfo[] itemInfos;
     public MeshFilter[] projectileMesh;
     public SkillInfo[] skillInfos;
+    public SkillInfo[] OnlyMonsterSkillInfos;
     public Character.Monster[] enemys;
     public List<Skill.Skill> skills = new();
-
     public Sprite[] commonSPCIcon;
-    
 
     protected override void Awake()
     {
@@ -87,7 +90,6 @@ public class ResourceManager : Singleton<ResourceManager>
         //skillInfos = Resources.LoadAll<SkillInfo>("SkillsStat");
 
         skills.Add(new RollSkill());//플레이어 전용
-        skills.Add(null);//smash는 몬스터 전용스킬
         skills.Add(new StimPackSkill());
         skills.Add(new GrenadeSkill());
         skills.Add(new GardianSkill());
@@ -98,7 +100,6 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new DistortionSkill());
         skills.Add(new AegisBarrierSkill());
         skills.Add(new MassShootingSkill());
-        skills.Add(null);// bite는 몬스터 전용스킬
         skills.Add(new BlockSkill());
         skills.Add(new ChargeSkill());//플레이어 전용
 
