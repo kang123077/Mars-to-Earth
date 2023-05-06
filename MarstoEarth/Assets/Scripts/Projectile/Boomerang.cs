@@ -14,13 +14,15 @@ namespace Projectile
     
         private bool isReturn;
         private SPC stun;
-        public void Init(Transform ct,Vector3 tp,float dr, float rg, float dmg, float sp, int lm)
+        public void Init(Transform ct,float dr, float rg, float dmg, float sp, int lm)
         {
             base.Init(lm, dmg, rg, dr, sp);
             caster = ct;
-            targetPoint = tp;
             transform.position = ct.position;
-            stun= new SPC((ch) => ch.stun = true,
+            Vector3 forward = ct.forward;
+            forward.y = 0;
+            targetPoint = transform.position + Vector3.up + forward * (range * 3);
+            stun = new SPC((ch) => ch.stun = true,
                 (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
         }
 
@@ -37,7 +39,7 @@ namespace Projectile
                 stun.Init(duration);
                 target.AddBuff(stun);                
             }
-            SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.Boomerang].effects[^1]);
+            SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.Boomerang].effects[^1],-1,range*0.4f);
             Destroy(gameObject);
         }
         void Update()

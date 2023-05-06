@@ -33,6 +33,7 @@ namespace Skill
         {
             base.Init(caster);
             effect= UnityEngine.Object.Instantiate(skillInfo.effects[^1], caster.transform);
+            effect.Stop();
         }
 
         protected override bool Activate()

@@ -69,21 +69,21 @@ namespace Character
                 {
                     travelDistance -= positions[0];
                     positions.RemoveAt(0);
-                    if (travelDistance < 1f)
+                    if (travelDistance < 2.5f)
                     {
-                        if (!isAttacking)
-                        {
-                            trackingPermission = false;
-                            target = null;
 
-                            int randIdx;
-                            do randIdx = Random.Range(0, 4);
-                            while (patrolIdx == randIdx);
-                            patrolIdx = randIdx;
-                            ai.SetDestination(patrolPoints[patrolIdx]);
-                            positions.Clear();
-                            travelDistance = 0;
-                        }
+                        Debug.Log("끼임확인, 초기화");
+                        trackingPermission = false;
+                        target = null;
+                            
+                        int randIdx;
+                        do randIdx = Random.Range(0, 4);
+                        while (patrolIdx == randIdx);
+                        patrolIdx = randIdx;
+                        ai.SetDestination(patrolPoints[patrolIdx]);
+                        positions.Clear();
+                        travelDistance = 0;
+                        
                     }
                     else
                         trackingPermission = true;

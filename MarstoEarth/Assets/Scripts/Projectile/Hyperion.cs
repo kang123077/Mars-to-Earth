@@ -50,7 +50,7 @@ namespace Projectile
                 ResourceManager.Instance.projectileMesh[(int)projectileMesh.Bullet1].sharedMesh,
                 Type.Bullet, (point) =>
                 {
-                    int count = Physics.OverlapSphereNonAlloc(point, range * .2f, colliders, layerMask);
+                    int count = Physics.OverlapSphereNonAlloc(point, range, colliders, layerMask);
                     for (int i = 0; i < count; i++)
                     {
                         colliders[i].TryGetComponent(out target);
@@ -59,14 +59,14 @@ namespace Projectile
                     }
 
                     SpawnManager.Instance.GetEffect(point,
-                        ResourceManager.Instance.skillInfos[(int)SkillName.Hyperion].effects[0]);
+                        ResourceManager.Instance.skillInfos[(int)SkillName.Hyperion].effects[0],-1,range*0.4f);
                 });
             atkSpd = 10 * (1 / speed);
             curPorts = new Transform[16];
             for (int i = 0; i < 16; i++)
             {
                 GameObject port = new();
-                port.transform.position = thisTransform.position + range * ports[i];
+                port.transform.position = thisTransform.position + range*2 * ports[i];
                 curPorts[i] = port.transform;
                 port.layer = 8;
                 port.transform.SetParent(thisTransform);

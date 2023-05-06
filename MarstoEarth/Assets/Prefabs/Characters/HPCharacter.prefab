@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5772726518034728459}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.411, y: 1.697, z: 0.64}
+  m_LocalPosition: {x: 0.292, y: 1.674, z: 0.418}
   m_LocalScale: {x: 1.25, y: 1.25, z: 1.25}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2280,6 +2280,7 @@ GameObject:
   - component: {fileID: 8675458328526890443}
   - component: {fileID: 3026331719584739865}
   - component: {fileID: -6828465308735864369}
+  - component: {fileID: 675164474935212935}
   m_Layer: 3
   m_Name: HPCharacter
   m_TagString: Player
@@ -2420,6 +2421,14 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!81 &675164474935212935
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7673487251499248760}
+  m_Enabled: 1
 --- !u!1 &7673487251499248762
 GameObject:
   m_ObjectHideFlags: 0

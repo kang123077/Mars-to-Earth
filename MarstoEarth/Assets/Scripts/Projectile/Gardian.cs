@@ -22,7 +22,7 @@ namespace Projectile
             while (true)
             {
                 yield return new WaitForSeconds(term);
-                if (Physics.OverlapSphereNonAlloc(transform.position, range * 0.1f, colliders,
+                if (Physics.OverlapSphereNonAlloc(transform.position, range, colliders,
                         layerMask) > 0)
                 {
                     colliders[0].TryGetComponent(out Character.Character target);

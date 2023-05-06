@@ -190,7 +190,7 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount--;
         monsterPool.Add(target);
     }
-    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, float duration=-1,Vector3 scale = default)
+    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, float duration=-1, float scale=1)
 
     {
         ReleaseEffect target;
@@ -212,11 +212,7 @@ public class SpawnManager : Singleton<SpawnManager>
             target = effectPool[findIdx];
             target.transform.position = spawnPoint;
             effectPool.RemoveAt(findIdx);
-
         }
-
-        if (scale == default)
-            scale = Vector3.one;
 
         target.Init(duration,scale);
         target.gameObject.SetActive(true);

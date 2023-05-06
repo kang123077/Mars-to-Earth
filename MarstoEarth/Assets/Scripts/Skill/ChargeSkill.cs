@@ -8,9 +8,20 @@ namespace Skill
     public class ChargeSkill : Skill
     {
         private Func<bool> attackTemp;
-        
-        private bool onCharge;
-        private ParticleSystem[] effects = new ParticleSystem[2];
+        private bool _onCharge;
+        private bool onCharge
+        {
+            get => _onCharge;
+            set
+            {
+                if (value)                
+                    effects[2].Play();
+                else
+                    effects[2].Stop();
+                _onCharge = value;
+            }
+        }
+        private ParticleSystem[] effects = new ParticleSystem[3];
         private byte effectsLength;
         private Projectile.ProjectileInfo chargeProjectileInfo;
         public ChargeSkill()
@@ -37,14 +48,14 @@ namespace Skill
                             if (!caster.targetCharacter.Hit(point, skillInfo.dmg + caster.dmg * 2f, 0)) continue;
                         } 
                     }
-                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1]);
+                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1],-1, (skillInfo.range + caster.range * 0.2f) * 0.4f);
                 });
 
             
             effects[0]= Object.Instantiate(skillInfo.effects[0], caster.muzzle);            
             effects[1] = Object.Instantiate(skillInfo.effects[1], caster.handguard);
-
-
+            effects[2] = Object.Instantiate(skillInfo.effects[2], caster.handguard);
+            effects[2].Stop();
         }
         protected override bool Activate()
         {

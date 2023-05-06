@@ -9,9 +9,9 @@ namespace Skill
         public float duration;
         public float eleapse;       
         
-        public void Init(float dr, Vector3 sc)
+        public void Init(float dr, float sc)
         {
-            transform.localScale= sc;
+            transform.localScale= sc* Vector3.one;
             duration= dr;
         }
 

@@ -200,7 +200,7 @@ namespace Character
             if (dying)
                 return false;
             DamageText dt = combatUI.DMGTextPool.Get();
-            dt.transform.position = thisCurTransform.position+new Vector3(0,.8f,0);
+            dt.transform.position = thisCurTransform.position+Vector3.up;
             dt.gameObject.SetActive(true);
             if (immune)
             {

@@ -18,7 +18,7 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: b2e334b8b493def47a012a8b4cdefcae, type: 3}
   dmg: 5
   duration: 30
-  range: 5
+  range: 3
   cool: 3
   speed: 5
   effects:

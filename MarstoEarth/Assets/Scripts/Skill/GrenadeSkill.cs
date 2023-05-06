@@ -18,6 +18,7 @@ namespace Skill
                Projectile.Type.Cannon, (point) =>
                {
                    GameObject fireSlot = Object.Instantiate(skillInfo.effects[0]).gameObject;
+                   fireSlot.transform.localScale = (skillInfo.range + caster.range * 0.5f) * 0.4f * Vector3.one;
                    fireSlot.SetActive(false);
                    fireSlot.transform.position = point;
                    Projectile.Fire fire = fireSlot.AddComponent<Projectile.Fire>();
@@ -38,7 +39,7 @@ namespace Skill
         public override void Effect()
         {
             Debug.Log("target=" + caster.target);
-            SpawnManager.Instance.Launch(caster.transform.position, caster.target ?
+            SpawnManager.Instance.Launch(caster.transform.position+Vector3.up, caster.target ?
                     caster.target.position : caster.transform.position + caster.transform.forward * caster.range,
                     skillInfo.dmg + caster.dmg * 0.5f, skillInfo.duration + caster.duration, skillInfo.speed + caster.speed,
                     skillInfo.range + caster.range * 0.5f, ref projectileInfo);

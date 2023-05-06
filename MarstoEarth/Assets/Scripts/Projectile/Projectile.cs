@@ -108,7 +108,7 @@ namespace Projectile
                 if (target)
                     target.Hit(attackerPos, dmg,0);
             }
-            SpawnManager.Instance.GetEffect(position,effects[(int)Type.Cannon]); 
+            SpawnManager.Instance.GetEffect(position,effects[(int)Type.Cannon],-1,range*0.4f); 
             thisInfo[0].ef?.Invoke(position);
             SpawnManager.Instance.projectileManagedPool.Release(this);
             

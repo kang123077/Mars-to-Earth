@@ -38,9 +38,10 @@ namespace Skill
                 var sattlliteSlot =
                     UnityEngine.Object.Instantiate(ResourceManager.Instance.skillInfos[(int)SkillName.Gardian]
                         .effects[1]);
-                sattlliteSlot.transform.localScale = Vector3.one* 0.2f;
+                
                 UnityEngine.Object.Instantiate (skillInfo.effects[0], sattlliteSlot.transform);
-                sattlliteSlot.transform.position = gardianSlot.transform.position+points[i]*skillInfo.range*0.6f;
+                sattlliteSlot.transform.localScale = Vector3.one* (skillInfo.range+caster.range*0.5f);
+                sattlliteSlot.transform.position = gardianSlot.transform.position+points[i]*skillInfo.range;
                 sattlliteSlot.transform.LookAt(gardianSlot.transform.position);
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
 
