@@ -29,10 +29,16 @@ namespace Character
             set
             {
                 if (value && !isAttacking)
+                {
+                    step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.run];
                     ai.speed = speed * 1.3f;
+                }
                 else
+                {
+                    step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.walk];
                     ai.speed = speed;
-                
+                }
+                step.Play();
                 base.target = value;
             } 
         }
@@ -42,9 +48,16 @@ namespace Character
             get =>_isAttacking;  
             set {
                 if (!value && target)
-                    ai.speed=speed*1.3f;
+                {
+                    step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.run];
+                    ai.speed = speed * 1.3f;
+                }
                 else
-                    ai.speed=speed;
+                {
+                    step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.walk];
+                    ai.speed = speed;
+                }
+                step.Play();
                 anim.SetBool(attacking, value);
                 positions.Clear();
                 travelDistance = 0;
@@ -105,7 +118,7 @@ namespace Character
             colliders = new Collider[1];
             lastPosition = thisCurTransform.position;
             patrolIdx = Random.Range(0, 4);
-           
+            
             ai.SetDestination(patrolPoints[patrolIdx]);
             ai.stoppingDistance = range-1;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
@@ -170,22 +183,21 @@ namespace Character
             dying = false;
         }
 
-        protected override bool Attacked()
+        protected override void Attacked()
         {
             isAttacking = false ;
-            
+            weapon.Play();
             int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders, 1 << 3);
             if (target&&size > 0)
             {
                 float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position-thisCurTransform.forward*range), Vector3.up);
                 if((angle < 0 ? -angle : angle) < viewAngle-60)
                 {
-                    return base.Attacked();
+                     base.Attacked();
                 }else
                     Debug.Log("회피 이펙트");
             }else
                 Debug.Log("회피 이펙트");
-            return false;
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

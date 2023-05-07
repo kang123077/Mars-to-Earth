@@ -4,6 +4,12 @@ namespace Character
 {
     public class M_CR_42 : Monster
     {
+        protected override void Start()
+        {
+            base.Start();
+            weapon.clip = ResourceManager.Instance.audioClips[(int)AudioClipName.swing];
+        }
+
         protected void Update()
         {
             if (!BaseUpdate())

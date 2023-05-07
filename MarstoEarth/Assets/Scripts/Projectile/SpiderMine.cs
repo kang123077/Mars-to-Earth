@@ -29,7 +29,8 @@ namespace Projectile
                         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                         target.Hit(thisTransform.position, dmg, 0);
                     }
-                    SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.SpiderMine].effects[^1],-1,range*0.4f);
+                    SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.SpiderMine].effects[^1],
+                        ResourceManager.Instance.audioClips[(int)AudioClipName.explosion2],range*0.4f);
                     Destroy(gameObject);
                 }
             }

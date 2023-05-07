@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.005706853, g: 0.0504621, b: 0.081910215, a: 1}
+  m_IndirectSpecularColor: {r: 0.0056604696, g: 0.05049204, b: 0.08187662, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2148,6 +2148,22 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 865940b3c02f5f541ad845fedfd69c15, type: 3}
   - {fileID: 21300000, guid: f3e97cd464bddf242a1d9f598c487faa, type: 3}
   - {fileID: 21300000, guid: 5a9cb14f397415245a61eaf09fb65d5a, type: 3}
+  audioClips:
+  - {fileID: 8300000, guid: 905a809127c08d741af50f2b3f58a147, type: 3}
+  - {fileID: 8300000, guid: 492883b63b0ff3047972cc900e4938a5, type: 3}
+  - {fileID: 8300000, guid: e26bdfe05949fb54b8c51fff795162e2, type: 3}
+  - {fileID: 8300000, guid: 9677cd049397aec4a92c8a13866d4de3, type: 3}
+  - {fileID: 8300000, guid: 4a9dbf3e921051a47a27926153f4b871, type: 3}
+  - {fileID: 8300000, guid: 1e8a9c2e35467a34a8a42db526e9f5dd, type: 3}
+  - {fileID: 8300000, guid: ef2a7683bd2ca604fb6bf1901914b7a8, type: 3}
+  - {fileID: 8300000, guid: c171dcbe89a03254c97301618f80617b, type: 3}
+  - {fileID: 8300000, guid: 9373d71516690da439e5d4362d03c68d, type: 3}
+  - {fileID: 8300000, guid: f9d9e6103fb7e3d48859a86edd62ecb0, type: 3}
+  - {fileID: 8300000, guid: a56e47d24820ce444888380b93bf357f, type: 3}
+  - {fileID: 8300000, guid: 73bcc00e462ff454bb651219f7bfa512, type: 3}
+  - {fileID: 8300000, guid: 27a36674580124c4db21a7981a93231b, type: 3}
+  - {fileID: 8300000, guid: b3589b7b532f79c4986bbc42cf653785, type: 3}
+  - {fileID: 8300000, guid: 0fe7d9d75f9bac34aa148ab55633e1e0, type: 3}
 --- !u!4 &389740386
 Transform:
   m_ObjectHideFlags: 0
@@ -4478,7 +4494,6 @@ GameObject:
   m_Component:
   - component: {fileID: 916023716}
   - component: {fileID: 916023715}
-  - component: {fileID: 916023714}
   - component: {fileID: 916023717}
   - component: {fileID: 916023718}
   - component: {fileID: 916023719}
@@ -4489,14 +4504,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &916023714
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 916023713}
-  m_Enabled: 1
 --- !u!20 &916023715
 Camera:
   m_ObjectHideFlags: 0
@@ -6727,7 +6734,6 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   projectilePrefab: {fileID: 7739833361423966859, guid: 4a99ec8f6364bc64d9d59786f4218424, type: 3}
   ItemPrefab: {fileID: 7553558701899239993, guid: 35df84e648031e74c97a0fe6916db76f, type: 3}
-  effectPrefab: {fileID: 7436788393738767238, guid: 44f9a936bab6c664ea5956327fa237a3, type: 3}
   spawnInstantiateFinished: 0
   monsterPool: []
   curNormal: 3
@@ -6741,6 +6747,7 @@ MonoBehaviour:
   - {fileID: 847274564}
   - {fileID: 691081336}
   - {fileID: 1340310806}
+  effectSound: {fileID: 4871825192847793544, guid: 3765761a2646ef0469a8a5be0030e01d, type: 3}
 --- !u!4 &1382090663
 Transform:
   m_ObjectHideFlags: 0

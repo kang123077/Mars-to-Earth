@@ -7,7 +7,7 @@ namespace Skill
 {
     public class ChargeSkill : Skill
     {
-        private Func<bool> attackTemp;
+        private Action attackTemp;
         private bool _onCharge;
         private bool onCharge
         {
@@ -48,7 +48,7 @@ namespace Skill
                             if (!caster.targetCharacter.Hit(point, skillInfo.dmg + caster.dmg * 2f, 0)) continue;
                         } 
                     }
-                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1],-1, (skillInfo.range + caster.range * 0.2f) * 0.4f);
+                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1],ResourceManager.Instance.audioClips[(int)AudioClipName.explosion2], (skillInfo.range + caster.range * 0.2f) * 0.4f);
                 });
 
             
@@ -80,7 +80,6 @@ namespace Skill
                 caster.impact -= (skillInfo.dmg + caster.dmg * 0.5f) * 0.1f * caster.muzzle.forward;
                 caster.Attacken = attackTemp;
                 onCharge = false;
-                return true;
             };
         }
     }

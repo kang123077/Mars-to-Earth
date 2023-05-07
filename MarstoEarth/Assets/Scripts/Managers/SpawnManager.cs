@@ -22,7 +22,6 @@ public class SpawnManager : Singleton<SpawnManager>
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public Item.Item ItemPrefab;
-    public ReleaseEffect effectPrefab;
     public bool spawnInstantiateFinished = false;
     public List<Monster> monsterPool;
     public int curNormal = 3;
@@ -69,6 +68,7 @@ public class SpawnManager : Singleton<SpawnManager>
     }
 
     public Transform[] objectPool;
+    public AudioSource effectSound;
     protected override void Awake()
     {
         base.Awake();
@@ -190,7 +190,7 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount--;
         monsterPool.Add(target);
     }
-    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, float duration=-1, float scale=1)
+    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, AudioClip clip, float scale=1, float duration=-1)
 
     {
         ReleaseEffect target;
@@ -202,10 +202,13 @@ public class SpawnManager : Singleton<SpawnManager>
             ParticleSystem.MainModule main = targetParticle.main;
 
             main.stopAction = ParticleSystemStopAction.Callback;
-
+            targetParticle.gameObject.SetActive(false);
             target = targetParticle.AddComponent<ReleaseEffect>();
+            
+            target.sound = Instantiate(effectSound,target.transform);
+            
             target.refParticle = particle;
-            target.gameObject.SetActive(false);
+            
         }
         else
         {
@@ -213,8 +216,8 @@ public class SpawnManager : Singleton<SpawnManager>
             target.transform.position = spawnPoint;
             effectPool.RemoveAt(findIdx);
         }
-
-        target.Init(duration,scale);
+       
+        target.Init(duration,scale,clip);
         target.gameObject.SetActive(true);
         return target;
     }

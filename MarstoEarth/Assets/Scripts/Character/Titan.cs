@@ -20,16 +20,16 @@ namespace Character
             jumpAttack = new Skill.SmashSkill();
             jumpAttack.Init(this);
             jumpEleapse = 8;
+            weapon.clip = ResourceManager.Instance.audioClips[(int)AudioClipName.swing];
         }
 
-        protected override bool Attacked()
+        protected override void Attacked()
         {
-            if (!base.Attacked()) return false;
+            base.Attacked();
             biteEleapse++;
-            if (biteEleapse <= 6) return true;
+            if (biteEleapse <= 6) return;
             bite.Use();
             biteEleapse = 0;
-            return true;
         }
 
         protected void Update()

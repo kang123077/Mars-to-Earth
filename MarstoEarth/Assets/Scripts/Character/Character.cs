@@ -39,7 +39,8 @@ namespace Character
 
         public Transform muzzle;
         public Transform handguard;
-
+        public AudioSource weapon;
+        public AudioSource step;
         public Skill.Skill onSkill;
         private float SPCActionWeight;
         [HideInInspector] public Vector3 impact;
@@ -50,7 +51,7 @@ namespace Character
         [HideInInspector] public float viewAngle;
         [HideInInspector] public float sightLength;
         private float _speed;
-        public virtual float speed
+        public float speed
         {
             get => _speed;
             set
@@ -83,7 +84,7 @@ namespace Character
         protected Projectile.ProjectileInfo projectileInfo;
 
         public Func<Vector3,float,float,bool> Hit;
-        public Func<bool> Attacken;
+        public Action Attacken;
         protected int buffElementIdx;
         protected bool _stun;
         public virtual bool stun
@@ -130,6 +131,9 @@ namespace Character
             Hit = Hited;
             Attacken = Attacked;
             
+            step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.walk];
+            step.Play();
+            weapon.clip = ResourceManager.Instance.audioClips[(int)AudioClipName.revolver];
         }
 
         protected virtual void Start()
@@ -148,11 +152,11 @@ namespace Character
             Attacken();
         }
 
-        protected virtual bool Attacked()
+        protected virtual void Attacked()
         {
-            if (!target) return false;
+            if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
-            return targetCharacter.Hit(thisCurTransform.position,dmg,0);
+            targetCharacter.Hit(thisCurTransform.position,dmg,0);
         }
         
         // ReSharper disable Unity.PerformanceAnalysis

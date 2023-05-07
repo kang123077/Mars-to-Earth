@@ -39,7 +39,7 @@ namespace Projectile
                 stun.Init(duration);
                 target.AddBuff(stun);                
             }
-            SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.Boomerang].effects[^1],-1,range*0.4f);
+            SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.Boomerang].effects[^1],ResourceManager.Instance.audioClips[(int)AudioClipName.explosion2],range*0.4f);
             Destroy(gameObject);
         }
         void Update()

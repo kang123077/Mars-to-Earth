@@ -68,6 +68,8 @@ namespace Character
             set
             {
                 anim.SetBool(IsRun, value);
+                step.clip = ResourceManager.Instance.audioClips[value?(int)AudioClipName.run:(int)AudioClipName.walk];
+                step.Play();
                 _isRun = value;
             }
         }
@@ -88,6 +90,7 @@ namespace Character
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
+            
         }
 
         protected override void Start()
@@ -169,6 +172,12 @@ namespace Character
 
             #region MovingMan
 
+
+            if (xInput is < 0.1f and > -0.1f && zInput is < 0.1f and > -0.1f)
+                step.volume = 0;
+            else
+                step.volume = 0.8f;
+            
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
@@ -176,7 +185,7 @@ namespace Character
                     InputDir.x *= 0.71f;
                     InputDir.z *= 0.71f;
                 }
-                
+
                 if (Input.anyKey)
                 {
                     foreach (KeyCode keyCode in moveKeys)
@@ -196,7 +205,7 @@ namespace Character
                 }
                 else
                     isRun = false;
-
+                
                 InputDir = CinemachineManager.Instance.follower.rotation * InputDir;
                 thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1f));
 
@@ -320,17 +329,17 @@ namespace Character
             #endregion
         }
 
-        protected override bool Attacked()
+        protected override void Attacked()
         {
             Vector3 muzzleForward = muzzle.forward;
             
             effects[0].Play();
             effects[1].Play();
+            weapon.Play();
             SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
                 dmg, 1 + duration * 0.5f, 35 + speed * 2, range * 0.5f, ref projectileInfo);
             impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
             
-            return true;
         }
 
         protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)

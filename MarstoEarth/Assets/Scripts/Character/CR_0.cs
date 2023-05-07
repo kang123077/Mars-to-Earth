@@ -16,15 +16,10 @@ namespace Character
              (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);           
             block = new BlockSkill();
             block.Init(this);
+            weapon.clip = ResourceManager.Instance.audioClips[(int)AudioClipName.swing];
             blockEleapse = 8;
         }
-        protected override bool Attacked()
-        {
-            if(! base.Attacked()) return false;
-            parring.Init(0.3f);
-            targetCharacter.AddBuff(parring);
-            return true;
-        }
+        
         protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
         {
             if (!base.Hited(attacker, dmg, penetrate))
