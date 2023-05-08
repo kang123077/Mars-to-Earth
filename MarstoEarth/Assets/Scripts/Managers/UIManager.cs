@@ -42,8 +42,15 @@ public class UIManager :Singleton<UIManager>
             }
             else if (UIs[(int)UIType.Setting].gameObject.activeSelf == true)
             {
+                if(UIs[(int)UIType.Card].gameObject.activeSelf == true)
+                {
+                    Time.timeScale = 0f;
+                }
+                else if(UIs[(int)UIType.Card].gameObject.activeSelf != true)
+                {
+                    Time.timeScale = 1f;
+                }
                 UIs[(int)UIType.Setting].gameObject.SetActive(false); // UI 활성화
-                Time.timeScale = 1f;
             }
         }
     }
