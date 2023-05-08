@@ -29,13 +29,15 @@ public class UIManager :Singleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.Confined;
         currentView = UIs[(int)UIType.Combat];
+        AudioManager.Instance.PlayBGM(1);
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(UIs[(int)UIType.Setting].gameObject.activeSelf != true)
+            AudioManager.Instance.PlayEffect(2);
+            if (UIs[(int)UIType.Setting].gameObject.activeSelf != true)
             {
                 UIs[(int)UIType.Setting].gameObject.SetActive(true); // UI 활성화
                 Time.timeScale = 0f;
