@@ -58,11 +58,13 @@ public class AudioManager : Singleton<AudioManager>
         bgmAudioSource = gameObject.AddComponent<AudioSource>();
         bgmAudioSource.loop = true;
         bgmAudioSource.volume = 1f;
+        bgmAudioSource.spatialize = false;//3D공간에 영향을받지않음
 
         // 효과음용 AudioSource 컴포넌트 추가 및 설정
         effectAudioSource = gameObject.AddComponent<AudioSource>();
         effectAudioSource.loop = false;
         effectAudioSource.volume = 1f;
+        effectAudioSource.spatialize = false;
     }
 
     public void PlayBGM(int clipIndex)
@@ -82,13 +84,14 @@ public class AudioManager : Singleton<AudioManager>
         effectAudioSource.volume = finalEffectVolume; // 볼륨 설정
         effectAudioSource.Play();       
     }
-    public void SetEffect(int clipIndex, AudioSource source)
+    public void PlayEffect(int clipIndex, AudioSource source)
     {
         if (clipIndex < 0 || clipIndex >= CombatEffectAudioClips.Length) return; // 인덱스 범위 확인
         
         source.clip = CombatEffectAudioClips[clipIndex];
         source.volume = finalEffectVolume; // 볼륨 설정
-        //스폰매니저의 getEffect함수의 ReleaseEffect의 OnEnable 타이밍에 재생하기때문에 여기서 play하지않음        
+        if(source.transform.parent.gameObject.activeSelf)
+            source.Play();
     }
 
     public void SetMasterVolume(float value)

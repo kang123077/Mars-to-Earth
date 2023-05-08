@@ -14,7 +14,7 @@ namespace Projectile
         }
         private void Awake()
         {
-            StartCoroutine(attack(1 / speed));
+            StartCoroutine(attack(2 / speed));
         }
 
         IEnumerator attack(float term)
@@ -27,7 +27,10 @@ namespace Projectile
                 {
                     colliders[0].TryGetComponent(out Character.Character target);
                     if (target)
+                    {
                         target.Hit(transform.position, dmg,0);
+                        AudioManager.Instance.PlayEffect((int)CombatEffectClip.buzz,target.weapon);
+                    }
                 }
             }
         }

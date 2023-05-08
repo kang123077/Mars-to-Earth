@@ -67,12 +67,13 @@ namespace Skill
         public override void Effect()
         {
             onCharge = true;
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.charge,caster.weapon);
             attackTemp = caster.Attacken;
             caster.Attacken = () =>
             {
                 for ( byte i=0; i< effectsLength; i++)
                     effects[i].Play();
-
+                AudioManager.Instance.PlayEffect((int)CombatEffectClip.missile,caster.weapon);
                 SpawnManager.Instance.Launch(caster.muzzle.position, caster.muzzle.forward, 0, 2,
                     skillInfo.speed + caster.speed * 2,
                     skillInfo.range * 0.5f, ref chargeProjectileInfo);

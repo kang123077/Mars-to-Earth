@@ -15,9 +15,8 @@ namespace Character
             if (dying)
                 return ;
             isAttacking = false;
-            weapon.Play();
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.revolver,weapon);
             SpawnManager.Instance.Launch(muzzle.position, muzzle.forward, dmg, 1 + duration * 0.5f, 20 + speed * 2, range * 0.5f, ref projectileInfo);
-            
         }
         protected void Update()
         {

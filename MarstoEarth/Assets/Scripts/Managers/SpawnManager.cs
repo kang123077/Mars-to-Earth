@@ -219,7 +219,7 @@ public class SpawnManager : Singleton<SpawnManager>
         }
        
         target.Init(duration,scale);
-        AudioManager.Instance.SetEffect(clipNum, target.sound);
+        AudioManager.Instance.PlayEffect(clipNum, target.sound);
         target.gameObject.SetActive(true);
         return target;
     }

@@ -9,12 +9,16 @@ namespace Skill
         private SPC roll;
         private Vector3 dir;
         private ParticleSystem effect;
+        private AudioClip temp;
         public RollSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Roll];
             roll = new SPC((ch)=>
             {
                 effect.Play();
+                ch.step.Stop();
+                temp = ch.step.clip;
+                AudioManager.Instance.PlayEffect((int)CombatEffectClip.rolling,ch.step);
                 ch.immune = true;
             }, (ch) =>
             {
@@ -24,7 +28,10 @@ namespace Skill
                
             },(ch)=>
             {
+                ch.step.Stop();
+                ch.step.clip = temp;
                 effect.Stop();
+                ch.step.Play();
                 ch.SkillEffect();
             },skillInfo.icon);
         }

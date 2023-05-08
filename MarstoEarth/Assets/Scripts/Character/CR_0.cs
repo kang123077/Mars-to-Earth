@@ -16,10 +16,13 @@ namespace Character
              (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);           
             block = new BlockSkill();
             block.Init(this);
-            AudioManager.Instance.SetEffect((int)CombatEffectClip.swing, weapon);
             blockEleapse = 8;
         }
-        
+        protected override void Attacked()
+        {
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.swing, weapon);
+            base.Attacked();
+        }
         protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
         {
             if (!base.Hited(attacker, dmg, penetrate))

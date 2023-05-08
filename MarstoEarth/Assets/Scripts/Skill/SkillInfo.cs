@@ -17,7 +17,6 @@ namespace Skill
         public byte cool;
         public byte speed;
         public Sprite icon;
-        public AudioClip[] audioClips;
         public ParticleSystem[] effects;
     }
 }

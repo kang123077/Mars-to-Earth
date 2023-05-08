@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,18 @@ namespace Projectile
 {
     public class GravityEffect : Installation
     {
+        private AudioSource sound;
         public void Init(float dr, float dg, float rg, int lm)
         {
             base.Init(lm, dr, dg, rg,0);
+
+            sound = Instantiate(SpawnManager.Instance.effectSound, transform);
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
+        }
+
+        private void OnEnable()
+        {
+            sound.Play();
         }
 
 

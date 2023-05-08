@@ -30,15 +30,14 @@ namespace Character
             {
                 if (value && !isAttacking)
                 {
-                    AudioManager.Instance.SetEffect((int)CombatEffectClip.run, step);
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.run, step);
                     ai.speed = speed * 1.3f;
                 }
                 else
                 {
-                    AudioManager.Instance.SetEffect((int)CombatEffectClip.walk, step);
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.walk, step);
                     ai.speed = speed;
                 }
-                step.Play();
                 base.target = value;
             } 
         }
@@ -49,15 +48,14 @@ namespace Character
             set {
                 if (!value && target)
                 {
-                    AudioManager.Instance.SetEffect((int)CombatEffectClip.run, step);
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.run, step);
                     ai.speed = speed * 1.3f;
                 }
                 else
                 {
-                    AudioManager.Instance.SetEffect((int)CombatEffectClip.walk, step);
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.walk, step);
                     ai.speed = speed;
                 }
-                step.Play();
                 anim.SetBool(attacking, value);
                 positions.Clear();
                 travelDistance = 0;
