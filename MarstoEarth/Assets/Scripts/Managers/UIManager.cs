@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,7 +28,6 @@ public class UIManager :Singleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.Confined;
         currentView = UIs[(int)UIType.Combat];
-        AudioManager.Instance.PlayBGM(1);
     }
 
     private void Update()

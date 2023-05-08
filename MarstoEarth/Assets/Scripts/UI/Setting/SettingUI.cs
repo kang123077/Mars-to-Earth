@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class SettingUI : UI
 {
@@ -7,14 +8,18 @@ public class SettingUI : UI
     public Slider BGMVolume;
     public Slider effectVolume;
     public TMPro.TMP_Dropdown resolutionCon;
+    List<Resolution> resolutions = new List<Resolution>();
+    public int resolutionNum;
+    FullScreenMode screenMode;
+    public Toggle fullScreen;
 
     void Start()
     {
         resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>(); // try get
+        ResolInit();
         maserVolume.onValueChanged.AddListener(delegate { OnMasterVolumeChanged(); });
         BGMVolume.onValueChanged.AddListener(delegate { OnBGMVolumeChanged(); });
         effectVolume.onValueChanged.AddListener(delegate { OnEffectVolumeChanged(); });
-        resolutionCon.onValueChanged.AddListener(delegate { OnResolutionChanged(); });
         gameObject.SetActive(false); // UI 비활성화
     }
 
@@ -24,27 +29,50 @@ public class SettingUI : UI
         gameObject.SetActive(false);
     }
 
+    void ResolInit()
+    {
+        for(int i = 0; i < Screen.resolutions.Length; i++)
+        {
+            if (Screen.resolutions[i].width * 9 == Screen.resolutions[i].height * 16 && Screen.resolutions[i].width <= 1920)
+            {
+                resolutions.Add(Screen.resolutions[i]);
+            }
+        }
+        resolutionCon.ClearOptions();
+
+        resolutionNum = 0;
+        foreach (Resolution item in resolutions)
+        {
+            TMPro.TMP_Dropdown.OptionData option = new TMPro.TMP_Dropdown.OptionData();
+            option.text = item.width + " X " + item.height + " ";
+            resolutionCon.options.Add(option);
+
+            if(item.width == Screen.width && item.height == Screen.height)
+            {
+                resolutionCon.value = resolutionNum;
+                resolutionNum++;
+            }
+        }
+        resolutionCon.RefreshShownValue();
+
+        fullScreen.isOn = Screen.fullScreenMode.Equals(FullScreenMode.FullScreenWindow) ? true : false;
+    }
+
+    public void ResolNumChange(int x)
+    {
+        resolutionNum = x;
+    }
+
+
     public void OnResolutionChanged()
     {
-        int value = resolutionCon.value;
+        Screen.SetResolution(resolutions[resolutionNum].width,
+            resolutions[resolutionNum].height, screenMode);
+    }
 
-        switch (value)
-        {
-            case 0: // 1920 x 1080
-                Screen.SetResolution(1920, 1080, true);
-                Debug.Log(Screen.currentResolution);
-                break;
-            case 1: // 1024 x 768
-                Screen.SetResolution(1024, 768, false);
-                Debug.Log(Screen.currentResolution);
-                break;
-            case 2: // 800 x 600
-                Screen.SetResolution(800, 600, false);
-                Debug.Log(Screen.currentResolution);
-                break;
-            default:
-                break;
-        }
+    public void FullScreenToggle(bool isFull)
+    {
+        screenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
     }
 
     public void OnMasterVolumeChanged()

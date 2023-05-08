@@ -30,6 +30,8 @@ public class AudioManager : Singleton<AudioManager>
         effectAudioSource = gameObject.AddComponent<AudioSource>();
         effectAudioSource.loop = false;
         effectAudioSource.volume = 1f;
+
+        PlayBGM(1);
     }
 
     public void PlayBGM(int clipIndex)
