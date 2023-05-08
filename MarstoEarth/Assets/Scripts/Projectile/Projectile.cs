@@ -80,7 +80,7 @@ namespace Projectile
                     target.Hit(attackerPos, dmg,0);
                 
                 thisInfo[0].ef?.Invoke(position);
-                SpawnManager.Instance.GetEffect(position,effects[(int)Type.Bullet], ResourceManager.Instance.audioClips[target? (int)AudioClipName.hit2:(int)AudioClipName.hit1]); 
+                SpawnManager.Instance.GetEffect(position,effects[(int)Type.Bullet], target? (int)CombatEffectClip.hit2:(int)CombatEffectClip.hit1); 
                 if(gameObject.activeSelf)
                     SpawnManager.Instance.projectileManagedPool.Release(this);
             }
@@ -106,7 +106,7 @@ namespace Projectile
                 if (target)
                     target.Hit(attackerPos, dmg,0);
             }
-            SpawnManager.Instance.GetEffect(position,effects[(int)Type.Cannon],ResourceManager.Instance.audioClips[count>1?(int)AudioClipName.explosion2:(int)AudioClipName.explosion1],range*0.4f); 
+            SpawnManager.Instance.GetEffect(position,effects[(int)Type.Cannon],count > 1 ? (int)CombatEffectClip.explosion2 : (int)CombatEffectClip.explosion1,range*0.4f); 
             thisInfo[0].ef?.Invoke(position);
             SpawnManager.Instance.projectileManagedPool.Release(this);
             

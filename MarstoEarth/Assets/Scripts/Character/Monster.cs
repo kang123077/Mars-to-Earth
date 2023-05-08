@@ -30,12 +30,12 @@ namespace Character
             {
                 if (value && !isAttacking)
                 {
-                    step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.run];
+                    AudioManager.Instance.SetEffect((int)CombatEffectClip.run, step);
                     ai.speed = speed * 1.3f;
                 }
                 else
                 {
-                    step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.walk];
+                    AudioManager.Instance.SetEffect((int)CombatEffectClip.walk, step);
                     ai.speed = speed;
                 }
                 step.Play();
@@ -49,12 +49,12 @@ namespace Character
             set {
                 if (!value && target)
                 {
-                    step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.run];
+                    AudioManager.Instance.SetEffect((int)CombatEffectClip.run, step);
                     ai.speed = speed * 1.3f;
                 }
                 else
                 {
-                    step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.walk];
+                    AudioManager.Instance.SetEffect((int)CombatEffectClip.walk, step);
                     ai.speed = speed;
                 }
                 step.Play();

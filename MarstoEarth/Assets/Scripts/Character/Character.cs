@@ -130,10 +130,11 @@ namespace Character
             
             Hit = Hited;
             Attacken = Attacked;
-            
-            step.clip=ResourceManager.Instance.audioClips[(int)AudioClipName.walk];
+
+            AudioManager.Instance.SetEffect((int)CombatEffectClip.walk, step);
             step.Play();
-            weapon.clip = ResourceManager.Instance.audioClips[(int)AudioClipName.revolver];
+            AudioManager.Instance.SetEffect((int)CombatEffectClip.revolver, weapon);
+            
         }
 
         protected virtual void Start()

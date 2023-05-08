@@ -16,7 +16,7 @@ namespace Character
              (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);           
             block = new BlockSkill();
             block.Init(this);
-            weapon.clip = ResourceManager.Instance.audioClips[(int)AudioClipName.swing];
+            AudioManager.Instance.SetEffect((int)CombatEffectClip.swing, weapon);
             blockEleapse = 8;
         }
         

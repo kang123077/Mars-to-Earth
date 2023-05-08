@@ -20,7 +20,7 @@ namespace Character
             jumpAttack = new Skill.SmashSkill();
             jumpAttack.Init(this);
             jumpEleapse = 8;
-            weapon.clip = ResourceManager.Instance.audioClips[(int)AudioClipName.swing];
+            AudioManager.Instance.SetEffect((int)CombatEffectClip.swing, weapon);
         }
 
         protected override void Attacked()

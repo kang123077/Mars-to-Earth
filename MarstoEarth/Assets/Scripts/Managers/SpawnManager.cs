@@ -190,9 +190,10 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount--;
         monsterPool.Add(target);
     }
-    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, AudioClip clip, float scale=1, float duration=-1)
+    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, int clipNum, float scale=1, float duration=-1)
 
     {
+        
         ReleaseEffect target;
         int findIdx = effectPool.FindIndex((el) => ReferenceEquals(el.refParticle, particle));
         
@@ -217,7 +218,8 @@ public class SpawnManager : Singleton<SpawnManager>
             effectPool.RemoveAt(findIdx);
         }
        
-        target.Init(duration,scale,clip);
+        target.Init(duration,scale);
+        AudioManager.Instance.SetEffect(clipNum, target.sound);
         target.gameObject.SetActive(true);
         return target;
     }

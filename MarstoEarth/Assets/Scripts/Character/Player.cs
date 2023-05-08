@@ -68,7 +68,7 @@ namespace Character
             set
             {
                 anim.SetBool(IsRun, value);
-                step.clip = ResourceManager.Instance.audioClips[value?(int)AudioClipName.run:(int)AudioClipName.walk];
+                AudioManager.Instance.SetEffect(value ? (int)CombatEffectClip.run : (int)CombatEffectClip.walk, step);                
                 step.Play();
                 _isRun = value;
             }

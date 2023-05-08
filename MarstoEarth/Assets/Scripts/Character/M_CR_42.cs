@@ -7,7 +7,7 @@ namespace Character
         protected override void Start()
         {
             base.Start();
-            weapon.clip = ResourceManager.Instance.audioClips[(int)AudioClipName.swing];
+            AudioManager.Instance.SetEffect((int)CombatEffectClip.swing, weapon);
         }
 
         protected void Update()

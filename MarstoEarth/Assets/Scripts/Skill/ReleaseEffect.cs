@@ -10,11 +10,10 @@ namespace Skill
         public float duration;
         public float eleapse;
         public AudioSource sound;
-        public void Init(float dr, float sc, AudioClip clip)
+        public void Init(float dr, float sc)
         {
             transform.localScale= sc* Vector3.one;
             duration= dr;
-            sound.clip = clip;
         }
 
         void OnParticleSystemStopped()

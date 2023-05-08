@@ -38,7 +38,7 @@ namespace Item
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Player player)
         {
-            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle,ResourceManager.Instance.audioClips[(int)AudioClipName.itemUse] ,1,20);
+            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle,(int)CombatEffectClip.itemUse,1,20);
             effect.transform.SetParent(player.transform,true);
             spcs[(int)type].Init(20);
             player.AddBuff(spcs[(int)type]);

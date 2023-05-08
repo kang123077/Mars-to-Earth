@@ -72,24 +72,7 @@ public enum CommonSPC
     bleeding
 }
 
-public enum AudioClipName
-{
-    charge,
-    choice,
-    explosion1,
-    explosion2,
-    hit1,
-    hit2,
-    hitExplotion,
-    itemUse,
-    openUI,
-    revolver,
-    run,
-    steam,
-    swing,
-    walk,
-    missile
-}
+
 
 public class ResourceManager : Singleton<ResourceManager>
 {
@@ -101,7 +84,6 @@ public class ResourceManager : Singleton<ResourceManager>
     public Character.Monster[] enemys;
     public List<Skill.Skill> skills = new();
     public Sprite[] commonSPCIcon;
-    public AudioClip[] audioClips;
 
     protected override void Awake()
     {

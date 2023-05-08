@@ -59,7 +59,7 @@ namespace Projectile
                     }
 
                     SpawnManager.Instance.GetEffect(point,
-                        ResourceManager.Instance.skillInfos[(int)SkillName.Hyperion].effects[0],ResourceManager.Instance.audioClips[(int)AudioClipName.explosion2],range*0.4f);
+                        ResourceManager.Instance.skillInfos[(int)SkillName.Hyperion].effects[0],(int)CombatEffectClip.explosion2,range*0.4f);
                 });
             atkSpd = 10 * (1 / speed);
             curPorts = new Transform[16];

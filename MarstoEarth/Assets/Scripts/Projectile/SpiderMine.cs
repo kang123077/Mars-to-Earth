@@ -30,7 +30,7 @@ namespace Projectile
                         target.Hit(thisTransform.position, dmg, 0);
                     }
                     SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.SpiderMine].effects[^1],
-                        ResourceManager.Instance.audioClips[(int)AudioClipName.explosion2],range*0.4f);
+                        (int)CombatEffectClip.explosion2,range*0.4f);
                     Destroy(gameObject);
                 }
             }

@@ -48,7 +48,7 @@ namespace Skill
                             if (!caster.targetCharacter.Hit(point, skillInfo.dmg + caster.dmg * 2f, 0)) continue;
                         } 
                     }
-                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1],ResourceManager.Instance.audioClips[(int)AudioClipName.explosion2], (skillInfo.range + caster.range * 0.2f) * 0.4f);
+                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1],(int)CombatEffectClip.explosion2, (skillInfo.range + caster.range * 0.2f) * 0.4f);
                 });
 
             
