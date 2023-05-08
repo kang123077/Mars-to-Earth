@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 52fa30967f6f7b34f96f7e858b2123df, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 8419a0ec99bae4f45943e72179a3a174, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -1054,9 +1054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hpBar: {fileID: 5970147934550720170, guid: ff3df1046b1bc4d4a8a6c115ef749e05, type: 3}
-  items:
-  - {fileID: 1966295499392432073, guid: d5e701ccbc4699d48957d6be406aa8c1, type: 3}
-  - {fileID: 2074234464477956416, guid: 9d3de7b42d02cf747ba8aba5a7933947, type: 3}
+  itemInfos: []
   projectileMesh:
   - {fileID: -6400281290468069383, guid: 39b1bf807a5328d4993b05b81c40f4d0, type: 3}
   - {fileID: 51877323832307708, guid: 9668ff9e36249764aba7543390ad7a5b, type: 3}
@@ -1076,6 +1074,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc75d5e419006b24da20b824347de825, type: 2}
   - {fileID: 11400000, guid: f27bad3d52e54e84ca98f37836c8000b, type: 2}
   - {fileID: 11400000, guid: e27e62748caea3342be04bd984a50430, type: 2}
+  OnlyMonsterSkillInfos: []
   enemys:
   - {fileID: 6770917455191006859, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
   - {fileID: 2184933562526754823, guid: e4d7194487c3e444d81a9a8db513a81b, type: 3}
@@ -1792,7 +1791,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 685007818}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
@@ -1894,9 +1893,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardSkillIconLeft: {fileID: 470527357}
   cardSkillIconRight: {fileID: 229598687}
+  reroll: {fileID: 0}
   cardLeftText: {fileID: 1591199098}
   cardRightText: {fileID: 1227825753}
-  selectedSkillInfo: []
+  randomIndexLeft: 0
+  randomIndexRight: 0
 --- !u!224 &739434983
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1933,7 +1934,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftCard: {fileID: 1851396377}
   rightCard: {fileID: 1276017008}
-  selectedCardIndex: -1
+  rerollButton: {fileID: 0}
+  cardInfo: {fileID: 0}
+  combatUI: {fileID: 0}
 --- !u!1 &765348435
 GameObject:
   m_ObjectHideFlags: 0
@@ -2835,6 +2838,7 @@ MonoBehaviour:
   clearedRooms: 0
   cardUICon: {fileID: 739434981}
   cardInfo: {fileID: 739434982}
+  inGameSkillInfo: []
 --- !u!4 &1265708523
 Transform:
   m_ObjectHideFlags: 0
@@ -2874,7 +2878,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1274603736}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
@@ -3290,13 +3294,17 @@ MonoBehaviour:
   player: {fileID: 3026331719584739865, guid: c98043d57e0190845b790d7b92990bee, type: 3}
   playerTransform: {fileID: 0}
   projectilePrefab: {fileID: 7739833361423966859, guid: 4a99ec8f6364bc64d9d59786f4218424, type: 3}
+  ItemPrefab: {fileID: 0}
+  effectPrefab: {fileID: 0}
   spawnInstantiateFinished: 0
   monsterPool: []
-  effectPool: []
   curNormal: 3
   curElite: 1
   outsideLight: {fileID: 1274603736}
   insideLight: {fileID: 685007818}
+  effectPool: []
+  itemPool: []
+  objectPool: []
 --- !u!4 &1382090663
 Transform:
   m_ObjectHideFlags: 0
