@@ -1,17 +1,18 @@
 
+using System;
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class ReleaseEffect:MonoBehaviour
     {
         public ParticleSystem refParticle;
         public float duration;
-        public float eleapse;       
-        
-        public void Init(float dr, Vector3 sc)
+        public float eleapse;
+        public AudioSource sound;
+        public void Init(float dr, float sc)
         {
-            transform.localScale= sc;
+            transform.localScale= sc* Vector3.one;
             duration= dr;
         }
 
@@ -20,6 +21,13 @@ namespace Skill
             gameObject.SetActive(false);
             SpawnManager.Instance.effectPool.Add(this);
         }
+
+        private void OnEnable()
+        {
+            sound.Play();
+        }
+
+
         private void Update()
         {
             if (duration <0) return;

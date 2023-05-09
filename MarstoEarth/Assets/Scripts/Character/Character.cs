@@ -39,8 +39,9 @@ namespace Character
 
         public Transform muzzle;
         public Transform handguard;
-
-        public Skill.Skill onSkill;
+        public AudioSource weapon;
+        public AudioSource step;
+        public Effect.Skill onSkill;
         private float SPCActionWeight;
         [HideInInspector] public Vector3 impact;
         [HideInInspector] public float dmg;
@@ -50,7 +51,7 @@ namespace Character
         [HideInInspector] public float viewAngle;
         [HideInInspector] public float sightLength;
         private float _speed;
-        public virtual float speed
+        public float speed
         {
             get => _speed;
             set
@@ -79,11 +80,11 @@ namespace Character
 
         [HideInInspector] public int layerMask;
 
-        protected List<Skill.SPC> Buffs;
+        protected List<Effect.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
         public Func<Vector3,float,float,bool> Hit;
-        public Func<bool> Attacken;
+        public Action Attacken;
         protected int buffElementIdx;
         protected bool _stun;
         public virtual bool stun
@@ -122,14 +123,15 @@ namespace Character
             sightLength = characterStat.sightLength;
             onSkill = null;
             
-            Buffs = new List<Skill.SPC>();
+            Buffs = new List<Effect.SPC>();
             layerMask = (1 << 3 | 1 << 6 ) ^ 1 << gameObject.layer;
 
             anim.SetFloat(animSpeed, 1 + speed * 0.05f);
             
             Hit = Hited;
             Attacken = Attacked;
-            
+
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.walk, step);
         }
 
         protected virtual void Start()
@@ -148,11 +150,11 @@ namespace Character
             Attacken();
         }
 
-        protected virtual bool Attacked()
+        protected virtual void Attacked()
         {
-            if (!target) return false;
+            if (!target) return;
             target.gameObject.TryGetComponent(out targetCharacter);
-            return targetCharacter.Hit(thisCurTransform.position,dmg,0);
+            targetCharacter.Hit(thisCurTransform.position,dmg,0);
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
@@ -200,7 +202,7 @@ namespace Character
             if (dying)
                 return false;
             DamageText dt = combatUI.DMGTextPool.Get();
-            dt.transform.position = thisCurTransform.position+new Vector3(0,.8f,0);
+            dt.transform.position = thisCurTransform.position+Vector3.up;
             dt.gameObject.SetActive(true);
             if (immune)
             {
@@ -220,10 +222,10 @@ namespace Character
             return !dying;
         }
 
-        public virtual bool AddBuff(Skill.SPC buff)
+        public virtual bool AddBuff(Effect.SPC buff)
         {
            
-            Skill.SPC findBuff = Buffs.Find((el) =>ReferenceEquals(el.icon, buff.icon));
+            Effect.SPC findBuff = Buffs.Find((el) =>ReferenceEquals(el.icon, buff.icon));
                        
             if (findBuff is null)
             {
@@ -237,14 +239,14 @@ namespace Character
             return findBuff is null;
         }
         // ReSharper disable Unity.PerformanceAnalysis
-        public virtual int RemoveBuff(Skill.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
+        public virtual int RemoveBuff(Effect.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
         {           
             buff.Remove?.Invoke(this);
             int findIndex = Buffs.FindIndex((el)=>el==buff);
             Buffs.RemoveAt(findIndex);
             return findIndex;
         }
-        public void PlaySkillClip(Skill.Skill skill)
+        public void PlaySkillClip(Effect.Skill skill)
         {
             onSkill = skill;
             anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);            

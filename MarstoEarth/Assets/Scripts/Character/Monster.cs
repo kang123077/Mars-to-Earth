@@ -29,22 +29,33 @@ namespace Character
             set
             {
                 if (value && !isAttacking)
+                {
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.run, step);
                     ai.speed = speed * 1.3f;
+                }
                 else
+                {
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.walk, step);
                     ai.speed = speed;
-                
+                }
                 base.target = value;
             } 
         }
 
         private bool _isAttacking;
-        protected bool isAttacking {
+        protected virtual bool isAttacking {
             get =>_isAttacking;  
             set {
                 if (!value && target)
-                    ai.speed=speed*1.3f;
+                {
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.run, step);
+                    ai.speed = speed * 1.3f;
+                }
                 else
-                    ai.speed=speed;
+                {
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.walk, step);
+                    ai.speed = speed;
+                }
                 anim.SetBool(attacking, value);
                 positions.Clear();
                 travelDistance = 0;
@@ -69,21 +80,21 @@ namespace Character
                 {
                     travelDistance -= positions[0];
                     positions.RemoveAt(0);
-                    if (travelDistance < 1f)
+                    if (travelDistance < 2.5f)
                     {
-                        if (!isAttacking)
-                        {
-                            trackingPermission = false;
-                            target = null;
 
-                            int randIdx;
-                            do randIdx = Random.Range(0, 4);
-                            while (patrolIdx == randIdx);
-                            patrolIdx = randIdx;
-                            ai.SetDestination(patrolPoints[patrolIdx]);
-                            positions.Clear();
-                            travelDistance = 0;
-                        }
+                        Debug.Log("끼임확인, 초기화");
+                        trackingPermission = false;
+                        target = null;
+                            
+                        int randIdx;
+                        do randIdx = Random.Range(0, 4);
+                        while (patrolIdx == randIdx);
+                        patrolIdx = randIdx;
+                        ai.SetDestination(patrolPoints[patrolIdx]);
+                        positions.Clear();
+                        travelDistance = 0;
+                        
                     }
                     else
                         trackingPermission = true;
@@ -105,7 +116,7 @@ namespace Character
             colliders = new Collider[1];
             lastPosition = thisCurTransform.position;
             patrolIdx = Random.Range(0, 4);
-           
+            
             ai.SetDestination(patrolPoints[patrolIdx]);
             ai.stoppingDistance = range-1;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
@@ -170,22 +181,22 @@ namespace Character
             dying = false;
         }
 
-        protected override bool Attacked()
+        protected override void Attacked()
         {
             isAttacking = false ;
-            
+            weapon.Play();
             int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders, 1 << 3);
             if (target&&size > 0)
             {
                 float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position-thisCurTransform.forward*range), Vector3.up);
                 if((angle < 0 ? -angle : angle) < viewAngle-60)
                 {
-                    return base.Attacked();
+                    base.Attacked();
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.hitExplotion, weapon);
                 }else
                     Debug.Log("회피 이펙트");
             }else
                 Debug.Log("회피 이펙트");
-            return false;
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

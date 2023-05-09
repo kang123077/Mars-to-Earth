@@ -2,7 +2,7 @@ using Character;
 using System;
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class SmashSkill : Skill
     {
@@ -38,6 +38,7 @@ namespace Skill
         {
             effect.Play();
             caster.RemoveBuff(smash);
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.smash,caster.weapon);
             int count = Physics.OverlapSphereNonAlloc(caster.transform.position, skillInfo.range+caster.range*0.5f, colliders, caster.layerMask);
             for(int i=0; i<count; i++)
             {

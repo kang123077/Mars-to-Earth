@@ -2,19 +2,23 @@ using Character;
 using System;
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class RollSkill : Skill
     {
         private SPC roll;
         private Vector3 dir;
         private ParticleSystem effect;
+        private AudioClip temp;
         public RollSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Roll];
             roll = new SPC((ch)=>
             {
                 effect.Play();
+                ch.step.Stop();
+                temp = ch.step.clip;
+                AudioManager.Instance.PlayEffect((int)CombatEffectClip.rolling,ch.step);
                 ch.immune = true;
             }, (ch) =>
             {
@@ -24,7 +28,10 @@ namespace Skill
                
             },(ch)=>
             {
+                ch.step.Stop();
+                ch.step.clip = temp;
                 effect.Stop();
+                ch.step.Play();
                 ch.SkillEffect();
             },skillInfo.icon);
         }
@@ -33,6 +40,7 @@ namespace Skill
         {
             base.Init(caster);
             effect= UnityEngine.Object.Instantiate(skillInfo.effects[^1], caster.transform);
+            effect.Stop();
         }
 
         protected override bool Activate()
