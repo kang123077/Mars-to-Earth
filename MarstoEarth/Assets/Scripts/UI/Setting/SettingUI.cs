@@ -25,7 +25,8 @@ public class SettingUI : UI
 
     public void OffSettingUI()
     {
-        if(UIManager.Instance.UIs[(int)UIType.Card].gameObject.activeSelf == true)
+        AudioManager.Instance.PlayEffect(2);
+        if (UIManager.Instance.UIs[(int)UIType.Card].gameObject.activeSelf == true)
         {
             gameObject.SetActive(false);
         }
@@ -38,7 +39,6 @@ public class SettingUI : UI
             }
         }
     }
-
 
     void ResolInit()
     {
@@ -101,13 +101,15 @@ public class SettingUI : UI
         AudioManager.Instance.SetEffectVolume(effectVolume.value);
     }
 
-    public void GameReStart()
+    public void GameGoTitle()
     {
         Debug.Log("게임을 재실행 합니다.");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
     }
 
     public void GameExit()
     {
         Debug.Log("게임을 나갑니다.");
+        Application.Quit();
     }
 }
