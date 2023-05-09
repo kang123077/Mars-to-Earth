@@ -1,7 +1,7 @@
 using Character;
 using Item;
 using Projectile;
-using Skill;
+using Effect;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -22,7 +22,6 @@ public class SpawnManager : Singleton<SpawnManager>
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public Item.Item ItemPrefab;
-    public ReleaseEffect effectPrefab;
     public bool spawnInstantiateFinished = false;
     public List<Monster> monsterPool;
     public int curNormal = 3;
@@ -69,6 +68,7 @@ public class SpawnManager : Singleton<SpawnManager>
     }
 
     public Transform[] objectPool;
+    public AudioSource effectSound;
     protected override void Awake()
     {
         base.Awake();
@@ -190,9 +190,10 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount--;
         monsterPool.Add(target);
     }
-    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, float duration=-1,Vector3 scale = default)
+    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, int clipNum, float scale=1, float duration=-1)
 
     {
+        
         ReleaseEffect target;
         int findIdx = effectPool.FindIndex((el) => ReferenceEquals(el.refParticle, particle));
         
@@ -202,23 +203,23 @@ public class SpawnManager : Singleton<SpawnManager>
             ParticleSystem.MainModule main = targetParticle.main;
 
             main.stopAction = ParticleSystemStopAction.Callback;
-
+            targetParticle.gameObject.SetActive(false);
             target = targetParticle.AddComponent<ReleaseEffect>();
+            
+            target.sound = Instantiate(effectSound,target.transform);
+            
             target.refParticle = particle;
-            target.gameObject.SetActive(false);
+            
         }
         else
         {
             target = effectPool[findIdx];
             target.transform.position = spawnPoint;
             effectPool.RemoveAt(findIdx);
-
         }
-
-        if (scale == default)
-            scale = Vector3.one;
-
+       
         target.Init(duration,scale);
+        AudioManager.Instance.PlayEffect(clipNum, target.sound);
         target.gameObject.SetActive(true);
         return target;
     }

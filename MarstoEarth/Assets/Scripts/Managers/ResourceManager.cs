@@ -1,4 +1,4 @@
-using Skill;
+using Effect;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,6 +73,7 @@ public enum CommonSPC
 }
 
 
+
 public class ResourceManager : Singleton<ResourceManager>
 {
     public UnityEngine.UI.Slider hpBar;
@@ -81,7 +82,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public SkillInfo[] skillInfos;
     public SkillInfo[] OnlyMonsterSkillInfos;
     public Character.Monster[] enemys;
-    public List<Skill.Skill> skills = new();
+    public List<Effect.Skill> skills = new();
     public Sprite[] commonSPCIcon;
 
     protected override void Awake()

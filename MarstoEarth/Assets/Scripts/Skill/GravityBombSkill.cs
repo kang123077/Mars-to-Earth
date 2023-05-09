@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class GravityBombSkill : Skill
     {
@@ -37,7 +37,7 @@ namespace Skill
 
         public override void Effect()
         {  
-            SpawnManager.Instance.Launch(caster.transform.position, caster.target ?
+            SpawnManager.Instance.Launch(caster.transform.position+Vector3.up, caster.target ?
                     caster.target.position : caster.transform.position + caster.transform.forward * caster.range,
                     0, skillInfo.duration + caster.duration, skillInfo.speed + caster.speed,
                     skillInfo.range + caster.range * 0.5f, ref projectileInfo);

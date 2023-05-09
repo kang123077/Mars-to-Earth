@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class DistortionSkill : Skill
     {

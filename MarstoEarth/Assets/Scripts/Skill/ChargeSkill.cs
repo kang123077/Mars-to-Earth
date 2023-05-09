@@ -3,14 +3,25 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Skill
+namespace Effect
 {
     public class ChargeSkill : Skill
     {
-        private Func<bool> attackTemp;
-        
-        private bool onCharge;
-        private ParticleSystem[] effects = new ParticleSystem[2];
+        private Action attackTemp;
+        private bool _onCharge;
+        private bool onCharge
+        {
+            get => _onCharge;
+            set
+            {
+                if (value)                
+                    effects[2].Play();
+                else
+                    effects[2].Stop();
+                _onCharge = value;
+            }
+        }
+        private ParticleSystem[] effects = new ParticleSystem[3];
         private byte effectsLength;
         private Projectile.ProjectileInfo chargeProjectileInfo;
         public ChargeSkill()
@@ -37,14 +48,14 @@ namespace Skill
                             if (!caster.targetCharacter.Hit(point, skillInfo.dmg + caster.dmg * 2f, 0)) continue;
                         } 
                     }
-                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1]);
+                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1],(int)CombatEffectClip.explosion2, (skillInfo.range + caster.range * 0.2f) * 0.4f);
                 });
 
             
             effects[0]= Object.Instantiate(skillInfo.effects[0], caster.muzzle);            
             effects[1] = Object.Instantiate(skillInfo.effects[1], caster.handguard);
-
-
+            effects[2] = Object.Instantiate(skillInfo.effects[2], caster.handguard);
+            effects[2].Stop();
         }
         protected override bool Activate()
         {
@@ -56,12 +67,13 @@ namespace Skill
         public override void Effect()
         {
             onCharge = true;
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.charge,caster.weapon);
             attackTemp = caster.Attacken;
             caster.Attacken = () =>
             {
                 for ( byte i=0; i< effectsLength; i++)
                     effects[i].Play();
-
+                AudioManager.Instance.PlayEffect((int)CombatEffectClip.missile,caster.weapon);
                 SpawnManager.Instance.Launch(caster.muzzle.position, caster.muzzle.forward, 0, 2,
                     skillInfo.speed + caster.speed * 2,
                     skillInfo.range * 0.5f, ref chargeProjectileInfo);
@@ -69,7 +81,6 @@ namespace Skill
                 caster.impact -= (skillInfo.dmg + caster.dmg * 0.5f) * 0.1f * caster.muzzle.forward;
                 caster.Attacken = attackTemp;
                 onCharge = false;
-                return true;
             };
         }
     }

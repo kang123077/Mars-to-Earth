@@ -12,16 +12,15 @@ namespace Character
             projectileInfo.ty = Projectile.Type.Cannon;
         }
 
-        protected override bool Attacked()
+        protected override void Attacked()
         {
             if (dying)
-                return false;
+                return ;
             isAttacking= false;
-            
             SpawnManager.Instance.Launch(thisCurTransform.position,
                 target ? target.position : thisCurTransform.forward * range, dmg, 2 + duration * 0.5f, 15 + speed * 2,
                 range * 0.1f, ref projectileInfo);
-            return true;
+            
         }
 
         protected void Update()
