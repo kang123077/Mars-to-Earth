@@ -2,7 +2,7 @@ using Character;
 using System;
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class SmashSkill : Skill
     {

@@ -14,6 +14,7 @@ namespace Projectile
 
             sound = Instantiate(SpawnManager.Instance.effectSound, transform);
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
+            sound.loop = true;
         }
 
         private void OnEnable()

@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Skill
+namespace Effect
 {
     public class ChargeSkill : Skill
     {

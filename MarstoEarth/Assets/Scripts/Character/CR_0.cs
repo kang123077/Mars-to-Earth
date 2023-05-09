@@ -1,19 +1,34 @@
-using Skill;
+using Effect;
 using UnityEngine;
 
 namespace Character
 {
     public class CR_0 : Monster
     {
-        private Skill.Skill block;
+        private Effect.Skill block;
 
         private float blockEleapse;
-        private Skill.SPC parring;
+        //private Skill.SPC parring;
+        //public TrailRenderer swordPath;
+        protected override bool isAttacking { 
+            get => base.isAttacking;
+            set
+            {
+                base.isAttacking = value;
+                //if(value)
+                //    swordPath.emitting = true;
+                //else
+                //{
+                //    swordPath.emitting= false;
+                //    swordPath.Clear();
+                //}
+            }
+        }
         protected override void Start()
         {
             base.Start();
-            parring = new SPC((ch) => ch.stun = true,
-             (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);           
+            //parring = new SPC((ch) => ch.stun = true,
+            // (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);           
             block = new BlockSkill();
             block.Init(this);
             blockEleapse = 8;

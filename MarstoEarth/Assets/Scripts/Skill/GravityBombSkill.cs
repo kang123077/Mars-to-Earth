@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class GravityBombSkill : Skill
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Skill;
+using Effect;
 using UnityEngine;
 
 namespace Projectile

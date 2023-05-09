@@ -1,4 +1,4 @@
-using Skill;
+using Effect;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,7 +30,7 @@ namespace Character
         }
         
 
-        protected List<Skill.Skill> actives;
+        protected List<Effect.Skill> actives;
 
         private float xInput;
         private float zInput;
@@ -88,7 +88,7 @@ namespace Character
             base.Awake();
             colliders = new Collider[8];
             itemColliders = new Collider[1];
-            actives = new List<Skill.Skill>();
+            actives = new List<Effect.Skill>();
             
         }
 

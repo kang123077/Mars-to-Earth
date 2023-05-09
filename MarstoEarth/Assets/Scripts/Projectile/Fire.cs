@@ -1,4 +1,4 @@
-using Skill;
+using Effect;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace Projectile
                 ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.bleeding]);
             sound = Instantiate(SpawnManager.Instance.effectSound, transform);
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.fire, sound);
-
+            sound.loop= true;
         }
         
         

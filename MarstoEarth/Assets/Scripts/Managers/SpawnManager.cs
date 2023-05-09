@@ -1,7 +1,7 @@
 using Character;
 using Item;
 using Projectile;
-using Skill;
+using Effect;
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;

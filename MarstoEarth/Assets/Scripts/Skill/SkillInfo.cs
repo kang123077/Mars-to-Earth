@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
  
     [CreateAssetMenu(fileName = "New SkillInfo", menuName = "SkillInfo")]

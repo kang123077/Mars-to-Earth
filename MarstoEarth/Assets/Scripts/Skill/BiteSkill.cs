@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class BiteSkill : Skill
     {

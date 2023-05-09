@@ -43,7 +43,7 @@ namespace Character
         }
 
         private bool _isAttacking;
-        protected bool isAttacking {
+        protected virtual bool isAttacking {
             get =>_isAttacking;  
             set {
                 if (!value && target)
@@ -191,7 +191,8 @@ namespace Character
                 float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position-thisCurTransform.forward*range), Vector3.up);
                 if((angle < 0 ? -angle : angle) < viewAngle-60)
                 {
-                     base.Attacked();
+                    base.Attacked();
+                    AudioManager.Instance.PlayEffect((int)CombatEffectClip.hitExplotion, weapon);
                 }else
                     Debug.Log("회피 이펙트");
             }else

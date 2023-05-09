@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using Object = System.Object;
 
-namespace Skill
+namespace Effect
 {
     public class GardianSkill : Skill
     {
@@ -40,13 +40,13 @@ namespace Skill
                         .effects[1]);
                 
                 UnityEngine.Object.Instantiate (skillInfo.effects[0], sattlliteSlot.transform);
-                sattlliteSlot.transform.localScale = Vector3.one* (skillInfo.range+caster.range*0.5f);
-                sattlliteSlot.transform.position = gardianSlot.transform.position+points[i]*skillInfo.range;
+                sattlliteSlot.transform.localScale = Vector3.one* (skillInfo.range+caster.range*0.2f);
+                sattlliteSlot.transform.position = gardianSlot.transform.position+points[i]*(skillInfo.range*1.5f);
                 sattlliteSlot.transform.LookAt(gardianSlot.transform.position);
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
 
                 Projectile.Gardian satllite = sattlliteSlot.gameObject.AddComponent<Projectile.Gardian>();
-                satllite.Init(caster.layerMask,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.range + caster.range * 0.5f,skillInfo.speed+caster.speed*0.2f)  ;
+                satllite.Init(caster.layerMask,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.range + caster.range * 0.2f,skillInfo.speed+caster.speed*0.2f)  ;
                 
             }
             gardianSlot.SetActive(true);

@@ -6,11 +6,13 @@ namespace Projectile
 {
     public class Gardian : Installation
     {
-       
+        private AudioSource sound;
         public void Init(int lm, float dg, float rg, float sp)
         {
             base.Init(lm, dg, rg, 0, sp);
-           
+            sound = Instantiate(SpawnManager.Instance.effectSound, transform);
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
+
         }
         private void Awake()
         {
@@ -29,7 +31,7 @@ namespace Projectile
                     if (target)
                     {
                         target.Hit(transform.position, dmg,0);
-                        AudioManager.Instance.PlayEffect((int)CombatEffectClip.buzz,target.weapon);
+                        AudioManager.Instance.PlayEffect((int)CombatEffectClip.buzz, sound);
                     }
                 }
             }

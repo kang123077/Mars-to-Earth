@@ -5,19 +5,19 @@ namespace Character
 {
     public class Titan : Monster
     {
-        private Skill.Skill jumpAttack;
+        private Effect.Skill jumpAttack;
         private float jumpEleapse;
        
 
-        private Skill.Skill bite;
+        private Effect.Skill bite;
         private byte biteEleapse=5;
         protected override void Start()
         {
             base.Start();
 
-            bite = new Skill.BiteSkill();
+            bite = new Effect.BiteSkill();
             bite.Init(this);
-            jumpAttack = new Skill.SmashSkill();
+            jumpAttack = new Effect.SmashSkill();
             jumpAttack.Init(this);
             jumpEleapse = 8;
         }
