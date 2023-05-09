@@ -1,4 +1,4 @@
-using Effect;
+using Skill;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
@@ -32,7 +32,7 @@ namespace Character
         }
 
 
-        protected List<Effect.Skill> actives;
+        protected List<Skill.Skill> actives;
 
         private float xInput;
         private float zInput;

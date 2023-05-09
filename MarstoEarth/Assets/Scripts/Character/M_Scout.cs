@@ -13,11 +13,11 @@ namespace Character
         private Vector3 hidingDir;
         private float dist;
 
-        private Effect.Skill skill;
+        private Skill.Skill skill;
         protected override void Start()
         {
             base.Start();
-            skill = new Effect.SpiderMineSkill();
+            skill = new Skill.SpiderMineSkill();
         }
 
         protected void Update()

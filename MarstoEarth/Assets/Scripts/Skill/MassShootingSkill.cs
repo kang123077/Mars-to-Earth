@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Effect
+namespace Skill
 {
     public class MassShootingSkill : Skill
     {

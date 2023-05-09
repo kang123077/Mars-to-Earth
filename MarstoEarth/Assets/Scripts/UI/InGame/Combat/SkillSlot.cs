@@ -7,8 +7,8 @@ public class SkillSlot : MonoBehaviour
     public Image skillImage;
     public Image coolDown;
 
-    public Effect.Skill skill;
-    public void Init(Effect.Skill inputSkill)
+    public Skill.Skill skill;
+    public void Init(Skill.Skill inputSkill)
     {
         skill = inputSkill;
         skillImage.sprite = skill.skillInfo.icon;

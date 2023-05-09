@@ -30,7 +30,6 @@ public class SettingUI : UI
 
     public void OffSettingUI()
     {
-        AudioManager.Instance.PlayEffect(2);
         if (UIManager.Instance.UIs[(int)UIType.Card].gameObject.activeSelf == true)
         {
             gameObject.SetActive(false);

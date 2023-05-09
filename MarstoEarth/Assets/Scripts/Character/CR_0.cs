@@ -1,11 +1,11 @@
-using Effect;
+using Skill;
 using UnityEngine;
 
 namespace Character
 {
     public class CR_0 : Monster
     {
-        private Effect.Skill block;
+        private Skill.Skill block;
 
         private float blockEleapse;
         //private Skill.SPC parring;

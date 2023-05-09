@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Effect
+namespace Skill
 {
     public class SpiderMineSkill : Skill
     {

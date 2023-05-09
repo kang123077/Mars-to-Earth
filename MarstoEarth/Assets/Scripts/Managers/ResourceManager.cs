@@ -1,4 +1,4 @@
-using Effect;
+using Skill;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -82,7 +82,7 @@ public class ResourceManager : Singleton<ResourceManager>
     public SkillInfo[] skillInfos;
     public SkillInfo[] OnlyMonsterSkillInfos;
     public Character.Monster[] enemys;
-    public List<Effect.Skill> skills = new();
+    public List<Skill.Skill> skills = new();
     public Sprite[] commonSPCIcon;
 
     protected override void Awake()

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Effect
+namespace Skill
 {
    
     public abstract class Skill

@@ -32,6 +32,7 @@ public class UIManager :Singleton<UIManager>
 
     private void Update()
     {
+        // Time.timeScale = 0f일 때 소리를 끄게끔
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             AudioManager.Instance.PlayEffect(2);

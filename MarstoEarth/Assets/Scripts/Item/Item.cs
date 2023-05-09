@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using Effect;
+using Skill;
 using UnityEngine;
 
 namespace Item

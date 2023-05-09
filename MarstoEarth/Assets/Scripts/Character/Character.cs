@@ -41,7 +41,7 @@ namespace Character
         public Transform handguard;
         public AudioSource weapon;
         public AudioSource step;
-        public Effect.Skill onSkill;
+        public Skill.Skill onSkill;
         private float SPCActionWeight;
         [HideInInspector] public Vector3 impact;
         [HideInInspector] public float dmg;
@@ -80,7 +80,7 @@ namespace Character
 
         [HideInInspector] public int layerMask;
 
-        protected List<Effect.SPC> Buffs;
+        protected List<Skill.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
         public Func<Vector3,float,float,bool> Hit;
@@ -123,7 +123,7 @@ namespace Character
             sightLength = characterStat.sightLength;
             onSkill = null;
             
-            Buffs = new List<Effect.SPC>();
+            Buffs = new List<Skill.SPC>();
             layerMask = (1 << 3 | 1 << 6 ) ^ 1 << gameObject.layer;
 
             anim.SetFloat(animSpeed, 1 + speed * 0.05f);
@@ -222,10 +222,10 @@ namespace Character
             return !dying;
         }
 
-        public virtual bool AddBuff(Effect.SPC buff)
+        public virtual bool AddBuff(Skill.SPC buff)
         {
            
-            Effect.SPC findBuff = Buffs.Find((el) =>ReferenceEquals(el.icon, buff.icon));
+            Skill.SPC findBuff = Buffs.Find((el) =>ReferenceEquals(el.icon, buff.icon));
                        
             if (findBuff is null)
             {
@@ -239,14 +239,14 @@ namespace Character
             return findBuff is null;
         }
         // ReSharper disable Unity.PerformanceAnalysis
-        public virtual int RemoveBuff(Effect.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
+        public virtual int RemoveBuff(Skill.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
         {           
             buff.Remove?.Invoke(this);
             int findIndex = Buffs.FindIndex((el)=>el==buff);
             Buffs.RemoveAt(findIndex);
             return findIndex;
         }
-        public void PlaySkillClip(Effect.Skill skill)
+        public void PlaySkillClip(Skill.Skill skill)
         {
             onSkill = skill;
             anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);            
