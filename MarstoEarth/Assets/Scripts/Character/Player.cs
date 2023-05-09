@@ -1,5 +1,6 @@
 using Effect;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace Character
@@ -8,16 +9,17 @@ namespace Character
     {
         public Vector3 InputDir;
         public Transform camPoint;
-       public override bool stun
+        public bool isInsidePath;
+        public override bool stun
+        {
+            get => _stun;
+            set
             {
-                get => _stun;
-                set
-                {
-                    base.stun = value;
-                    anim.SetBool(IsRun, !value && isRun);
-                    _stun= value;
-                }
+                base.stun = value;
+                anim.SetBool(IsRun, !value && isRun);
+                _stun = value;
             }
+        }
         public override Transform target
         {
             get => base.target;
@@ -28,7 +30,7 @@ namespace Character
                 base.target = CinemachineManager.Instance.bossCam.LookAt = value;
             }
         }
-        
+
 
         protected List<Effect.Skill> actives;
 
@@ -82,14 +84,14 @@ namespace Character
         private Vector3 targetDir;
 
         public ParticleSystem[] effects;
-        
+
         protected override void Awake()
         {
             base.Awake();
             colliders = new Collider[8];
             itemColliders = new Collider[1];
-            actives = new List<Effect.Skill>();
-            
+            actives = new List<Skill.Skill>();
+            isInsidePath = false;
         }
 
         protected override void Start()
@@ -109,7 +111,7 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Stimpack]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
-            foreach(var a in actives)
+            foreach (var a in actives)
             {
                 a.Init(this);
             }
@@ -124,12 +126,12 @@ namespace Character
         {
             if (!base.AddBuff(buff)) return false;
             combatUI.ConnectSPCImage(buff.icon);
-            return true;            
+            return true;
         }
         // ReSharper disable Unity.PerformanceAnalysis
         public override int RemoveBuff(SPC buff)
         {
-            int findIndex= base.RemoveBuff(buff);
+            int findIndex = base.RemoveBuff(buff);
             Destroy(combatUI.SPCSlots[findIndex].gameObject);
             combatUI.SPCSlots.RemoveAt(findIndex);
             return -1;
@@ -140,8 +142,8 @@ namespace Character
                 return false;
             for (buffElementIdx = 0; buffElementIdx < Buffs.Count; buffElementIdx++)
                 combatUI.SPCSlots[buffElementIdx].fillAmount = Buffs[buffElementIdx].currentTime * (1 / Buffs[buffElementIdx].duration);
-            
-            if (!stun &&hitScreenAlphaValue > 0)
+
+            if (!stun && hitScreenAlphaValue > 0)
             {
                 hitScreenAlphaValue -= Time.deltaTime * hp * (1 / characterStat.maxHP);
                 hitScreenColor.a = hitScreenAlphaValue;
@@ -219,29 +221,31 @@ namespace Character
 
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
-            
-            #endregion
 
+            #endregion
             #region Targeting
 
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
-            
-            int size = Physics.OverlapSphereNonAlloc(position, sightLength-1 , colliders,
+
+            int size = Physics.OverlapSphereNonAlloc(position, sightLength - 1, colliders,
                 layerMask);
             float minAngle = 180;
             float angle;
             for (int i = 0; i < size; i++)
             {
-                angle=Mathf.Acos(Vector3.Dot(repoterForward, (colliders[i].transform.position - position).normalized)) * Mathf.Rad2Deg;
-                
+                angle = Mathf.Acos(Vector3.Dot(repoterForward, (colliders[i].transform.position - position).normalized)) * Mathf.Rad2Deg;
+
                 angle = angle < 0 ? -angle : angle;
                 if (angle < viewAngle - 5)
                 {
                     if (minAngle > angle)
                     {
                         minAngle = angle;
-                        target = colliders[i].transform;
+                        if (!isInsidePath)
+                        {
+                            target = colliders[i].transform;
+                        }
                     }
                 }
             }
@@ -251,9 +255,9 @@ namespace Character
                 targetPos.y = 0;
                 targetDir = targetPos - position;
             }
-            if (minAngle>179&&target)
+            if (minAngle > 179 && target)
             {
-                angle =Mathf.Acos(Vector3.Dot(repoterForward, targetDir.normalized)) * Mathf.Rad2Deg;
+                angle = Mathf.Acos(Vector3.Dot(repoterForward, targetDir.normalized)) * Mathf.Rad2Deg;
 
                 angle = angle < 0 ? -angle : angle;
                 if ((angle < 0 ? -angle : angle) > viewAngle + 5 ||
@@ -261,7 +265,6 @@ namespace Character
                     target = null;
             }
 
-       
             thisCurTransform.forward =
                 Vector3.RotateTowards(thisCurTransform.forward,
                     isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
@@ -275,7 +278,7 @@ namespace Character
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 actives[0].Use();
-                
+
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
@@ -334,14 +337,13 @@ namespace Character
         protected override void Attacked()
         {
             Vector3 muzzleForward = muzzle.forward;
-            
+
             effects[0].Play();
             effects[1].Play();
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.revolver,weapon);
             SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
                 dmg, 1 + duration * 0.5f, 35 + speed * 2, range * 0.5f, ref projectileInfo);
             impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
-            
         }
 
         protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
