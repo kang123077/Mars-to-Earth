@@ -5955,7 +5955,7 @@ GameObject:
   - component: {fileID: 1152904150}
   - component: {fileID: 1152904149}
   m_Layer: 5
-  m_Name: GameReset
+  m_Name: GameGoTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

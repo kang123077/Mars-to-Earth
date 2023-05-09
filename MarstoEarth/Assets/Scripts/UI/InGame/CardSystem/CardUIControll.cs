@@ -96,5 +96,7 @@ public class CardUIControll : UI
         Time.timeScale = 1f;
         gameObject.SetActive(false);
         Init();
+        cardHovers[0].isBool = false;
+        cardHovers[1].isBool = false;
     }
 }
