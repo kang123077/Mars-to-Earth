@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class StimPackSkill : Skill
     {
@@ -45,6 +45,7 @@ namespace Skill
 
         public override void Effect()
         {
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.itemUse,caster.weapon);
             caster.AddBuff(StimPack);
         }
     }

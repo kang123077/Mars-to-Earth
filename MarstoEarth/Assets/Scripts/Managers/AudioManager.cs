@@ -1,17 +1,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
+
+public enum CombatEffectClip
+{
+    buzz,
+    charge,    
+    explosion1,
+    explosion2,
+    fire,
+    gravity,
+    hit1,
+    hit2,
+    hitExplotion,
+    itemUse,
+    massShoot,
+    missile,
+    parryingKick,
+    parrying,
+    revolver,
+    rolling,
+    run,
+    smash,
+    steam,
+    swing,
+    titanStep,
+    titanVoice,
+    walk,    
+}
+
 public class AudioManager : Singleton<AudioManager>
 {
-    public List<AudioClip> bgmAudio;
-    public List<AudioClip> effectAudio;
+    public AudioClip[] BGM_AudioClips;
+    public AudioClip[] UI_EffectAudioClips;
+    public AudioClip[] CombatEffectAudioClips;
 
     public AudioSource bgmAudioSource;
     public AudioSource effectAudioSource;
 
-    public float masterVolume = 1f;
-    public float bgmVolume = 1f;
-    public float effectVolume = 1f;
+    private float masterVolume = 1f;
+    private float bgmVolume = 1f;
+    private float effectVolume = 1f;
+
+    private float finalEffectVolume=0.6f;
+    private float finalBGM_Volume=0.6f;
 
     protected override void Awake()
     {
@@ -25,31 +59,40 @@ public class AudioManager : Singleton<AudioManager>
         bgmAudioSource = gameObject.AddComponent<AudioSource>();
         bgmAudioSource.loop = true;
         bgmAudioSource.volume = 1f;
+        bgmAudioSource.spatialize = false;//3D공간에 영향을받지않음
 
         // 효과음용 AudioSource 컴포넌트 추가 및 설정
         effectAudioSource = gameObject.AddComponent<AudioSource>();
         effectAudioSource.loop = false;
         effectAudioSource.volume = 1f;
-
-        PlayBGM(1);
+        effectAudioSource.spatialize = false;
     }
 
     public void PlayBGM(int clipIndex)
     {
-        if (clipIndex < 0 || clipIndex >= bgmAudio.Count) return; // 인덱스 범위 확인
+        if (clipIndex < 0 || clipIndex >= BGM_AudioClips.Length) return; // 인덱스 범위 확인
 
-        bgmAudioSource.clip = bgmAudio[clipIndex];
-        bgmAudioSource.volume = masterVolume * bgmVolume; // 볼륨 설정
+        bgmAudioSource.clip = BGM_AudioClips[clipIndex];
+        bgmAudioSource.volume = finalBGM_Volume; // 볼륨 설정
         bgmAudioSource.Play();
     }
 
-    public void PlayEffect(int clipIndex)
+    public void PlayEffect(int clipIndex ) 
     {
-        if (clipIndex < 0 || clipIndex >= effectAudio.Count) return; // 인덱스 범위 확인
-
-        effectAudioSource.clip = effectAudio[clipIndex];
-        effectAudioSource.volume = masterVolume * effectVolume; // 볼륨 설정
-        effectAudioSource.Play();
+        if (clipIndex < 0 || clipIndex >= UI_EffectAudioClips.Length) return; // 인덱스 범위 확인
+        
+        effectAudioSource.clip = UI_EffectAudioClips[clipIndex];
+        effectAudioSource.volume = finalEffectVolume; // 볼륨 설정
+        effectAudioSource.Play();       
+    }
+    public void PlayEffect(int clipIndex, AudioSource source)
+    {
+        if (clipIndex < 0 || clipIndex >= CombatEffectAudioClips.Length) return; // 인덱스 범위 확인
+        
+        source.clip = CombatEffectAudioClips[clipIndex];
+        source.volume = finalEffectVolume; // 볼륨 설정
+        if(source.transform.parent.gameObject.activeSelf)
+            source.Play();
     }
 
     public void SetMasterVolume(float value)
@@ -72,7 +115,7 @@ public class AudioManager : Singleton<AudioManager>
 
     private void UpdateAllVolumes()
     {
-        bgmAudioSource.volume = masterVolume * bgmVolume;
-        effectAudioSource.volume = masterVolume * effectVolume;
+        finalBGM_Volume = masterVolume * bgmVolume;
+        finalEffectVolume = masterVolume * effectVolume;
     }
 }

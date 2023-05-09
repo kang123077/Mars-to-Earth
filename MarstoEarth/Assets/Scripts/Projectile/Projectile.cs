@@ -65,8 +65,6 @@ namespace Projectile
             eleapse = 0;
         }
 
-        // 파티클시스템을 여기서 가지고있을게 아니고
-        // 스폰매니저에서 오브젝트풀링을 통해 껏다 켯다 해야함
 
         
         // ReSharper disable Unity.PerformanceAnalysis
@@ -82,7 +80,7 @@ namespace Projectile
                     target.Hit(attackerPos, dmg,0);
                 
                 thisInfo[0].ef?.Invoke(position);
-                SpawnManager.Instance.GetEffect(position,effects[(int)Type.Bullet]); 
+                SpawnManager.Instance.GetEffect(position,effects[(int)Type.Bullet], target? (int)CombatEffectClip.hit2:(int)CombatEffectClip.hit1); 
                 if(gameObject.activeSelf)
                     SpawnManager.Instance.projectileManagedPool.Release(this);
             }
@@ -108,7 +106,7 @@ namespace Projectile
                 if (target)
                     target.Hit(attackerPos, dmg,0);
             }
-            SpawnManager.Instance.GetEffect(position,effects[(int)Type.Cannon]); 
+            SpawnManager.Instance.GetEffect(position,effects[(int)Type.Cannon],count > 1 ? (int)CombatEffectClip.explosion2 : (int)CombatEffectClip.explosion1,range*0.4f); 
             thisInfo[0].ef?.Invoke(position);
             SpawnManager.Instance.projectileManagedPool.Release(this);
             

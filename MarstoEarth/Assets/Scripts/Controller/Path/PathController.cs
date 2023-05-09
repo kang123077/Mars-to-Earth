@@ -156,6 +156,11 @@ public class PathController : MonoBehaviour
 
     public void ExitEvent(Collider other)
     {
+        if (other.tag == "player")
+        {
+            Debug.Log("isInsidePath = False");
+            SpawnManager.Instance.player.isInsidePath = false;
+        }
     }
 
     private void OnRoomCleared(NodeInfo clearedNode)

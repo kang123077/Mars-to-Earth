@@ -10,13 +10,13 @@ namespace Character
     {
 
 
-        protected override bool Attacked()
+        protected override void Attacked()
         {
             if (dying)
-                return false;
+                return ;
             isAttacking = false;
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.revolver,weapon);
             SpawnManager.Instance.Launch(muzzle.position, muzzle.forward, dmg, 1 + duration * 0.5f, 20 + speed * 2, range * 0.5f, ref projectileInfo);
-            return true;
         }
         protected void Update()
         {

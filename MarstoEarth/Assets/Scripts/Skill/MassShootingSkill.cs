@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Skill
+namespace Effect
 {
     public class MassShootingSkill : Skill
     {
@@ -26,6 +26,9 @@ namespace Skill
             {
                 for ( byte i=0; i< effectsLength; i++)
                     effects[i].Play();
+                ch.weapon.loop = true;
+                ch.weapon.pitch = 1;
+                AudioManager.Instance.PlayEffect((int)CombatEffectClip.massShoot,ch.weapon);
             }, (ch) =>
             {
                 Transform ctr = ((Player)ch).muzzle;
@@ -45,6 +48,10 @@ namespace Skill
                     effects[i].Stop();
                 caster.anim.SetBool(Parring,false);
                 isShooting = false;
+                ch.weapon.loop = false;
+                
+                ch.weapon.Stop();
+                
                 ch.SkillEffect();
             },skillInfo.icon);
             effectsLength = (byte)skillInfo.effects.Length;
@@ -61,13 +68,14 @@ namespace Skill
             effects[0].Stop();
             effects[1] = Object.Instantiate(skillInfo.effects[1], caster.handguard);
             effects[1].Stop();
+            
         }
         protected override bool Activate()
         {
           
             if (((Player)caster).isRun)
                 return false;
-            if (caster.onSkill&&isShooting)
+            if (isShooting)
             {
                 caster.RemoveBuff(massShooting);
                 lastUsedTime -= massShooting.currentTime;

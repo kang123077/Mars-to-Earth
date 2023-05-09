@@ -4,6 +4,12 @@ namespace Character
 {
     public class M_CR_42 : Monster
     {
+        protected override void Attacked()
+        {
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.swing, weapon);
+            base.Attacked();
+        }
+
         protected void Update()
         {
             if (!BaseUpdate())

@@ -16,11 +16,11 @@ MonoBehaviour:
     \uC2A4\uD53C\uB4DC\uB97C 20\uCD08\uAC04 2 \uC0C1\uC2B9\uC2DC\uD0A8\uB2E4 "
   clipName: CastSpell
   clipLayer: 1
-  icon: {fileID: 21300000, guid: 6340aca09d111ac46b5c8d7a24ac4c03, type: 3}
   dmg: 2
   duration: 20
   range: 0
   cool: 0
   speed: 2
+  icon: {fileID: 21300000, guid: 6340aca09d111ac46b5c8d7a24ac4c03, type: 3}
   effects:
   - {fileID: 198701760564810788, guid: 2cfd9cf3b1dc4ad489f9d2a7574d2463, type: 3}

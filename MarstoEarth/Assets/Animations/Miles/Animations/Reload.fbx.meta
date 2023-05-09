@@ -504,7 +504,7 @@ ModelImporter:
       bodyMask: 00000000010000000100000000000000000000000100000001000000010000000100000000000000000000000000000000000000
       curves: []
       events:
-      - time: 1
+      - time: 0.81192654
         functionName: SkillEffect
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 832f3f8426e4d034087436c008eac333, type: 3}

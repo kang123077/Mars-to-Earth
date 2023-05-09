@@ -5,31 +5,32 @@ namespace Character
 {
     public class Titan : Monster
     {
-        private Skill.Skill jumpAttack;
+        private Effect.Skill jumpAttack;
         private float jumpEleapse;
        
 
-        private Skill.Skill bite;
+        private Effect.Skill bite;
         private byte biteEleapse=5;
         protected override void Start()
         {
             base.Start();
 
-            bite = new Skill.BiteSkill();
+            bite = new Effect.BiteSkill();
             bite.Init(this);
-            jumpAttack = new Skill.SmashSkill();
+            jumpAttack = new Effect.SmashSkill();
             jumpAttack.Init(this);
             jumpEleapse = 8;
         }
 
-        protected override bool Attacked()
+        protected override void Attacked()
         {
-            if (!base.Attacked()) return false;
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.swing, weapon);
+            base.Attacked();
+            
             biteEleapse++;
-            if (biteEleapse <= 6) return true;
+            if (biteEleapse <= 6) return;
             bite.Use();
             biteEleapse = 0;
-            return true;
         }
 
         protected void Update()

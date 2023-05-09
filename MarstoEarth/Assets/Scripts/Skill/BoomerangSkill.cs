@@ -2,7 +2,7 @@ using Character;
 using System;
 using UnityEngine;
 
-namespace Skill
+namespace Effect
 {
     public class BoomerangSkill : Skill
     {
@@ -35,11 +35,12 @@ namespace Skill
         {
 
             GameObject boomerangSlot = UnityEngine.Object.Instantiate(skillInfo.effects[0], caster.transform.position,Quaternion.identity).gameObject;
+            boomerangSlot.transform.localScale= 0.5f* (skillInfo.range+caster.range*0.5f)*Vector3.one;
             boomerangSlot.SetActive(false);
             boomerang= boomerangSlot.AddComponent<Projectile.Boomerang>();
 
             var transform = caster.muzzle.transform;
-            boomerang.Init(transform, transform.position+transform.forward*skillInfo.range+Vector3.up, skillInfo.duration+caster.duration*0.5f,
+            boomerang.Init(transform,  skillInfo.duration+caster.duration*0.5f,
                 skillInfo.range + caster.range * 0.5f,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.speed + caster.speed * 0.5f,
                 caster.layerMask);
             
