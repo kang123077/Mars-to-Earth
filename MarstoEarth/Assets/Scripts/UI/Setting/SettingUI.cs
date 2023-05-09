@@ -25,9 +25,20 @@ public class SettingUI : UI
 
     public void OffSettingUI()
     {
-        Time.timeScale = 1f;
-        gameObject.SetActive(false);
+        if(UIManager.Instance.UIs[(int)UIType.Card].gameObject.activeSelf == true)
+        {
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            if (gameObject.activeSelf == false)
+            {
+                Time.timeScale = 1f;
+            }
+        }
     }
+
 
     void ResolInit()
     {
