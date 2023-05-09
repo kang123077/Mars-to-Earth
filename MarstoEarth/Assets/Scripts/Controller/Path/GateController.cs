@@ -1,4 +1,3 @@
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,12 +7,13 @@ public class GateController : MonoBehaviour
     public Animator animator;
     public bool isGateOpen;
 
-    private void Start()
+    private void Awake()
     {
-        isGateOpen = false;
         animator = GetComponent<Animator>();
         navMeshObstacle= GetComponent<NavMeshObstacle>();
+        isGateOpen = false;
     }
+
     public void GateOpen()
     {
         animator.SetBool("isGateOpen", true);

@@ -28,6 +28,7 @@ public class InGameManager : Singleton<InGameManager>
         //skillUICon.SetActive(false);
         //cardUICon.transform.SetAsLastSibling();
         Time.timeScale = 0f;
+        AudioManager.Instance.PlayEffect(1);
         cardUICon.SetActive(true);
         cardInfo.CardInit();
     }
