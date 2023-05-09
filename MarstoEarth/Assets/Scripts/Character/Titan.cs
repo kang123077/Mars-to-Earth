@@ -22,14 +22,15 @@ namespace Character
             jumpEleapse = 8;
         }
 
-        protected override bool Attacked()
+        protected override void Attacked()
         {
-            if (!base.Attacked()) return false;
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.swing, weapon);
+            base.Attacked();
+            
             biteEleapse++;
-            if (biteEleapse <= 6) return true;
+            if (biteEleapse <= 6) return;
             bite.Use();
             biteEleapse = 0;
-            return true;
         }
 
         protected void Update()

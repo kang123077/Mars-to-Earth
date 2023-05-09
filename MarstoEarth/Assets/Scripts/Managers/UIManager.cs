@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -33,17 +32,26 @@ public class UIManager :Singleton<UIManager>
 
     private void Update()
     {
+        // Time.timeScale = 0f일 때 소리를 끄게끔
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(UIs[(int)UIType.Setting].gameObject.activeSelf != true)
+            AudioManager.Instance.PlayEffect(2);
+            if (UIs[(int)UIType.Setting].gameObject.activeSelf != true)
             {
                 UIs[(int)UIType.Setting].gameObject.SetActive(true); // UI 활성화
                 Time.timeScale = 0f;
             }
             else if (UIs[(int)UIType.Setting].gameObject.activeSelf == true)
             {
+                if(UIs[(int)UIType.Card].gameObject.activeSelf == true)
+                {
+                    Time.timeScale = 0f;
+                }
+                else if(UIs[(int)UIType.Card].gameObject.activeSelf != true)
+                {
+                    Time.timeScale = 1f;
+                }
                 UIs[(int)UIType.Setting].gameObject.SetActive(false); // UI 활성화
-                Time.timeScale = 1f;
             }
         }
     }

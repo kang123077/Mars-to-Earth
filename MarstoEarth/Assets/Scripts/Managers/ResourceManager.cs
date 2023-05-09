@@ -73,6 +73,7 @@ public enum CommonSPC
 }
 
 
+
 public class ResourceManager : Singleton<ResourceManager>
 {
     public UnityEngine.UI.Slider hpBar;

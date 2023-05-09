@@ -54,9 +54,4 @@ public class CardInfo : MonoBehaviour
         cardLeftText.text = InGameManager.Instance.inGameSkillInfo[leftInfo].name + "\n\n" + InGameManager.Instance.inGameSkillInfo[leftInfo].description;
         cardRightText.text = InGameManager.Instance.inGameSkillInfo[rightInfo].name + "\n\n" + InGameManager.Instance.inGameSkillInfo[rightInfo].description;
     }
-
-    void Update()
-    {
-        
-    }
 }

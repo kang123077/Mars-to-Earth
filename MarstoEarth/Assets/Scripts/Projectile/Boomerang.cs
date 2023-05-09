@@ -1,6 +1,7 @@
 using Skill;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Projectile
@@ -14,20 +15,27 @@ namespace Projectile
     
         private bool isReturn;
         private SPC stun;
-        public void Init(Transform ct,Vector3 tp,float dr, float rg, float dmg, float sp, int lm)
+        private AudioSource sound;
+        public void Init(Transform ct,float dr, float rg, float dmg, float sp, int lm)
         {
             base.Init(lm, dmg, rg, dr, sp);
             caster = ct;
-            targetPoint = tp;
             transform.position = ct.position;
-            stun= new SPC((ch) => ch.stun = true,
+            Vector3 forward = ct.forward;
+            forward.y = 0;
+            targetPoint = transform.position + Vector3.up + forward * (range * 3);
+            stun = new SPC((ch) => ch.stun = true,
                 (ch) => ch.stun = false, ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
+
+
+            sound = Instantiate(SpawnManager.Instance.effectSound, transform);
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
         }
 
         public void Bomb()
         {
             
-            int count = Physics.OverlapSphereNonAlloc(transform.position, range * 0.5f, colliders,
+            int count = Physics.OverlapSphereNonAlloc(transform.position, range, colliders,
                 layerMask);
             for (int i = 0; i < count; i++)
             {
@@ -37,7 +45,7 @@ namespace Projectile
                 stun.Init(duration);
                 target.AddBuff(stun);                
             }
-            SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.Boomerang].effects[^1]);
+            SpawnManager.Instance.GetEffect(thisTransform.position,ResourceManager.Instance.skillInfos[(int)SkillName.Boomerang].effects[^1],(int)CombatEffectClip.explosion2,range*0.4f);
             Destroy(gameObject);
         }
         void Update()
@@ -50,13 +58,14 @@ namespace Projectile
             transform.Rotate(0f, speed * 10 * Time.deltaTime, 0f); // y축 기준 회전
             Vector3 position = transform.position;
 
-            int count = Physics.OverlapSphereNonAlloc(position, range * 0.1f, colliders,
+            int count = Physics.OverlapSphereNonAlloc(position, range*0.5f, colliders,
                 layerMask);
             for (int i = 0; i < count; i++)
             {
                 if (colliderList.Find(el => colliders[i] == el)) continue;
                 colliderList.Add(colliders[i]);
                 colliders[i].TryGetComponent(out target);
+                AudioManager.Instance.PlayEffect((int)CombatEffectClip.buzz, sound);
                 // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 target.Hit(position, dmg, 0);
             }

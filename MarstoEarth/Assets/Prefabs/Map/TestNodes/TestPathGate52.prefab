@@ -1586,7 +1586,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   children: {fileID: 0}
-  isColliderIn: 0
+  isColliderOn: 0
   innerCollider: {fileID: 7503698030496931335}
 --- !u!1 &7119668900610304651
 GameObject:

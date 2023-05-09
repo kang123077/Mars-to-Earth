@@ -28,6 +28,8 @@ public class CombatUI : UI
             copyPrefab.gameObject.SetActive(false);
             return copyPrefab;
         }, actionOnRelease: (dt) => dt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
+        
+
     }
 
     public void ConnectSPCImage(Sprite icon)
