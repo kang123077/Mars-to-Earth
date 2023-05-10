@@ -43,7 +43,7 @@ public class CombatUI : UI
     public void LearnSkill(int skillName)
     {
         if (curSkillCount > skillSlots.Length - 1) return;
-        skillSlots[curSkillCount].Init(ResourceManager.Instance.skills[(int)skillName]);
+        skillSlots[curSkillCount].Init(InGameManager.Instance.inGameSkill[(int)skillName]);
         skillSlots[curSkillCount].skill.Init(SpawnManager.Instance.player);
         curSkillCount++;
     }
