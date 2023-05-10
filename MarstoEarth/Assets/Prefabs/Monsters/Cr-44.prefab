@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3884820176390243200}
   - component: {fileID: 5374577241030724239}
   - component: {fileID: 2099383549798669520}
-  - component: {fileID: 6182886566726120406}
   m_Layer: 11
   m_Name: EnemyIcon
   m_TagString: Untagged
@@ -84,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6182886566726120406
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 336937281564806717}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1746034948926406221
 GameObject:
   m_ObjectHideFlags: 0

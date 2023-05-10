@@ -15,12 +15,12 @@ MonoBehaviour:
   description: 
   clipName: CastSpell
   clipLayer: 1
-  icon: {fileID: 21300000, guid: ea170c77a1b05ab4d80be42078c404d4, type: 3}
   dmg: 25
   duration: 25
   range: 4
   cool: 2
   speed: 7
+  icon: {fileID: 21300000, guid: 2dac3794433172e4bb87e987d6d7b6e6, type: 3}
   effects:
   - {fileID: 198880425136568428, guid: f171ac3dbb620c44e81cd88ddee1cbbd, type: 3}
   - {fileID: 198335885103155472, guid: 41cbce41e6100bd4795fcf7202869c8e, type: 3}

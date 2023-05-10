@@ -1,6 +1,5 @@
 using Skill;
 using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 namespace Character
@@ -85,6 +84,8 @@ namespace Character
 
         public ParticleSystem[] effects;
 
+        public float bulletSpeed;
+
         protected override void Awake()
         {
             base.Awake();
@@ -92,6 +93,7 @@ namespace Character
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
             isInsidePath = false;
+            bulletSpeed = 35 + speed * 2;
         }
 
         protected override void Start()
@@ -249,10 +251,18 @@ namespace Character
                     }
                 }
             }
+           
+            float targetDist = 0;
             if (target)
             {
                 Vector3 targetPos = target.position;
                 targetPos.y = 0;
+                var velocity = ((Monster)targetCharacter).ai.velocity;
+                if (velocity.x is > 0.1f or <-0.1f||velocity.z is > 0.1f or <-0.1f)
+                {
+                    targetDist = Vector3.Distance(targetPos, position);
+                    targetPos += velocity * (targetDist*(1/bulletSpeed));
+                }
                 targetDir = targetPos - position;
             }
             if (minAngle > 179 && target)

@@ -16,13 +16,11 @@ namespace Projectile
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
             sound.loop = true;
         }
-
         private void OnEnable()
         {
             sound.Play();
         }
-
-
+        
         void Update()
         {
             BaseUpdate();
@@ -35,7 +33,6 @@ namespace Projectile
                     target.impact += dmg * Time.deltaTime *
                                  (thisTransform.position - colliders[i].transform.position).normalized;
             }
-
         }
     }
 }

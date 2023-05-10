@@ -23,6 +23,7 @@ namespace Skill
                     gravity.Init(skillInfo.duration + caster.duration * 0.5f, skillInfo.dmg+caster.dmg*0.5f,
                         skillInfo.range + caster.range * 0.5f, caster.layerMask);
                     gravitySlot.SetActive(true);
+                    
                 });
         }
 

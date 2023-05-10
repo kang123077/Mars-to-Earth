@@ -2076,9 +2076,13 @@ MonoBehaviour:
   - {fileID: 6770917455191006859, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
   - {fileID: 5797288468747721511, guid: 7db4fdf40e93e1f46bfd95dd54089326, type: 3}
   commonSPCIcon:
-  - {fileID: 21300000, guid: 865940b3c02f5f541ad845fedfd69c15, type: 3}
+  - {fileID: 21300000, guid: c55b6719b47eb8f45872fea17d33244e, type: 3}
   - {fileID: 21300000, guid: f3e97cd464bddf242a1d9f598c487faa, type: 3}
   - {fileID: 21300000, guid: 5a9cb14f397415245a61eaf09fb65d5a, type: 3}
+  - {fileID: 21300000, guid: 4cd48d8b34f4d87488ca4f33ba959a0c, type: 3}
+  - {fileID: 21300000, guid: 247754c3af632db4582fb0fe99418ebe, type: 3}
+  - {fileID: 21300000, guid: d3ea7e2a912d6434382346ead893f327, type: 3}
+  - {fileID: 21300000, guid: af303e18810ea6a44869044e8f02b680, type: 3}
 --- !u!4 &389740386
 Transform:
   m_ObjectHideFlags: 0
