@@ -26,6 +26,10 @@ public class MapManager : Singleton<MapManager>
         walls = new List<GameObject>();
         base.Awake();
         TestInitMapInfo();
+    }
+
+    private void Start()
+    {
         GenerateMapCall();
         isMapGenerateFinished = true;
     }
