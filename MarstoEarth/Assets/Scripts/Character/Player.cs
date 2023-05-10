@@ -257,10 +257,12 @@ namespace Character
             {
                 Vector3 targetPos = target.position;
                 targetPos.y = 0;
-                targetDist = Vector3.Distance(targetPos, position);
-
-                float time= targetDist/bulletSpeed;
-                targetPos += target.forward * time;
+                var velocity = ((Monster)targetCharacter).ai.velocity;
+                if (velocity.x is > 0.1f or <-0.1f||velocity.z is > 0.1f or <-0.1f)
+                {
+                    targetDist = Vector3.Distance(targetPos, position);
+                    targetPos += velocity * (targetDist*(1/bulletSpeed));
+                }
                 targetDir = targetPos - position;
             }
             if (minAngle > 179 && target)

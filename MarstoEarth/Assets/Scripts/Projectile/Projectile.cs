@@ -20,6 +20,8 @@ namespace Projectile
         public Mesh ms;
         public Type ty;
         public Action<Vector3> ef;
+
+        
         public ProjectileInfo(int layerMask, Mesh mesh, Type type,Action<Vector3> effect)
         {   
             lm = layerMask;

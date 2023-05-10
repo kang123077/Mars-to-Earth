@@ -29,6 +29,10 @@ namespace Character
             set
             {
                 anim.SetBool(onTarget, value);
+                if (value)
+                    value.gameObject.TryGetComponent(out targetCharacter);
+                else
+                    targetCharacter = null;
                 _target = value;
             }
         }
@@ -150,12 +154,7 @@ namespace Character
             Attacken();
         }
 
-        protected virtual void Attacked()
-        {
-            if (!target) return;
-            target.gameObject.TryGetComponent(out targetCharacter);
-            targetCharacter.Hit(thisCurTransform.position,dmg,0);
-        }
+        protected abstract void Attacked();
         
         // ReSharper disable Unity.PerformanceAnalysis
         protected virtual IEnumerator Die()
