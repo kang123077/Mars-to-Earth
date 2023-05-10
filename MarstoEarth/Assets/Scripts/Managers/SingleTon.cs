@@ -8,7 +8,7 @@ public class Singleton<T> : MonoBehaviour where T : class
     protected virtual void Awake()
     {      
         
-        Instance ??= this as T;
+        Instance = this as T;
     }
    
 }
