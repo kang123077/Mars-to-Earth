@@ -75,7 +75,6 @@ public class SettingUI : UI
         resolutionNum = x;
     }
 
-
     public void OnResolutionChanged()
     {
         Screen.SetResolution(resolutions[resolutionNum].width,
@@ -106,6 +105,7 @@ public class SettingUI : UI
     {
         Debug.Log("게임을 재실행 합니다.");
         UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
+        Time.timeScale = 1f;
     }
 
     public void GameExit()
