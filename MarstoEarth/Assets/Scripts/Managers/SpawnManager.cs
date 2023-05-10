@@ -73,6 +73,7 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         base.Awake();
 
+        //DontDestroyOnLoad(gameObject);
         //player = Instantiate(player);
         //playerTransform = player.gameObject.transform;
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>

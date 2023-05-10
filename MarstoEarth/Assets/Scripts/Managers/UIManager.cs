@@ -17,12 +17,10 @@ public class UIManager :Singleton<UIManager>
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
 
-    bool isBool;
 
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {

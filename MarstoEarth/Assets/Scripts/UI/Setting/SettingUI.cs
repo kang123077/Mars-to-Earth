@@ -106,6 +106,7 @@ public class SettingUI : UI
     {
         Debug.Log("게임을 재실행 합니다.");
         UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
+        Time.timeScale= 1.0f;
     }
 
     public void GameExit()

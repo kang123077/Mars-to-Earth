@@ -25,7 +25,6 @@ public class MapManager : Singleton<MapManager>
         walls = new List<GameObject>();
         base.Awake();
         TestInitMapInfo();
-        DontDestroyOnLoad(gameObject);
     }
 
     void Start()

@@ -13,7 +13,6 @@ public class InGameManager : Singleton<InGameManager>
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
         inGameSkillInfo = ResourceManager.Instance.skillInfos.ToList();
     }
 
