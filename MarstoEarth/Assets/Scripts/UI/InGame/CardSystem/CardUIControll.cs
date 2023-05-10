@@ -80,7 +80,8 @@ public class CardUIControll : UI
     void SkillPlus(int skillIndex)
     {
         combatUI.LearnSkill(skillIndex);
-        InGameManager.Instance.inGameSkillInfo.RemoveAt(skillIndex);
+        InGameManager.Instance.inGameSkill.RemoveAt(skillIndex);
+        Debug.Log(InGameManager.Instance.inGameSkill.Count);
         StartCoroutine(HideCardUI());
     }
 

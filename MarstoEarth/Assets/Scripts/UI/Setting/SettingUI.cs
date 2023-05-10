@@ -75,7 +75,6 @@ public class SettingUI : UI
         resolutionNum = x;
     }
 
-
     public void OnResolutionChanged()
     {
         Screen.SetResolution(resolutions[resolutionNum].width,
