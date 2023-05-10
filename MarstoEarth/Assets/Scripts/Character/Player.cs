@@ -84,6 +84,8 @@ namespace Character
 
         public ParticleSystem[] effects;
 
+        public float bulletSpeed;
+
         protected override void Awake()
         {
             base.Awake();
@@ -91,6 +93,7 @@ namespace Character
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
             isInsidePath = false;
+            bulletSpeed = 35 + speed * 2;
         }
 
         protected override void Start()
@@ -248,10 +251,16 @@ namespace Character
                     }
                 }
             }
+           
+            float targetDist = 0;
             if (target)
             {
                 Vector3 targetPos = target.position;
                 targetPos.y = 0;
+                targetDist = Vector3.Distance(targetPos, position);
+
+                float time= targetDist/bulletSpeed;
+                targetPos += target.forward * time;
                 targetDir = targetPos - position;
             }
             if (minAngle > 179 && target)
