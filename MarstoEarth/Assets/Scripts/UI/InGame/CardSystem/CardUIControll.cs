@@ -53,7 +53,7 @@ public class CardUIControll : UI
     {
         cardHovers[0].isBool = true;
         MoveNSize(leftCard);
-        AudioManager.Instance.PlayEffect(3);
+        AudioManager.Instance.PlayEffect(0);
         int skillIndex = cardInfo.randomIndexLeft;
         SkillPlus(skillIndex);
         ScaleDownCard(rightCard, rerollButton);
@@ -63,7 +63,7 @@ public class CardUIControll : UI
     {
         cardHovers[1].isBool = true;
         MoveNSize(rightCard);
-        AudioManager.Instance.PlayEffect(3);
+        AudioManager.Instance.PlayEffect(0);
         int skillIndex = cardInfo.randomIndexRight;
         SkillPlus(skillIndex);
         ScaleDownCard(leftCard, rerollButton);

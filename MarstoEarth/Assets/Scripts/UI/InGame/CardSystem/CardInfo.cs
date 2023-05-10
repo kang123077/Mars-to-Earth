@@ -29,6 +29,7 @@ public class CardInfo : MonoBehaviour
         randomIndexRight = Random.Range(0, InGameManager.Instance.inGameSkill.Count);
         SkillIcon(randomIndexLeft, randomIndexRight);
         SkillDescription(randomIndexLeft, randomIndexRight);
+        AudioManager.Instance.PlayEffect(1);
         reroll.SetActive(false);
     }
 
