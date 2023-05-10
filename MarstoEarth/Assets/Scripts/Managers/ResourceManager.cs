@@ -69,7 +69,12 @@ public enum CommonSPC
 {
     stun,
     slow,
-    bleeding
+    bleeding,
+    fire,
+    heal,
+    speedUp,
+    powerUp,
+       
 }
 
 

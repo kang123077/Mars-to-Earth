@@ -20,6 +20,6 @@ MonoBehaviour:
   range: 3
   cool: 4
   speed: 0
-  icon: {fileID: 21300000, guid: f3e97cd464bddf242a1d9f598c487faa, type: 3}
+  icon: {fileID: 21300000, guid: 68e55ac559fd67c4dbbd4af182f7f34e, type: 3}
   effects:
   - {fileID: 198955616953408736, guid: 3ccd54180d4b3e54eaf3027dcaf14742, type: 3}

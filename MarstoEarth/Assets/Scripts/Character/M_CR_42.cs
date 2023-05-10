@@ -32,9 +32,7 @@ namespace Character
                     isAttacking = true;
                 }
                 else
-                {
                     target = null;
-                }
             }
             else
             {
