@@ -13,8 +13,8 @@ public class NodeInfo : MonoBehaviour
     public NodeInfo south;
     public bool isBossNode;
     public bool isInside;
+    public bool nodeInitFinished;
     private List<MeshRenderer> meshRenderers;
-    private bool nodeInitFinished;
 
     public delegate void RoomClearedHandler(NodeInfo clearedNode);
     public event RoomClearedHandler OnRoomCleared;

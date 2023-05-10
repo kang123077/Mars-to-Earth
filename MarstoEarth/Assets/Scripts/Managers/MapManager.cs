@@ -16,31 +16,23 @@ public class MapManager : Singleton<MapManager>
     public static List<GameObject> walls;
     public Transform nodesTF;
 
-    public bool isMapGenerateFinished = false;
+    public bool isMapGenerateFinished;
 
     protected override void Awake()
     {
+        isMapGenerateFinished = false;
         nodes = new List<NodeInfo>();
         paths = new List<PathController>();
         walls = new List<GameObject>();
         base.Awake();
         TestInitMapInfo();
-    }
-
-    void Start()
-    {
-        GenerateNewSeed();
         GenerateMapCall();
-        InactiveMap();
         isMapGenerateFinished = true;
-    }
-
-    public void InactiveMap()
-    {
     }
 
     public void GenerateMapCall()
     {
+        GenerateNewSeed();
         mapGenerator.GenerateMap();
         GenerateNavMesh();
     }
