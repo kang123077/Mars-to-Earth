@@ -11,15 +11,9 @@ public class NodeGenerator : MonoBehaviour
     public float nodeSpacing;
     public Transform nodeParentTF;
     public Material bossMaterial;
-    private void Awake()
-    {
-    }
     void Start()
     {
         nodeSpacing = 60f;
-    }
-    void Update()
-    {
     }
     /// <summary>
     /// 깊이우선탐색 방식으로 작동하는 노드 생성 함수
@@ -96,27 +90,28 @@ public class NodeGenerator : MonoBehaviour
         {
             if (node.east == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, node.transform);
+                GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
                 wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
                 MapManager.walls.Add(wallObject);
             }
             if (node.west == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, node.transform);
+                GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
-                wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
                 MapManager.walls.Add(wallObject);
             }
             if (node.south == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, node.transform);
+                GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
+                wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
                 MapManager.walls.Add(wallObject);
             }
             if (node.north == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, node.transform);
+                GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
                 MapManager.walls.Add(wallObject);
             }
