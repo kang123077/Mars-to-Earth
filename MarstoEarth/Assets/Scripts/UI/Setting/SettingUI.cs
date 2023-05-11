@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class SettingUI : UI
 {
@@ -48,7 +49,10 @@ public class SettingUI : UI
     {
         for(int i = 0; i < Screen.resolutions.Length; i++)
         {
-            resolutions.Add(Screen.resolutions[i]);
+            if (Screen.resolutions[i].width * 9 == Screen.resolutions[i].height * 16)
+            {
+                resolutions.Add(Screen.resolutions[i]);
+            }
         }
         resolutionCon.ClearOptions();
 
