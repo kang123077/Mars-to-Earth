@@ -20,6 +20,7 @@ public class InGameManager : Singleton<InGameManager>
     private void Start()
     {
         cardUICon.SetActive(false);
+        InitInGame();
     }
 
     private void TriggerEvent()
@@ -43,6 +44,16 @@ public class InGameManager : Singleton<InGameManager>
         {
             TriggerEvent();
         }
+    }
+
+    public void InitInGame()
+    {
+        MapManager.Instance.GenerateMapCall();
+        foreach(PathController path in MapManager.Instance.paths)
+        {
+            path.InitPath();
+        }
+        SpawnManager.Instance.InitSpawn();
     }
 
     //public void OnTartgetUIOn()

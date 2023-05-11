@@ -25,17 +25,23 @@ public class PathController : MonoBehaviour
     }
     private void Update()
     {
+        /*
         if (MapManager.Instance.isMapGenerateFinished == true
             && roomClearChecker == false)
         {
-            // Delegate 구독
-            parent.OnRoomCleared += OnRoomCleared;
-            children.OnRoomCleared += OnRoomCleared;
-            parent.OnRoomRendered += CheckNeighborNode;
-            children.OnRoomRendered += CheckNeighborNode;
-            CheckNeighborNode();
-            roomClearChecker = true;
+
         }
+        */
+    }
+
+    public void InitPath()
+    {
+        // Delegate 구독
+        parent.OnRoomCleared += OnRoomCleared;
+        children.OnRoomCleared += OnRoomCleared;
+        parent.OnRoomRendered += CheckNeighborNode;
+        children.OnRoomRendered += CheckNeighborNode;
+        InitPathMeshRenderer();
     }
 
     private void CollectMeshRenderers(Transform transform)
@@ -55,6 +61,19 @@ public class PathController : MonoBehaviour
 
             // Recursively call the CollectMeshRenderers function on each child object
             CollectMeshRenderers(child);
+        }
+    }
+
+    private void InitPathMeshRenderer()
+    {
+        if (SpawnManager.Instance.curNode == parent ||
+            SpawnManager.Instance.curNode == children)
+        {
+            SetMeshRendererEnabled(true);
+        }
+        else
+        {
+            SetMeshRendererEnabled(false);
         }
     }
 
