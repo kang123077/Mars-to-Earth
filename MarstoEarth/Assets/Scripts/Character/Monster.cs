@@ -18,7 +18,7 @@ namespace Character
         private int patrolIdx;
         private float showHpEleapse;
         
-        [SerializeField] protected NavMeshAgent ai;
+        public NavMeshAgent ai;
         private Coroutine StuckCheckCoroutine;
         protected bool trackingPermission;
         private Vector3 lastPosition;
@@ -83,7 +83,7 @@ namespace Character
                     if (travelDistance < 2.5f)
                     {
 
-                        Debug.Log("끼임확인, 초기화");
+                        
                         trackingPermission = false;
                         target = null;
                             
@@ -91,9 +91,11 @@ namespace Character
                         do randIdx = Random.Range(0, 4);
                         while (patrolIdx == randIdx);
                         patrolIdx = randIdx;
-                        ai.SetDestination(patrolPoints[patrolIdx]);
+                        Debug.Log("patrollidx="+patrolIdx);
                         positions.Clear();
                         travelDistance = 0;
+                        ai.SetDestination(patrolPoints[patrolIdx]);
+                        
                         
                     }
                     else
@@ -191,7 +193,8 @@ namespace Character
                 float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position-thisCurTransform.forward*range), Vector3.up);
                 if((angle < 0 ? -angle : angle) < viewAngle-60)
                 {
-                    base.Attacked();
+                    
+                    targetCharacter.Hit(thisCurTransform.position,dmg,0);
                     AudioManager.Instance.PlayEffect((int)CombatEffectClip.hitExplotion, weapon);
                 }else
                     Debug.Log("회피 이펙트");

@@ -69,7 +69,12 @@ public enum CommonSPC
 {
     stun,
     slow,
-    bleeding
+    bleeding,
+    fire,
+    heal,
+    speedUp,
+    powerUp,
+       
 }
 
 
@@ -103,8 +108,6 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new MassShootingSkill());
         skills.Add(new BlockSkill());
         skills.Add(new ChargeSkill());//플레이어 전용
-
-        DontDestroyOnLoad(gameObject);
     }
     //public static T DeepCopy<T>(T obj)
     //{

@@ -7,14 +7,14 @@ public class InGameManager : Singleton<InGameManager>
     public int clearedRooms = 0; // 클리어한 룸 수를 저장하는 변수
     public GameObject cardUICon;
     public CardInfo cardInfo;
-    public List<Skill.SkillInfo> inGameSkillInfo;
+    public List<Skill.Skill> inGameSkill;
 
     //public GameObject onTargetUICon;
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
-        inGameSkillInfo = ResourceManager.Instance.skillInfos.ToList();
+
+        inGameSkill = ResourceManager.Instance.skills.ToList();
     }
 
     private void Start()
@@ -25,7 +25,6 @@ public class InGameManager : Singleton<InGameManager>
     private void TriggerEvent()
     {
         clearedRooms = 0;
-        //skillUICon.SetActive(false);
         //cardUICon.transform.SetAsLastSibling();
         Time.timeScale = 0f;
         AudioManager.Instance.PlayEffect(1);

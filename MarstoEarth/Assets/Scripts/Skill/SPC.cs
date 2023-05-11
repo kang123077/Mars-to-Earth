@@ -10,7 +10,11 @@ namespace Skill
         public float currentTime;
         public Action<Character.Character> Apply;
         public Action<Character.Character> Remove;
+        
+        
         public Action<Character.Character> Dots;
+        
+        
         
         private static float eleapse = 0.2f;
         private float curEleapse;

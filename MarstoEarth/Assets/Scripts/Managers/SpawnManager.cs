@@ -22,10 +22,10 @@ public class SpawnManager : Singleton<SpawnManager>
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public Item.Item ItemPrefab;
-    public bool spawnInstantiateFinished = false;
     public List<Monster> monsterPool;
     public int curNormal = 3;
     public int curElite = 1;
+    public bool spawnInstantiateFinished;
     public GameObject outsideLight;
     public GameObject insideLight;
     private int _curMonsterCount;
@@ -72,9 +72,7 @@ public class SpawnManager : Singleton<SpawnManager>
     protected override void Awake()
     {
         base.Awake();
-
-        //player = Instantiate(player);
-        //playerTransform = player.gameObject.transform;
+        spawnInstantiateFinished = false;
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
                 Projectile.Projectile copyPrefab = Instantiate(projectilePrefab,objectPool[(int)PoolType.Projectile]);
@@ -84,21 +82,17 @@ public class SpawnManager : Singleton<SpawnManager>
             actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
     }
 
-    protected void Update()
+    private void Start()
     {
-        if (MapManager.Instance.isMapGenerateFinished && spawnInstantiateFinished == false)
-        {
-            FirstInit();
-            spawnInstantiateFinished = true;
-        }
+        StartInit();
     }
 
-
-    public void FirstInit()
+    public void StartInit()
     {
         curNode = MapManager.nodes[0];
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
+        spawnInstantiateFinished = true;
     }
 
     public void NodeSpawn(NodeInfo spawnNode)

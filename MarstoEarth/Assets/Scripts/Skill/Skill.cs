@@ -9,10 +9,15 @@ namespace Skill
         public SkillInfo skillInfo;     
         
         protected Character.Character caster;
+        
+        
         protected float comboCount = 1;
         protected float curCount = 1;
         
         public float lastUsedTime;
+        
+        
+        
         private float originCoolTime;
         private bool _isCombo;
         public bool isCombo

@@ -52,7 +52,7 @@ namespace Skill
             }
             roll.Init(skillInfo.duration+caster.duration*0.5f);
             caster.transform.forward = dir;
-            caster.PlaySkillClip(this); 
+            caster.PlaySkillClip(this);
             caster.AddBuff(roll);
             return true;
         }

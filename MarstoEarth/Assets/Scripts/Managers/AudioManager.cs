@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public enum CombatEffectClip
 {
@@ -48,7 +46,6 @@ public class AudioManager : Singleton<AudioManager>
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -64,6 +61,7 @@ public class AudioManager : Singleton<AudioManager>
         effectAudioSource.loop = false;
         effectAudioSource.volume = 1f;
         effectAudioSource.spatialize = false;
+
     }
 
     public void PlayBGM(int clipIndex)
@@ -89,8 +87,9 @@ public class AudioManager : Singleton<AudioManager>
         
         source.clip = CombatEffectAudioClips[clipIndex];
         source.volume = finalEffectVolume; // 볼륨 설정
-        if(source.transform.parent.gameObject.activeSelf)
+        if (source.transform.parent.gameObject.activeSelf)
             source.Play();
+
     }
 
     public void SetMasterVolume(float value)

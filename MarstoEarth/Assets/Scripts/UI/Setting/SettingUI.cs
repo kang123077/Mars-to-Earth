@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class SettingUI : UI
 {
@@ -48,7 +49,10 @@ public class SettingUI : UI
     {
         for(int i = 0; i < Screen.resolutions.Length; i++)
         {
-            resolutions.Add(Screen.resolutions[i]);
+            if (Screen.resolutions[i].width * 9 == Screen.resolutions[i].height * 16)
+            {
+                resolutions.Add(Screen.resolutions[i]);
+            }
         }
         resolutionCon.ClearOptions();
 
@@ -74,7 +78,6 @@ public class SettingUI : UI
     {
         resolutionNum = x;
     }
-
 
     public void OnResolutionChanged()
     {
@@ -106,6 +109,7 @@ public class SettingUI : UI
     {
         Debug.Log("게임을 재실행 합니다.");
         UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
+        Time.timeScale= 1.0f;
     }
 
     public void GameExit()

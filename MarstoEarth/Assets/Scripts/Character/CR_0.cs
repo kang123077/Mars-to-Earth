@@ -10,20 +10,7 @@ namespace Character
         private float blockEleapse;
         //private Skill.SPC parring;
         //public TrailRenderer swordPath;
-        protected override bool isAttacking { 
-            get => base.isAttacking;
-            set
-            {
-                base.isAttacking = value;
-                //if(value)
-                //    swordPath.emitting = true;
-                //else
-                //{
-                //    swordPath.emitting= false;
-                //    swordPath.Clear();
-                //}
-            }
-        }
+    
         protected override void Start()
         {
             base.Start();
@@ -40,8 +27,6 @@ namespace Character
         }
         protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
         {
-            if (!base.Hited(attacker, dmg, penetrate))
-                return false;
             if (blockEleapse > 15)
             {
                 anim.Play("Moving", 1);
@@ -50,8 +35,9 @@ namespace Character
                 blockEleapse = 0;
                 return false;
             }
-            
-            ai.SetDestination(SpawnManager.Instance.playerTransform.position);
+            if (!base.Hited(attacker, dmg, penetrate))
+                return false;
+
             return true;
         }
 
@@ -63,7 +49,7 @@ namespace Character
             if (target)
             {
                 ai.SetDestination(target.position);
-                
+
                 if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
                 {
                     ai.ResetPath();

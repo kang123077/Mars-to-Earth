@@ -17,12 +17,10 @@ public class UIManager :Singleton<UIManager>
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
 
-    bool isBool;
 
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(gameObject);
     }
     private void Start()
     {
@@ -35,7 +33,7 @@ public class UIManager :Singleton<UIManager>
         // Time.timeScale = 0f일 때 소리를 끄게끔
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            AudioManager.Instance.PlayEffect(2);
+            AudioManager.Instance.PlayEffect(1);
             if (UIs[(int)UIType.Setting].gameObject.activeSelf != true)
             {
                 UIs[(int)UIType.Setting].gameObject.SetActive(true); // UI 활성화
