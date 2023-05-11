@@ -38,7 +38,7 @@ public class NodeGenerator : MonoBehaviour
             Random.InitState(seed);
         }
         // 현재 노드의 갯수가 정해진 노드의 갯수보다 많거나 같아지면 or 시작 노드로부터 거리가 n 이상이면 return
-        if (MapManager.nodes.Count >= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber || distance > 10)
+        if (MapManager.Instance.nodes.Count >= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber || distance > 10)
         {
             return null;
         }
@@ -49,7 +49,7 @@ public class NodeGenerator : MonoBehaviour
         NodeInfo nodeInfo = nodeObject.GetComponent<NodeInfo>();
         nodeInfo.x = x; nodeInfo.y = y; nodeInfo.distance = distance;
         // nodeInfo에 node추가 ( nodes.Count 증가 )
-        MapManager.nodes.Add(nodeInfo);
+        MapManager.Instance.nodes.Add(nodeInfo);
         // 방이 각 방향을 체크했는지 나타내는 로컬 리스트
         List<string> directions = new List<string> { "East", "West", "South", "North" };
         // 부모노드가 있을 경우 해당 방향 기억 & 배제
@@ -86,34 +86,34 @@ public class NodeGenerator : MonoBehaviour
 
     public void CreatePathWall()
     {
-        foreach (NodeInfo node in MapManager.nodes)
+        foreach (NodeInfo node in MapManager.Instance.nodes)
         {
             if (node.east == null)
             {
                 GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
                 wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
-                MapManager.walls.Add(wallObject);
+                MapManager.Instance.walls.Add(wallObject);
             }
             if (node.west == null)
             {
                 GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
                 wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
-                MapManager.walls.Add(wallObject);
+                MapManager.Instance.walls.Add(wallObject);
             }
             if (node.south == null)
             {
                 GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
                 wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
-                MapManager.walls.Add(wallObject);
+                MapManager.Instance.walls.Add(wallObject);
             }
             if (node.north == null)
             {
                 GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
-                MapManager.walls.Add(wallObject);
+                MapManager.Instance.walls.Add(wallObject);
             }
         }
     }
@@ -147,7 +147,7 @@ public class NodeGenerator : MonoBehaviour
         }
         pathController.AddNeighbor(nodeInfo, Relation.Parent);
         pathController.AddNeighbor(neighbor, Relation.Children);
-        MapManager.paths.Add(pathController);
+        MapManager.Instance.paths.Add(pathController);
         return pathController;
     }
 
@@ -157,7 +157,7 @@ public class NodeGenerator : MonoBehaviour
         {
             case "East":
                 // 위치 확인
-                NodeInfo eastNeighbor = MapManager.nodes.Find(n => 
+                NodeInfo eastNeighbor = MapManager.Instance.nodes.Find(n => 
                 Mathf.Approximately(n.transform.position.x, (x + 1) * nodeSpacing) &&
                 Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
                 // 있으면 확률판정 후에 기억, 패스노드 생성
@@ -177,7 +177,7 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
+                        MapManager.Instance.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
                         NodeInfo newNode = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.East);
@@ -186,7 +186,7 @@ public class NodeGenerator : MonoBehaviour
                 }
                 break;
             case "West":
-                NodeInfo westNeighbor = MapManager.nodes.Find(n =>
+                NodeInfo westNeighbor = MapManager.Instance.nodes.Find(n =>
                 Mathf.Approximately(n.transform.position.x, (x - 1) * nodeSpacing) &&
                 Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
                 if (westNeighbor != null)
@@ -204,7 +204,7 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
+                        MapManager.Instance.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
                         NodeInfo newNode = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.West);
@@ -213,7 +213,7 @@ public class NodeGenerator : MonoBehaviour
                 }
                 break;
             case "South":
-                NodeInfo southNeighbor = MapManager.nodes.Find(n => 
+                NodeInfo southNeighbor = MapManager.Instance.nodes.Find(n => 
                 Mathf.Approximately(n.transform.position.x, x * nodeSpacing) &&
                 Mathf.Approximately(n.transform.position.z, (y - 1) * nodeSpacing));
                 if (southNeighbor != null)
@@ -231,7 +231,7 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
+                        MapManager.Instance.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
                         NodeInfo newNode = GenerateNodes(mapInfo, x, y - 1, distance + 1, 3, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.South);
@@ -240,7 +240,7 @@ public class NodeGenerator : MonoBehaviour
                 }
                 break;
             case "North":
-                NodeInfo northNeighbor = MapManager.nodes.Find(n =>
+                NodeInfo northNeighbor = MapManager.Instance.nodes.Find(n =>
                 Mathf.Approximately(n.transform.position.x, x * nodeSpacing) &&
                 Mathf.Approximately(n.transform.position.z, (y + 1) * nodeSpacing));
                 if (northNeighbor != null)
@@ -258,7 +258,7 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
+                        MapManager.Instance.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
                     {
                         NodeInfo newNode = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.North);
@@ -275,26 +275,26 @@ public class NodeGenerator : MonoBehaviour
         {
             case "East":
                 // 위치 확인
-                NodeInfo eastNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x + 1) * nodeSpacing)
+                NodeInfo eastNeighbor = MapManager.Instance.nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x + 1) * nodeSpacing)
                                             && Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
                 // 기억
                 if (eastNeighbor != null)
                     nodeInfo.east = eastNeighbor;
                 break;
             case "West":
-                NodeInfo westNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x - 1) * nodeSpacing)
+                NodeInfo westNeighbor = MapManager.Instance.nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x - 1) * nodeSpacing)
                                                     && Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
                 if (westNeighbor != null)
                     nodeInfo.west = westNeighbor;
                 break;
             case "South":
-                NodeInfo southNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
+                NodeInfo southNeighbor = MapManager.Instance.nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
                                             && Mathf.Approximately(n.transform.position.z, (y - 1) * nodeSpacing));
                 if (southNeighbor != null)
                     nodeInfo.south = southNeighbor;
                 break;
             case "North":
-                NodeInfo northNeighbor = MapManager.nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
+                NodeInfo northNeighbor = MapManager.Instance.nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
                                                     && Mathf.Approximately(n.transform.position.z, (y + 1) * nodeSpacing));
                 if (northNeighbor != null)
                     nodeInfo.north = northNeighbor;
@@ -380,16 +380,16 @@ public class NodeGenerator : MonoBehaviour
 
     public void CheckBossNode(NodeInfo startNode)
     {
-        MapManager.bossNode = startNode;
-        foreach(NodeInfo node in MapManager.nodes)
+        MapManager.Instance.bossNode = startNode;
+        foreach(NodeInfo node in MapManager.Instance.nodes)
         {
-            if (node.distance >= MapManager.bossNode.distance)
+            if (node.distance >= MapManager.Instance.bossNode.distance)
             {
-                MapManager.bossNode = node;
+                MapManager.Instance.bossNode = node;
             }
         }
-        MapManager.bossNode.isBossNode = true;
-        MapManager.bossNode.transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = bossMaterial;
+        MapManager.Instance.bossNode.isBossNode = true;
+        // MapManager.Instance.bossNode.transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = bossMaterial;
     }
 
     /*

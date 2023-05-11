@@ -82,14 +82,9 @@ public class SpawnManager : Singleton<SpawnManager>
             actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
     }
 
-    private void Start()
+    public void InitSpawn()
     {
-        StartInit();
-    }
-
-    public void StartInit()
-    {
-        curNode = MapManager.nodes[0];
+        curNode = MapManager.Instance.nodes[0];
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
         spawnInstantiateFinished = true;
