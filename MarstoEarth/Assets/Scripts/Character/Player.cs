@@ -34,8 +34,8 @@ namespace Character
 
         protected List<Skill.Skill> actives;
 
-        private float xInput;
-        private float zInput;
+        public float xInput;
+        public float zInput;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
         private static readonly int IsRun = Animator.StringToHash("isRun");
@@ -103,6 +103,7 @@ namespace Character
             base.Start();
             //테스트용
 #if UNITY_EDITOR
+            
             Debug.Log("Unity Editor");
 
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
@@ -166,10 +167,14 @@ namespace Character
                 return;
             Vector3 position = thisCurTransform.position;
 
-            xInput = Input.GetAxis("Horizontal");
-            zInput = Input.GetAxis("Vertical");
+            #if UNITY_STANDALONE_WIN
+            //xInput = Input.GetAxis("Horizontal");
+            //zInput = Input.GetAxis("Vertical");
+            
+            #elif UNITY_EDITOR||UNITY_ANDROID||UNITY_IOS
+            
+            #endif
             InputDir = new Vector3(xInput, 0, zInput);
-
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
@@ -292,7 +297,6 @@ namespace Character
                     combatUI.ClickSkill(i);
             #region Test
 #if UNITY_EDITOR
-            Debug.Log("Unity Editor");
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {

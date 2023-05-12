@@ -10,8 +10,12 @@ public class CombatUI : UI
 {
     public SkillSlot[] skillSlots;
     private int curSkillCount;
-
+    
+    
+    public UnityEngine.UI.Slider mplayerHP;
+    
     public UnityEngine.UI.Slider playerHP;
+    
     public UnityEngine.UI.Image hitScreen;
     public IObjectPool<DamageText> DMGTextPool;
     public DamageText DMGText;
@@ -19,6 +23,8 @@ public class CombatUI : UI
     public RectTransform SPCSlotsTransform;
     public List<UnityEngine.UI.Image> SPCSlots = new();
     public UnityEngine.UI.Image SPCPrefab;
+    public GameObject[] PCMO;
+    
 
     private void Awake()
     {
@@ -29,7 +35,14 @@ public class CombatUI : UI
             return copyPrefab;
         }, actionOnRelease: (dt) => dt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
         
-
+        #if UNITY_ANDROID||UNITY_IOS||UNITY_EDITOR
+            PCMO[0].SetActive(false);
+            PCMO[1].SetActive(true);
+            playerHP = mplayerHP;
+        #else
+            PCMO[0].SetActive(true);
+            PCMO[1].SetActive(false);
+        #endif
     }
 
     public void ConnectSPCImage(Sprite icon)
