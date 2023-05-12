@@ -10,10 +10,10 @@ public class MapManager : Singleton<MapManager>
     public MapGenerator mapGenerator;
     public TMP_InputField inputField;
 
-    public static List<NodeInfo> nodes;
-    public static NodeInfo bossNode;
-    public static List<PathController> paths;
-    public static List<GameObject> walls;
+    public List<NodeInfo> nodes;
+    public NodeInfo bossNode;
+    public List<PathController> paths;
+    public List<GameObject> walls;
     public Transform nodesTF;
 
     public bool isMapGenerateFinished;
@@ -28,11 +28,12 @@ public class MapManager : Singleton<MapManager>
         TestInitMapInfo();
     }
 
+    /*
     private void Start()
     {
         GenerateMapCall();
-        isMapGenerateFinished = true;
     }
+    */
 
     public void GenerateMapCall()
     {

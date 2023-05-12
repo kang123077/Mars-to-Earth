@@ -71,10 +71,12 @@ public class CardUIControll : UI
 
     void MoveNSize(Button button)
     {
-        Vector2 pos = button.gameObject.transform.position;
+        Vector3 center = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+        Vector2 size = button.GetComponent<RectTransform>().sizeDelta;
+        Vector2 pos = new Vector2(center.x, center.y);
         button.transform.SetAsLastSibling();
-        button.gameObject.transform.position = new Vector3(960f, pos.y);
-        button.gameObject.transform.localScale = new Vector2(1.4f, 1.4f);
+        button.gameObject.transform.position = pos;
+        button.gameObject.transform.localScale = new Vector2(1.3f, 1.3f);
     }
 
     void SkillPlus(int skillIndex)
