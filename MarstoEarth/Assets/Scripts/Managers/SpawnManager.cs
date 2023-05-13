@@ -44,6 +44,7 @@ public class SpawnManager : Singleton<SpawnManager>
                 {
                     Debug.Log("보스 클리어!");
                     Debug.Log("게임 클리어!");
+                    UIManager.Instance.StageClear();
                 }
             }
             _curMonsterCount = value;

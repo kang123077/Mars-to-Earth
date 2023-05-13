@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +22,14 @@ public class UIManager :Singleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
-        stageClearUI.gameObject.SetActive(false);
+        try
+        {
+            stageClearUI.gameObject.SetActive(false);
+        }
+        catch (NullReferenceException)
+        {
+            Debug.Log("씬에 StageClearUI가 없거나 UIManager에 등록하지 않음");
+        }
     }
 
     private void Start()
@@ -68,6 +76,12 @@ public class UIManager :Singleton<UIManager>
         view.Close();
         uiStack.Push(view);
     }
+
+    public void StageClear()
+    {
+        stageClearUI.gameObject.SetActive(true);
+    }
+
     public void PopUIView()
     {
         if (uiStack.Count <= 0) return;

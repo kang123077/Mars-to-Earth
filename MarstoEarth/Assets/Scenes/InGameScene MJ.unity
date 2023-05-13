@@ -1844,7 +1844,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 292614578}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1345167086}
+        m_TargetAssemblyTypeName: StageClearUIController, Assembly-CSharp
+        m_MethodName: GotoNextStage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &292614578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1996,6 +2008,7 @@ MonoBehaviour:
   - {fileID: 1686857715}
   - {fileID: 254642049}
   - {fileID: 450594730}
+  stageClearUI: {fileID: 1345167086}
 --- !u!114 &344494038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2594,7 +2607,7 @@ MonoBehaviour:
   nodePrefab: {fileID: 628191319330453524, guid: d148e2043bd607a4b9bd7c4ef5402b77, type: 3}
   nodePrefab2: {fileID: 628191319330453524, guid: c79d5e5e1decfd140b182fc751cf228b, type: 3}
   pathPrefab: {fileID: 6244779130016847854, guid: df0e15b5b71b8344191b2b3ffa2d12bd, type: 3}
-  wallPrefab: {fileID: 2969398592852570286, guid: a600ecc6932ca1e48a0773765509ea4c, type: 3}
+  wallPrefab: {fileID: 6244779130016847854, guid: 948633f952a1da0459787bbf83508bf9, type: 3}
   nodeSpacing: 60
   nodeParentTF: {fileID: 1874141304}
   bossMaterial: {fileID: -4565884009001823619, guid: 9099a4a0ef8a6ed4b8a12ad70a443326, type: 3}
@@ -5490,7 +5503,7 @@ GameObject:
   - component: {fileID: 913172886}
   - component: {fileID: 913172885}
   m_Layer: 5
-  m_Name: NextStageButton
+  m_Name: ReTryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8045,7 +8058,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1000, y: 800}
+  m_SizeDelta: {x: 1000, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1455773473
 MonoBehaviour:
@@ -8980,7 +8993,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: NextStage
+  m_text: Re Try?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
