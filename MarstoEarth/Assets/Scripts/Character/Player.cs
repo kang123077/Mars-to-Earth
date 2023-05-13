@@ -167,11 +167,12 @@ namespace Character
                 return;
             Vector3 position = thisCurTransform.position;
 
-            #if UNITY_STANDALONE_WIN
-            //xInput = Input.GetAxis("Horizontal");
-            //zInput = Input.GetAxis("Vertical");
+            #if UNITY_EDITOR||UNITY_ANDROID||UNITY_IOS
             
-            #elif UNITY_EDITOR||UNITY_ANDROID||UNITY_IOS
+            #elif UNITY_STANDALONE_WIN
+            
+                xInput = Input.GetAxis("Horizontal");
+                zInput = Input.GetAxis("Vertical");
             
             #endif
             InputDir = new Vector3(xInput, 0, zInput);
@@ -186,16 +187,14 @@ namespace Character
 
             #region MovingMan
 
-
             if (xInput is < 0.1f and > -0.1f && zInput is < 0.1f and > -0.1f)
             {
                 step.volume = 0;
-                if (isRun)
-                    isRun = false;
+                anim.SetFloat(X, 0);
+                anim.SetFloat(Z, 0);
             }
             else
                 step.volume = 0.8f;
-
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
@@ -231,12 +230,12 @@ namespace Character
                 anim.SetFloat(X, lowerDir.x);
                 anim.SetFloat(Z, lowerDir.z);
             }
-
+           
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
 
-            #endregion
-            #region Targeting
+#endregion
+#region Targeting
 
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
@@ -291,11 +290,11 @@ namespace Character
                 Vector3.RotateTowards(thisCurTransform.forward,
                     isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
 
-            #endregion
+#endregion
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
                     combatUI.ClickSkill(i);
-            #region Test
+#region Test
 #if UNITY_EDITOR
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -355,7 +354,7 @@ namespace Character
 
 
 #endif
-            #endregion
+#endregion
         }
 
         protected override void Attacked()

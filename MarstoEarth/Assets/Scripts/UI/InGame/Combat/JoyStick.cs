@@ -1,45 +1,41 @@
-﻿
+
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class JoyStick : MonoBehaviour ,IPointerDownHandler,   IDragHandler, IEndDragHandler 
+public class JoyStick : MonoBehaviour// ,IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
     
     public Image innerStick;
-    private Vector3 startPos;
+    private static Vector2 startPos;
 
-    public static Vector3 dir;
+    public static Vector2 dir;
 
-    private float radius;
-    private Vector3 curPos;
+    private static float radius;
     
-    public RectTransform rcTr;
-    
-    void Start()
-    {
-        
-
-    }
     private void Awake()
     {
+        
+        radius = GetComponent<RectTransform>().sizeDelta.y * 0.5f;
+        dir = Vector2.zero;
+    }
+    private void OnEnable()
+    {
         startPos = transform.position;
-        radius = rcTr.sizeDelta.y * 0.5f;
-        dir = Vector3.zero;
     }
 
 
-    public void OnPointerDown(PointerEventData eventData)
+    public void OnDrag(Vector2 curPos)
     {
-       
-        Vector3 pos = eventData.position;
-        float distance = Vector3.Distance(startPos, pos);
-        dir = (pos - startPos).normalized;
+        
+        float distance = Vector2.Distance(startPos, curPos);
+        dir = (curPos - startPos).normalized;
         if(distance < radius)
         {
             
-            innerStick.transform.position = pos;
+            innerStick.transform.position = curPos;
         }
         else
         {
@@ -52,30 +48,6 @@ public class JoyStick : MonoBehaviour ,IPointerDownHandler,   IDragHandler, IEnd
         SpawnManager.Instance.player.zInput= dir.y*distance* (1/radius);
     }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        Vector3 pos = eventData.position;
-        float distance = Vector3.Distance(startPos, pos);
-        dir = (pos - startPos).normalized;
-        if(distance < radius)
-        {
-            
-            innerStick.transform.position = pos;
-        }
-        else
-        {
-            
-            distance = radius;
-            innerStick.transform.position = startPos + dir * radius;
-        }
-        
-        SpawnManager.Instance.player.xInput= dir.x*distance* (1/radius);
-        SpawnManager.Instance.player.zInput= dir.y*distance* (1/radius);
-        Debug.Log(SpawnManager.Instance.player.xInput);
-    }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        innerStick.transform.position = startPos;
-    }
+
 }
