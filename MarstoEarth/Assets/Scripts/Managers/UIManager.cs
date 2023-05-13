@@ -16,12 +16,14 @@ public class UIManager :Singleton<UIManager>
    
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
-
+    public StageClearUIController stageClearUI;
 
     protected override void Awake()
     {
         base.Awake();
+        stageClearUI.gameObject.SetActive(false);
     }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;

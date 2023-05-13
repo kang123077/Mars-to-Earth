@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.005706853, g: 0.0504621, b: 0.081910215, a: 1}
+  m_IndirectSpecularColor: {r: 0.0056604696, g: 0.05049204, b: 0.08187662, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1355,7 +1355,6 @@ GameObject:
   - component: {fileID: 254642048}
   - component: {fileID: 254642051}
   - component: {fileID: 254642050}
-  - component: {fileID: 254642049}
   m_Layer: 5
   m_Name: MiniMap
   m_TagString: Untagged
@@ -1383,19 +1382,6 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: -10}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &254642049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 254642047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b464addc5e3fcf4ead6fd7df2711192, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: {x: 2, y: 2}
 --- !u!114 &254642050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1796,7 +1782,7 @@ MonoBehaviour:
   UIs:
   - {fileID: 1635536065}
   - {fileID: 1686857715}
-  - {fileID: 254642049}
+  - {fileID: 0}
   - {fileID: 450594730}
 --- !u!114 &344494038
 MonoBehaviour:
