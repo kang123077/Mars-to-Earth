@@ -10,5 +10,12 @@ public class StageClearUIController : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("LoadingScene");
         gameObject.SetActive(false);
+        // MapInfo 명령 들어갈 곳
+    }
+    public void Retry()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("LoadingScene");
+        gameObject.SetActive(false);
     }
 }
