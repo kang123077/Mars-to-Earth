@@ -29,12 +29,10 @@ public class LoadingScene : MonoBehaviour
             if(progressBar.value < 0.9f)
             {
                 progressBar.value = Mathf.MoveTowards(progressBar.value, 0.9f, Time.deltaTime);
-                Debug.Log(progressBar.value);
             }
             else if(operation.progress >= 0.9f)
             {
                 progressBar.value = Mathf.MoveTowards(progressBar.value, 1f, Time.deltaTime);
-                Debug.Log(progressBar.value);
             }
 
             if (progressBar.value >= 1f)

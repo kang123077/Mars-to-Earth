@@ -7,33 +7,27 @@ using UnityEngine.AI;
 public class MapManager : Singleton<MapManager>
 {
     public static MapInfo mapInfo;
-    public MapGenerator mapGenerator;
     public TMP_InputField inputField;
 
     public List<NodeInfo> nodes;
     public NodeInfo bossNode;
     public List<PathController> paths;
     public List<GameObject> walls;
-    public Transform nodesTF;
-
-    public bool isMapGenerateFinished;
+    private Transform nodesTF;
+    private MapGenerator mapGenerator;
 
     protected override void Awake()
     {
-        isMapGenerateFinished = false;
+        base.Awake();
         nodes = new List<NodeInfo>();
         paths = new List<PathController>();
         walls = new List<GameObject>();
-        base.Awake();
+        mapGenerator = FindObjectOfType<MapGenerator>();
+        nodesTF = GameObject.Find("NodeTF").transform;
         TestInitMapInfo();
+        DontDestroyOnLoad(this);
+        Debug.Log("ManManagerAwake");
     }
-
-    /*
-    private void Start()
-    {
-        GenerateMapCall();
-    }
-    */
 
     public void GenerateMapCall()
     {

@@ -1,14 +1,36 @@
-
 using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : class
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static T Instance { get; private set; }
+    private static T instance;
+
+    public static T Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<T>();
+
+                if (instance == null)
+                {
+                    Debug.LogError($"Singleton<{typeof(T)}> instance is missing in the scene.");
+                }
+            }
+
+            return instance;
+        }
+    }
 
     protected virtual void Awake()
-    {      
-        
-        Instance = this as T;
+    {
+        if (instance != null && instance != this)
+        {
+            Debug.LogWarning($"Destroying duplicate Singleton<{typeof(T)}>. Only one instance should exist.");
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this as T;
     }
-   
 }
