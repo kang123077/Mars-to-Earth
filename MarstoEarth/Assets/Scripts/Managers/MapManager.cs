@@ -8,21 +8,29 @@ public class MapManager : Singleton<MapManager>
 {
     public MapInfo mapInfo;
     public TMP_InputField inputField;
-
-    public List<NodeInfo> nodes;
+    public MapGenerator mapGenerator;
+    public Transform nodesTF;
     public NodeInfo bossNode;
+    public List<NodeInfo> nodes;
     public List<PathController> paths;
     public List<GameObject> walls;
-    public Transform nodesTF;
-    public MapGenerator mapGenerator;
 
     protected override void Awake()
     {
         base.Awake();
         DontDestroyOnLoad(this);
-        nodes = new List<NodeInfo>();
-        paths = new List<PathController>();
-        walls = new List<GameObject>();
+        if (nodes == null)
+        {
+            nodes = new List<NodeInfo>();
+        }
+        if (paths == null)
+        {
+            paths = new List<PathController>();
+        }
+        if (walls == null)
+        {
+            walls = new List<GameObject>();
+        }
     }
 
     public void GenerateMapCall()
@@ -39,6 +47,7 @@ public class MapManager : Singleton<MapManager>
     {
         if (mapInfo == null)
         {
+            // 1스테이지의 기본 값
             mapInfo = gameObject.AddComponent<MapInfo>();
             mapInfo.difficulty = 0;
             mapInfo.node_num = 4;
@@ -46,6 +55,7 @@ public class MapManager : Singleton<MapManager>
         }
         else
         {
+            // 2스테이지부터 더해지는 값
             mapInfo.difficulty += 1;
             mapInfo.node_num += 1;
             mapInfo.cur_Stage += 1;

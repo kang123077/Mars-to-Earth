@@ -4344,12 +4344,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapInfo: {fileID: 0}
   inputField: {fileID: 0}
-  nodes: []
+  mapGenerator: {fileID: 0}
+  nodesTF: {fileID: 1874141304}
   bossNode: {fileID: 0}
+  nodes: []
   paths: []
   walls: []
-  nodesTF: {fileID: 1874141304}
-  mapGenerator: {fileID: 0}
 --- !u!4 &638330274
 Transform:
   m_ObjectHideFlags: 0
@@ -4358,7 +4358,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 638330272}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4912205, y: -1.8721371, z: 0.13618231}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6890,7 +6890,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154860800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4912205, y: -1.8721371, z: 0.13618231}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

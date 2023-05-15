@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-
 public enum UIType
-
 {
     Combat,
     Card,
     MiniMap,
     Setting,
 }
+
 public class UIManager :Singleton<UIManager>
 {
     public UI[] UIs;
@@ -95,6 +94,8 @@ public class UIManager :Singleton<UIManager>
 
     public void RequestChangeSeedNumber()
     {
+        // MapManager를 동적으로 찾아야하기에 제작
+        // MapSeedNum UI에서 사용
         MapManager.Instance.ChangeSeedNumber(inputField.text);
     }
 }
