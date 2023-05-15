@@ -6,15 +6,15 @@ using UnityEngine.AI;
 
 public class MapManager : Singleton<MapManager>
 {
-    public static MapInfo mapInfo;
+    public MapInfo mapInfo;
     public TMP_InputField inputField;
 
     public List<NodeInfo> nodes;
     public NodeInfo bossNode;
     public List<PathController> paths;
     public List<GameObject> walls;
-    private Transform nodesTF;
-    private MapGenerator mapGenerator;
+    public Transform nodesTF;
+    public MapGenerator mapGenerator;
 
     protected override void Awake()
     {
@@ -31,6 +31,8 @@ public class MapManager : Singleton<MapManager>
 
     public void GenerateMapCall()
     {
+        // 인게임 매니저에서 실행
+        InitInfos();
         GenerateNewSeed();
         mapGenerator.GenerateMap();
         GenerateNavMesh();
@@ -41,21 +43,24 @@ public class MapManager : Singleton<MapManager>
         mapInfo = gameObject.AddComponent<MapInfo>();
         mapInfo.seed_Number = 0;
         mapInfo.difficulty = 0;
-        mapInfo.cur_Dungeon = gameObject.AddComponent<TestDungeonInfo>();
-        mapInfo.cur_Dungeon.dungeonName = DungeonName.Mars;
-        mapInfo.cur_Dungeon.curStage = 0;
-        mapInfo.cur_Dungeon.stageInfo = new StageInfo[2];
-        mapInfo.cur_Dungeon.stageInfo[0] = gameObject.AddComponent<StageInfo>();
-        mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber = 1;
+        mapInfo.node_num = 4;
     }
-    public void ChangeRoomNumber(string roomNumber)
-    {
-        mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber = int.Parse(roomNumber);
-    }
+
     public void ChangeSeedNumber(string seedNumber)
     {
         mapInfo.seed_Number = int.Parse(seedNumber);
     }
+
+    public void InitInfos()
+    {
+        nodes.Clear();
+        paths.Clear();
+        walls.Clear();
+        bossNode = null;
+        mapGenerator = FindObjectOfType<MapGenerator>();
+        nodesTF = GameObject.Find("NodeTF").transform;
+    }
+
     public void ResetNodes()
     {
         NodesDestroy();
@@ -68,30 +73,57 @@ public class MapManager : Singleton<MapManager>
     {
         for (int i = nodes.Count - 1; i >= 0; i--)
         {
-            Destroy(nodes[i].gameObject);
+            try
+            {
+                Destroy(nodes[i].gameObject);
+            }
+            catch (MissingReferenceException)
+            {
+                // 다른 씬으로 넘어온 경우
+            }
         }
         nodes.Clear();
         mapGenerator.NodeClear();
     }
+
     public void PathsDestroy()
     {
         for (int i = paths.Count - 1; i >= 0; i--)
         {
-            Destroy(paths[i].gameObject);
+            try
+            {
+                Destroy(paths[i].gameObject);
+            }
+            catch (MissingReferenceException)
+            {
+                // 다른 씬으로 넘어온 경우
+            }
         }
         paths.Clear();
     }
+
     public void WallsDestroy()
     {
         for (int i = walls.Count - 1; i >= 0; i--)
         {
-            Destroy(walls[i].gameObject);
+            try
+            {
+                Destroy(walls[i].gameObject);
+            }
+            catch (MissingReferenceException)
+            {
+                // 다른 씬으로 넘어온 경우
+            }
         }
         walls.Clear();
     }
+
     public void GenerateNewSeed()
     {
+        Debug.Log("GenerateNewSeed");
+        Debug.Log(mapInfo.seed_Number);
         mapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        Debug.Log(mapInfo.seed_Number);
         try
         {
             inputField.text = mapInfo.seed_Number.ToString();
@@ -104,21 +136,6 @@ public class MapManager : Singleton<MapManager>
 
     public void GenerateNavMesh()
     {
-        /*
-        foreach (NodeInfo node in nodes)
-        {
-            Debug.Log("nodes navmesh");
-            GameObject temp = node.gameObject;
-            NavMeshSurface surface = temp.GetComponent<NavMeshSurface>();
-            surface.BuildNavMesh();
-        }
-        foreach (GameObject path in paths)
-        {
-            Debug.Log("paths navmesh");
-            NavMeshSurface surface = path.GetComponent<NavMeshSurface>();
-            surface.BuildNavMesh();
-        }
-        */
         nodesTF.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
     public void ResetNavMesh()
@@ -139,7 +156,6 @@ public class MapManager : Singleton<MapManager>
     {
         foreach (PathController path in paths)
         {
-            Debug.Log("왜안돼");
             path.CheckNeighborNode();
         }
     }

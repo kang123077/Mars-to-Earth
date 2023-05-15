@@ -34,16 +34,12 @@ public class SpawnManager : Singleton<SpawnManager>
         get => _curMonsterCount;
         set
         {
-            Debug.Log(value);
             if (value == 0)
             {
                 curNode.IsNodeCleared = true;
                 InGameManager.Instance.OnRoomCleared();
-                Debug.Log("룸 클리어!");
                 if (curNode.isBossNode)
                 {
-                    Debug.Log("보스 클리어!");
-                    Debug.Log("게임 클리어!");
                     UIManager.Instance.StageClear();
                 }
             }

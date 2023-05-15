@@ -38,7 +38,7 @@ public class NodeGenerator : MonoBehaviour
             Random.InitState(seed);
         }
         // 현재 노드의 갯수가 정해진 노드의 갯수보다 많거나 같아지면 or 시작 노드로부터 거리가 n 이상이면 return
-        if (MapManager.Instance.nodes.Count >= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber || distance > 10)
+        if (MapManager.Instance.nodes.Count >= mapInfo.node_num || distance > 10)
         {
             return null;
         }
@@ -177,7 +177,7 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.Instance.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
+                        MapManager.Instance.nodes.Count < mapInfo.node_num)
                     {
                         NodeInfo newNode = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.East);
@@ -204,7 +204,7 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.Instance.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
+                        MapManager.Instance.nodes.Count < mapInfo.node_num)
                     {
                         NodeInfo newNode = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.West);
@@ -231,7 +231,7 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.Instance.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
+                        MapManager.Instance.nodes.Count < mapInfo.node_num)
                     {
                         NodeInfo newNode = GenerateNodes(mapInfo, x, y - 1, distance + 1, 3, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.South);
@@ -258,7 +258,7 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.Instance.nodes.Count < mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
+                        MapManager.Instance.nodes.Count < mapInfo.node_num)
                     {
                         NodeInfo newNode = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.North);
