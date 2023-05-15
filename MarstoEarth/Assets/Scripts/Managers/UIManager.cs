@@ -16,7 +16,9 @@ public class UIManager :Singleton<UIManager>
    
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
-
+    public RectTransform aimImage;
+    public Transform muzzleTr;
+    public Transform lookAtTr;
 
     protected override void Awake()
     {
@@ -26,6 +28,7 @@ public class UIManager :Singleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.Confined;
         currentView = UIs[(int)UIType.Combat];
+        muzzleTr = SpawnManager.Instance.player.muzzle.transform;
     }
 
     private void Update()
@@ -35,6 +38,7 @@ public class UIManager :Singleton<UIManager>
         {
             AudioManager.Instance.PlayEffect(1);
             AudioManager.Instance.PauseSource();
+            aimImage.gameObject.SetActive(false);
             if (UIs[(int)UIType.Setting].gameObject.activeSelf != true)
             {
                 UIs[(int)UIType.Setting].gameObject.SetActive(true); // UI 활성화
@@ -50,8 +54,29 @@ public class UIManager :Singleton<UIManager>
                 {
                     AudioManager.Instance.UnPauseSorce();
                     Time.timeScale = 1f;
+                    aimImage.gameObject.SetActive(true);
                 }
                 UIs[(int)UIType.Setting].gameObject.SetActive(false); // UI 활성화
+            }
+        }
+
+        if(CinemachineManager.Instance.playerCam.gameObject.activeSelf == true)
+        {
+            aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(muzzleTr.position);
+        }
+        else if(CinemachineManager.Instance.bossCam.gameObject.activeSelf == true)
+        {
+            if (CinemachineManager.Instance.bossCam.LookAt != null)
+            {
+                lookAtTr = CinemachineManager.Instance.bossCam.LookAt.transform;
+                lookAtTr.localScale = new Vector3(1.2f, 1.2f);
+                aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(lookAtTr.position);
+            }
+            else
+            {
+                Debug.Log("실행중");
+                lookAtTr = null;
+                aimImage.anchoredPosition = Vector2.zero;
             }
         }
     }

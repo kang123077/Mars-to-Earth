@@ -58,6 +58,7 @@ public class CardUIControll : UI
         SkillPlus(skillIndex);
         ScaleDownCard(rightCard, rerollButton);
         AudioManager.Instance.UnPauseSorce();
+        UIManager.Instance.aimImage.gameObject.SetActive(true);
     }
 
     void ScaleUpRightCard()
@@ -69,6 +70,7 @@ public class CardUIControll : UI
         SkillPlus(skillIndex);
         ScaleDownCard(leftCard, rerollButton);
         AudioManager.Instance.UnPauseSorce();
+        UIManager.Instance.aimImage.gameObject.SetActive(true);
     }
 
     void MoveNSize(Button button)
