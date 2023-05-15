@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-// using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PathController : MonoBehaviour
@@ -11,27 +10,15 @@ public class PathController : MonoBehaviour
     public Collider innerCollider;
     private GateController gate_1;
     private GateController gate_2;
-    private bool roomClearChecker;
 
     private List<MeshRenderer> meshRenderers;
     private void Awake()
     {
-        roomClearChecker = false;
         isColliderOn = true;
         gate_1 = transform.GetChild(0).GetComponent<GateController>();
         gate_2 = transform.GetChild(1).GetComponent<GateController>();
         meshRenderers = new List<MeshRenderer>();
         CollectMeshRenderers(transform);
-    }
-    private void Update()
-    {
-        /*
-        if (MapManager.Instance.isMapGenerateFinished == true
-            && roomClearChecker == false)
-        {
-
-        }
-        */
     }
 
     public void InitPath()
