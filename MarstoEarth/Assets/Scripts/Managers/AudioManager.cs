@@ -103,6 +103,8 @@ public class AudioManager : Singleton<AudioManager>
         // UI가 활성화될 때
         foreach (AudioSource audioSource in playingSource)
         {
+            if (audioSource == null) continue;
+
             if (audioSource.isPlaying)
             {
                 audioSource.Pause();
@@ -115,6 +117,8 @@ public class AudioManager : Singleton<AudioManager>
         // UI가 비활성화될 때
         foreach (AudioSource audioSource in playingSource)
         {
+            if (audioSource == null) continue;
+
             if (!audioSource.isPlaying)
             {
                 audioSource.UnPause();
