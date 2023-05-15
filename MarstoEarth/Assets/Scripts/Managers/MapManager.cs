@@ -22,8 +22,6 @@ public class MapManager : Singleton<MapManager>
         nodes = new List<NodeInfo>();
         paths = new List<PathController>();
         walls = new List<GameObject>();
-        mapGenerator = FindObjectOfType<MapGenerator>();
-        nodesTF = GameObject.Find("NodeTF").transform;
         TestInitMapInfo();
         DontDestroyOnLoad(this);
         Debug.Log("ManManagerAwake");
@@ -41,7 +39,6 @@ public class MapManager : Singleton<MapManager>
     public void TestInitMapInfo()
     {
         mapInfo = gameObject.AddComponent<MapInfo>();
-        mapInfo.seed_Number = 0;
         mapInfo.difficulty = 0;
         mapInfo.node_num = 4;
     }
@@ -59,6 +56,7 @@ public class MapManager : Singleton<MapManager>
         bossNode = null;
         mapGenerator = FindObjectOfType<MapGenerator>();
         nodesTF = GameObject.Find("NodeTF").transform;
+        inputField = UIManager.Instance.inputField;
     }
 
     public void ResetNodes()
@@ -120,10 +118,7 @@ public class MapManager : Singleton<MapManager>
 
     public void GenerateNewSeed()
     {
-        Debug.Log("GenerateNewSeed");
-        Debug.Log(mapInfo.seed_Number);
         mapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-        Debug.Log(mapInfo.seed_Number);
         try
         {
             inputField.text = mapInfo.seed_Number.ToString();
@@ -138,6 +133,7 @@ public class MapManager : Singleton<MapManager>
     {
         nodesTF.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
+
     public void ResetNavMesh()
     {
         NavMesh.RemoveAllNavMeshData();
@@ -146,7 +142,7 @@ public class MapManager : Singleton<MapManager>
 
     public void UpdateGate()
     {
-        foreach(PathController path in paths)
+        foreach (PathController path in paths)
         {
             path.UpdateGate();
         }

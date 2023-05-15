@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 
@@ -18,6 +19,7 @@ public class UIManager :Singleton<UIManager>
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
     public StageClearUIController stageClearUI;
+    public TMP_InputField inputField;
 
     protected override void Awake()
     {
