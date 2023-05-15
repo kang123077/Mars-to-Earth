@@ -28,7 +28,6 @@ public class UIManager :Singleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.Confined;
         currentView = UIs[(int)UIType.Combat];
-        muzzleTr = SpawnManager.Instance.player.muzzle.transform;
     }
 
     private void Update()
@@ -62,6 +61,7 @@ public class UIManager :Singleton<UIManager>
 
         if(CinemachineManager.Instance.playerCam.gameObject.activeSelf == true)
         {
+            muzzleTr = SpawnManager.Instance.player.muzzle.transform;
             aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(muzzleTr.position);
         }
         else if(CinemachineManager.Instance.bossCam.gameObject.activeSelf == true)
@@ -69,7 +69,7 @@ public class UIManager :Singleton<UIManager>
             if (CinemachineManager.Instance.bossCam.LookAt != null)
             {
                 lookAtTr = CinemachineManager.Instance.bossCam.LookAt.transform;
-                lookAtTr.localScale = new Vector3(1.2f, 1.2f);
+                lookAtTr.localScale = new Vector3(1.3f, 1.3f);
                 aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(lookAtTr.position);
             }
             else
