@@ -34,6 +34,7 @@ public class UIManager :Singleton<UIManager>
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             AudioManager.Instance.PlayEffect(1);
+            AudioManager.Instance.PauseSource();
             if (UIs[(int)UIType.Setting].gameObject.activeSelf != true)
             {
                 UIs[(int)UIType.Setting].gameObject.SetActive(true); // UI 활성화
@@ -47,6 +48,7 @@ public class UIManager :Singleton<UIManager>
                 }
                 else if(UIs[(int)UIType.Card].gameObject.activeSelf != true)
                 {
+                    AudioManager.Instance.UnPauseSorce();
                     Time.timeScale = 1f;
                 }
                 UIs[(int)UIType.Setting].gameObject.SetActive(false); // UI 활성화
