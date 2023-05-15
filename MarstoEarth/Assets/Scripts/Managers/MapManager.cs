@@ -6,62 +6,78 @@ using UnityEngine.AI;
 
 public class MapManager : Singleton<MapManager>
 {
-    public static MapInfo mapInfo;
-    public MapGenerator mapGenerator;
+    public MapInfo mapInfo;
     public TMP_InputField inputField;
-
-    public List<NodeInfo> nodes;
+    public MapGenerator mapGenerator;
+    public Transform nodesTF;
     public NodeInfo bossNode;
+    public List<NodeInfo> nodes;
     public List<PathController> paths;
     public List<GameObject> walls;
-    public Transform nodesTF;
-
-    public bool isMapGenerateFinished;
 
     protected override void Awake()
     {
-        isMapGenerateFinished = false;
-        nodes = new List<NodeInfo>();
-        paths = new List<PathController>();
-        walls = new List<GameObject>();
         base.Awake();
-        TestInitMapInfo();
+        DontDestroyOnLoad(this);
+        if (nodes == null)
+        {
+            nodes = new List<NodeInfo>();
+        }
+        if (paths == null)
+        {
+            paths = new List<PathController>();
+        }
+        if (walls == null)
+        {
+            walls = new List<GameObject>();
+        }
     }
-
-    /*
-    private void Start()
-    {
-        GenerateMapCall();
-    }
-    */
 
     public void GenerateMapCall()
     {
+        // 인게임 매니저에서 실행
+        InitInfos();
+        InitMapInfo();
         GenerateNewSeed();
         mapGenerator.GenerateMap();
         GenerateNavMesh();
     }
 
-    public void TestInitMapInfo()
+    public void InitMapInfo()
     {
-        mapInfo = gameObject.AddComponent<MapInfo>();
-        mapInfo.seed_Number = 0;
-        mapInfo.difficulty = 0;
-        mapInfo.cur_Dungeon = gameObject.AddComponent<TestDungeonInfo>();
-        mapInfo.cur_Dungeon.dungeonName = DungeonName.Mars;
-        mapInfo.cur_Dungeon.curStage = 0;
-        mapInfo.cur_Dungeon.stageInfo = new StageInfo[2];
-        mapInfo.cur_Dungeon.stageInfo[0] = gameObject.AddComponent<StageInfo>();
-        mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber = 12;
+        if (mapInfo == null)
+        {
+            // 1스테이지의 기본 값
+            mapInfo = gameObject.AddComponent<MapInfo>();
+            mapInfo.difficulty = 0;
+            mapInfo.node_num = 4;
+            mapInfo.cur_Stage = 1;
+        }
+        else
+        {
+            // 2스테이지부터 더해지는 값
+            mapInfo.difficulty += 1;
+            mapInfo.node_num += 1;
+            mapInfo.cur_Stage += 1;
+        }
     }
-    public void ChangeRoomNumber(string roomNumber)
-    {
-        mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber = int.Parse(roomNumber);
-    }
+
     public void ChangeSeedNumber(string seedNumber)
     {
         mapInfo.seed_Number = int.Parse(seedNumber);
     }
+
+    public void InitInfos()
+    {
+        nodes.Clear();
+        paths.Clear();
+        walls.Clear();
+        bossNode = null;
+        mapGenerator = FindObjectOfType<MapGenerator>();
+        nodesTF = GameObject.Find("NodeTF").transform;
+        inputField = UIManager.Instance.inputField;
+    }
+
     public void ResetNodes()
     {
         NodesDestroy();
@@ -74,27 +90,51 @@ public class MapManager : Singleton<MapManager>
     {
         for (int i = nodes.Count - 1; i >= 0; i--)
         {
-            Destroy(nodes[i].gameObject);
+            try
+            {
+                Destroy(nodes[i].gameObject);
+            }
+            catch (MissingReferenceException)
+            {
+                // 다른 씬으로 넘어온 경우
+            }
         }
         nodes.Clear();
         mapGenerator.NodeClear();
     }
+
     public void PathsDestroy()
     {
         for (int i = paths.Count - 1; i >= 0; i--)
         {
-            Destroy(paths[i].gameObject);
+            try
+            {
+                Destroy(paths[i].gameObject);
+            }
+            catch (MissingReferenceException)
+            {
+                // 다른 씬으로 넘어온 경우
+            }
         }
         paths.Clear();
     }
+
     public void WallsDestroy()
     {
         for (int i = walls.Count - 1; i >= 0; i--)
         {
-            Destroy(walls[i].gameObject);
+            try
+            {
+                Destroy(walls[i].gameObject);
+            }
+            catch (MissingReferenceException)
+            {
+                // 다른 씬으로 넘어온 경우
+            }
         }
         walls.Clear();
     }
+
     public void GenerateNewSeed()
     {
         mapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
@@ -110,23 +150,9 @@ public class MapManager : Singleton<MapManager>
 
     public void GenerateNavMesh()
     {
-        /*
-        foreach (NodeInfo node in nodes)
-        {
-            Debug.Log("nodes navmesh");
-            GameObject temp = node.gameObject;
-            NavMeshSurface surface = temp.GetComponent<NavMeshSurface>();
-            surface.BuildNavMesh();
-        }
-        foreach (GameObject path in paths)
-        {
-            Debug.Log("paths navmesh");
-            NavMeshSurface surface = path.GetComponent<NavMeshSurface>();
-            surface.BuildNavMesh();
-        }
-        */
         nodesTF.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
+
     public void ResetNavMesh()
     {
         NavMesh.RemoveAllNavMeshData();
@@ -135,7 +161,7 @@ public class MapManager : Singleton<MapManager>
 
     public void UpdateGate()
     {
-        foreach(PathController path in paths)
+        foreach (PathController path in paths)
         {
             path.UpdateGate();
         }
@@ -145,7 +171,6 @@ public class MapManager : Singleton<MapManager>
     {
         foreach (PathController path in paths)
         {
-            Debug.Log("왜안돼");
             path.CheckNeighborNode();
         }
     }

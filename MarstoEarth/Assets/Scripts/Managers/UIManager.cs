@@ -1,27 +1,38 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
-
 public enum UIType
-
 {
     Combat,
     Card,
     MiniMap,
     Setting,
 }
+
 public class UIManager :Singleton<UIManager>
 {
     public UI[] UIs;
    
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
-
+    public StageClearUIController stageClearUI;
+    public TMP_InputField inputField;
 
     protected override void Awake()
     {
         base.Awake();
+        try
+        {
+            stageClearUI.gameObject.SetActive(false);
+        }
+        catch (NullReferenceException)
+        {
+            Debug.Log("씬에 StageClearUI가 없거나 UIManager에 등록하지 않음");
+        }
     }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
@@ -66,6 +77,12 @@ public class UIManager :Singleton<UIManager>
         view.Close();
         uiStack.Push(view);
     }
+
+    public void StageClear()
+    {
+        stageClearUI.gameObject.SetActive(true);
+    }
+
     public void PopUIView()
     {
         if (uiStack.Count <= 0) return;
@@ -73,6 +90,13 @@ public class UIManager :Singleton<UIManager>
         currentView.Close();
         currentView = uiStack.Pop();
         currentView.Show();
+    }
+
+    public void RequestChangeSeedNumber()
+    {
+        // MapManager를 동적으로 찾아야하기에 제작
+        // MapSeedNum UI에서 사용
+        MapManager.Instance.ChangeSeedNumber(inputField.text);
     }
 }
 
