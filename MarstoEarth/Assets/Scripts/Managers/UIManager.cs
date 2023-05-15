@@ -92,5 +92,10 @@ public class UIManager :Singleton<UIManager>
         currentView = uiStack.Pop();
         currentView.Show();
     }
+
+    public void RequestChangeSeedNumber()
+    {
+        MapManager.Instance.ChangeSeedNumber(inputField.text);
+    }
 }
 

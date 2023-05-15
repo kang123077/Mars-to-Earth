@@ -19,28 +19,37 @@ public class MapManager : Singleton<MapManager>
     protected override void Awake()
     {
         base.Awake();
+        DontDestroyOnLoad(this);
         nodes = new List<NodeInfo>();
         paths = new List<PathController>();
         walls = new List<GameObject>();
-        TestInitMapInfo();
-        DontDestroyOnLoad(this);
-        Debug.Log("ManManagerAwake");
     }
 
     public void GenerateMapCall()
     {
         // 인게임 매니저에서 실행
         InitInfos();
+        InitMapInfo();
         GenerateNewSeed();
         mapGenerator.GenerateMap();
         GenerateNavMesh();
     }
 
-    public void TestInitMapInfo()
+    public void InitMapInfo()
     {
-        mapInfo = gameObject.AddComponent<MapInfo>();
-        mapInfo.difficulty = 0;
-        mapInfo.node_num = 4;
+        if (mapInfo == null)
+        {
+            mapInfo = gameObject.AddComponent<MapInfo>();
+            mapInfo.difficulty = 0;
+            mapInfo.node_num = 4;
+            mapInfo.cur_Stage = 1;
+        }
+        else
+        {
+            mapInfo.difficulty += 1;
+            mapInfo.node_num += 1;
+            mapInfo.cur_Stage += 1;
+        }
     }
 
     public void ChangeSeedNumber(string seedNumber)
