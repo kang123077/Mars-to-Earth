@@ -69,7 +69,7 @@ public class UIManager :Singleton<UIManager>
             if (CinemachineManager.Instance.bossCam.LookAt != null)
             {
                 lookAtTr = CinemachineManager.Instance.bossCam.LookAt.transform;
-                lookAtTr.localScale = new Vector3(1.3f, 1.3f);
+                aimImage.localScale = new Vector3(1.2f, 1.2f);
                 aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(lookAtTr.position);
             }
             else
