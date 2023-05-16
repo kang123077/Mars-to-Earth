@@ -167,7 +167,7 @@ namespace Character
                 return;
             Vector3 position = thisCurTransform.position;
 
-            #if UNITY_EDITOR||UNITY_ANDROID||UNITY_IOS
+            #if UNITY_ANDROID||UNITY_IOS
             
             #elif UNITY_STANDALONE_WIN
             
@@ -236,10 +236,10 @@ namespace Character
 
 #endregion
 #region Targeting
-
+#if UNITY_STANDALONE_WIN
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
-
+#endif
             int size = Physics.OverlapSphereNonAlloc(position, sightLength - 1, colliders,
                 layerMask);
             float minAngle = 180;
