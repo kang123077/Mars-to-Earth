@@ -14,7 +14,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
                 if (instance == null)
                 {
-                    Debug.LogError($"Singleton<{typeof(T)}> instance is missing in the scene.");
+                    Debug.Log($"Singleton<{typeof(T)}> instance is missing in the scene.");
                 }
             }
 
@@ -26,7 +26,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Debug.LogWarning($"Destroying duplicate Singleton<{typeof(T)}>. Only one instance should exist.");
+            Debug.Log($"Destroying duplicate Singleton<{typeof(T)}>. Only one instance should exist.");
             Destroy(gameObject);
             return;
         }

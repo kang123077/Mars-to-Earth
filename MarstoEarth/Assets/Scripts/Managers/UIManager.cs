@@ -29,7 +29,7 @@ public class UIManager :Singleton<UIManager>
         }
         catch (NullReferenceException)
         {
-            Debug.Log("씬에 StageClearUI가 없거나 UIManager에 등록하지 않음");
+            // 씬에 StageClearUI가 없거나 UIManager에 등록하지 않음
         }
     }
 

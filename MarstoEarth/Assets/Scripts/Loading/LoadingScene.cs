@@ -18,7 +18,6 @@ public class LoadingScene : MonoBehaviour
     {
         yield return null;
         AsyncOperation operation = SceneManager.LoadSceneAsync("InGameScene");
-        Debug.Log("InGameSceneLoad");
         // operation.isDone;   // 작업 완료 유무 boolean형 반환
         // operation.progress; // 진행 정도를 floa형 0, 1을 반환(0:진행중, 1:진행완)
         operation.allowSceneActivation = false; // true시 로딩 완료면 씬을 넘김 false면 progress가 0.9f에서 멈춤 true가 될 때까지 기다림
