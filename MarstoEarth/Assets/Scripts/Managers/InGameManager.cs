@@ -29,6 +29,8 @@ public class InGameManager : Singleton<InGameManager>
         //cardUICon.transform.SetAsLastSibling();
         Time.timeScale = 0f;
         AudioManager.Instance.PlayEffect(1);
+        AudioManager.Instance.PauseSource();
+        UIManager.Instance.aimImage.gameObject.SetActive(false);
         cardUICon.SetActive(true);
         cardInfo.CardInit();
     }
@@ -55,13 +57,4 @@ public class InGameManager : Singleton<InGameManager>
         }
         SpawnManager.Instance.InitSpawn();
     }
-
-    //public void OnTartgetUIOn()
-    //{
-    //    if(CinemachineManager.Instance.bossCam.LookAt == true)
-    //    {
-    //        onTargetUICon.SetActive(true);
-    //        onTargetUICon.transform.position = CinemachineManager.Instance.bossCam.LookAt.transform.position;
-    //    }
-    //}
 }

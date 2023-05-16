@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum CombatEffectClip
 {
@@ -35,6 +36,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public AudioSource bgmAudioSource;
     public AudioSource effectAudioSource;
+    List<AudioSource> playingSource;
 
     private float masterVolume = 1f;
     private float bgmVolume = 1f;
@@ -62,6 +64,8 @@ public class AudioManager : Singleton<AudioManager>
         effectAudioSource.volume = 1f;
         effectAudioSource.spatialize = false;
 
+        // 플레이 중인 오디오 소스의 리스트를 초기화 함
+        playingSource = new List<AudioSource>();
     }
 
     public void PlayBGM(int clipIndex)
@@ -88,8 +92,38 @@ public class AudioManager : Singleton<AudioManager>
         source.clip = CombatEffectAudioClips[clipIndex];
         source.volume = finalEffectVolume; // 볼륨 설정
         if (source.transform.parent.gameObject.activeSelf)
+        {
             source.Play();
+            playingSource.Add(source);
+        }
+    }
 
+    public void PauseSource()
+    {
+        // UI가 활성화될 때
+        foreach (AudioSource audioSource in playingSource)
+        {
+            if (audioSource == null) continue;
+
+            if (audioSource.isPlaying)
+            {
+                audioSource.Pause();
+            }
+        }
+    }
+
+    public void UnPauseSorce()
+    {
+        // UI가 비활성화될 때
+        foreach (AudioSource audioSource in playingSource)
+        {
+            if (audioSource == null) continue;
+
+            if (!audioSource.isPlaying)
+            {
+                audioSource.UnPause();
+            }
+        }
     }
 
     public void SetMasterVolume(float value)

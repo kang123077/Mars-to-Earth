@@ -5,13 +5,20 @@ using UnityEngine.UI;
 
 public class LoadingScene : MonoBehaviour
 {
-    public Image[] backGroundImage;
+    public System.Collections.Generic.List<Sprite> imgBackGround;
+    public Image bgi;
     public Slider progressBar;
     public TMPro.TMP_Text loadingText;
+    private System.Random random;
 
     private void Start()
     {
         StartCoroutine(LoadScene());
+        random = new System.Random();
+
+        int randomIndex = random.Next(0, imgBackGround.Count);
+        Sprite randomSprite = imgBackGround[randomIndex];
+        bgi.sprite = randomSprite;
     }
 
     IEnumerator LoadScene()
@@ -28,15 +35,17 @@ public class LoadingScene : MonoBehaviour
             if(progressBar.value < 0.9f)
             {
                 progressBar.value = Mathf.MoveTowards(progressBar.value, 0.9f, Time.deltaTime);
+                loadingText.text = "로딩 중..";
             }
             else if(operation.progress >= 0.9f)
             {
                 progressBar.value = Mathf.MoveTowards(progressBar.value, 1f, Time.deltaTime);
+                loadingText.text = "로딩 중.";
             }
 
             if (progressBar.value >= 1f)
             {
-                loadingText.text = "Press SpaceBar";
+                loadingText.text = "Spacebar를 누르세요!";
             }
 
             if(Input.GetKeyDown(KeyCode.Space) && progressBar.value >= 1f && operation.progress >= 0.9f)

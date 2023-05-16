@@ -19,6 +19,9 @@ public class UIManager :Singleton<UIManager>
     private UI currentView;
     public StageClearUIController stageClearUI;
     public TMP_InputField inputField;
+    public RectTransform aimImage;
+    public Transform muzzleTr;
+    public Transform lookAtTr;
 
     protected override void Awake()
     {
@@ -45,6 +48,8 @@ public class UIManager :Singleton<UIManager>
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             AudioManager.Instance.PlayEffect(1);
+            AudioManager.Instance.PauseSource();
+            aimImage.gameObject.SetActive(false);
             if (UIs[(int)UIType.Setting].gameObject.activeSelf != true)
             {
                 UIs[(int)UIType.Setting].gameObject.SetActive(true); // UI 활성화
@@ -58,9 +63,26 @@ public class UIManager :Singleton<UIManager>
                 }
                 else if(UIs[(int)UIType.Card].gameObject.activeSelf != true)
                 {
+                    AudioManager.Instance.UnPauseSorce();
                     Time.timeScale = 1f;
+                    aimImage.gameObject.SetActive(true);
                 }
                 UIs[(int)UIType.Setting].gameObject.SetActive(false); // UI 활성화
+            }
+        }
+
+        if(CinemachineManager.Instance.playerCam.gameObject.activeSelf == true)
+        {
+            muzzleTr = SpawnManager.Instance.player.muzzle.transform;
+            aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(muzzleTr.position);
+        }
+        else if(CinemachineManager.Instance.bossCam.gameObject.activeSelf == true)
+        {
+            if (CinemachineManager.Instance.bossCam.LookAt != null)
+            {
+                lookAtTr = CinemachineManager.Instance.bossCam.LookAt.transform;
+                aimImage.localScale = new Vector3(1.2f, 1.2f);
+                aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(lookAtTr.position) + new Vector3(0f, 100f);
             }
         }
     }

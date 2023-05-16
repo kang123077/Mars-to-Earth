@@ -57,6 +57,8 @@ public class CardUIControll : UI
         int skillIndex = cardInfo.randomIndexLeft;
         SkillPlus(skillIndex);
         ScaleDownCard(rightCard, rerollButton);
+        AudioManager.Instance.UnPauseSorce();
+        UIManager.Instance.aimImage.gameObject.SetActive(true);
     }
 
     void ScaleUpRightCard()
@@ -67,6 +69,8 @@ public class CardUIControll : UI
         int skillIndex = cardInfo.randomIndexRight;
         SkillPlus(skillIndex);
         ScaleDownCard(leftCard, rerollButton);
+        AudioManager.Instance.UnPauseSorce();
+        UIManager.Instance.aimImage.gameObject.SetActive(true);
     }
 
     void MoveNSize(Button button)
