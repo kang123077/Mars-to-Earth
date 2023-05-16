@@ -6,4 +6,5 @@ public class MapInfo : MonoBehaviour
     public int difficulty;
     public int cur_Stage;
     public int node_num;
+    public NodePool cur_NodePool;
 }

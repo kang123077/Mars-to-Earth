@@ -11,7 +11,6 @@ public class MapGenerator : MonoBehaviour
     {
         if (isNodeSet == false)
         {
-            Debug.Log("GenerateMap");
             nodeGenerator.GenerateNodes(MapManager.Instance.mapInfo, 0, 0, 0, null, 0);
             isNodeSet = true;
         }
