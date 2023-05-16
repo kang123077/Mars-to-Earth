@@ -86,6 +86,7 @@ public class MapManager : Singleton<MapManager>
         nodesTF.transform.rotation = Quaternion.Euler(0, 0, 0);
         NavMesh.RemoveAllNavMeshData();
     }
+
     public void NodesDestroy()
     {
         for (int i = nodes.Count - 1; i >= 0; i--)

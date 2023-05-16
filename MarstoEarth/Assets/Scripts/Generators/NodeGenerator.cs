@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class NodeGenerator : MonoBehaviour
 {
-    public GameObject nodePrefab;
-    public GameObject nodePrefab2;
+    public GameObject[] nodes;
     public GameObject pathPrefab;
     public GameObject wallPrefab;
     public float nodeSpacing;
@@ -42,8 +41,9 @@ public class NodeGenerator : MonoBehaviour
         {
             return null;
         }
-        // 노드 인스턴스
-        GameObject nodeObject = Instantiate(nodePrefab, nodeParentTF);
+        // 노드 인스턴스, 노드에서 랜덤으로 결정
+        int randomNode = Random.Range(0, nodes.Length);
+        GameObject nodeObject = Instantiate(nodes[randomNode], nodeParentTF);
         nodeObject.transform.position = new Vector3(x * nodeSpacing, 0, y * nodeSpacing);
         nodeObject.name = "nodePrefab " + x.ToString() + ", " + y.ToString();
         NodeInfo nodeInfo = nodeObject.GetComponent<NodeInfo>();

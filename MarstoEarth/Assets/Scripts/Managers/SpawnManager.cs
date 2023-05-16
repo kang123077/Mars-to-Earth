@@ -3,6 +3,7 @@ using Item;
 using Projectile;
 using Skill;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -56,7 +57,7 @@ public class SpawnManager : Singleton<SpawnManager>
         set
         {
             _curNode = value;
-            CheckLight(_curNode);
+            StartCoroutine(CheckLightCoroutine(_curNode.isInside));
             if (!curNode.IsNodeCleared)
             {
                 NodeSpawn(curNode);
@@ -72,7 +73,7 @@ public class SpawnManager : Singleton<SpawnManager>
         spawnInstantiateFinished = false;
         projectileManagedPool = new ObjectPool<Projectile.Projectile>(() =>
             {
-                Projectile.Projectile copyPrefab = Instantiate(projectilePrefab,objectPool[(int)PoolType.Projectile]);
+                Projectile.Projectile copyPrefab = Instantiate(projectilePrefab, objectPool[(int)PoolType.Projectile]);
                 copyPrefab.gameObject.SetActive(false);
                 return copyPrefab;
             },
@@ -82,6 +83,7 @@ public class SpawnManager : Singleton<SpawnManager>
     public void InitSpawn()
     {
         curNode = MapManager.Instance.nodes[0];
+        CheckLight(curNode.isInside);
         player = Instantiate(player);
         playerTransform = player.gameObject.transform;
         spawnInstantiateFinished = true;
@@ -176,26 +178,23 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount--;
         monsterPool.Add(target);
     }
-    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, int clipNum, float scale=1, float duration=-1)
-
+    public ReleaseEffect GetEffect(Vector3 spawnPoint, ParticleSystem particle, int clipNum, float scale = 1, float duration = -1)
     {
-        
         ReleaseEffect target;
         int findIdx = effectPool.FindIndex((el) => ReferenceEquals(el.refParticle, particle));
-        
+
         if (findIdx < 0)
         {
-            ParticleSystem targetParticle = Instantiate(particle, spawnPoint, Quaternion.identity,objectPool[(int)PoolType.Effect]);
+            ParticleSystem targetParticle = Instantiate(particle, spawnPoint, Quaternion.identity, objectPool[(int)PoolType.Effect]);
             ParticleSystem.MainModule main = targetParticle.main;
 
             main.stopAction = ParticleSystemStopAction.Callback;
             targetParticle.gameObject.SetActive(false);
             target = targetParticle.AddComponent<ReleaseEffect>();
-            
-            target.sound = Instantiate(effectSound,target.transform);
-            
+
+            target.sound = Instantiate(effectSound, target.transform);
+
             target.refParticle = particle;
-            
         }
         else
         {
@@ -203,14 +202,12 @@ public class SpawnManager : Singleton<SpawnManager>
             target.transform.position = spawnPoint;
             effectPool.RemoveAt(findIdx);
         }
-       
-        target.Init(duration,scale);
+
+        target.Init(duration, scale);
         AudioManager.Instance.PlayEffect(clipNum, target.sound);
         target.gameObject.SetActive(true);
         return target;
     }
-
-
 
     public void Launch(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
     {
@@ -219,20 +216,35 @@ public class SpawnManager : Singleton<SpawnManager>
         projectile.gameObject.SetActive(true);
     }
 
-
     private int[] weight = { 2, 6, 10 };
     public static System.Random rand = new();
- 
 
-    public void CheckLight(NodeInfo curNode)
+    public IEnumerator CheckLightCoroutine(bool isInside)
     {
-        outsideLight.SetActive(!curNode.isInside);
-        insideLight.SetActive(curNode.isInside);
+        if (isInside)
+        {
+            insideLight.SetActive(true);
+            yield return new WaitForSeconds(2f); // Wait for 2 seconds
+            outsideLight.SetActive(false);
+        }
+        else
+        {
+            outsideLight.SetActive(true);
+            yield return new WaitForSeconds(2f); // Wait for 2 seconds
+            insideLight.SetActive(false);
+
+        }
+    }
+
+    public void CheckLight(bool isInside)
+    {
+        insideLight.SetActive(isInside);
+        outsideLight.SetActive(!isInside);
     }
 
     public void DropItem(Vector3 spawnPoint, EnemyPool rank)
     {
-        if(weight[(int)rank]< rand.Next(0, 10))
+        if (weight[(int)rank] < rand.Next(0, 10))
             return;
         Item.Item target;
 
@@ -241,7 +253,7 @@ public class SpawnManager : Singleton<SpawnManager>
 
         if (findIdx < 0)
         {
-            target = Instantiate(ItemPrefab, spawnPoint, Quaternion.identity,objectPool[(int)PoolType.Item]);
+            target = Instantiate(ItemPrefab, spawnPoint, Quaternion.identity, objectPool[(int)PoolType.Item]);
             Instantiate(ResourceManager.Instance.itemInfos[(int)type].thisParticle, target.transform);
             target.type = type;
         }
