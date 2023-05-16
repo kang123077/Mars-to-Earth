@@ -70,13 +70,7 @@ public class UIManager :Singleton<UIManager>
             {
                 lookAtTr = CinemachineManager.Instance.bossCam.LookAt.transform;
                 aimImage.localScale = new Vector3(1.2f, 1.2f);
-                aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(lookAtTr.position);
-            }
-            else
-            {
-                Debug.Log("실행중");
-                lookAtTr = null;
-                aimImage.anchoredPosition = Vector2.zero;
+                aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(lookAtTr.position) + new Vector3(0f, 100f);
             }
         }
     }
