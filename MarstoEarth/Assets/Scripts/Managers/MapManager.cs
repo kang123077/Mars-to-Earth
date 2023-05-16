@@ -52,6 +52,7 @@ public class MapManager : Singleton<MapManager>
             mapInfo.difficulty = 0;
             mapInfo.node_num = 4;
             mapInfo.cur_Stage = 1;
+            mapInfo.cur_NodePool = NodePool.All;
         }
         else
         {
