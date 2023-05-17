@@ -2,6 +2,7 @@ using Skill;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace Character
 {
     public class Player : Character
@@ -33,8 +34,8 @@ namespace Character
 
         protected List<Skill.Skill> actives;
 
-        private float xInput;
-        private float zInput;
+        public float xInput;
+        public float zInput;
         private static readonly int X = Animator.StringToHash("x");
         private static readonly int Z = Animator.StringToHash("z");
         private static readonly int IsRun = Animator.StringToHash("isRun");
@@ -98,8 +99,13 @@ namespace Character
 
         protected override void Start()
         {
+
             base.Start();
             //테스트용
+#if UNITY_EDITOR
+            
+            Debug.Log("Unity Editor");
+
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Grenade]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.GravityBomb]);
@@ -118,6 +124,7 @@ namespace Character
                 a.Init(this);
             }
             //테스트용 actives
+#endif
             hpBar = combatUI.playerHP;
             hitScreen = combatUI.hitScreen;
             hitScreenColor = hitScreen.color;
@@ -160,10 +167,15 @@ namespace Character
                 return;
             Vector3 position = thisCurTransform.position;
 
-            xInput = Input.GetAxis("Horizontal");
-            zInput = Input.GetAxis("Vertical");
+            #if UNITY_ANDROID||UNITY_IOS
+            
+            #elif UNITY_STANDALONE_WIN
+            
+                xInput = Input.GetAxis("Horizontal");
+                zInput = Input.GetAxis("Vertical");
+            
+            #endif
             InputDir = new Vector3(xInput, 0, zInput);
-
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
                 itemColliders[0].TryGetComponent(out Item.Item getItem);
@@ -175,16 +187,14 @@ namespace Character
 
             #region MovingMan
 
-
             if (xInput is < 0.1f and > -0.1f && zInput is < 0.1f and > -0.1f)
             {
                 step.volume = 0;
-                if(isRun)
-                    isRun = false;
+                anim.SetFloat(X, 0);
+                anim.SetFloat(Z, 0);
             }
             else
                 step.volume = 0.8f;
-            
             if (xInput != 0 || zInput != 0)
             {
                 if (xInput is > 0.75f or < -0.75f && zInput is > 0.75f or < -0.75f)
@@ -211,7 +221,7 @@ namespace Character
                 }
                 else
                     isRun = false;
-                
+
                 InputDir = CinemachineManager.Instance.follower.rotation * InputDir;
                 thisCurTransform.position += InputDir * (Time.deltaTime * speed * (isRun ? 1.5f : 1f));
 
@@ -220,12 +230,12 @@ namespace Character
                 anim.SetFloat(X, lowerDir.x);
                 anim.SetFloat(Z, lowerDir.z);
             }
-
+           
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
 
-            #endregion
-            #region Targeting
+#endregion
+#region Targeting
 
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
@@ -251,17 +261,18 @@ namespace Character
                     }
                 }
             }
-           
+
+
             float targetDist = 0;
             if (target)
             {
                 Vector3 targetPos = target.position;
                 targetPos.y = 0;
                 var velocity = ((Monster)targetCharacter).ai.velocity;
-                if (velocity.x is > 0.1f or <-0.1f||velocity.z is > 0.1f or <-0.1f)
+                if (velocity.x is > 0.1f or < -0.1f || velocity.z is > 0.1f or < -0.1f)
                 {
                     targetDist = Vector3.Distance(targetPos, position);
-                    targetPos += velocity * (targetDist*(1/bulletSpeed));
+                    targetPos += velocity * (targetDist * (1 / bulletSpeed));
                 }
                 targetDir = targetPos - position;
             }
@@ -279,11 +290,12 @@ namespace Character
                 Vector3.RotateTowards(thisCurTransform.forward,
                     isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
 
-            #endregion
+#endregion
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
                     combatUI.ClickSkill(i);
-            #region Test
+#region Test
+#if UNITY_EDITOR
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -341,7 +353,8 @@ namespace Character
             }
 
 
-            #endregion
+#endif
+#endregion
         }
 
         protected override void Attacked()
@@ -350,7 +363,7 @@ namespace Character
 
             effects[0].Play();
             effects[1].Play();
-            AudioManager.Instance.PlayEffect((int)CombatEffectClip.revolver,weapon);
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.revolver, weapon);
             SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
                 dmg, 1 + duration * 0.5f, 35 + speed * 2, range * 0.5f, ref projectileInfo);
             impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
