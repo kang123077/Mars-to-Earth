@@ -30,7 +30,7 @@ namespace Character
             {
                 anim.SetBool(onTarget, value);
                 if (value)
-                    value.gameObject.TryGetComponent(out targetCharacter);
+                    value.TryGetComponent(out targetCharacter);
                 else
                     targetCharacter = null;
                 _target = value;

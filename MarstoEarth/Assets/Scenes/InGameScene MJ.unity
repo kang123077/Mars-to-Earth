@@ -2812,6 +2812,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodePrefab: {fileID: 628191319330453524, guid: d148e2043bd607a4b9bd7c4ef5402b77, type: 3}
   nodePrefab2: {fileID: 628191319330453524, guid: c79d5e5e1decfd140b182fc751cf228b, type: 3}
+  nodes:
+  - {fileID: 2969398592852570286, guid: a8d1a4f422659e24eaaadfc0c01bec7e, type: 3}
+  - {fileID: 628191319330453524, guid: d148e2043bd607a4b9bd7c4ef5402b77, type: 3}
   pathPrefab: {fileID: 6244779130016847854, guid: df0e15b5b71b8344191b2b3ffa2d12bd, type: 3}
   wallPrefab: {fileID: 6244779130016847854, guid: 948633f952a1da0459787bbf83508bf9, type: 3}
   nodeSpacing: 60

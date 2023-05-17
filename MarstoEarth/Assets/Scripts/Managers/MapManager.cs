@@ -52,6 +52,7 @@ public class MapManager : Singleton<MapManager>
             mapInfo.difficulty = 0;
             mapInfo.node_num = 4;
             mapInfo.cur_Stage = 1;
+            mapInfo.cur_NodePool = NodePool.All;
         }
         else
         {
@@ -86,6 +87,7 @@ public class MapManager : Singleton<MapManager>
         nodesTF.transform.rotation = Quaternion.Euler(0, 0, 0);
         NavMesh.RemoveAllNavMeshData();
     }
+
     public void NodesDestroy()
     {
         for (int i = nodes.Count - 1; i >= 0; i--)

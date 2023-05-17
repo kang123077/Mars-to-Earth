@@ -1,11 +1,35 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
+public enum NodePool
+{
+    All,
+    Inside,
+    OutSide
+}
+
+public enum Node
+{
+    Test_00,
+    SFRoom_00,
+}
+
+
+public enum InsideNodePool
+{
+    SFRoom_00
+}
+
+public enum OutsideNodePool
+{
+    Test_00
+}
 
 public class NodeGenerator : MonoBehaviour
 {
-    public GameObject nodePrefab;
-    public GameObject nodePrefab2;
+    public GameObject[] nodes;
     public GameObject pathPrefab;
     public GameObject wallPrefab;
     public float nodeSpacing;
@@ -42,8 +66,10 @@ public class NodeGenerator : MonoBehaviour
         {
             return null;
         }
-        // 노드 인스턴스
-        GameObject nodeObject = Instantiate(nodePrefab, nodeParentTF);
+        // 노드 인스턴스, 노드에서 랜덤으로 결정, 맵인포의 노드풀을 사용
+        GameObject nodeObject = Instantiate(
+            nodes[NodePoolCheck(MapManager.Instance.mapInfo.cur_NodePool)],
+            nodeParentTF);
         nodeObject.transform.position = new Vector3(x * nodeSpacing, 0, y * nodeSpacing);
         nodeObject.name = "nodePrefab " + x.ToString() + ", " + y.ToString();
         NodeInfo nodeInfo = nodeObject.GetComponent<NodeInfo>();
@@ -82,6 +108,27 @@ public class NodeGenerator : MonoBehaviour
             CheckBossNode(nodeInfo);
         }
         return nodeInfo;
+    }
+
+    public int NodePoolCheck(NodePool nodePool)
+    {
+        switch (nodePool)
+        {
+            case NodePool.All:
+                Node[] AllNodes = (Node[])Enum.GetValues(typeof(Node));
+                Node Allnode = AllNodes[Random.Range(0, AllNodes.Length)];
+                return (int)Enum.Parse(typeof(Node), Allnode.ToString());
+            case NodePool.Inside:
+                InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
+                InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
+                return (int)Enum.Parse(typeof(Node), insideNode.ToString());
+            case NodePool.OutSide:
+                OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
+                OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
+                return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
+            default:
+                return 0;
+        }
     }
 
     public void CreatePathWall()
@@ -157,7 +204,7 @@ public class NodeGenerator : MonoBehaviour
         {
             case "East":
                 // 위치 확인
-                NodeInfo eastNeighbor = MapManager.Instance.nodes.Find(n => 
+                NodeInfo eastNeighbor = MapManager.Instance.nodes.Find(n =>
                 Mathf.Approximately(n.transform.position.x, (x + 1) * nodeSpacing) &&
                 Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
                 // 있으면 확률판정 후에 기억, 패스노드 생성
@@ -213,7 +260,7 @@ public class NodeGenerator : MonoBehaviour
                 }
                 break;
             case "South":
-                NodeInfo southNeighbor = MapManager.Instance.nodes.Find(n => 
+                NodeInfo southNeighbor = MapManager.Instance.nodes.Find(n =>
                 Mathf.Approximately(n.transform.position.x, x * nodeSpacing) &&
                 Mathf.Approximately(n.transform.position.z, (y - 1) * nodeSpacing));
                 if (southNeighbor != null)
@@ -381,7 +428,7 @@ public class NodeGenerator : MonoBehaviour
     public void CheckBossNode(NodeInfo startNode)
     {
         MapManager.Instance.bossNode = startNode;
-        foreach(NodeInfo node in MapManager.Instance.nodes)
+        foreach (NodeInfo node in MapManager.Instance.nodes)
         {
             if (node.distance >= MapManager.Instance.bossNode.distance)
             {

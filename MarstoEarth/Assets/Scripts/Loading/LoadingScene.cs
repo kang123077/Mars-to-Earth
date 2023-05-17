@@ -5,20 +5,26 @@ using UnityEngine.UI;
 
 public class LoadingScene : MonoBehaviour
 {
-    public Image[] backGroundImage;
+    public System.Collections.Generic.List<Sprite> imgBackGround;
+    public Image bgi;
     public Slider progressBar;
     public TMPro.TMP_Text loadingText;
+    private System.Random random;
 
     private void Start()
     {
         StartCoroutine(LoadScene());
+        random = new System.Random();
+
+        int randomIndex = random.Next(0, imgBackGround.Count);
+        Sprite randomSprite = imgBackGround[randomIndex];
+        bgi.sprite = randomSprite;
     }
 
     IEnumerator LoadScene()
     {
         yield return null;
         AsyncOperation operation = SceneManager.LoadSceneAsync("InGameScene");
-        Debug.Log("InGameSceneLoad");
         // operation.isDone;   // 작업 완료 유무 boolean형 반환
         // operation.progress; // 진행 정도를 floa형 0, 1을 반환(0:진행중, 1:진행완)
         operation.allowSceneActivation = false; // true시 로딩 완료면 씬을 넘김 false면 progress가 0.9f에서 멈춤 true가 될 때까지 기다림
@@ -29,15 +35,17 @@ public class LoadingScene : MonoBehaviour
             if(progressBar.value < 0.9f)
             {
                 progressBar.value = Mathf.MoveTowards(progressBar.value, 0.9f, Time.deltaTime);
+                loadingText.text = "로딩 중..";
             }
             else if(operation.progress >= 0.9f)
             {
                 progressBar.value = Mathf.MoveTowards(progressBar.value, 1f, Time.deltaTime);
+                loadingText.text = "로딩 중.";
             }
 
             if (progressBar.value >= 1f)
             {
-                loadingText.text = "Press SpaceBar";
+                loadingText.text = "Spacebar를 누르세요!";
             }
 
             if(Input.GetKeyDown(KeyCode.Space) && progressBar.value >= 1f && operation.progress >= 0.9f)
