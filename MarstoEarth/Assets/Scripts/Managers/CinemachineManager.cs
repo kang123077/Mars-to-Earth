@@ -24,9 +24,10 @@ public class CinemachineManager : Singleton<CinemachineManager>
     private void Update()
     {
         follower.position = SpawnManager.Instance.player.camPoint.position;
-#if UNITY_ANDROID || UNITY_IOS || UNITY_EDITOR
 
-#elif UNITY_STANDALONE_WIN
+
+
+#if UNITY_STANDALONE_WIN
         curAngle.y += Input.GetAxis("Mouse X") * cameraSpeed * Time.deltaTime;
         follower.rotation = Quaternion.Euler(curAngle);
 
