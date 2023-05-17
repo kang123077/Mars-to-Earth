@@ -2469,9 +2469,11 @@ MonoBehaviour:
   dying: 0
   InputDir: {x: 0, y: 0, z: 0}
   camPoint: {fileID: 3434857689237907732}
+  isInsidePath: 0
   effects:
   - {fileID: 7889686971387219983}
   - {fileID: 7867731782484411030}
+  bulletSpeed: 0
 --- !u!54 &-652514758383695616
 Rigidbody:
   m_ObjectHideFlags: 0

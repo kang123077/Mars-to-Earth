@@ -110,16 +110,11 @@ namespace Character
         {
             base.Awake();
             patrolPoints = new Vector3[4];
-            for (int i = 0; i < patrolPoints.Length; i++)
-                patrolPoints[i] = thisCurTransform.position + trackingDirection[i] * (sightLength * 2);
-            
+      
             positions = new List<float>();
             trackingPermission = true;
             colliders = new Collider[1];
-            lastPosition = thisCurTransform.position;
-            patrolIdx = Random.Range(0, 4);
             
-            ai.SetDestination(patrolPoints[patrolIdx]);
             ai.stoppingDistance = range-1;
             StuckCheckCoroutine =StartCoroutine(StuckCheck());
             anim.keepAnimatorStateOnDisable=true; // 껏다켜져도 애니메이션이 작동하게 하는 프로퍼티
@@ -166,9 +161,14 @@ namespace Character
             target = null;
             hp = characterStat.maxHP;
             ai.enabled = true;
+            NavMeshHit hit;
+            for (int i = 0; i < trackingDirection.Length; i++)
+            {
+                NavMesh.SamplePosition(thisCurTransform.position + trackingDirection[i] * (sightLength * 2), 
+                    out hit, 1000f, NavMesh.AllAreas);
 
-            for (int i = 0; i < patrolPoints.Length; i++)
-                patrolPoints[i] = thisCurTransform.position + trackingDirection[i] * (sightLength * 2);
+                patrolPoints[i] = hit.position;
+            }
 
             lastPosition = thisCurTransform.position;
             patrolIdx = Random.Range(0, 4);
