@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
   m_Name: Gardian
   m_EditorClassIdentifier: 
-  description: 
+  description: "\uC790\uC2E0\uC744 \uAE30\uC900\uC73C\uB85C \uACF5\uC804\uD558\uB294
+    \uC138 \uD50C\uB77C\uC988\uB9C8 \uAD6C\uCCB4\uB97C \uC77C\uC815\uC2DC\uAC04 \uB3D9\uC548
+    \uC18C\uD658\uD55C\uB2E4."
   clipName: SPCEffect
   clipLayer: 2
   dmg: 5

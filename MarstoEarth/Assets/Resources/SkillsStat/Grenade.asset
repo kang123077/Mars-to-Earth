@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
   m_Name: Grenade
   m_EditorClassIdentifier: 
-  description: 
+  description: "\uD3ED\uBC1C\uD55C\uC790\uB9AC\uC5D0 \uC77C\uC815\uC2DC\uAC04 \uBD88\uAE38\uC744
+    \uB0A8\uAE30\uB294 \uC218\uB958\uD0C4\uC744 \uD22C\uCC99\uD55C\uB2E4. "
   clipName: TossGrenade
   clipLayer: 1
   dmg: 40

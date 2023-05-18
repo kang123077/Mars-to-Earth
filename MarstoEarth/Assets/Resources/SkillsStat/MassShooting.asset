@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
   m_Name: MassShooting
   m_EditorClassIdentifier: 
-  description: 
+  description: "\uC77C\uC815\uC2DC\uAC04\uB3D9\uC548 \uCD1D\uACA9\uC744 \uB09C\uC0AC\uD55C\uB2E4.
+    \uC7AC\uC2DC\uC804 \uD558\uBA74 \uB0A8\uC740 \uC9C0\uC18D\uC2DC\uAC04\uB9CC\uD07C
+    \uCFE8\uD0C0\uC784\uC744 \uAC10\uC18C \uC2DC\uD0A8\uB2E4."
   clipName: MassShooting
   clipLayer: 1
   dmg: 15

@@ -159,7 +159,7 @@ namespace Character
         {
             if(!dying)return;
             target = null;
-            hp = characterStat.maxHP;
+            hp = MaxHp;
             ai.enabled = true;
             NavMeshHit hit;
             for (int i = 0; i < trackingDirection.Length; i++)

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
   m_Name: Block
   m_EditorClassIdentifier: 
-  description: 
+  description: "\uC801\uC758 \uACF5\uACA9\uC744 \uC9E7\uC740\uC2DC\uAC04 \uB9C9\uC544\uB0B4\uBA70
+    \uC801\uC774 \uAC00\uAE4C\uC774 \uC788\uB2E4\uBA74 \uCE74\uC6B4\uD130 \uD55C\uB2E4."
   clipName: Block
   clipLayer: 2
   dmg: 35

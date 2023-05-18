@@ -54,6 +54,8 @@ namespace Character
         [HideInInspector] public float range;
         [HideInInspector] public float viewAngle;
         [HideInInspector] public float sightLength;
+        
+        public float bulletSpeed;
         private float _speed;
         public float speed
         {
@@ -70,10 +72,10 @@ namespace Character
             get => _hp;
             set
             {
-                if (value > characterStat.maxHP)
-                    value = characterStat.maxHP;
+                if (value > MaxHp)
+                    value = MaxHp;
                 _hp = value;
-                hpBar.value = hp / characterStat.maxHP;
+                hpBar.value = hp / MaxHp;
                 if (value <= 0)
                 {
                     SpawnManager.Instance.player.target=null;
@@ -81,6 +83,8 @@ namespace Character
                 }
             }
         }
+
+        public float MaxHp { get; set; }
 
         [HideInInspector] public int layerMask;
 
@@ -115,13 +119,14 @@ namespace Character
                 mainCam= Camera.main;
             thisCurTransform = transform;
             target = null;
+            
             nockBackResist = characterStat.maxHP * 0.05f;
             impact = Vector3.zero;
             dmg = characterStat.dmg;
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;
-            _hp = characterStat.maxHP;
+            _hp = MaxHp= characterStat.maxHP;
             range = characterStat.range;
             viewAngle = characterStat.viewAngle;
             sightLength = characterStat.sightLength;
