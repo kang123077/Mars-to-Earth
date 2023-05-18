@@ -53,13 +53,20 @@ public class MapManager : Singleton<MapManager>
             mapInfo.node_num = 4;
             mapInfo.cur_Stage = 1;
             mapInfo.cur_NodePool = NodePool.All;
+            mapInfo.isRetry = false;
         }
         else
         {
             // 2스테이지부터 더해지는 값
-            mapInfo.difficulty += 1;
-            mapInfo.node_num += 1;
-            mapInfo.cur_Stage += 1;
+            // retry아니어야 함
+            if (mapInfo.isRetry!)
+            {
+                mapInfo.difficulty += 1;
+                mapInfo.node_num += 1;
+                mapInfo.cur_Stage += 1;
+            }
+            // false로 초기화
+            mapInfo.isRetry = false;
         }
     }
 

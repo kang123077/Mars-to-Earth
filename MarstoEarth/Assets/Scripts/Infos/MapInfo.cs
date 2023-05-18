@@ -7,4 +7,5 @@ public class MapInfo : MonoBehaviour
     public int cur_Stage;
     public int node_num;
     public NodePool cur_NodePool;
+    public bool isRetry;
 }

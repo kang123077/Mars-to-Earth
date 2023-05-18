@@ -18,6 +18,7 @@ public class UIManager :Singleton<UIManager>
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
     public StageClearUIController stageClearUI;
+    public GameoverUIController gameoverUI;
     public TMP_InputField inputField;
     public RectTransform aimImage;
     public Transform muzzleTr;
@@ -28,11 +29,12 @@ public class UIManager :Singleton<UIManager>
         base.Awake();
         try
         {
-            stageClearUI.gameObject.SetActive(false);
+            // stageClearUI.gameObject.SetActive(false);
+            // gameoverUI.gameObject.SetActive(false);
         }
         catch (NullReferenceException)
         {
-            // 씬에 StageClearUI가 없거나 UIManager에 등록하지 않음
+            // 씬에 StageClearUI or GameoverUI가 없거나 UIManager에 등록하지 않음
         }
     }
 
@@ -102,7 +104,14 @@ public class UIManager :Singleton<UIManager>
 
     public void StageClear()
     {
+        Time.timeScale = 0f;
         stageClearUI.gameObject.SetActive(true);
+    }
+
+    public void Gameover()
+    {
+        Time.timeScale = 0f;
+        gameoverUI.gameObject.SetActive(true);
     }
 
     public void PopUIView()

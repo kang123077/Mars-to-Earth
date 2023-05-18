@@ -159,6 +159,10 @@ namespace Character
         // ReSharper disable Unity.PerformanceAnalysis
         protected virtual IEnumerator Die()
         {
+            if (gameObject.tag == "Player")
+            {
+                UIManager.Instance.Gameover();
+            }
             dying = true;
             hpBar.gameObject.SetActive(false);
             col.enabled = false;
