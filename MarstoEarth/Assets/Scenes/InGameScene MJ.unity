@@ -2081,10 +2081,10 @@ RectTransform:
   - {fileID: 398775554}
   - {fileID: 254642048}
   - {fileID: 1476263012}
+  - {fileID: 466141212}
   - {fileID: 616749747}
   - {fileID: 1686857713}
   - {fileID: 450594729}
-  - {fileID: 466141212}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3177,7 +3177,7 @@ RectTransform:
   - {fileID: 1754243210}
   - {fileID: 1459826429}
   m_Father: {fileID: 344494041}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3308,7 +3308,7 @@ RectTransform:
   - {fileID: 1535428898}
   - {fileID: 380308025}
   m_Father: {fileID: 344494041}
-  m_RootOrder: 6
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -4685,7 +4685,7 @@ RectTransform:
   - {fileID: 270498107}
   - {fileID: 172926314}
   m_Father: {fileID: 344494041}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8702,7 +8702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2812155bdb646f6439d2b45874a748eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearedRooms: 0
   cardUICon: {fileID: 1686857712}
   cardInfo: {fileID: 1686857714}
 --- !u!4 &1265708523
@@ -11264,7 +11263,7 @@ RectTransform:
   - {fileID: 119115372}
   - {fileID: 287344410}
   m_Father: {fileID: 344494041}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
