@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class OutGameManager : Singleton<OutGameManager>
 {
     public Image blinkImage;
+    public int recordClearRoom;
 
     protected override void Awake()
     {
@@ -28,9 +29,10 @@ public class OutGameManager : Singleton<OutGameManager>
 
     private void Update()
     {
-        if (Input.anyKey)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("LoadingScene");
+            recordClearRoom = InGameManager.clearedRooms + InGameManager.clearedBossRoom;
+
         }
     }
 }
