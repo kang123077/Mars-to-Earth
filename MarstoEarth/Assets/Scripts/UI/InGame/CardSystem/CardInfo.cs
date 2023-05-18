@@ -1,6 +1,5 @@
 using UnityEngine.UI;
 using UnityEngine;
-using System.Linq;
 using TMPro;
 
 public class CardInfo : MonoBehaviour
@@ -12,27 +11,35 @@ public class CardInfo : MonoBehaviour
     public TextMeshProUGUI cardRightText;
     [HideInInspector]public int randomIndexLeft;
     [HideInInspector]public int randomIndexRight;
+    private System.Random random;
 
     public void CardInit()
     {
+        // 랜덤.Next 사용 시 필요함
+        // range함수는 난수의 분포가 균등하지 않고 편향됨
+        random = new System.Random();
         // 랜덤한 스킬 아이콘 선택하기
-        randomIndexLeft = Random.Range(0, InGameManager.Instance.inGameSkill.Count);
-        randomIndexRight = Random.Range(0, InGameManager.Instance.inGameSkill.Count);
+        randomIndexLeft = random.Next(0, InGameManager.Instance.inGameSkill.Count);
+        randomIndexRight = random.Next(0, InGameManager.Instance.inGameSkill.Count);
         SkillIcon(randomIndexLeft, randomIndexRight);
         SkillDescription(randomIndexLeft, randomIndexRight);
     }
 
     public void CardReroll()
     {
+        // 랜덤.Next 사용 시 필요함
+        random = new System.Random();
         // 랜덤한 스킬 아이콘 선택하기
-        randomIndexLeft = Random.Range(0, InGameManager.Instance.inGameSkill.Count);
-        randomIndexRight = Random.Range(0, InGameManager.Instance.inGameSkill.Count);
+        randomIndexLeft = random.Next(0, InGameManager.Instance.inGameSkill.Count);
+        randomIndexRight = random.Next(0, InGameManager.Instance.inGameSkill.Count);
         SkillIcon(randomIndexLeft, randomIndexRight);
         SkillDescription(randomIndexLeft, randomIndexRight);
         AudioManager.Instance.PlayEffect(1);
+        // 카드 리롤 후 해당하는 리롤을 끔
         reroll.SetActive(false);
     }
 
+    // 스킬의 아이콘이 적용되는 함수
     public void SkillIcon(int leftIndex, int rightIndex)
     {
         Sprite randomSkillIconLeft = InGameManager.Instance.inGameSkill[leftIndex].skillInfo.icon;
@@ -50,6 +57,7 @@ public class CardInfo : MonoBehaviour
         cardSkillIconRight.sprite = randomSkillIconRight;
     }
 
+    // 스킬의 데스크립션이 적용되는 함수
     public void SkillDescription(int leftInfo, int rightInfo)
     {
         cardLeftText.text = InGameManager.Instance.inGameSkill[leftInfo].skillInfo.name + "\n\n" + InGameManager.Instance.inGameSkill[leftInfo].skillInfo.description;
