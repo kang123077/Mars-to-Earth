@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 public enum NodePool
 {
     All,
@@ -35,14 +36,15 @@ public class NodeGenerator : MonoBehaviour
     public float nodeSpacing;
     public Transform nodeParentTF;
     public Material bossMaterial;
-    void Start()
+
+    private void Awake()
     {
         nodeSpacing = 60f;
     }
+
     /// <summary>
     /// 깊이우선탐색 방식으로 작동하는 노드 생성 함수
     /// </summary>
-    /// <param name="mapInfo">함수 내에서 참조하기 위한 현재 생성중인 맵 정보</param>
     /// <param name="x">해당 노드의 x좌표 (음수 가능)</param>
     /// <param name="y">해당 노드의 y좌표 (음수 가능)</param>
     /// <param name="distance">부모 노드로부터의 거리, DFS의 depth</param>
@@ -353,8 +355,7 @@ public class NodeGenerator : MonoBehaviour
     bool ProbabilityBasedOnDistance(int distance)
     {
         // Calculate the probability using an inverse linear function
-        float maxDistance = 4f;
-        float probability = 1.0f - (distance / maxDistance);
+        float probability = 1.0f - (distance / MapInfo.maxDistance);
 
         // Generate a random value between 0 and 1
         float randomValue = Random.Range(0.0f, 1.0f);
@@ -370,26 +371,6 @@ public class NodeGenerator : MonoBehaviour
             // Return false if the random value is greater than the probability
             return false;
         }
-    }
-
-    public void RotateAllNodes()
-    {
-        /*
-        foreach(NodeInfo node in MapManager.nodes)
-        {
-            GameObject temp = node.gameObject;
-            temp.transform.RotateAround(Vector3.zero, Vector3.up, 45);
-        }
-        foreach (GameObject path in MapManager.paths)
-        {
-            path.transform.RotateAround(Vector3.zero, Vector3.up, 45);
-        }
-        foreach (GameObject wall in MapManager.walls)
-        {
-            wall.transform.RotateAround(Vector3.zero, Vector3.up, 45);
-        }
-        */
-        // nodeParentTF.RotateAround(Vector3.zero, Vector3.up, 45);
     }
 
     public int GetRoomNumber(int distance)
@@ -438,48 +419,4 @@ public class NodeGenerator : MonoBehaviour
         MapManager.Instance.bossNode.isBossNode = true;
         // MapManager.Instance.bossNode.transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = bossMaterial;
     }
-
-    /*
-    // 배정 된 방향 && 노드 갯수 확인
-    if (east == 1 && nodes.Count <= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
-    {
-        // 예상 위치
-        NodeInfo eastNeighbor = nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x + 1) * nodeSpacing)
-                                            && Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
-        if (eastNeighbor != null)
-            nodeInfo.east = eastNeighbor;
-        else
-            nodeInfo.east = GenerateNodes(mapInfo, x + 1, y, distance + 1);
-    }
-    if (west == 1 && nodes.Count <= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
-    {
-        // 예상 위치
-        NodeInfo westNeighbor = nodes.Find(n => Mathf.Approximately(n.transform.position.x, (x - 1) * nodeSpacing)
-                                            && Mathf.Approximately(n.transform.position.z, y * nodeSpacing));
-        if (westNeighbor != null)
-            nodeInfo.west = westNeighbor;
-        else
-            nodeInfo.west = GenerateNodes(mapInfo, x - 1, y, distance + 1);
-    }
-    if (south == 1 && nodes.Count <= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
-    {
-        // 예상 위치
-        NodeInfo southNeighbor = nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
-                                            && Mathf.Approximately(n.transform.position.z, (y - 1) * nodeSpacing));
-        if (southNeighbor != null)
-            nodeInfo.south = southNeighbor;
-        else
-            nodeInfo.south = GenerateNodes(mapInfo, x, y - 1, distance + 1);
-    }
-    if (north == 1 && nodes.Count <= mapInfo.cur_Dungeon.stageInfo[mapInfo.cur_Dungeon.curStage].roomNumber)
-    {
-        // 예상 위치
-        NodeInfo northNeighbor = nodes.Find(n => Mathf.Approximately(n.transform.position.x, x * nodeSpacing)
-                                            && Mathf.Approximately(n.transform.position.z, (y + 1) * nodeSpacing));
-        if (northNeighbor != null)
-            nodeInfo.north = northNeighbor;
-        else
-            nodeInfo.north = GenerateNodes(mapInfo, x, y + 1, distance + 1);
-    }
-    */
 }

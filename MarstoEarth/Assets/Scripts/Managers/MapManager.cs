@@ -47,21 +47,27 @@ public class MapManager : Singleton<MapManager>
         {
             // 2스테이지부터 더해지는 값
             // retry아니어야 함
-            Debug.Log(MapInfo.isRetry);
-            Debug.Log(MapInfo.isRetry!);
             if (MapInfo.isRetry == false)
             {
                 MapInfo.difficulty += 1;
                 MapInfo.node_num += 1;
+                MapInfo.maxDistance += 0.125f;
+                MapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
             }
             // false로 초기화
             MapInfo.isRetry = false;
+        }
+        else
+        {
+            //cur_Stage == 0 일때 한정 초기화
+            MapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
         }
         // MapManager의 Awake시 항상 Stage++
         MapInfo.cur_Stage++;
         Debug.Log("MapInfo.difficulty = " + MapInfo.difficulty);
         Debug.Log("MapInfo.cur_Stage = " + MapInfo.cur_Stage);
         Debug.Log("MapInfo.node_num = " + MapInfo.node_num);
+        Debug.Log("MapInfo.seed_Number = " + MapInfo.seed_Number);
     }
 
     public void ChangeSeedNumber(string seedNumber)
@@ -129,8 +135,7 @@ public class MapManager : Singleton<MapManager>
 
     public void GenerateNewSeed()
     {
-        MapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
-        Debug.Log("MapInfo.seed_Number = " + MapInfo.seed_Number);
+        // Genearate하진않고 그냥 UI에 반영함
         try
         {
             inputField.text = MapInfo.seed_Number.ToString();

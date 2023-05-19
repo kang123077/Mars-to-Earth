@@ -11,10 +11,10 @@ public enum UIType
     Setting,
 }
 
-public class UIManager :Singleton<UIManager>
+public class UIManager : Singleton<UIManager>
 {
     public UI[] UIs;
-   
+
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
     public StageClearUIController stageClearUI;
@@ -59,11 +59,11 @@ public class UIManager :Singleton<UIManager>
             }
             else if (UIs[(int)UIType.Setting].gameObject.activeSelf == true)
             {
-                if(UIs[(int)UIType.Card].gameObject.activeSelf == true)
+                if (UIs[(int)UIType.Card].gameObject.activeSelf == true)
                 {
                     Time.timeScale = 0f;
                 }
-                else if(UIs[(int)UIType.Card].gameObject.activeSelf != true)
+                else if (UIs[(int)UIType.Card].gameObject.activeSelf != true)
                 {
                     AudioManager.Instance.UnPauseSorce();
                     Time.timeScale = 1f;
@@ -73,12 +73,12 @@ public class UIManager :Singleton<UIManager>
             }
         }
 
-        if(CinemachineManager.Instance.playerCam.gameObject.activeSelf == true)
+        if (CinemachineManager.Instance.playerCam.gameObject.activeSelf == true)
         {
             muzzleTr = SpawnManager.Instance.player.muzzle.transform;
             aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(muzzleTr.position);
         }
-        else if(CinemachineManager.Instance.bossCam.gameObject.activeSelf == true)
+        else if (CinemachineManager.Instance.bossCam.gameObject.activeSelf == true)
         {
             if (CinemachineManager.Instance.bossCam.LookAt != null)
             {
@@ -125,7 +125,6 @@ public class UIManager :Singleton<UIManager>
 
     public void RequestChangeSeedNumber()
     {
-        // MapManager를 동적으로 찾아야하기에 제작
         // MapSeedNum UI에서 사용
         MapManager.Instance.ChangeSeedNumber(inputField.text);
     }
