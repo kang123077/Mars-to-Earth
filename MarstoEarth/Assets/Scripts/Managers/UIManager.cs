@@ -11,13 +11,14 @@ public enum UIType
     Setting,
 }
 
-public class UIManager :Singleton<UIManager>
+public class UIManager : Singleton<UIManager>
 {
     public UI[] UIs;
-   
+
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
     public StageClearUIController stageClearUI;
+    public GameoverUIController gameoverUI;
     public TMP_InputField inputField;
     public RectTransform aimImage;
     public Transform muzzleTr;
@@ -28,11 +29,12 @@ public class UIManager :Singleton<UIManager>
         base.Awake();
         try
         {
-            stageClearUI.gameObject.SetActive(false);
+            // stageClearUI.gameObject.SetActive(false);
+            // gameoverUI.gameObject.SetActive(false);
         }
         catch (NullReferenceException)
         {
-            // 씬에 StageClearUI가 없거나 UIManager에 등록하지 않음
+            // 씬에 StageClearUI or GameoverUI가 없거나 UIManager에 등록하지 않음
         }
     }
 
@@ -57,11 +59,11 @@ public class UIManager :Singleton<UIManager>
             }
             else if (UIs[(int)UIType.Setting].gameObject.activeSelf == true)
             {
-                if(UIs[(int)UIType.Card].gameObject.activeSelf == true)
+                if (UIs[(int)UIType.Card].gameObject.activeSelf == true)
                 {
                     Time.timeScale = 0f;
                 }
-                else if(UIs[(int)UIType.Card].gameObject.activeSelf != true)
+                else if (UIs[(int)UIType.Card].gameObject.activeSelf != true)
                 {
                     AudioManager.Instance.UnPauseSorce();
                     Time.timeScale = 1f;
@@ -107,7 +109,14 @@ public class UIManager :Singleton<UIManager>
 
     public void StageClear()
     {
+        Time.timeScale = 0f;
         stageClearUI.gameObject.SetActive(true);
+    }
+
+    public void Gameover()
+    {
+        Time.timeScale = 0f;
+        gameoverUI.gameObject.SetActive(true);
     }
 
     public void PopUIView()
@@ -121,7 +130,6 @@ public class UIManager :Singleton<UIManager>
 
     public void RequestChangeSeedNumber()
     {
-        // MapManager를 동적으로 찾아야하기에 제작
         // MapSeedNum UI에서 사용
         MapManager.Instance.ChangeSeedNumber(inputField.text);
     }
