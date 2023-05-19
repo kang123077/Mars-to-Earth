@@ -10,7 +10,7 @@ namespace Character
         private float blockEleapse;
         //private Skill.SPC parring;
         //public TrailRenderer swordPath;
-    
+
         protected override void Start()
         {
             base.Start();
@@ -69,7 +69,7 @@ namespace Character
                 if (targetDistance <= sightLength * 1f)
                 {
                     if (targetDistance <= range + 0.5f)
-                         isAttacking = true;
+                        isAttacking = true;
                 }
                 else
                     target = null;
@@ -81,7 +81,7 @@ namespace Character
                 if (size > 0)
                 {
                     float angle = Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
-                        
+
                     if ((angle < 0 ? -angle : angle) < viewAngle ||
                         Vector3.Distance(colliders[0].transform.position, thisCurTransform.position) <
                         sightLength * 0.4f)

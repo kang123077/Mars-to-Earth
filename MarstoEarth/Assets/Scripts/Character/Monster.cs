@@ -91,7 +91,6 @@ namespace Character
                         do randIdx = Random.Range(0, 4);
                         while (patrolIdx == randIdx);
                         patrolIdx = randIdx;
-                        Debug.Log("patrollidx="+patrolIdx);
                         positions.Clear();
                         travelDistance = 0;
                         ai.SetDestination(patrolPoints[patrolIdx]);

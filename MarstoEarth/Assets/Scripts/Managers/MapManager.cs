@@ -64,10 +64,6 @@ public class MapManager : Singleton<MapManager>
         }
         // MapManager의 Awake시 항상 Stage++
         MapInfo.cur_Stage++;
-        Debug.Log("MapInfo.difficulty = " + MapInfo.difficulty);
-        Debug.Log("MapInfo.cur_Stage = " + MapInfo.cur_Stage);
-        Debug.Log("MapInfo.node_num = " + MapInfo.node_num);
-        Debug.Log("MapInfo.seed_Number = " + MapInfo.seed_Number);
     }
 
     public void ChangeSeedNumber(string seedNumber)
