@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class InGameManager : Singleton<InGameManager>
 {
-    public int clearedRooms = 0; // 클리어한 룸 수를 저장하는 변수
+    public static int clearedRooms = 0; // 클리어한 룸 수를 저장하는 변수
+    public static int clearedBossRoom = 0;
     public GameObject cardUICon;
     public CardInfo cardInfo;
     public List<Skill.Skill> inGameSkill;
@@ -12,19 +13,19 @@ public class InGameManager : Singleton<InGameManager>
     protected override void Awake()
     {
         base.Awake();
-
+        // 스킬들을 리스트로 만듦
         inGameSkill = ResourceManager.Instance.skills.ToList();
     }
 
     private void Start()
     {
+        // CardUI 부모 객체를 끔
         cardUICon.SetActive(false);
         InitInGame();
     }
 
     private void TriggerEvent()
     {
-        clearedRooms = 0;
         Time.timeScale = 0f;
         AudioManager.Instance.PlayEffect(1);
         AudioManager.Instance.PauseSource();
@@ -41,10 +42,16 @@ public class InGameManager : Singleton<InGameManager>
     public void OnRoomCleared()
     {
         clearedRooms++;
-        if (clearedRooms >= 1) // 2 개의 방을 클리어했을 때
+        if (clearedRooms % 2 == 0) // 2 개의 방을 클리어했을 때
         {
             TriggerEvent();
         }
+    }
+
+    public void OnBossCleared()
+    {
+        clearedBossRoom++;
+        TriggerEvent();
     }
 
     public void InitInGame()
