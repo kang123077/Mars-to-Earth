@@ -91,7 +91,6 @@ namespace Character
                         do randIdx = Random.Range(0, 4);
                         while (patrolIdx == randIdx);
                         patrolIdx = randIdx;
-                        Debug.Log("patrollidx="+patrolIdx);
                         positions.Clear();
                         travelDistance = 0;
                         ai.SetDestination(patrolPoints[patrolIdx]);
@@ -159,7 +158,7 @@ namespace Character
         {
             if(!dying)return;
             target = null;
-            hp = characterStat.maxHP;
+            hp = MaxHp;
             ai.enabled = true;
             NavMeshHit hit;
             for (int i = 0; i < trackingDirection.Length; i++)

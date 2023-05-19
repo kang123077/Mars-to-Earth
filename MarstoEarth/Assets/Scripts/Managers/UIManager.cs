@@ -11,13 +11,14 @@ public enum UIType
     Setting,
 }
 
-public class UIManager :Singleton<UIManager>
+public class UIManager : Singleton<UIManager>
 {
     public UI[] UIs;
-   
+
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
     public StageClearUIController stageClearUI;
+    public GameoverUIController gameoverUI;
     public TMP_InputField inputField;
     public RectTransform aimImage;
     public Transform muzzleTr;
@@ -28,11 +29,12 @@ public class UIManager :Singleton<UIManager>
         base.Awake();
         try
         {
-            stageClearUI.gameObject.SetActive(false);
+            // stageClearUI.gameObject.SetActive(false);
+            // gameoverUI.gameObject.SetActive(false);
         }
         catch (NullReferenceException)
         {
-            // 씬에 StageClearUI가 없거나 UIManager에 등록하지 않음
+            // 씬에 StageClearUI or GameoverUI가 없거나 UIManager에 등록하지 않음
         }
     }
 
@@ -44,7 +46,7 @@ public class UIManager :Singleton<UIManager>
 
     private void Update()
     {
-        // Time.timeScale = 0f일 때 소리를 끄게끔
+        // Esc 버튼 클릭 시 소리를 끄고 Setting UI를 활성화
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             AudioManager.Instance.PlayEffect(1);
@@ -57,11 +59,11 @@ public class UIManager :Singleton<UIManager>
             }
             else if (UIs[(int)UIType.Setting].gameObject.activeSelf == true)
             {
-                if(UIs[(int)UIType.Card].gameObject.activeSelf == true)
+                if (UIs[(int)UIType.Card].gameObject.activeSelf == true)
                 {
                     Time.timeScale = 0f;
                 }
-                else if(UIs[(int)UIType.Card].gameObject.activeSelf != true)
+                else if (UIs[(int)UIType.Card].gameObject.activeSelf != true)
                 {
                     AudioManager.Instance.UnPauseSorce();
                     Time.timeScale = 1f;
@@ -71,18 +73,23 @@ public class UIManager :Singleton<UIManager>
             }
         }
 
-        if(CinemachineManager.Instance.playerCam.gameObject.activeSelf == true)
+        // 시네 카메라 활성화에 따른 위치값을 받음 anchorMin과 anchorMax에 해당하는 위치를 저장해 어느 해상도에도 반응이 되게 설정함
+        if (CinemachineManager.Instance.playerCam.gameObject.activeSelf)
         {
             muzzleTr = SpawnManager.Instance.player.muzzle.transform;
-            aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(muzzleTr.position);
+            Vector2 viewportPos = Camera.main.WorldToViewportPoint(muzzleTr.position);
+            aimImage.anchorMin = viewportPos;
+            aimImage.anchorMax = viewportPos;
         }
-        else if(CinemachineManager.Instance.bossCam.gameObject.activeSelf == true)
+        else if (CinemachineManager.Instance.bossCam.gameObject.activeSelf)
         {
             if (CinemachineManager.Instance.bossCam.LookAt != null)
             {
                 lookAtTr = CinemachineManager.Instance.bossCam.LookAt.transform;
-                aimImage.localScale = new Vector3(1.2f, 1.2f);
-                aimImage.anchoredPosition = Camera.main.WorldToScreenPoint(lookAtTr.position) + new Vector3(0f, 100f);
+                Vector2 viewportPos = Camera.main.WorldToViewportPoint(lookAtTr.position) + new Vector3(0f, 0.1f);
+                aimImage.anchorMin = viewportPos;
+                aimImage.anchorMax = viewportPos;
+                aimImage.localScale = new Vector3(1.3f, 1.3f);
             }
         }
     }
@@ -102,7 +109,14 @@ public class UIManager :Singleton<UIManager>
 
     public void StageClear()
     {
+        Time.timeScale = 0f;
         stageClearUI.gameObject.SetActive(true);
+    }
+
+    public void Gameover()
+    {
+        Time.timeScale = 0f;
+        gameoverUI.gameObject.SetActive(true);
     }
 
     public void PopUIView()
@@ -116,7 +130,6 @@ public class UIManager :Singleton<UIManager>
 
     public void RequestChangeSeedNumber()
     {
-        // MapManager를 동적으로 찾아야하기에 제작
         // MapSeedNum UI에서 사용
         MapManager.Instance.ChangeSeedNumber(inputField.text);
     }

@@ -38,9 +38,8 @@ namespace Skill
 
         public override void Effect()
         {
-            Debug.Log("target=" + caster.target);
             SpawnManager.Instance.Launch(caster.transform.position+Vector3.up, caster.target ?
-                    caster.target.position : caster.transform.position + caster.transform.forward * caster.range,
+                    caster.target.position : caster.transform.forward * (12+ caster.range*0.5f),
                     skillInfo.dmg + caster.dmg * 0.5f, skillInfo.duration + caster.duration, skillInfo.speed + caster.speed,
                     skillInfo.range + caster.range * 0.5f, ref projectileInfo);
         }

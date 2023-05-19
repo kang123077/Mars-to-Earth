@@ -85,7 +85,6 @@ namespace Character
 
         public ParticleSystem[] effects;
 
-        public float bulletSpeed;
 
         protected override void Awake()
         {
@@ -103,8 +102,7 @@ namespace Character
             base.Start();
             //테스트용
 #if UNITY_EDITOR
-            
-            Debug.Log("Unity Editor");
+
 
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Grenade]);
@@ -154,7 +152,7 @@ namespace Character
 
             if (!stun && hitScreenAlphaValue > 0)
             {
-                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / characterStat.maxHP);
+                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / MaxHp);
                 hitScreenColor.a = hitScreenAlphaValue;
                 hitScreen.color = hitScreenColor;
             }
@@ -167,14 +165,14 @@ namespace Character
                 return;
             Vector3 position = thisCurTransform.position;
 
-            #if UNITY_ANDROID||UNITY_IOS
+#if UNITY_ANDROID || UNITY_IOS
             
-            #elif UNITY_STANDALONE_WIN
-            
-                xInput = Input.GetAxis("Horizontal");
-                zInput = Input.GetAxis("Vertical");
-            
-            #endif
+#elif UNITY_STANDALONE_WIN
+
+            xInput = Input.GetAxis("Horizontal");
+            zInput = Input.GetAxis("Vertical");
+
+#endif
             InputDir = new Vector3(xInput, 0, zInput);
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
@@ -230,12 +228,12 @@ namespace Character
                 anim.SetFloat(X, lowerDir.x);
                 anim.SetFloat(Z, lowerDir.z);
             }
-           
+
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
 
-#endregion
-#region Targeting
+            #endregion
+            #region Targeting
 
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
@@ -290,11 +288,11 @@ namespace Character
                 Vector3.RotateTowards(thisCurTransform.forward,
                     isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
 
-#endregion
+            #endregion
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
                     combatUI.ClickSkill(i);
-#region Test
+            #region Test
 #if UNITY_EDITOR
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -354,7 +352,7 @@ namespace Character
 
 
 #endif
-#endregion
+            #endregion
         }
 
         protected override void Attacked()
@@ -373,7 +371,7 @@ namespace Character
         {
             if (!base.Hited(attacker, dmg, penetrate)) return false;
             if (!(hitScreenAlphaValue < 0.8f)) return true;
-            hitScreenAlphaValue += dmg * 3 * (1 / characterStat.maxHP);
+            hitScreenAlphaValue += dmg * 3 * (1 / MaxHp);
             hitScreenColor.a = hitScreenAlphaValue;
             hitScreen.color = hitScreenColor;
             return true;

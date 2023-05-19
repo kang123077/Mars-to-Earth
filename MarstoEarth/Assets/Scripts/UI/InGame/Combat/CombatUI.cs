@@ -45,7 +45,7 @@ public class CombatUI : UI
             return copyPrefab;
         }, actionOnRelease: (dt) => dt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
 
-#if UNITY_ANDROID || UNITY_IOS 
+#if UNITY_ANDROID || UNITY_IOS
         PCMO[0].SetActive(false);
         PCMO[1].SetActive(true);
         playerHP = mplayerHP;
@@ -55,8 +55,8 @@ public class CombatUI : UI
 
 
 #else
-            PCMO[0].SetActive(true);
-            PCMO[1].SetActive(false);
+        PCMO[0].SetActive(true);
+        PCMO[1].SetActive(false);
 #endif
     }
 
@@ -87,7 +87,7 @@ public class CombatUI : UI
         }
     }
 
-#if  UNITY_ANDROID || UNITY_IOS
+#if  UNITY_ANDROID || UNITY_IOS 
     int MovingPadId = -1;
     int sightId = -1;
     float lastInputTime;
@@ -95,8 +95,6 @@ public class CombatUI : UI
 
     private void Update()
     {
-
-     
         if (Input.touchCount > 0)
         {           
             foreach (var touch in Input.touches)
@@ -105,11 +103,11 @@ public class CombatUI : UI
                 {                    
                     if (RectTransformUtility.RectangleContainsScreenPoint(Shot,touch.position))
                     {
-                        Debug.Log("사격");
+                        SpawnManager.Instance.player.Attacken();
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                     {
-                        Debug.Log("퍼즈");
+                        UIManager.Instance.UIs[(int)UIType.Setting].gameObject.SetActive(true);
                     }
                     else if (touch.position.x< Screen.width*0.3f)
                     {

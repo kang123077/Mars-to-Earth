@@ -16,7 +16,7 @@ namespace Character
         public StatInfo characterStat;
         [SerializeField] public Animator anim;
         [SerializeField] protected Collider col;
-        
+
         protected Camera mainCam;
         protected UnityEngine.UI.Slider hpBar;
         protected static CombatUI combatUI;
@@ -36,10 +36,10 @@ namespace Character
                 _target = value;
             }
         }
-        
+
         [HideInInspector] public Character targetCharacter;
         [HideInInspector] public Collider[] colliders;
-        private float nockBackResist ;
+        private float nockBackResist;
 
         public Transform muzzle;
         public Transform handguard;
@@ -54,6 +54,8 @@ namespace Character
         [HideInInspector] public float range;
         [HideInInspector] public float viewAngle;
         [HideInInspector] public float sightLength;
+
+        public float bulletSpeed;
         private float _speed;
         public float speed
         {
@@ -70,24 +72,26 @@ namespace Character
             get => _hp;
             set
             {
-                if (value > characterStat.maxHP)
-                    value = characterStat.maxHP;
+                if (value > MaxHp)
+                    value = MaxHp;
                 _hp = value;
-                hpBar.value = hp / characterStat.maxHP;
+                hpBar.value = hp / MaxHp;
                 if (value <= 0)
                 {
-                    SpawnManager.Instance.player.target=null;
+                    SpawnManager.Instance.player.target = null;
                     StartCoroutine(Die());
                 }
             }
         }
+
+        public float MaxHp { get; set; }
 
         [HideInInspector] public int layerMask;
 
         protected List<Skill.SPC> Buffs;
         protected Projectile.ProjectileInfo projectileInfo;
 
-        public Func<Vector3,float,float,bool> Hit;
+        public Func<Vector3, float, float, bool> Hit;
         public Action Attacken;
         protected int buffElementIdx;
         protected bool _stun;
@@ -103,7 +107,7 @@ namespace Character
                 }
                 else
                     anim.SetBool(onTarget, target);
-                _stun= value;
+                _stun = value;
             }
         }
         [HideInInspector] public bool immune;
@@ -111,27 +115,28 @@ namespace Character
 
         protected virtual void Awake()
         {
-            if(!mainCam)
-                mainCam= Camera.main;
+            if (!mainCam)
+                mainCam = Camera.main;
             thisCurTransform = transform;
             target = null;
+
             nockBackResist = characterStat.maxHP * 0.05f;
             impact = Vector3.zero;
             dmg = characterStat.dmg;
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;
-            _hp = characterStat.maxHP;
+            _hp = MaxHp = characterStat.maxHP;
             range = characterStat.range;
             viewAngle = characterStat.viewAngle;
             sightLength = characterStat.sightLength;
             onSkill = null;
-            
+
             Buffs = new List<Skill.SPC>();
-            layerMask = (1 << 3 | 1 << 6 ) ^ 1 << gameObject.layer;
+            layerMask = (1 << 3 | 1 << 6) ^ 1 << gameObject.layer;
 
             anim.SetFloat(animSpeed, 1 + speed * 0.05f);
-            
+
             Hit = Hited;
             Attacken = Attacked;
 
@@ -139,12 +144,12 @@ namespace Character
         }
 
         protected virtual void Start()
-        {            
-            projectileInfo = new Projectile.ProjectileInfo(layerMask,ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
-                Projectile.Type.Bullet,null);
-            
+        {
+            projectileInfo = new Projectile.ProjectileInfo(layerMask, ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
+                Projectile.Type.Bullet, null);
+
             combatUI = (CombatUI)UIManager.Instance.UIs[(int)UIType.Combat];
-           
+
         }
 
         private void Attack()
@@ -155,19 +160,23 @@ namespace Character
         }
 
         protected abstract void Attacked();
-        
+
         // ReSharper disable Unity.PerformanceAnalysis
         protected virtual IEnumerator Die()
         {
+            if (gameObject.tag == "Player")
+            {
+                UIManager.Instance.Gameover();
+            }
             dying = true;
             hpBar.gameObject.SetActive(false);
             col.enabled = false;
             Buffs.Clear();
-            anim.Play($"Die",2,0);
-            anim.SetLayerWeight(2,1);
+            anim.Play($"Die", 2, 0);
+            anim.SetLayerWeight(2, 1);
             yield return new WaitForSeconds(3);
-            
-            if(this is Monster)
+
+            if (this is Monster)
                 SpawnManager.Instance.ReleaseMonster((Monster)this);
             else
                 Destroy(gameObject);
@@ -184,7 +193,7 @@ namespace Character
             if (dying)
                 return false;
 
-            for (buffElementIdx=0; buffElementIdx < Buffs.Count; buffElementIdx++)
+            for (buffElementIdx = 0; buffElementIdx < Buffs.Count; buffElementIdx++)
             {
                 Buffs[buffElementIdx].Activation(this);
             }
@@ -192,16 +201,16 @@ namespace Character
             SPCActionWeight =
                 Mathf.Clamp(
                     SPCActionWeight += Time.deltaTime * (onSkill && onSkill.skillInfo.clipLayer == 2 ? 3 : -2), 0, 1);
-            
+
             anim.SetLayerWeight(2, SPCActionWeight);
             return true;
         }
-        protected internal virtual bool Hited(Vector3 attacker, float dmg,float penetrate=0)
+        protected internal virtual bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
         {
             if (dying)
                 return false;
             DamageText dt = combatUI.DMGTextPool.Get();
-            dt.transform.position = thisCurTransform.position+Vector3.up;
+            dt.transform.position = thisCurTransform.position + Vector3.up;
             dt.gameObject.SetActive(true);
             if (immune)
             {
@@ -209,56 +218,56 @@ namespace Character
                 return false;
             }
             float penetratedDef = def * (100 - penetrate) * 0.01f;
-            dmg= dmg - penetratedDef<=0?0:dmg - penetratedDef;
+            dmg = dmg - penetratedDef <= 0 ? 0 : dmg - penetratedDef;
             hp -= dmg;
             dt.text.text = $"{(int)dmg}";
-            
-                
+
+
             Vector3 horizonPosition = thisCurTransform.position;
             attacker.y = horizonPosition.y;
-            impact += (horizonPosition - attacker).normalized*(dmg*(1/nockBackResist));
-            
+            impact += (horizonPosition - attacker).normalized * (dmg * (1 / nockBackResist));
+
             return !dying;
         }
 
         public virtual bool AddBuff(Skill.SPC buff)
         {
-           
-            Skill.SPC findBuff = Buffs.Find((el) =>ReferenceEquals(el.icon, buff.icon));
-                       
+
+            Skill.SPC findBuff = Buffs.Find((el) => ReferenceEquals(el.icon, buff.icon));
+
             if (findBuff is null)
             {
                 buff.Apply?.Invoke(this);
                 Buffs.Add(buff);
             }
             else if (findBuff.currentTime < buff.duration)
-                findBuff.Init(buff.duration);               
-            
+                findBuff.Init(buff.duration);
+
 
             return findBuff is null;
         }
         // ReSharper disable Unity.PerformanceAnalysis
         public virtual int RemoveBuff(Skill.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
-        {           
+        {
             buff.Remove?.Invoke(this);
-            int findIndex = Buffs.FindIndex((el)=>el==buff);
+            int findIndex = Buffs.FindIndex((el) => el == buff);
             Buffs.RemoveAt(findIndex);
             return findIndex;
         }
         public void PlaySkillClip(Skill.Skill skill)
         {
             onSkill = skill;
-            anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer,0);            
+            anim.Play(skill.skillInfo.clipName, skill.skillInfo.clipLayer, 0);
         }
         public void SkillEffect()
         {
-            if (!dying&& onSkill is not null)
+            if (!dying && onSkill is not null)
             {
                 onSkill.Effect();
                 onSkill = null;
             }
         }
 
-       
+
     }
 }

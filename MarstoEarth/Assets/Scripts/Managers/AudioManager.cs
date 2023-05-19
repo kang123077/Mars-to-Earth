@@ -63,7 +63,7 @@ public class AudioManager : Singleton<AudioManager>
         effectAudioSource.loop = false;
         effectAudioSource.volume = 1f;
         effectAudioSource.spatialize = false;
-
+        
         // 플레이 중인 오디오 소스의 리스트를 초기화 함
         playingSource = new List<AudioSource>();
     }

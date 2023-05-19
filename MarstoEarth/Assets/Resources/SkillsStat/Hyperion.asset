@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
   m_Name: Hyperion
   m_EditorClassIdentifier: 
-  description: 
+  description: "\uC77C\uC815\uC2DC\uAC04\uB3D9\uC548 \uBBF8\uC0AC\uC77C\uC744 \uD22C\uD558\uD558\uB294
+    \uACF5\uC2B5 \uD56D\uACF5\uAE30\uB97C \uBD88\uB7EC\uB4E4\uC778\uB2E4. \uD56D\uACF5\uAE30\uB294
+    \uB290\uB9B0\uC18D\uB3C4\uB85C \uC804\uC9C4\uD55C\uB2E4."
   clipName: CastSpell
   clipLayer: 1
   dmg: 25

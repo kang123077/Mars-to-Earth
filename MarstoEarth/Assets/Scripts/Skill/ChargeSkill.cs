@@ -75,7 +75,7 @@ namespace Skill
                     effects[i].Play();
                 AudioManager.Instance.PlayEffect((int)CombatEffectClip.missile,caster.weapon);
                 SpawnManager.Instance.Launch(caster.muzzle.position, caster.muzzle.forward, 0, 2,
-                    skillInfo.speed + caster.speed * 2,
+                    caster.bulletSpeed,
                     skillInfo.range * 0.5f, ref chargeProjectileInfo);
 
                 caster.impact -= (skillInfo.dmg + caster.dmg * 0.5f) * 0.1f * caster.muzzle.forward;

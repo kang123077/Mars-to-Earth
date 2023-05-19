@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
   m_Name: Boomerang
   m_EditorClassIdentifier: 
-  description: 
+  description: "\uC804\uBC29\uC744\uD5A5\uD574 \uB418\uB3CC\uC544\uC624\uB294 \uD50C\uB77C\uC988\uB9C8
+    \uAD6C\uCCB4\uB97C \uB358\uC9C4\uB2E4.  \uB418\uB3CC\uC544\uC624\uAE30\uC804
+    \uB2E4\uC2DC \uC0AC\uC6A9\uD558\uBA74 \uD50C\uB77C\uC988\uB9C8 \uAD6C\uCCB4\uB97C
+    \uD3ED\uBC1C\uC2DC\uCF1C \uD53C\uD574\uB97C\uC900\uB2E4."
   clipName: Throw
   clipLayer: 1
   dmg: 25

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
   m_Name: Charge
   m_EditorClassIdentifier: 
-  description: 
+  description: "\uC77C\uBC18\uACF5\uACA9\uC2DC \uBAA9\uD45C\uBB3C\uC5D0 \uB9DE\uC73C\uBA74
+    \uD3ED\uBC1C\uD558\uB294 \uC720\uD0C4\uC744 \uC7A5\uC804\uD55C\uB2E4. "
   clipName: Reload
   clipLayer: 1
   dmg: 25
