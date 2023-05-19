@@ -85,7 +85,6 @@ namespace Character
 
         public ParticleSystem[] effects;
 
-        public float bulletSpeed;
 
         protected override void Awake()
         {
@@ -154,7 +153,7 @@ namespace Character
 
             if (!stun && hitScreenAlphaValue > 0)
             {
-                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / characterStat.maxHP);
+                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / MaxHp);
                 hitScreenColor.a = hitScreenAlphaValue;
                 hitScreen.color = hitScreenColor;
             }
@@ -373,7 +372,7 @@ namespace Character
         {
             if (!base.Hited(attacker, dmg, penetrate)) return false;
             if (!(hitScreenAlphaValue < 0.8f)) return true;
-            hitScreenAlphaValue += dmg * 3 * (1 / characterStat.maxHP);
+            hitScreenAlphaValue += dmg * 3 * (1 / MaxHp);
             hitScreenColor.a = hitScreenAlphaValue;
             hitScreen.color = hitScreenColor;
             return true;

@@ -23,14 +23,14 @@ namespace Item
 
             spcs = new SPC[3]
             {
-                 new( (ch) => spcs[0].Tick((stack)=>{ch.hp+=stack* ch.characterStat.maxHP*0.01f; }),infos[0].SPC_Sprite),
+                 new((ch) =>  ch.MaxHp += 5 ,(ch) => spcs[0].Tick((stack)=>{ch.hp+=stack* ch.characterStat.maxHP*0.01f; }),null,infos[0].SPC_Sprite),
                  new( (ch) => {
                      temps[0]= ch.speed;
-                     ch.speed+= temps[0]*0.2f;
+                     ch.speed+= temps[0]*0.2f+0.1f;
                  }, (ch) =>ch.speed-=temps[0]*0.2f, infos[1].SPC_Sprite),
                  new((ch) => {
                      temps[1]= ch.dmg;
-                     ch.dmg+= temps[1]*0.2f;
+                     ch.dmg += temps[1] * 0.2f + 1;
                  },(ch)=>ch.dmg-=temps[1]*0.2f , infos[2].SPC_Sprite),
             };
         }

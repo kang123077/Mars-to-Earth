@@ -28,6 +28,7 @@ namespace Skill
                     effects[i].Play();
                 ch.weapon.loop = true;
                 ch.weapon.pitch = 1;
+                ch.bulletSpeed += 20;
                 AudioManager.Instance.PlayEffect((int)CombatEffectClip.massShoot,ch.weapon);
             }, (ch) =>
             {
@@ -37,15 +38,18 @@ namespace Skill
                 if (atkEleapse > speed)
                 {
                     SpawnManager.Instance.Launch(ctr.position, ctr.forward, skillInfo.dmg + ch.dmg * 0.1f, 2,
-                        skillInfo.speed + ch.speed * 2, skillInfo.range * 0.3f + ch.range * 0.1f, ref projectileInfo);
+                        ch.bulletSpeed, skillInfo.range * 0.3f + ch.range * 0.1f, ref projectileInfo);
                     atkEleapse -= speed;
 
                     ch.impact -= 0.25f * ctr.forward;
                 }
             }, (ch) =>
             {
-                for ( byte i=0; i< effectsLength; i++)
+                for (byte i = 0; i < effectsLength; i++)
+                {
                     effects[i].Stop();
+                }
+                ch.bulletSpeed -= 20;
                 caster.anim.SetBool(Parring,false);
                 isShooting = false;
                 ch.weapon.loop = false;
