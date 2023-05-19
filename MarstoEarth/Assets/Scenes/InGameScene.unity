@@ -11439,8 +11439,17 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693398279}
-  m_CullTransparentMesh: 1
+  m_GameObject: {fileID: 1686857712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c99e9fabf97c4b742a23434e4d6e0de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftCard: {fileID: 790697504}
+  rightCard: {fileID: 119115374}
+  rerollButton: {fileID: 287344411}
+  cardInfo: {fileID: 1686857714}
+  combatUI: {fileID: 1476263011}
 --- !u!1 &1709687389
 GameObject:
   m_ObjectHideFlags: 0
