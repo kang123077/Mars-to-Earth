@@ -13,7 +13,7 @@ public class GameoverUIController : MonoBehaviour
     }
     public void Retry()
     {
-        MapManager.Instance.mapInfo.isRetry = true;
+        MapInfo.isRetry = true;
         Time.timeScale = 1f;
         SceneManager.LoadScene("LoadingScene");
         gameObject.SetActive(false);

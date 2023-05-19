@@ -4809,9 +4809,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4694a4f954316aa4c85fd0f41164c32f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapInfo: {fileID: 0}
-  inputField: {fileID: 0}
-  mapGenerator: {fileID: 0}
+  inputField: {fileID: 2098711299}
+  mapGenerator: {fileID: 1154860801}
   nodesTF: {fileID: 1874141304}
   bossNode: {fileID: 0}
   nodes: []
@@ -8702,6 +8701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2812155bdb646f6439d2b45874a748eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clearedRooms: 0
   cardUICon: {fileID: 1686857712}
   cardInfo: {fileID: 1686857714}
 --- !u!4 &1265708523

@@ -48,13 +48,13 @@ public class NodeGenerator : MonoBehaviour
     /// <param name="distance">부모 노드로부터의 거리, DFS의 depth</param>
     /// <param name="parentDir">부모의 방향, 체크 시 배제하기 위한 용도 (nullable), East = 0, West = 1, South = 2, North = 3</param>
     /// <returns></returns>
-    public NodeInfo GenerateNodes(MapInfo mapInfo, int x, int y, int distance, int? parentDir, int seed)
+    public NodeInfo GenerateNodes(int x, int y, int distance, int? parentDir, int seed)
     {
         // 최초 진입 시 seed_number로 랜덤 초기화 seed_number가 0일 경우 초기화 X
         // 노드 생성기에서 사용 할 새로운 Random 생성
-        if (mapInfo.seed_Number != 0 && seed == 0)
+        if (MapInfo.seed_Number != 0 && seed == 0)
         {
-            Random.InitState(mapInfo.seed_Number);
+            Random.InitState(MapInfo.seed_Number);
         }
         // 최초 진입 아닐 시 seed로 랜덤 초기화
         if (seed != 0)
@@ -62,13 +62,13 @@ public class NodeGenerator : MonoBehaviour
             Random.InitState(seed);
         }
         // 현재 노드의 갯수가 정해진 노드의 갯수보다 많거나 같아지면 or 시작 노드로부터 거리가 n 이상이면 return
-        if (MapManager.Instance.nodes.Count >= mapInfo.node_num || distance > 10)
+        if (MapManager.Instance.nodes.Count >= MapInfo.node_num || distance > 10)
         {
             return null;
         }
         // 노드 인스턴스, 노드에서 랜덤으로 결정, 맵인포의 노드풀을 사용
         GameObject nodeObject = Instantiate(
-            nodes[NodePoolCheck(MapManager.Instance.mapInfo.cur_NodePool)],
+            nodes[NodePoolCheck(MapInfo.cur_NodePool)],
             nodeParentTF);
         nodeObject.transform.position = new Vector3(x * nodeSpacing, 0, y * nodeSpacing);
         nodeObject.name = "nodePrefab " + x.ToString() + ", " + y.ToString();
@@ -94,7 +94,7 @@ public class NodeGenerator : MonoBehaviour
             int randomIndex = Random.Range(0, directions.Count);
             string selectedDirection = directions[randomIndex];
             // 해당 방향 체크 (함수 설명 참조)
-            CheckDirection(mapInfo, x, y, distance, nodeInfo, selectedDirection, NextSeed);
+            CheckDirection(x, y, distance, nodeInfo, selectedDirection, NextSeed);
             // 해당 방향 삭제
             directions.RemoveAt(randomIndex);
         }
@@ -198,7 +198,7 @@ public class NodeGenerator : MonoBehaviour
         return pathController;
     }
 
-    public void CheckDirection(MapInfo mapInfo, int x, int y, int distance, NodeInfo nodeInfo, string dir, int seed)
+    public void CheckDirection(int x, int y, int distance, NodeInfo nodeInfo, string dir, int seed)
     {
         switch (dir)
         {
@@ -224,9 +224,9 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.Instance.nodes.Count < mapInfo.node_num)
+                        MapManager.Instance.nodes.Count < MapInfo.node_num)
                     {
-                        NodeInfo newNode = GenerateNodes(mapInfo, x + 1, y, distance + 1, 1, seed);
+                        NodeInfo newNode = GenerateNodes(x + 1, y, distance + 1, 1, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.East);
                         nodeInfo.east = newNode;
                     }
@@ -251,9 +251,9 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.Instance.nodes.Count < mapInfo.node_num)
+                        MapManager.Instance.nodes.Count < MapInfo.node_num)
                     {
-                        NodeInfo newNode = GenerateNodes(mapInfo, x - 1, y, distance + 1, 0, seed);
+                        NodeInfo newNode = GenerateNodes(x - 1, y, distance + 1, 0, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.West);
                         nodeInfo.west = newNode;
                     }
@@ -278,9 +278,9 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.Instance.nodes.Count < mapInfo.node_num)
+                        MapManager.Instance.nodes.Count < MapInfo.node_num)
                     {
-                        NodeInfo newNode = GenerateNodes(mapInfo, x, y - 1, distance + 1, 3, seed);
+                        NodeInfo newNode = GenerateNodes(x, y - 1, distance + 1, 3, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.South);
                         nodeInfo.south = newNode;
                     }
@@ -305,9 +305,9 @@ public class NodeGenerator : MonoBehaviour
                 else
                 {
                     if (ProbabilityBasedOnDistance(distance) &&
-                        MapManager.Instance.nodes.Count < mapInfo.node_num)
+                        MapManager.Instance.nodes.Count < MapInfo.node_num)
                     {
-                        NodeInfo newNode = GenerateNodes(mapInfo, x, y + 1, distance + 1, 2, seed);
+                        NodeInfo newNode = GenerateNodes(x, y + 1, distance + 1, 2, seed);
                         PathController pathController = GeneratePath(nodeInfo, newNode, Direction.North);
                         nodeInfo.north = newNode;
                     }

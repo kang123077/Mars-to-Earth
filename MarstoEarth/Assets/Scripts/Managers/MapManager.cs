@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 public class MapManager : Singleton<MapManager>
 {
-    public MapInfo mapInfo;
     public TMP_InputField inputField;
     public MapGenerator mapGenerator;
     public Transform nodesTF;
@@ -18,7 +17,6 @@ public class MapManager : Singleton<MapManager>
     protected override void Awake()
     {
         base.Awake();
-        DontDestroyOnLoad(this);
         if (nodes == null)
         {
             nodes = new List<NodeInfo>();
@@ -36,7 +34,6 @@ public class MapManager : Singleton<MapManager>
     public void GenerateMapCall()
     {
         // 인게임 매니저에서 실행
-        InitInfos();
         InitMapInfo();
         GenerateNewSeed();
         mapGenerator.GenerateMap();
@@ -45,45 +42,31 @@ public class MapManager : Singleton<MapManager>
 
     public void InitMapInfo()
     {
-        if (mapInfo == null)
-        {
-            // 1스테이지의 기본 값
-            mapInfo = gameObject.AddComponent<MapInfo>();
-            mapInfo.difficulty = 0;
-            mapInfo.node_num = 4;
-            mapInfo.cur_Stage = 1;
-            mapInfo.cur_NodePool = NodePool.All;
-            mapInfo.isRetry = false;
-        }
-        else
+        // 첫 시작시 False임
+        if (MapInfo.cur_Stage > 0)
         {
             // 2스테이지부터 더해지는 값
             // retry아니어야 함
-            if (mapInfo.isRetry!)
+            Debug.Log(MapInfo.isRetry);
+            Debug.Log(MapInfo.isRetry!);
+            if (MapInfo.isRetry == false)
             {
-                mapInfo.difficulty += 1;
-                mapInfo.node_num += 1;
-                mapInfo.cur_Stage += 1;
+                MapInfo.difficulty += 1;
+                MapInfo.node_num += 1;
             }
             // false로 초기화
-            mapInfo.isRetry = false;
+            MapInfo.isRetry = false;
         }
+        // MapManager의 Awake시 항상 Stage++
+        MapInfo.cur_Stage++;
+        Debug.Log("MapInfo.difficulty = " + MapInfo.difficulty);
+        Debug.Log("MapInfo.cur_Stage = " + MapInfo.cur_Stage);
+        Debug.Log("MapInfo.node_num = " + MapInfo.node_num);
     }
 
     public void ChangeSeedNumber(string seedNumber)
     {
-        mapInfo.seed_Number = int.Parse(seedNumber);
-    }
-
-    public void InitInfos()
-    {
-        nodes.Clear();
-        paths.Clear();
-        walls.Clear();
-        bossNode = null;
-        mapGenerator = FindObjectOfType<MapGenerator>();
-        nodesTF = GameObject.Find("NodeTF").transform;
-        inputField = UIManager.Instance.inputField;
+        MapInfo.seed_Number = int.Parse(seedNumber);
     }
 
     public void ResetNodes()
@@ -146,10 +129,11 @@ public class MapManager : Singleton<MapManager>
 
     public void GenerateNewSeed()
     {
-        mapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        MapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+        Debug.Log("MapInfo.seed_Number = " + MapInfo.seed_Number);
         try
         {
-            inputField.text = mapInfo.seed_Number.ToString();
+            inputField.text = MapInfo.seed_Number.ToString();
         }
         catch (NullReferenceException)
         {
