@@ -29,7 +29,7 @@ namespace Projectile
         private Vector3 startPoint;
         public void Init(int lm, float dg, float rg, float dr, float sp , Transform caster)
         {            
-            base.Init(lm, dg, rg, dr, sp);
+            base.Init(lm, dg, rg, dr, sp,false);
             var ot = gameObject.AddComponent<NavMeshObstacle>();
             caster.TryGetComponent(out casterCh);
             casterCh.enabled = false;

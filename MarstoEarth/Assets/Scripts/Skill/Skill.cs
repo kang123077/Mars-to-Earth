@@ -15,9 +15,8 @@ namespace Skill
         protected float curCount = 1;
         
         public float lastUsedTime;
-        
-        
-        
+
+        public bool enforce;
         private float originCoolTime;
         private bool _isCombo;
         public bool isCombo

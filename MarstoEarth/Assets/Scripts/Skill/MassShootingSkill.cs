@@ -18,7 +18,7 @@ namespace Skill
         private static readonly int Parring = Animator.StringToHash("parring");
 
         private bool isShooting;
-        
+        private Transform ctr;
         public MassShootingSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.MassShooting];
@@ -32,15 +32,12 @@ namespace Skill
                 AudioManager.Instance.PlayEffect((int)CombatEffectClip.massShoot,ch.weapon);
             }, (ch) =>
             {
-                Transform ctr = ((Player)ch).muzzle;
                 atkEleapse += Time.deltaTime;
-                
                 if (atkEleapse > speed)
                 {
                     SpawnManager.Instance.Launch(ctr.position, ctr.forward, skillInfo.dmg + ch.dmg * 0.1f, 2,
                         ch.bulletSpeed, skillInfo.range * 0.3f + ch.range * 0.1f, ref projectileInfo);
                     atkEleapse -= speed;
-
                     ch.impact -= 0.25f * ctr.forward;
                 }
             }, (ch) =>
@@ -53,9 +50,7 @@ namespace Skill
                 caster.anim.SetBool(Parring,false);
                 isShooting = false;
                 ch.weapon.loop = false;
-                
                 ch.weapon.Stop();
-                
                 ch.SkillEffect();
             },skillInfo.icon);
             effectsLength = (byte)skillInfo.effects.Length;
@@ -64,6 +59,7 @@ namespace Skill
         public override void Init(Character.Character caster)
         {
             base.Init(caster);
+            ctr = caster.muzzle;
             projectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet, null);
@@ -76,14 +72,17 @@ namespace Skill
         }
         protected override bool Activate()
         {
-          
             if (((Player)caster).isRun)
                 return false;
             if (isShooting)
             {
-                caster.RemoveBuff(massShooting);
-                lastUsedTime -= massShooting.currentTime;
-                curCount++;
+                if (enforce)
+                {
+                    caster.RemoveBuff(massShooting);
+                    lastUsedTime -= massShooting.currentTime;
+                    curCount++;
+                }
+                
                 return false;
             }
             caster.anim.SetBool(Parring, true);

@@ -9,6 +9,7 @@ namespace Skill
     {
         private Action attackTemp;
         private bool _onCharge;
+        private int bulletCount;
         private bool onCharge
         {
             get => _onCharge;
@@ -61,6 +62,15 @@ namespace Skill
         {
             if (onCharge) return false;
             caster.PlaySkillClip(this);
+            if (enforce )
+            {
+
+                bulletCount = 2;
+            }
+            else
+            {
+                bulletCount = 0;
+            }
 
             return true;
         }
@@ -79,8 +89,15 @@ namespace Skill
                     skillInfo.range * 0.5f, ref chargeProjectileInfo);
 
                 caster.impact -= (skillInfo.dmg + caster.dmg * 0.5f) * 0.1f * caster.muzzle.forward;
-                caster.Attacken = attackTemp;
-                onCharge = false;
+                
+                if (bulletCount == 0)
+                {
+                    onCharge = false;
+                    caster.Attacken = attackTemp;
+                }
+                else
+                    bulletCount--;
+
             };
         }
     }
