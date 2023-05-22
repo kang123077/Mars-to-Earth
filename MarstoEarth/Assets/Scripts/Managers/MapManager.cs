@@ -31,6 +31,11 @@ public class MapManager : Singleton<MapManager>
         }
     }
 
+    private void Update()
+    {
+        UpdateDifficulty();
+    }
+
     public void GenerateMapCall()
     {
         // 인게임 매니저에서 실행
@@ -64,6 +69,12 @@ public class MapManager : Singleton<MapManager>
         }
         // MapManager의 Awake시 항상 Stage++
         MapInfo.cur_Stage++;
+    }
+
+    private void UpdateDifficulty()
+    {
+        float increaseRate = 0.1f; // Difficulty가 증가하는 비율
+        MapInfo.difficulty += increaseRate * Time.deltaTime;
     }
 
     public void ChangeSeedNumber(string seedNumber)
