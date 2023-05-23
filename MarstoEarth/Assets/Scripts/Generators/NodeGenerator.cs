@@ -8,7 +8,7 @@ public enum NodePool
 {
     All,
     Inside,
-    OutSide
+    Outside
 }
 
 public enum Node
@@ -28,11 +28,36 @@ public enum OutsideNodePool
     Test_00
 }
 
+public enum PathPool
+{
+    All,
+    Inside,
+    Outside
+}
+
+public enum Path
+{
+    TestGate
+}
+
+public enum WallPool
+{
+    All,
+    Inside,
+    Outside
+}
+
+public enum Wall
+{
+    TestWall,
+    BrokenGate_00
+}
+
 public class NodeGenerator : MonoBehaviour
 {
     public GameObject[] nodes;
-    public GameObject pathPrefab;
-    public GameObject wallPrefab;
+    public GameObject[] paths;
+    public GameObject[] walls;
     public float nodeSpacing;
     public Transform nodeParentTF;
     public Material bossMaterial;
@@ -118,16 +143,62 @@ public class NodeGenerator : MonoBehaviour
         {
             case NodePool.All:
                 Node[] AllNodes = (Node[])Enum.GetValues(typeof(Node));
-                Node Allnode = AllNodes[Random.Range(0, AllNodes.Length)];
-                return (int)Enum.Parse(typeof(Node), Allnode.ToString());
+                Node AllNode = AllNodes[Random.Range(0, AllNodes.Length)];
+                return (int)Enum.Parse(typeof(Node), AllNode.ToString());
             case NodePool.Inside:
                 InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
                 InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
                 return (int)Enum.Parse(typeof(Node), insideNode.ToString());
-            case NodePool.OutSide:
+            case NodePool.Outside:
                 OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
                 OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
                 return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
+            default:
+                return 0;
+        }
+    }
+
+    public int PathPoolCheck(PathPool pathPool)
+    {
+        switch (pathPool)
+        {
+            case PathPool.All:
+                Path[] AllPaths = (Path[])Enum.GetValues(typeof(Path));
+                Path AllPath = AllPaths[Random.Range(0, AllPaths.Length)];
+                return (int)Enum.Parse(typeof(Path), AllPath.ToString());
+                /*
+            case PathPool.Inside:
+                InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
+                InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
+                return (int)Enum.Parse(typeof(Node), insideNode.ToString());
+            case PathPool.Outside:
+                OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
+                OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
+                return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
+                */
+            default:
+                return 0;
+        }
+    }
+
+    public int WallPoolCheck(WallPool wallPool)
+    {
+        switch (wallPool)
+        {
+            case WallPool.All:
+                Wall[] AllNodes = (Wall[])Enum.GetValues(typeof(Wall));
+                Wall Allnode = AllNodes[Random.Range(0, AllNodes.Length)];
+                return (int)Enum.Parse(typeof(Wall), Allnode.ToString());
+                /*
+            case WallPool.Inside:
+                InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
+                InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
+                return (int)Enum.Parse(typeof(Node), insideNode.ToString());
+            case WallPool.Outside:
+                OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
+                OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
+                return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
+                */
             default:
                 return 0;
         }
@@ -139,28 +210,28 @@ public class NodeGenerator : MonoBehaviour
         {
             if (node.east == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
+                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
                 wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
                 MapManager.Instance.walls.Add(wallObject);
             }
             if (node.west == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
+                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
                 wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
                 MapManager.Instance.walls.Add(wallObject);
             }
             if (node.south == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
+                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
                 wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
                 MapManager.Instance.walls.Add(wallObject);
             }
             if (node.north == null)
             {
-                GameObject wallObject = Instantiate(wallPrefab, node.transform, true);
+                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                 wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
                 MapManager.Instance.walls.Add(wallObject);
             }
@@ -173,7 +244,7 @@ public class NodeGenerator : MonoBehaviour
     /// <param name="nodeInfo">현재 PathNode를 생성중인 Node</param>
     public PathController GeneratePath(NodeInfo nodeInfo, NodeInfo neighbor, Direction direction)
     {
-        PathController pathController = Instantiate(pathPrefab, nodeParentTF).GetComponent<PathController>();
+        PathController pathController = Instantiate(paths[PathPoolCheck(PathPool.All)], nodeParentTF).GetComponent<PathController>();
         switch (direction)
         {
             case Direction.East:
