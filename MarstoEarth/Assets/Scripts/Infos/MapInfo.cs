@@ -14,4 +14,6 @@ public static class MapInfo
     public static bool isRetry = false;
     // 노드 생성 시 시작 방과의 거리에 따른 방 생성 확률
     public static float maxDistance = 3f;
+    // 게임 시작 후 경과한 시간
+    public static float cur_Time = 0;
 }

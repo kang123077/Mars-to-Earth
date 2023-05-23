@@ -75,6 +75,7 @@ public class MapManager : Singleton<MapManager>
     {
         float increaseRate = 0.1f; // Difficulty가 증가하는 비율
         MapInfo.difficulty += increaseRate * Time.deltaTime;
+        MapInfo.cur_Time += Time.deltaTime;
     }
 
     public void ChangeSeedNumber(string seedNumber)

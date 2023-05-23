@@ -20,6 +20,7 @@ public class UIManager : Singleton<UIManager>
     public StageClearUIController stageClearUI;
     public GameoverUIController gameoverUI;
     public TMP_InputField inputField;
+    public TMP_Text timeUI;
     public RectTransform aimImage;
     public Transform muzzleTr;
     public Transform lookAtTr;
@@ -46,6 +47,11 @@ public class UIManager : Singleton<UIManager>
 
     private void Update()
     {
+        int minutes = Mathf.FloorToInt(MapInfo.cur_Time / 60);
+        int seconds = Mathf.FloorToInt(MapInfo.cur_Time % 60);
+
+        string formattedTime = minutes.ToString("00") + " : " + seconds.ToString("00");
+        timeUI.text = formattedTime;
         // Esc 버튼 클릭 시 소리를 끄고 Setting UI를 활성화
         if (Input.GetKeyDown(KeyCode.Escape))
         {
