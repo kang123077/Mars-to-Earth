@@ -18,7 +18,7 @@ namespace Projectile
         private AudioSource sound;
         public void Init(Transform ct,float dr, float rg, float dmg, float sp, int lm)
         {
-            base.Init(lm, dmg, rg, dr, sp);
+            base.Init(lm, dmg, rg, dr, sp,false);
             caster = ct;
             transform.position = ct.position;
             Vector3 forward = ct.forward;

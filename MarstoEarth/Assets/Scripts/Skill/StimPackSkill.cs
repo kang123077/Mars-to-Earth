@@ -8,6 +8,7 @@ namespace Skill
         private SPC StimPack;
         private ParticleSystem[] effects = new ParticleSystem[1];
         private byte effectsLength;
+        private float speedTemp;
         public StimPackSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Stimpack]; 
@@ -15,12 +16,16 @@ namespace Skill
             {
                 for (byte i = 0; i < effectsLength; i++)
                     effects[i].Play();
-                ch.speed += skillInfo.speed;
+                speedTemp = ch.speed;
+                ch.speed += speedTemp*0.1f*skillInfo.speed;
+                if (enforce)
+                    ch.speed += +0.05f;
+                ch.hp -= ch.MaxHp * 0.1f;
             }, (ch) =>
             {
                 for (byte i = 0; i < effectsLength; i++)
                     effects[i].Stop();
-                ch.speed -= skillInfo.speed;
+                ch.speed -= speedTemp*0.1f*skillInfo.speed;
             },skillInfo.icon);
             effectsLength = (byte)skillInfo.effects.Length;
         }

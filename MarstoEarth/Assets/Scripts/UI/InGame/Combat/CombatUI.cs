@@ -15,12 +15,8 @@ public class CombatUI : UI
     public Transform[] mSlotPos;
 
     private int curSkillCount;
-
-
     public UnityEngine.UI.Slider mplayerHP;
-
     public UnityEngine.UI.Slider playerHP;
-
     public UnityEngine.UI.Image hitScreen;
     public IObjectPool<DamageText> DMGTextPool;
     public DamageText DMGText;
@@ -70,8 +66,18 @@ public class CombatUI : UI
 
     public void LearnSkill(int skillName)
     {
-        if (curSkillCount > skillSlots.Length - 1) return;
-        skillSlots[curSkillCount].Init(InGameManager.Instance.inGameSkill[(int)skillName]);
+        if (curSkillCount > skillSlots.Length)
+        {
+            for (int i = 0; i < skillSlots.Length; i++)
+            {
+                if (skillSlots[i].skill == InGameManager.Instance.inGameSkill[skillName])
+                {
+                    skillSlots[i].skill.enforce =true;
+                }
+            }
+            return;
+        }
+        skillSlots[curSkillCount].Init(InGameManager.Instance.inGameSkill[skillName]);
         skillSlots[curSkillCount].skill.Init(SpawnManager.Instance.player);
         curSkillCount++;
     }

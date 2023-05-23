@@ -15,14 +15,16 @@ public class Installation : MonoBehaviour
     protected Character.Character target;
 
     protected readonly Collider[] colliders = new Collider[6];
-    public virtual void Init(int lm, float dg, float rg, float dr, float sp)
+    protected bool enforce;
+    public virtual void Init(int lm, float dg, float rg, float dr, float sp,bool enforce)
     {
         layerMask = lm;
         dmg = dg;
         range = rg;
         lifeTime = duration= dr;
         speed = sp;
-        thisTransform = transform;        
+        thisTransform = transform;
+        this.enforce = enforce;
     }
 
     protected void BaseUpdate()
