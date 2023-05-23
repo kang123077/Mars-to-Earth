@@ -42,8 +42,8 @@ public class AudioManager : Singleton<AudioManager>
     private float bgmVolume = 1f;
     private float effectVolume = 1f;
 
-    private float finalEffectVolume=0.6f;
-    private float finalBGM_Volume=0.6f;
+    private float finalEffectVolume = 0.6f;
+    private float finalBGM_Volume = 0.6f;
 
     protected override void Awake()
     {
@@ -90,12 +90,13 @@ public class AudioManager : Singleton<AudioManager>
         if (clipIndex < 0 || clipIndex >= CombatEffectAudioClips.Length) return; // 인덱스 범위 확인
         
         source.clip = CombatEffectAudioClips[clipIndex];
-        source.volume = finalEffectVolume; // 볼륨 설정
         if (source.transform.parent.gameObject.activeSelf)
         {
             source.Play();
             playingSource.Add(source);
         }
+        source.volume = finalEffectVolume; // 볼륨 설정
+        // 발소리가 포함 안되는 이슈가 있음
     }
 
     public void PauseSource()
