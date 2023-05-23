@@ -19,4 +19,9 @@ public class MapGenerator : MonoBehaviour
     {
         isNodeSet = false;
     }
+
+    public void DestroyGenerators()
+    {
+        Destroy(this);
+    }
 }

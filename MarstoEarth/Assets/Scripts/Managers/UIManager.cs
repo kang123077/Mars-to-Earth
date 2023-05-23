@@ -23,6 +23,7 @@ public class UIManager : Singleton<UIManager>
     public RectTransform aimImage;
     public Transform muzzleTr;
     public Transform lookAtTr;
+    public GameInfoUIController gameInfoUIController;
 
     protected override void Awake()
     {
