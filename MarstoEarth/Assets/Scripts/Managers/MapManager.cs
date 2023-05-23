@@ -29,6 +29,7 @@ public class MapManager : Singleton<MapManager>
         {
             walls = new List<GameObject>();
         }
+        InitMapInfo();
     }
 
     private void Update()
@@ -39,7 +40,6 @@ public class MapManager : Singleton<MapManager>
     public void GenerateMapCall()
     {
         // 인게임 매니저에서 실행
-        InitMapInfo();
         GenerateNewSeed();
         mapGenerator.GenerateMap();
         GenerateNavMesh();

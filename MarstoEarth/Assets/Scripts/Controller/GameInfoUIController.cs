@@ -1,6 +1,9 @@
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// 여기선 보여주기만 하고, 실제 값은 MapManager에서 변경
+/// </summary>
 public class GameInfoUIController : MonoBehaviour
 {
     public TMP_Text stageUI;
@@ -35,6 +38,6 @@ public class GameInfoUIController : MonoBehaviour
 
     public void LevelUIUpdate()
     {
-        levelUI.text = MapInfo.difficulty.ToString("00");
+        levelUI.text = MapInfo.difficulty.ToString("F0");
     }
 }
