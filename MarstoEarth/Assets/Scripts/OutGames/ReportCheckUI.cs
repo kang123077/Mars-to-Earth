@@ -8,14 +8,14 @@ using System;
 [Serializable]
 public class ClearReport
 {
-    int clearRooms;
-    float clearTimes;
-    public int ClearRoom
+    [SerializeField]int clearRooms;
+    [SerializeField]float clearTimes;
+    public int CLEARROOM
     {
         get { return clearRooms; }
         set { clearRooms = value; }
     }
-    public float ClearTime
+    public float CLEARTIME
     {
         get { return clearTimes; }
         set { clearTimes = value; }
@@ -58,28 +58,24 @@ public class ReportCheckUI : MonoBehaviour
         for (int i = 0; i < 5; i++)
         {
             ClearReport clearReport = new ClearReport();
-            clearReport.ClearRoom = i; //InGameManager.clearedBossRoom + InGameManager.clearedBossRoom;
-            clearReport.ClearTime = i; //Time.deltaTime;
+            clearReport.CLEARROOM = 100 + i; //InGameManager.clearedBossRoom + InGameManager.clearedBossRoom;
+            clearReport.CLEARTIME = i / 10f; //Time.deltaTime;
             clearReportList.Add(clearReport);
         }
-        // List -> Json
+        // List -> Json 데이터로 저장
         string jsonDataList = JsonUtility.ToJson(new Serialization<ClearReport>(clearReportList));
-        using (StreamWriter sr = new StreamWriter(Application.dataPath + "/" + "ClearDatas.json"))
+        using (StreamWriter sr = new StreamWriter(Application.dataPath + "/" + "ClearData.json"))
         {
             sr.WriteLine(jsonDataList);
             sr.Close();
         }
-        // Json -> List
+        // Json -> List 데이터로 저장
         List<ClearReport> clearReportToList = JsonUtility.FromJson<Serialization<ClearReport>>(jsonDataList).ToList();
-        foreach(ClearReport one in clearReportToList)
-        {
-            reportclearRoom.text = one.ClearRoom.ToString();
-            reportclearTime.text = one.ClearTime.ToString();
-        }
-        for (int i = 0; i < clearReportList.Count; i++)
+        foreach (ClearReport one in clearReportToList)
         {
             GameObject newObject = Instantiate(reportGameClone, cloneParents);
-            // 추가적인 설정이 필요한 경우 newObject를 조작합니다.
+            reportclearRoom.text = one.CLEARROOM.ToString();
+            reportclearTime.text = one.CLEARTIME.ToString();
         }
     }
 
