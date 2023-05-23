@@ -43,6 +43,7 @@ public class MapManager : Singleton<MapManager>
         GenerateNewSeed();
         mapGenerator.GenerateMap();
         GenerateNavMesh();
+        mapGenerator.DestroyGenerators();
     }
 
     public void InitMapInfo()

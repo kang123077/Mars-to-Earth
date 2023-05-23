@@ -1,3 +1,6 @@
+/// <summary>
+/// static GameInfo나 진배없음
+/// </summary>
 public static class MapInfo
 {
     // 현재 맵의 시드 넘버

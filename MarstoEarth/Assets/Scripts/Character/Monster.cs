@@ -195,10 +195,8 @@ namespace Character
                     
                     targetCharacter.Hit(thisCurTransform.position,dmg,0);
                     AudioManager.Instance.PlayEffect((int)CombatEffectClip.hitExplotion, weapon);
-                }else
-                    Debug.Log("회피 이펙트");
-            }else
-                Debug.Log("회피 이펙트");
+                }
+            }
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
