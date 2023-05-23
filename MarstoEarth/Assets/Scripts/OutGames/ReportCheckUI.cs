@@ -1,15 +1,23 @@
 using UnityEngine;
 using UnityEngine.UI;
+using SimpleJSON;
 
 public class ReportCheckUI : MonoBehaviour
 {
     public Scrollbar reportScroll;
     int recordClearRoom;
-    // public TMPro.TextMeshProUGUI reportText;
+    public TMPro.TextMeshProUGUI reportclearRoom;
+    public TMPro.TextMeshProUGUI reportclearTime;
 
     void Start()
     {
-        
+        TextAsset txtAsset = Resources.Load<TextAsset>("Jsons/TestJson2");
+        JSONNode root = JSON.Parse(txtAsset.text);
+        JSONNode data1 = root["D1"];
+        int score = data1["Score"].AsInt;
+        string name = data1["userID"].Value;
+        reportclearRoom.text = score.ToString();
+        reportclearTime.text = name;
     }
 
     public void ReportGame()
@@ -21,7 +29,7 @@ public class ReportCheckUI : MonoBehaviour
 
     void Update()
     {
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        float scrollInput = Input.GetAxisRaw("Mouse ScrollWheel");
         reportScroll.value += scrollInput;
         if (reportScroll.value <= 0)
         {

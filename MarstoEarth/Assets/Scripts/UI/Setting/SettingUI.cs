@@ -20,7 +20,7 @@ public class SettingUI : UI
 
     void Start()
     {
-        resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>(); // try get
+        resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>(); 
         maserVolume.onValueChanged.AddListener(delegate { OnMasterVolumeChanged(); });
         BGMVolume.onValueChanged.AddListener(delegate { OnBGMVolumeChanged(); });
         effectVolume.onValueChanged.AddListener(delegate { OnEffectVolumeChanged(); });
