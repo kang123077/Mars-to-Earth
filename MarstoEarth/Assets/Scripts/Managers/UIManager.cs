@@ -79,8 +79,14 @@ public class UIManager : Singleton<UIManager>
         {
             muzzleTr = SpawnManager.Instance.player.muzzle.transform;
             Vector2 viewportPos = Camera.main.WorldToViewportPoint(muzzleTr.position);
-            aimImage.anchorMin = viewportPos;
-            aimImage.anchorMax = viewportPos;
+            // 보간을 사용하여 현재 위치에서 목표 위치로 부드럽게 이동합니다.
+            Vector2 currentAnchorMin = aimImage.anchorMin;
+            Vector2 currentAnchorMax = aimImage.anchorMax;
+
+            float smoothness = 15f; // 조절 가능한 매끄러움 정도입니다. 0에 가까울수록 부드럽게 이동합니다.
+
+            aimImage.anchorMin = Vector2.Lerp(currentAnchorMin, viewportPos, smoothness * Time.deltaTime);
+            aimImage.anchorMax = Vector2.Lerp(currentAnchorMax, viewportPos, smoothness * Time.deltaTime);
         }
         else if (CinemachineManager.Instance.bossCam.gameObject.activeSelf)
         {
@@ -88,9 +94,16 @@ public class UIManager : Singleton<UIManager>
             {
                 lookAtTr = CinemachineManager.Instance.bossCam.LookAt.transform;
                 Vector2 viewportPos = Camera.main.WorldToViewportPoint(lookAtTr.position) + new Vector3(0f, 0.1f);
-                aimImage.anchorMin = viewportPos;
-                aimImage.anchorMax = viewportPos;
-                aimImage.localScale = new Vector3(1.3f, 1.3f);
+                // 보간을 사용하여 현재 위치에서 목표 위치로 부드럽게 이동합니다.
+                Vector2 currentAnchorMin = aimImage.anchorMin;
+                Vector2 currentAnchorMax = aimImage.anchorMax;
+                Vector3 currentScale = aimImage.localScale;
+
+                float smoothness = 15f; // 조절 가능한 매끄러움 정도입니다. 0에 가까울수록 부드럽게 이동합니다.
+
+                aimImage.anchorMin = Vector2.Lerp(currentAnchorMin, viewportPos, smoothness * Time.deltaTime);
+                aimImage.anchorMax = Vector2.Lerp(currentAnchorMax, viewportPos, smoothness * Time.deltaTime);
+                aimImage.localScale = Vector3.Lerp(currentScale, new Vector3(1.3f, 1.3f), smoothness * Time.deltaTime);
             }
         }
     }
