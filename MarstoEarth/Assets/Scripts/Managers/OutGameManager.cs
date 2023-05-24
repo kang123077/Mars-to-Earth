@@ -15,10 +15,6 @@ public class OutGameManager : Singleton<OutGameManager>
 
     public void OutGameInit()
     {
-        MapManager mapManager = FindObjectOfType<MapManager>();
-        if (mapManager != null)
-        {
-            Destroy(mapManager.gameObject);
-        }
+        MapInfo.ResetValues();
     }
 }

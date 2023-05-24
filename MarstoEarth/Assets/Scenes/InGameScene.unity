@@ -2429,12 +2429,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 450594730}
   stageClearUI: {fileID: 616749748}
-  gameoverUI: {fileID: 0}
+  gameoverUI: {fileID: 1511333175}
   inputField: {fileID: 2098711299}
   aimImage: {fileID: 398775554}
   muzzleTr: {fileID: 0}
   lookAtTr: {fileID: 0}
-  gameInfoUIController: {fileID: 0}
+  gameInfoUIController: {fileID: 132280308}
 --- !u!114 &344494038
 MonoBehaviour:
   m_ObjectHideFlags: 0
