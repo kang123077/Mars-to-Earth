@@ -11,13 +11,20 @@ namespace Projectile
         {
             base.Init(lm, dg, rg, 0, sp,false);
             sound = Instantiate(SpawnManager.Instance.effectSound, transform);
-            AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
+            
+            
 
         }
         private void Awake()
         {
             StartCoroutine(attack(2 / speed));
         }
+
+        private void OnEnable()
+        {
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
+        }
+
 
         IEnumerator attack(float term)
         {
