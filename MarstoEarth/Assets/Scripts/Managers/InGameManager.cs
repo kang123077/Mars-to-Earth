@@ -42,7 +42,11 @@ public class InGameManager : Singleton<InGameManager>
     public void OnRoomCleared()
     {
         clearedRooms++;
-        if (clearedRooms % 2 == 0) // 2 개의 방을 클리어했을 때
+        //if (clearedRooms % 2 == 0) // 2 개의 방을 클리어했을 때
+        //{
+        //    TriggerEvent();
+        //}
+        if(clearedBossRoom % 1 == 0)
         {
             TriggerEvent();
         }
