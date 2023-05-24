@@ -43,8 +43,6 @@ public class Serialization<T>
 public class ReportCheckUI : MonoBehaviour
 {
     public Scrollbar reportScroll;
-    public TMPro.TextMeshProUGUI reportclearRoom;
-    public TMPro.TextMeshProUGUI reportclearTime;
     public GameObject reportGameClone;
     public Transform cloneParents;
     List<ClearReport> clearReportList;
@@ -55,11 +53,13 @@ public class ReportCheckUI : MonoBehaviour
     }
     void Start()
     {
+        TMPro.TextMeshProUGUI cloneText = reportGameClone.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+
         for (int i = 0; i < 5; i++)
         {
             ClearReport clearReport = new ClearReport();
             clearReport.CLEARROOM = 100 + i; //InGameManager.clearedBossRoom + InGameManager.clearedBossRoom;
-            clearReport.CLEARTIME = i / 10f; //Time.deltaTime;
+            clearReport.CLEARTIME = i / 10f;
             clearReportList.Add(clearReport);
         }
         // List -> Json 데이터로 저장
@@ -73,9 +73,23 @@ public class ReportCheckUI : MonoBehaviour
         List<ClearReport> clearReportToList = JsonUtility.FromJson<Serialization<ClearReport>>(jsonDataList).ToList();
         foreach (ClearReport one in clearReportToList)
         {
-            GameObject newObject = Instantiate(reportGameClone, cloneParents);
-            reportclearRoom.text = one.CLEARROOM.ToString();
-            reportclearTime.text = one.CLEARTIME.ToString();
+            cloneText.text = one.CLEARROOM.ToString() + "\n\n\n" + one.CLEARTIME.ToString();
+            Instantiate(reportGameClone, cloneParents);
+        }
+    }
+
+    public void DataChoiceDelete()
+    {
+        
+    }
+
+    public void DataAllDelete()
+    {
+        int childCount = cloneParents.childCount;
+
+        for (int i = childCount - 1; i >= 0; i--)
+        {
+            Destroy(cloneParents.GetChild(i).gameObject);
         }
     }
 
