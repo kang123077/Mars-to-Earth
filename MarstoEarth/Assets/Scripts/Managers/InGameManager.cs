@@ -55,7 +55,7 @@ public class InGameManager : Singleton<InGameManager>
     public void OnBossCleared()
     {
         clearedBossRoom++;
-        TriggerEvent();
+        Debug.Log("보스 클리어 보상 이벤트 함수");
     }
 
     public void InitInGame()
