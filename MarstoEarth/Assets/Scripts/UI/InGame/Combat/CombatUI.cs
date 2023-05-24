@@ -14,7 +14,19 @@ public class CombatUI : UI
     public SkillSlot[] skillSlots;
     public Transform[] mSlotPos;
 
-    private int curSkillCount;
+    private int _curSkillCount;
+
+    private int curSkillCount
+    {
+        get => _curSkillCount;
+        set
+        {
+            if (value >= skillSlots.Length)
+                fullCheck = true;
+            else
+                _curSkillCount = value;
+        }
+    }
     public UnityEngine.UI.Slider mplayerHP;
     public UnityEngine.UI.Slider playerHP;
     public UnityEngine.UI.Image hitScreen;
@@ -31,6 +43,9 @@ public class CombatUI : UI
     public JoyStick MovingPad;
     public RectTransform Shot;
     public RectTransform Pause;
+    public RectTransform Dodge;
+
+    public static bool fullCheck;
 
     private void Awake()
     {
@@ -114,6 +129,9 @@ public class CombatUI : UI
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                     {
                         UIManager.Instance.UIs[(int)UIType.Setting].gameObject.SetActive(true);
+                    }else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))
+                    {
+                        SpawnManager.Instance.player.actives[0].Use();
                     }
                     else if (touch.position.x< Screen.width*0.3f)
                     {

@@ -243,7 +243,6 @@ namespace Character
             else if (findBuff.currentTime < buff.duration)
                 findBuff.Init(buff.duration);
 
-
             return findBuff is null;
         }
         // ReSharper disable Unity.PerformanceAnalysis

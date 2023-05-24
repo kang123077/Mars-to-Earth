@@ -32,7 +32,7 @@ namespace Character
         }
 
 
-        protected List<Skill.Skill> actives;
+        public List<Skill.Skill> actives;
 
         public float xInput;
         public float zInput;
@@ -105,7 +105,7 @@ namespace Character
 #if UNITY_EDITOR
 
 
-            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
+            actives.Add(new RollSkill());
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Grenade]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.GravityBomb]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.SpiderMine]);
@@ -204,11 +204,12 @@ namespace Character
 
                 if (Input.anyKey)
                 {
+                    if (Input.GetKeyDown(KeyCode.Space))
+                        actives[0].Use();
                     foreach (KeyCode keyCode in moveKeys)
                     {
                         if (Input.GetKeyDown(keyCode))
                         {
-                            
                             
                             if (Time.time - lastInputTime < 0.3f && key == keyCode)
                                 if (onSkill is not MassShootingSkill)
@@ -305,63 +306,59 @@ namespace Character
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
                     combatUI.ClickSkill(i);
-            #region Test
+                #region Test
+            
 #if UNITY_EDITOR
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                actives[0].Use();
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    actives[1].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
 
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                actives[1].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-
-            {
-                actives[2].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                actives[12].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad0))
-            {
-                actives[3].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad1))
-            {
-                actives[4].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad2))
-            {
-                actives[5].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad3))
-            {
-                actives[6].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad4))
-            {
-                actives[7].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad5))
-            {
-                actives[8].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad6))
-            {
-                actives[9].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad7))
-            {
-                actives[10].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad8))
-            {
-                actives[11].Use();
-            }
+                {
+                    actives[2].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    actives[12].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad0))
+                {
+                    actives[3].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad1))
+                {
+                    actives[4].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad2))
+                {
+                    actives[5].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad3))
+                {
+                    actives[6].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad4))
+                {
+                    actives[7].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad5))
+                {
+                    actives[8].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad6))
+                {
+                    actives[9].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad7))
+                {
+                    actives[10].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad8))
+                {
+                    actives[11].Use();
+                }
 
 
 #endif

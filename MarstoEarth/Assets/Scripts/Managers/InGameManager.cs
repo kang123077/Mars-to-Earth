@@ -55,7 +55,14 @@ public class InGameManager : Singleton<InGameManager>
     public void OnBossCleared()
     {
         clearedBossRoom++;
-        //TriggerEvent();
+        Vector3 point = SpawnManager.Instance.playerTransform.position;
+        point.y = 0.8f;
+        
+        for (ushort i = 0; i < 8; i++)
+        {
+            SpawnManager.Instance.DropItem(point+Vector3.right*
+                SpawnManager.rand.Next(-8,8)+Vector3.forward*SpawnManager.rand.Next(-8,8),EnemyPool.Boss);
+        }
         Debug.Log("보스 클리어 이벤트 함수");
     }
 
