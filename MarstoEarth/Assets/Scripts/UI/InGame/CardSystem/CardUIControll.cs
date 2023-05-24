@@ -47,9 +47,9 @@ public class CardUIControll : UI
         leftCard.gameObject.transform.localScale = orglcScale;
         rightCard.gameObject.transform.localScale = orgrcScale;
 
+        transform.GetChild(0).gameObject.SetActive(true);
         transform.GetChild(1).gameObject.SetActive(true);
         transform.GetChild(2).gameObject.SetActive(true);
-        transform.GetChild(3).gameObject.SetActive(true);
     }
 
     // 카드 이벤트 반응형 함수
