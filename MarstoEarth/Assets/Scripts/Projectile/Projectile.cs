@@ -34,6 +34,8 @@ namespace Projectile
     {
         public Vector3 attackerPos;
         public Vector3 targetPos;
+        public float dist;
+
         public float dmg;
         public float duration;
         public float speed;
@@ -65,6 +67,8 @@ namespace Projectile
             mesh.mesh = info.ms;
             thisInfo[0] = info;
             eleapse = 0;
+            if (info.ty == Type.Cannon)
+                dist = Vector3.Distance(targetPos, attackerPos);
         }
 
 
@@ -94,8 +98,9 @@ namespace Projectile
             center -= new Vector3(0, 1, 0);
             Vector3 riseRelCenter = attackerPos - center;
             Vector3 setRelCenter = targetPos - center;
-            eleapse += Time.deltaTime * speed * 0.1f;
-            float fracComplete = eleapse / 1;
+
+            eleapse += Time.deltaTime * speed * 2f;
+            float fracComplete = eleapse / dist;
             thisTransform.position = Vector3.Slerp(riseRelCenter, setRelCenter, fracComplete);
             thisTransform.position += center;
             if (fracComplete < 1) return;

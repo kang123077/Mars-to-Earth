@@ -12,6 +12,9 @@ namespace Projectile
         private static float curDist;
 
         private Transform targetTr;
+
+        
+
         private void Update()
         {
             
@@ -36,6 +39,7 @@ namespace Projectile
             }
             else
             {
+                thisTransform.position = SpawnManager.Instance.playerTransform.position;
                 int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders, layerMask);
                 for (int i = 0; i < count; i++)
                 {

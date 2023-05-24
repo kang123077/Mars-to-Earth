@@ -89,6 +89,7 @@ namespace Character
         protected override void Awake()
         {
             base.Awake();
+           
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
@@ -207,6 +208,8 @@ namespace Character
                     {
                         if (Input.GetKeyDown(keyCode))
                         {
+                            
+                            
                             if (Time.time - lastInputTime < 0.3f && key == keyCode)
                                 if (onSkill is not MassShootingSkill)
                                     isRun = true;
@@ -214,6 +217,16 @@ namespace Character
                             key = keyCode;
                             lastInputTime = Time.time;
                             break;
+                        }
+                        bool runKey = Input.GetKeyDown(KeyCode.LeftShift);
+                        if (runKey)
+                        {
+                            key = KeyCode.LeftShift;
+                            if (onSkill is not MassShootingSkill)
+                                isRun = true;
+                        }else if (key == KeyCode.LeftShift&& Input.GetKeyUp(KeyCode.LeftShift))
+                        {
+                            isRun = false;
                         }
                     }
                 }
@@ -286,8 +299,8 @@ namespace Character
 
             thisCurTransform.forward =
                 Vector3.RotateTowards(thisCurTransform.forward,
-                    isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 2f, 0);
-
+                    isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 3.5f, 0);
+            //thisCurTransform.forward = isRun ? InputDir : target ? targetDir : repoterForward;
             #endregion
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
@@ -295,7 +308,7 @@ namespace Character
             #region Test
 #if UNITY_EDITOR
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 actives[0].Use();
 

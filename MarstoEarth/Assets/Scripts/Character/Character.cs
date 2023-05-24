@@ -66,7 +66,7 @@ namespace Character
                 _speed = value;
             }
         }
-        private float _hp;
+        protected float _hp;
         protected internal float hp
         {
             get => _hp;

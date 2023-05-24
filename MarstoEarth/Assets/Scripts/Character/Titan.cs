@@ -7,8 +7,8 @@ namespace Character
     {
         private Skill.Skill jumpAttack;
         private float jumpEleapse;
-       
 
+        public ParticleSystem readySkillEffect;
         private Skill.Skill bite;
         private byte biteEleapse=5;
         protected override void Start()
@@ -28,8 +28,21 @@ namespace Character
             base.Attacked();
             
             biteEleapse++;
+            if (biteEleapse > 5)
+            {
+                readySkillEffect.gameObject.SetActive(true);
+            }
             if (biteEleapse <= 6) return;
-            bite.Use();
+            int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders, 1 << 3);
+            if (target && size > 0)
+            {
+                float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position - thisCurTransform.forward * range), Vector3.up);
+                if ((angle < 0 ? -angle : angle) < viewAngle - 60)
+                {
+                    bite.Use();
+                }
+            }
+            readySkillEffect.gameObject.SetActive(false);
             biteEleapse = 0;
         }
 

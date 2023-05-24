@@ -158,7 +158,14 @@ namespace Character
         {
             if(!dying)return;
             target = null;
-            hp = MaxHp;
+            
+            dmg = characterStat.dmg + characterStat.dmg* MapInfo.difficulty;
+            //speed = characterStat.speed+ characterStat.speed * MapInfo.difficulty;
+            //def = characterStat.def+ characterStat.def * MapInfo.difficulty;
+            //duration = characterStat.duration + characterStat.duration * MapInfo.difficulty;
+            hp = MaxHp = characterStat.maxHP + characterStat.maxHP * MapInfo.difficulty;
+            //range = characterStat.range + characterStat.range * MapInfo.difficulty;
+
             ai.enabled = true;
             NavMeshHit hit;
             for (int i = 0; i < trackingDirection.Length; i++)

@@ -26,28 +26,28 @@ public class OutGameSettingUI : MonoBehaviour
     {
         for (int i = 0; i < Screen.resolutions.Length; i++)
         {
-            if (Screen.resolutions[i].width * 9 == Screen.resolutions[i].height * 16)
+            float aspectRatio = (float)Screen.resolutions[i].width / Screen.resolutions[i].height;
+            if (Mathf.Approximately(aspectRatio, 16f / 9f))
             {
                 resolutions.Add(Screen.resolutions[i]);
             }
         }
-        resolutionCon.ClearOptions();
-
+        resolutionCon.options.Clear();
         resolutionNum = 0;
         foreach (Resolution item in resolutions)
         {
+            Debug.Log(resolutions.Count);
+
             TMPro.TMP_Dropdown.OptionData option = new TMPro.TMP_Dropdown.OptionData();
             option.text = item.width + " X " + item.height + " ";
             resolutionCon.options.Add(option);
-
             if (item.width == Screen.width && item.height == Screen.height)
             {
                 resolutionCon.value = resolutionNum;
-                resolutionNum++;
             }
+            resolutionNum++;
         }
         resolutionCon.RefreshShownValue();
-
         fullScreen.isOn = Screen.fullScreenMode.Equals(FullScreenMode.FullScreenWindow) ? true : false;
     }
 
@@ -58,6 +58,7 @@ public class OutGameSettingUI : MonoBehaviour
 
     public void OnResolutionChanged()
     {
+        Debug.Log(resolutionNum);
         Screen.SetResolution(resolutions[resolutionNum].width, resolutions[resolutionNum].height, screenMode);
     }
 
@@ -74,11 +75,5 @@ public class OutGameSettingUI : MonoBehaviour
     public void GameSettingUI()
     {
         gameObject.SetActive(true);
-    }
-
-
-    void Update()
-    {
-        
     }
 }

@@ -9,15 +9,22 @@ namespace Projectile
         private AudioSource sound;
         public void Init(int lm, float dg, float rg, float sp)
         {
-            base.Init(lm, dg, rg, 0, sp);
+            base.Init(lm, dg, rg, 0, sp,false);
             sound = Instantiate(SpawnManager.Instance.effectSound, transform);
-            AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
+            
+            
 
         }
         private void Awake()
         {
             StartCoroutine(attack(2 / speed));
         }
+
+        private void OnEnable()
+        {
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
+        }
+
 
         IEnumerator attack(float term)
         {

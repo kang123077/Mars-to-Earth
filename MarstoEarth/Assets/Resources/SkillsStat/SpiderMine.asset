@@ -16,10 +16,10 @@ MonoBehaviour:
     \uB3CC\uC9C4\uD574 \uD3ED\uBC1C\uD558\uB294 \uC9C0\uB8B0\uB97C \uC124\uCE58\uD55C\uB2E4."
   clipName: SPCEffect
   clipLayer: 2
-  dmg: 40
+  dmg: 80
   duration: 20
   range: 3
-  cool: 5
+  cool: 4
   speed: 8
   icon: {fileID: 21300000, guid: 3c96f7e74e12f414191a70526eaa26de, type: 3}
   effects:

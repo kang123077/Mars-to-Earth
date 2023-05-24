@@ -11,11 +11,4 @@ public class GameoverUIController : MonoBehaviour
         SceneManager.LoadScene("OutGameScene");
         gameObject.SetActive(false);
     }
-    public void Retry()
-    {
-        MapInfo.isRetry = true;
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("LoadingScene");
-        gameObject.SetActive(false);
-    }
 }

@@ -18,7 +18,7 @@ MonoBehaviour:
   clipName: CastSpell
   clipLayer: 1
   dmg: 0
-  duration: 20
+  duration: 15
   range: 10
   cool: 17
   speed: 12

@@ -6,6 +6,7 @@ namespace Skill
     public class GravityBombSkill : Skill
     {
         // readonly Collider[] colliders;
+      
         
         private Projectile.ProjectileInfo projectileInfo;
         public GravityBombSkill()
@@ -21,7 +22,7 @@ namespace Skill
                     gravitySlot.transform.position = point;
                     Projectile.GravityEffect gravity = gravitySlot.AddComponent<Projectile.GravityEffect>();
                     gravity.Init(skillInfo.duration + caster.duration * 0.5f, skillInfo.dmg+caster.dmg*0.5f,
-                        skillInfo.range + caster.range * 0.5f, caster.layerMask);
+                        skillInfo.range + caster.range * 0.5f, caster.layerMask,enforce);
                     gravitySlot.SetActive(true);
                     
                 });

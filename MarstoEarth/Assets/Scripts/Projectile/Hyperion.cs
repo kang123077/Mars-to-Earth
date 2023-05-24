@@ -36,9 +36,9 @@ namespace Projectile
         private float eleapse;
         public ParticleSystem particleRange;
 
-        public override void Init(int lm, float dg, float rg, float dr, float sp)
+        public override void Init(int lm, float dg, float rg, float dr, float sp,bool enforce)
         {
-            base.Init(lm, dg, rg, dr, sp);
+            base.Init(lm, dg, rg, dr, sp,enforce);
             if (!particleRange)
             {
                 particleRange= Instantiate(ResourceManager.Instance.skillInfos[(int)SkillName.Hyperion].effects[1],
@@ -76,7 +76,9 @@ namespace Projectile
         private void Update()
         {
             BaseUpdate();
-            thisTransform.position += thisTransform.forward * (Time.deltaTime * speed * 0.2f);
+            thisTransform.position += enforce? Vector3.MoveTowards(thisTransform.position,
+                    SpawnManager.Instance.player.target.position,Time.deltaTime*speed*0.2f) : 
+            thisTransform.forward * (Time.deltaTime * speed * 0.2f);
 
             eleapse += Time.deltaTime;
             if (eleapse > atkSpd)

@@ -19,4 +19,15 @@ public static class MapInfo
     public static float maxDistance = 3f;
     // 게임 시작 후 경과한 시간
     public static float cur_Time = 0;
+    public static void ResetValues()
+    {
+        seed_Number = 0;
+        difficulty = 0;
+        cur_Stage = 0;
+        node_num = 4;
+        cur_NodePool = NodePool.All;
+        isRetry = false;
+        maxDistance = 3f;
+        cur_Time = 0;
+    }
 }
