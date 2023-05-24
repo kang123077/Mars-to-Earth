@@ -22,6 +22,7 @@ public class MapGenerator : MonoBehaviour
 
     public void DestroyGenerators()
     {
-        Destroy(this);
+        Destroy(nodeGenerator.gameObject);
+        Destroy(gameObject);
     }
 }
