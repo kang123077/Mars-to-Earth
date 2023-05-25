@@ -30,7 +30,37 @@ namespace Character
                 base.target = CinemachineManager.Instance.bossCam.LookAt = value;
             }
         }
+        public override float dmg
+        {
+            get => _dmg;
+            set
+            {
+                _dmg = value;
+                UIManager.Instance.playerStatUIController.attack = _dmg;
+            }
+        }
 
+        public override float speed
+        {
+            get => _speed;
+            set
+            {
+                anim.SetFloat(animSpeed, 1 + value * 0.05f);
+                _speed = value;
+                UIManager.Instance.playerStatUIController.speed = _speed;
+            }
+        }
+
+        public float _MaxHP;
+
+        public override float MaxHp
+        {   get => _MaxHP;
+            set
+            {
+                _MaxHP = value;
+                UIManager.Instance.playerStatUIController.maxHp = _MaxHP;
+            }
+        }
 
         public List<Skill.Skill> actives;
 

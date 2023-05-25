@@ -17,6 +17,7 @@ public class GameInfoUIController : MonoBehaviour
 
     private void Update()
     {
+        // update가 MapManager 합쳐서 두 개 도는데, 고치면 좋긴 하지만...
         TimeUIUpdate();
         LevelUIUpdate();
     }
