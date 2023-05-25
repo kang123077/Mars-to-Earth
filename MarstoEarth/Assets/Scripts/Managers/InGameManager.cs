@@ -7,8 +7,10 @@ public class InGameManager : Singleton<InGameManager>
     public static int clearedRooms = 0; // 클리어한 룸 수를 저장하는 변수
     public static int clearedBossRoom = 0;
     public GameObject cardUICon;
+    public GameObject reinforceCardUICon;
     public CardInfo cardInfo;
     public List<Skill.Skill> inGameSkill;
+    //public CombatUI combatUIInfo;
 
     protected override void Awake()
     {
@@ -21,6 +23,7 @@ public class InGameManager : Singleton<InGameManager>
     {
         // CardUI 부모 객체를 끔
         cardUICon.SetActive(false);
+        reinforceCardUICon.SetActive(false);
         InitInGame();
     }
 
@@ -31,6 +34,7 @@ public class InGameManager : Singleton<InGameManager>
         AudioManager.Instance.PauseSource();
         UIManager.Instance.aimImage.gameObject.SetActive(false);
         cardUICon.SetActive(true);
+        //reinforceCardUICon.SetActive(true);
         cardInfo.CardInit();
     }
 
@@ -46,10 +50,15 @@ public class InGameManager : Singleton<InGameManager>
         //{
         //    TriggerEvent();
         //}
-        if(clearedBossRoom % 1 == 0)
+
+        if(clearedRooms % 1 == 0) // && 컴뱃 UI의 bool 값이 true면 돌고 아니면 안돌게 만듦
         {
             TriggerEvent();
         }
+        //else if(clearedRooms % 1 == 0)
+        //{
+        //    // 리인포스 함수 이벤트 추가
+        //}   
     }
 
     public void OnBossCleared()
