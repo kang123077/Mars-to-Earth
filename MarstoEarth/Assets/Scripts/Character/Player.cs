@@ -166,9 +166,9 @@ namespace Character
                 return;
             Vector3 position = thisCurTransform.position;
 
-#if UNITY_ANDROID || UNITY_IOS
+
             
-#elif UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
 
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
@@ -204,8 +204,7 @@ namespace Character
 
                 if (Input.anyKey)
                 {
-                    if (Input.GetKeyDown(KeyCode.Space))
-                        actives[0].Use();
+                   
                     foreach (KeyCode keyCode in moveKeys)
                     {
                         if (Input.GetKeyDown(keyCode))
@@ -242,6 +241,8 @@ namespace Character
                 anim.SetFloat(X, lowerDir.x);
                 anim.SetFloat(Z, lowerDir.z);
             }
+            if (Input.GetKeyDown(KeyCode.Space))
+                actives[0].Use();
 
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
