@@ -1,1 +1,24 @@
-{"_t":[{"clearRooms":100,"clearTimes":0.0},{"clearRooms":101,"clearTimes":0.10000000149011612},{"clearRooms":102,"clearTimes":0.20000000298023225},{"clearRooms":103,"clearTimes":0.30000001192092898},{"clearRooms":104,"clearTimes":0.4000000059604645}]}
+{
+    "_t": [
+        {
+            "clearRooms": 100,
+            "clearTimes": 0.0
+        },
+        {
+            "clearRooms": 101,
+            "clearTimes": 0.10000000149011612
+        },
+        {
+            "clearRooms": 102,
+            "clearTimes": 0.20000000298023225
+        },
+        {
+            "clearRooms": 103,
+            "clearTimes": 0.30000001192092898
+        },
+        {
+            "clearRooms": 104,
+            "clearTimes": 0.4000000059604645
+        }
+    ]
+}
