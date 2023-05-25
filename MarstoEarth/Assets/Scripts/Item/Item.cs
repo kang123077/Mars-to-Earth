@@ -55,6 +55,7 @@ namespace Item
             }
             player.AddBuff(spcs[(int)type]);
             SpawnManager.Instance.itemPool.Add(this);
+            UIManager.Instance.playerStatUIController.core++;
             gameObject.SetActive(false);
         }        
     }

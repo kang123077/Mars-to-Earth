@@ -19,11 +19,12 @@ public class UIManager : Singleton<UIManager>
     private UI currentView;
     public StageClearUIController stageClearUI;
     public GameoverUIController gameoverUI;
+    public GameInfoUIController gameInfoUIController;
+    public PlayerStatUIController playerStatUIController;
     public TMP_InputField inputField;
     public RectTransform aimImage;
     public Transform muzzleTr;
     public Transform lookAtTr;
-    public GameInfoUIController gameInfoUIController;
 
     protected override void Awake()
     {

@@ -1165,7 +1165,7 @@ GameObject:
   - component: {fileID: 132280307}
   - component: {fileID: 132280308}
   m_Layer: 5
-  m_Name: GameInfo
+  m_Name: GameInfoUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1453,7 +1453,7 @@ GameObject:
   - component: {fileID: 254642051}
   - component: {fileID: 254642050}
   m_Layer: 5
-  m_Name: MiniMap
+  m_Name: MiniMapUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2517,11 +2517,12 @@ MonoBehaviour:
   - {fileID: 450594730}
   stageClearUI: {fileID: 616749748}
   gameoverUI: {fileID: 1511333175}
+  gameInfoUIController: {fileID: 132280308}
+  playerStatUIController: {fileID: 719027791}
   inputField: {fileID: 2098711299}
   aimImage: {fileID: 398775554}
   muzzleTr: {fileID: 0}
   lookAtTr: {fileID: 0}
-  gameInfoUIController: {fileID: 132280308}
 --- !u!114 &344494038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3106,7 +3107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.23529413, g: 0.9058824, b: 0.9058824, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6349,8 +6350,9 @@ GameObject:
   m_Component:
   - component: {fileID: 719027788}
   - component: {fileID: 719027790}
+  - component: {fileID: 719027791}
   m_Layer: 5
-  m_Name: PlayerStat
+  m_Name: PlayerStatUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6388,6 +6390,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719027787}
   m_CullTransparentMesh: 1
+--- !u!114 &719027791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719027787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a97202063ccb714fba3d19c687beff5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coreText: {fileID: 1509826449}
+  maxHpText: {fileID: 781514353}
+  attackText: {fileID: 1742314816}
+  speedText: {fileID: 1808695477}
+  defenceText: {fileID: 1292902033}
+  durationText: {fileID: 1997448911}
+  rangeText: {fileID: 1702499087}
 --- !u!1 &722011670
 GameObject:
   m_ObjectHideFlags: 0

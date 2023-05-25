@@ -48,7 +48,6 @@ namespace Character
         public Skill.Skill onSkill;
         private float SPCActionWeight;
         [HideInInspector] public Vector3 impact;
-        [HideInInspector] public float dmg;
         [HideInInspector] public float def;
         [HideInInspector] public float duration;
         [HideInInspector] public float range;
@@ -56,8 +55,17 @@ namespace Character
         [HideInInspector] public float sightLength;
 
         public float bulletSpeed;
-        private float _speed;
-        public float speed
+        protected float _dmg;
+        public virtual float dmg
+        {
+            get => _dmg;
+            set
+            {
+                _dmg = value;
+            }
+        }
+        protected float _speed;
+        public virtual float speed
         {
             get => _speed;
             set
@@ -67,7 +75,7 @@ namespace Character
             }
         }
         protected float _hp;
-        protected internal float hp
+        protected internal virtual float hp
         {
             get => _hp;
             set
@@ -84,7 +92,7 @@ namespace Character
             }
         }
 
-        public float MaxHp { get; set; }
+        public virtual float MaxHp { get; set; }
 
         [HideInInspector] public int layerMask;
 
@@ -166,7 +174,8 @@ namespace Character
         {
             if (gameObject.tag == "Player")
             {
-                UIManager.Instance.Gameover();
+                // player 태그 확인 후 맞으면 2초 후 게임오버
+                Invoke("PlayerDie", 2f);
             }
             dying = true;
             hpBar.gameObject.SetActive(false);
@@ -180,6 +189,11 @@ namespace Character
                 SpawnManager.Instance.ReleaseMonster((Monster)this);
             else
                 Destroy(gameObject);
+        }
+
+        protected virtual void PlayerDie()
+        {
+            UIManager.Instance.Gameover();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
