@@ -40,7 +40,7 @@ public class SpawnManager : Singleton<SpawnManager>
                 curNode.IsNodeCleared = true;
                 if (curNode.isBossNode)
                 {
-                    UIManager.Instance.StageClear();
+                    Invoke("RequestStageClear", 6f);
                     InGameManager.Instance.OnBossCleared();
                 }
                 else
@@ -82,6 +82,11 @@ public class SpawnManager : Singleton<SpawnManager>
                 return copyPrefab;
             },
             actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
+    }
+
+    public void RequestStageClear()
+    {
+        UIManager.Instance.StageClear();
     }
 
     public void InitSpawn()
