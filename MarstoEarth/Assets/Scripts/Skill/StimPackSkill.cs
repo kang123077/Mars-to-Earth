@@ -18,8 +18,6 @@ namespace Skill
                     effects[i].Play();
                 speedTemp = ch.speed;
                 ch.speed += speedTemp*0.1f*skillInfo.speed;
-                if (enforce)
-                    ch.speed += +0.05f;
                 ch.hp -= ch.MaxHp * 0.1f;
             }, (ch) =>
             {
@@ -52,6 +50,8 @@ namespace Skill
         {
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.itemUse,caster.weapon);
             caster.AddBuff(StimPack);
+            if (enforce)
+                caster.MaxHp += 5;
         }
     }
 }

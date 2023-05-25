@@ -1,3 +1,4 @@
+using System;
 using Skill;
 using System.Collections.Generic;
 using UnityEngine;
@@ -118,6 +119,7 @@ namespace Character
 
         protected override void Awake()
         {
+            staticStat.LoadStat(this);
             base.Awake();
            
             colliders = new Collider[8];
@@ -133,7 +135,6 @@ namespace Character
             base.Start();
             //테스트용
 #if UNITY_EDITOR
-
 
             actives.Add(new RollSkill());
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Grenade]);
@@ -159,12 +160,24 @@ namespace Character
             hitScreenColor = hitScreen.color;
         }
 
+        private void OnDestroy()
+        {
+            staticStat.saveStat(this);
+        }
+
         // ReSharper disable Unity.PerformanceAnalysis
         public override bool AddBuff(SPC buff)
         {
             if (!base.AddBuff(buff)) return false;
             combatUI.ConnectSPCImage(buff.icon);
             return true;
+        }
+        public void ClearBuff()//각각 다른 몬스터들이 준 버프 주소값 
+        {
+            foreach (var buff in Buffs)
+            {
+                RemoveBuff(buff);
+            }
         }
         // ReSharper disable Unity.PerformanceAnalysis
         public override int RemoveBuff(SPC buff)

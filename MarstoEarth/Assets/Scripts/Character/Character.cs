@@ -74,7 +74,7 @@ namespace Character
                 _speed = value;
             }
         }
-        protected float _hp;
+        public float _hp;
         protected internal virtual float hp
         {
             get => _hp;
@@ -130,12 +130,7 @@ namespace Character
 
             nockBackResist = characterStat.maxHP * 0.05f;
             impact = Vector3.zero;
-            dmg = characterStat.dmg;
-            speed = characterStat.speed;
-            def = characterStat.def;
-            duration = characterStat.duration;
-            _hp = MaxHp = characterStat.maxHP;
-            range = characterStat.range;
+            
             viewAngle = characterStat.viewAngle;
             sightLength = characterStat.sightLength;
             onSkill = null;

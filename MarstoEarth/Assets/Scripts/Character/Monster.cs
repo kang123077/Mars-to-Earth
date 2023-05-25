@@ -107,6 +107,12 @@ namespace Character
         
         protected override void Awake()
         {
+            dmg = characterStat.dmg;
+            speed = characterStat.speed;
+            def = characterStat.def;
+            duration = characterStat.duration;
+            _hp = MaxHp = characterStat.maxHP;
+            range = characterStat.range;
             base.Awake();
             patrolPoints = new Vector3[4];
       
