@@ -7,7 +7,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Pool;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 public class CombatUI : UI
 {
@@ -27,6 +26,20 @@ public class CombatUI : UI
                 _curSkillCount = value;
         }
     }
+    private int _curEnforceSkillCount;
+
+    private int curEnforceSkillCount
+    {
+        get => _curEnforceSkillCount;
+        set
+        {
+            if (value >= skillSlots.Length)
+                enforceFullCheck = true;
+            else
+                _curEnforceSkillCount = value;
+        }
+    }
+
     public UnityEngine.UI.Slider mplayerHP;
     public UnityEngine.UI.Slider playerHP;
     public UnityEngine.UI.Image hitScreen;
@@ -46,6 +59,7 @@ public class CombatUI : UI
     public RectTransform Dodge;
 
     public static bool fullCheck;
+    public static bool enforceFullCheck;
 
     private void Awake()
     {
@@ -96,6 +110,20 @@ public class CombatUI : UI
         skillSlots[curSkillCount].skill.Init(SpawnManager.Instance.player);
         curSkillCount++;
     }
+
+    public void EnforceSkill()
+    {
+        if (enforceFullCheck) return;
+        int randIdx;
+        do
+        {
+            randIdx = SpawnManager.rand.Next(0, 4);
+        } while (skillSlots[randIdx].skill.enforce);
+        skillSlots[randIdx].skill.enforce = true;
+        skillSlots[randIdx].isEnforce.gameObject.SetActive(true);
+        curEnforceSkillCount++;
+        return;
+    }
     public void ClickSkill(int idx)
     {
         if (curSkillCount <= idx) return;
@@ -124,12 +152,14 @@ public class CombatUI : UI
                 {                    
                     if (RectTransformUtility.RectangleContainsScreenPoint(Shot,touch.position))
                     {
-                        SpawnManager.Instance.player.Attacken();
+                        SpawnManager.Instance.player.anim.SetTrigger( Character.Character.attacking);
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                     {
                         UIManager.Instance.UIs[(int)UIType.Setting].gameObject.SetActive(true);
-                    }else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))
+                        Time.timeScale = 0f;
+                    }
+                    else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))
                     {
                         SpawnManager.Instance.player.actives[0].Use();
                     }
