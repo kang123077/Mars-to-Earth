@@ -12,7 +12,7 @@ namespace Skill
         private AudioClip temp;
         public RollSkill()
         {
-            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Roll];
+            skillInfo = ResourceManager.Instance.OnlyMonsterSkillInfos[(int)OnlyMonsterSkill.Roll];
             roll = new SPC((ch)=>
             {
                 effect.Play();

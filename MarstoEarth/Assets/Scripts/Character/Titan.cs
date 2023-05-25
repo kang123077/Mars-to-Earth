@@ -22,6 +22,12 @@ namespace Character
             jumpEleapse = 8;
         }
 
+        protected override IEnumerator Die()
+        {
+            InGameManager.Instance.OnBossCleared();
+            return base.Die();
+        }
+
         protected override void Attacked()
         {
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.swing, weapon);

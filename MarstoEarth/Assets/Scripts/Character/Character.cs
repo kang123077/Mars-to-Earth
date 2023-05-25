@@ -11,7 +11,7 @@ namespace Character
     {
         public static readonly int MotionTime = Animator.StringToHash("motionTime");
         protected static readonly int animSpeed = Animator.StringToHash("movingSpeed");
-        protected static readonly int attacking = Animator.StringToHash("attacking");
+        public static readonly int attacking = Animator.StringToHash("attacking");
         protected static readonly int onTarget = Animator.StringToHash("onTarget");
         public StatInfo characterStat;
         [SerializeField] public Animator anim;
@@ -242,7 +242,6 @@ namespace Character
             }
             else if (findBuff.currentTime < buff.duration)
                 findBuff.Init(buff.duration);
-
 
             return findBuff is null;
         }
