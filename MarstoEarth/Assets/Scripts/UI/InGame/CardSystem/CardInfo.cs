@@ -21,6 +21,12 @@ public class CardInfo : MonoBehaviour
         // 랜덤한 스킬 아이콘 선택하기
         randomIndexLeft = random.Next(0, InGameManager.Instance.inGameSkill.Count);
         randomIndexRight = random.Next(0, InGameManager.Instance.inGameSkill.Count);
+        // 같은 인덱스가 나왔을 경우 랜덤 라이트 인덱스의 값에 1을 더해 중복을 피함
+        if(randomIndexLeft == randomIndexRight)
+        {
+            randomIndexRight = (randomIndexRight + 1) % InGameManager.Instance.inGameSkill.Count;
+        }
+
         SkillIcon(randomIndexLeft, randomIndexRight);
         SkillDescription(randomIndexLeft, randomIndexRight);
     }
@@ -46,11 +52,11 @@ public class CardInfo : MonoBehaviour
         Sprite randomSkillIconRight = InGameManager.Instance.inGameSkill[rightIndex].skillInfo.icon;
 
         // 같은 아이콘이 나올 때 Left 아이콘의 인덱스를 늘려 중복을 피함
-        if (randomSkillIconLeft == randomSkillIconRight)
-        {
-            rightIndex = (rightIndex + 1) % InGameManager.Instance.inGameSkill.Count;
-            randomSkillIconLeft = InGameManager.Instance.inGameSkill[rightIndex].skillInfo.icon;
-        }
+        //if (randomSkillIconLeft == randomSkillIconRight)
+        //{
+        //    rightIndex = (rightIndex + 1) % InGameManager.Instance.inGameSkill.Count;
+        //    randomSkillIconLeft = InGameManager.Instance.inGameSkill[rightIndex].skillInfo.icon;
+        //}
 
         // 카드 이미지에 선택된 스킬 아이콘 할당하기
         cardSkillIconLeft.sprite = randomSkillIconLeft;
