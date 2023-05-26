@@ -111,9 +111,9 @@ public class CombatUI : UI
         curSkillCount++;
     }
 
-    public void EnforceSkill()
+    public int EnforceSkill()
     {
-        if (enforceFullCheck) return;
+        if (enforceFullCheck) return -1;
         int randIdx;
         do
         {
@@ -122,7 +122,7 @@ public class CombatUI : UI
         skillSlots[randIdx].skill.enforce = true;
         skillSlots[randIdx].isEnforce.gameObject.SetActive(true);
         curEnforceSkillCount++;
-        return;
+        return randIdx;
     }
     public void ClickSkill(int idx)
     {
