@@ -90,7 +90,7 @@ namespace Character
             KeyCode.Q,
             KeyCode.E,
             KeyCode.R,
-            KeyCode.F
+            KeyCode.F,
         };
 
         private bool _isRun;
@@ -134,9 +134,11 @@ namespace Character
 
             base.Start();
             //테스트용
+            actives.Add(new RollSkill());
+            actives[0].Init(this);
 #if UNITY_EDITOR
 
-            actives.Add(new RollSkill());
+
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Grenade]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.GravityBomb]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.SpiderMine]);
@@ -350,8 +352,9 @@ namespace Character
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
                     combatUI.ClickSkill(i);
+                
                 #region Test
-            
+
 #if UNITY_EDITOR
 
                 else if (Input.GetKeyDown(KeyCode.Alpha2))

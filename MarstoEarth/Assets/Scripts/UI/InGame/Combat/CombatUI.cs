@@ -126,7 +126,7 @@ public class CombatUI : UI
     }
     public void ClickSkill(int idx)
     {
-        if (curSkillCount <= idx) return;
+        if (curSkillCount < idx) return;
         SkillSlot slot = skillSlots[idx];
 
         if ((!slot.skill.isCombo && slot.coolDown.fillAmount <= 0) ||
