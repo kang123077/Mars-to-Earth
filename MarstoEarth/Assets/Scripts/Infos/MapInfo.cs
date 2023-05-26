@@ -1,3 +1,4 @@
+using System;
 /// <summary>
 /// static GameInfo나 진배없음
 /// </summary>
@@ -20,16 +21,7 @@ public static class MapInfo
     // 게임 시작 후 경과한 시간
     public static float cur_Time = 0;
     // 지금까지 먹은 아이템 갯수
-    private static int _core = 0;
-    public static int core
-    {
-        get => _core;
-        set
-        {
-            _core = value;
-            UIManager.Instance.playerStatUIController.core = value;
-        }
-    }
+    public static int core = 0;
 
     public static void ResetValues()
     {

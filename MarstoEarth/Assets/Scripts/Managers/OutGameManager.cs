@@ -1,4 +1,3 @@
-
 using UnityEngine.SceneManagement;
 
 public class OutGameManager : Singleton<OutGameManager>

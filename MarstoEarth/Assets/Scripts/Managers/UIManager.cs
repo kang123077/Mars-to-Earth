@@ -44,6 +44,7 @@ public class UIManager : Singleton<UIManager>
     {
         Cursor.lockState = CursorLockMode.Confined;
         currentView = UIs[(int)UIType.Combat];
+        playerStatUIController.core = MapInfo.core;
     }
 
     private void Update()

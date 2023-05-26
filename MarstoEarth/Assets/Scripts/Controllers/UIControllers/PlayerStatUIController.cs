@@ -14,11 +14,6 @@ public class PlayerStatUIController : MonoBehaviour
     public TMP_Text durationText;
     public TMP_Text rangeText;
 
-    public void Start()
-    {
-        core = MapInfo.core;
-    }
-
     // 유저가 획득한 아이템 갯수
     private int _core;
     public int core

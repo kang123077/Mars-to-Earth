@@ -101,13 +101,5 @@ public class ReportCheckUI : MonoBehaviour
     {
         float scrollInput = Input.GetAxisRaw("Mouse ScrollWheel");
         reportScroll.value += scrollInput;
-        if (reportScroll.value <= 0)
-        {
-            reportScroll.value = 0f;
-        }
-        else if (reportScroll.value >= 1)
-        {
-            reportScroll.value = 1f;
-        }
     }
 }

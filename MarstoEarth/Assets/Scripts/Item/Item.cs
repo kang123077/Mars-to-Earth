@@ -56,6 +56,7 @@ namespace Item
             player.AddBuff(spcs[(int)type]);
             SpawnManager.Instance.itemPool.Add(this);
             MapInfo.core++;
+            UIManager.Instance.playerStatUIController.core = MapInfo.core;
             gameObject.SetActive(false);
         }        
     }
