@@ -9,6 +9,7 @@ public class OutGameSettingUI : MonoBehaviour
     FullScreenMode screenMode;
     public UnityEngine.UI.Toggle fullScreen;
     List<Resolution> resolutions;
+    
 
     private void Awake()
     {
@@ -17,8 +18,8 @@ public class OutGameSettingUI : MonoBehaviour
 
     void Start()
     {
-        resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>(); // try get
-        maserVolume.onValueChanged.AddListener(delegate { OnMasterVolumeChanged(); });
+        resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>();
+        maserVolume.onValueChanged.AddListener(delegate { SetMasterVolume(); } );
         ResolInit();
     }
 
@@ -36,8 +37,6 @@ public class OutGameSettingUI : MonoBehaviour
         resolutionNum = 0;
         foreach (Resolution item in resolutions)
         {
-            Debug.Log(resolutions.Count);
-
             TMPro.TMP_Dropdown.OptionData option = new TMPro.TMP_Dropdown.OptionData();
             option.text = item.width + " X " + item.height + " ";
             resolutionCon.options.Add(option);
@@ -67,9 +66,16 @@ public class OutGameSettingUI : MonoBehaviour
         screenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
     }
 
-    public void OnMasterVolumeChanged()
+    public void SetMasterVolume()
     {
-        AudioManager.Instance.SetMasterVolume(maserVolume.value);
+        float value = maserVolume.value;
+        AudioManager.masterVolume = value;
+        UpdateAllVolumes();
+    }
+    private void UpdateAllVolumes()
+    {
+        AudioManager.finalBGM_Volume = AudioManager.masterVolume * AudioManager.bgmVolume;
+        AudioManager.finalEffectVolume = AudioManager.masterVolume * AudioManager.effectVolume;
     }
 
     public void GameSettingUI()
