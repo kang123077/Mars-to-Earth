@@ -25,7 +25,7 @@ public class ReinforceInfo : MonoBehaviour
             }
         }
         reinIcon.sprite = loadSkills[checkIndex].skill.skillInfo.icon;
-        reinText.text = loadSkills[checkIndex].skill.skillInfo.description;
+        reinText.text = loadSkills[checkIndex].skill.skillInfo.name + "\n\n" + loadSkills[checkIndex].skill.skillInfo.description2;
     }
 
     private void Update()

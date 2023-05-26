@@ -86,6 +86,7 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void RequestStageClear()
     {
+        staticStat.saveStat(player);
         UIManager.Instance.StageClear();
     }
 
@@ -180,6 +181,8 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount++;
         target.gameObject.SetActive(true);
     }
+
+
 
     public void ReleaseMonster(Monster target)
     {

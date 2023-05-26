@@ -15,7 +15,7 @@ namespace Character
         public float sightLength;
         public float viewAngle;
     }
-    public class staticStat
+    public static class staticStat
     {
         public static float dmg;
         public static float speed ;
@@ -29,7 +29,13 @@ namespace Character
         {
             if (count < 1)
             {
-                ResetValues(player);
+                ResetValues();
+                dmg = player.characterStat.dmg;
+                speed = player.characterStat.speed;
+                def = player.characterStat.def;
+                duration = player.characterStat.duration;
+                maxHP = player.characterStat.maxHP;
+                range = player.characterStat.range;
             }
 
             player.dmg = dmg;
@@ -53,15 +59,12 @@ namespace Character
             range = player.range;
         }
         
-        public static void ResetValues(Player player)
+        public static void ResetValues()
         {
             count = 0;
-            dmg = player.characterStat.dmg;
-            speed = player.characterStat.speed;
-            def = player.characterStat.def;
-            duration = player.characterStat.duration;
-            maxHP = player.characterStat.maxHP;
-            range = player.characterStat.range;
+            CombatUI.fullCheck = false;
+            CombatUI.enforceFullCheck = false;
+
         }
     }
 }

@@ -37,19 +37,9 @@ namespace Projectile
                     Destroy(gameObject);
                 }
             }
-            else
+            else if(enforce)
             {
-                thisTransform.position = SpawnManager.Instance.playerTransform.position;
-                int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders, layerMask);
-                for (int i = 0; i < count; i++)
-                {
-                    curDist = Vector3.Distance(thisTransform.position, colliders[i].transform.position);
-                    if (curDist < maxDist)
-                    {
-                        targetTr = colliders[i].transform;
-                        maxDist = curDist;
-                    }
-                }
+                thisTransform.position = SpawnManager.Instance.playerTransform.position;                
             }
         }
 

@@ -37,7 +37,8 @@ namespace Character
             set
             {
                 _dmg = value;
-                UIManager.Instance.playerStatUIController.attack = _dmg;
+                if(UIManager.Instance)
+                    UIManager.Instance.playerStatUIController.attack = _dmg;
             }
         }
 
@@ -48,7 +49,8 @@ namespace Character
             {
                 anim.SetFloat(animSpeed, 1 + value * 0.05f);
                 _speed = value;
-                UIManager.Instance.playerStatUIController.speed = _speed;
+                if (UIManager.Instance)
+                    UIManager.Instance.playerStatUIController.speed = _speed;
             }
         }
 
@@ -59,7 +61,8 @@ namespace Character
             set
             {
                 _MaxHP = value;
-                UIManager.Instance.playerStatUIController.maxHp = _MaxHP;
+                if (UIManager.Instance)
+                    UIManager.Instance.playerStatUIController.maxHp = _MaxHP;
             }
         }
 
@@ -119,7 +122,7 @@ namespace Character
 
         protected override void Awake()
         {
-            staticStat.LoadStat(this);
+            
             base.Awake();
            
             colliders = new Collider[8];
@@ -131,7 +134,7 @@ namespace Character
 
         protected override void Start()
         {
-
+            staticStat.LoadStat(this);
             base.Start();
             //테스트용
             actives.Add(new RollSkill());
@@ -162,11 +165,7 @@ namespace Character
             hitScreenColor = hitScreen.color;
         }
 
-        private void OnDestroy()
-        {
-            staticStat.saveStat(this);
-        }
-
+        
         // ReSharper disable Unity.PerformanceAnalysis
         public override bool AddBuff(SPC buff)
         {
@@ -176,9 +175,9 @@ namespace Character
         }
         public void ClearBuff()//각각 다른 몬스터들이 준 버프 주소값 
         {
-            foreach (var buff in Buffs)
+            for (int i = 0; i < Buffs.Count; i++)
             {
-                RemoveBuff(buff);
+                RemoveBuff(Buffs[i]);
             }
         }
         // ReSharper disable Unity.PerformanceAnalysis
