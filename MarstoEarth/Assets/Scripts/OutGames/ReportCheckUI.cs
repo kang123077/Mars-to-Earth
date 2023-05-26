@@ -72,7 +72,7 @@ public class ReportCheckUI : MonoBehaviour
         List<ClearReport> clearReportToList = JsonUtility.FromJson<Serialization<ClearReport>>(jsonDataList).ToList();
         foreach (ClearReport one in clearReportToList)
         {
-            cloneText.text = "ClearRooms = " + one.CLEARROOM.ToString() + "\n\n\n" + "ClearTime " + one.CLEARTIME.ToString();
+            // cloneText.text = "ClearRooms = " + one.CLEARROOM.ToString() + "\n\n\n" + "ClearTime " + one.CLEARTIME.ToString();
             Instantiate(reportGameClone, cloneParents);
         }
     }

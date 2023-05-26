@@ -1,3 +1,4 @@
+using Character;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -84,5 +85,14 @@ public class PlayerStatUIController : MonoBehaviour
             _range = value;
             rangeText.text = _range.ToString();
         }
+    }
+    public void initStatUI(StatInfo statInfo)
+    {
+        maxHp = statInfo.maxHP;
+        attack = statInfo.dmg;
+        speed = statInfo.speed;
+        defence = statInfo.def;
+        duration = statInfo.duration;
+        range = statInfo.range;
     }
 }
