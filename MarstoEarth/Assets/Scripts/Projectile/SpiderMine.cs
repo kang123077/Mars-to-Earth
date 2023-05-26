@@ -1,23 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Projectile
 {
     public class SpiderMine : Installation
-    {
-       
-        private float maxDist = 1000;
-        private static float curDist;
-
+    {        
         private Transform targetTr;
-
-        
-
         private void Update()
         {
-            
             BaseUpdate();
             if (targetTr)
             {
