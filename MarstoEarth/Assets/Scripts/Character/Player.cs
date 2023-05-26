@@ -90,7 +90,7 @@ namespace Character
             KeyCode.Q,
             KeyCode.E,
             KeyCode.R,
-            KeyCode.Space
+            KeyCode.F
         };
 
         private bool _isRun;
