@@ -16,9 +16,7 @@ public class OutGameManager : Singleton<OutGameManager>
 
     public void OutGameInit()
     {
-        MapInfo.ResetValues();
-        CombatUI.fullCheck = false;
-        CombatUI.enforceFullCheck = false;
+        MapInfo.ResetValues();        
         Character.staticStat.ResetValues(SpawnManager.Instance.player);
     }
 }

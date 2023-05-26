@@ -72,6 +72,8 @@ public class InGameManager : Singleton<InGameManager>
             SpawnManager.Instance.DropItem(point+Vector3.right*
                 SpawnManager.rand.Next(-8,8)+Vector3.forward*SpawnManager.rand.Next(-8,8),EnemyPool.Boss);
         }
+        CombatUI.fullCheck = false;
+        CombatUI.enforceFullCheck = false;
         Debug.Log("보스 클리어 이벤트 함수");
     }
 
