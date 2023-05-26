@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class OutGameSettingUI : MonoBehaviour
 {
-    public UnityEngine.UI.Slider maserVolume;
+    public UnityEngine.UI.Slider ogsbgmVolume;
+    public UnityEngine.UI.Slider ogseffectVolume;
     public int resolutionNum;
     public TMPro.TMP_Dropdown resolutionCon;
     FullScreenMode screenMode;
@@ -19,7 +20,8 @@ public class OutGameSettingUI : MonoBehaviour
     void Start()
     {
         resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>();
-        maserVolume.onValueChanged.AddListener(delegate { SetMasterVolume(); } );
+        ogsbgmVolume.onValueChanged.AddListener(delegate { SetBGMVolume(); } );
+        ogseffectVolume.onValueChanged.AddListener(delegate { SetEffectVolume(); });
         ResolInit();
     }
 
@@ -66,12 +68,20 @@ public class OutGameSettingUI : MonoBehaviour
         screenMode = isFull ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
     }
 
-    public void SetMasterVolume()
+    public void SetBGMVolume()
     {
-        float value = maserVolume.value;
-        AudioManager.masterVolume = value;
+        float value = ogsbgmVolume.value;
+        AudioManager.bgmVolume = value;
         UpdateAllVolumes();
     }
+
+    public void SetEffectVolume()
+    {
+        float value = ogseffectVolume.value;
+        AudioManager.effectVolume = value;
+        UpdateAllVolumes();
+    }
+
     private void UpdateAllVolumes()
     {
         AudioManager.finalBGM_Volume = AudioManager.masterVolume * AudioManager.bgmVolume;
