@@ -83,7 +83,8 @@ namespace Character
                 if (value > MaxHp)
                     value = MaxHp;
                 _hp = value;
-                hpBar.value = hp / MaxHp;
+                if(hpBar!= null)
+                    hpBar.value = hp / MaxHp;
                 if (value <= 0)
                 {
                     SpawnManager.Instance.player.target = null;

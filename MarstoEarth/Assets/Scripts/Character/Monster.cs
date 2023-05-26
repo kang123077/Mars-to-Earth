@@ -111,7 +111,7 @@ namespace Character
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;
-            _hp = MaxHp = characterStat.maxHP;
+            hp = MaxHp = characterStat.maxHP;
             range = characterStat.range;
             base.Awake();
             patrolPoints = new Vector3[4];
@@ -184,14 +184,11 @@ namespace Character
 
             lastPosition = thisCurTransform.position;
             patrolIdx = Random.Range(0, 4);
-
             ai.SetDestination(patrolPoints[patrolIdx]);
             hpBar.value = 1;
-            hpBar.gameObject.SetActive(false);
-            
+            hpBar.gameObject.SetActive(false);            
             col.enabled = true;
-            StuckCheckCoroutine =StartCoroutine(StuckCheck());
-           
+            StuckCheckCoroutine =StartCoroutine(StuckCheck());           
             dying = false;
         }
 
@@ -211,7 +208,6 @@ namespace Character
                 }
             }
         }
-
         // ReSharper disable Unity.PerformanceAnalysis
         protected internal override bool Hited(Vector3 attacker, float dmg,float penetrate=0)
         {
