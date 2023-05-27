@@ -19,7 +19,7 @@ MonoBehaviour:
     \uB0A8\uC740 \uC2DC\uAC04\uC744 \uCFE8\uD0C0\uC784\uC5D0 \uB3CC\uB824\uBC1B\uB294\uB2E4."
   clipName: MassShooting
   clipLayer: 1
-  dmg: 8
+  dmg: 12
   duration: 8
   range: 8
   cool: 15

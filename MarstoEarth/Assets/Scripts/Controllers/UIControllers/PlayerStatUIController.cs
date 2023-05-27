@@ -86,7 +86,7 @@ public class PlayerStatUIController : MonoBehaviour
             rangeText.text = _range.ToString();
         }
     }
-    public void initStatUI(StatInfo statInfo)
+    public void InitStatUI(StatInfo statInfo)
     {
         maxHp = statInfo.maxHP;
         attack = statInfo.dmg;
@@ -94,5 +94,14 @@ public class PlayerStatUIController : MonoBehaviour
         defence = statInfo.def;
         duration = statInfo.duration;
         range = statInfo.range;
+    }
+    public void InitStaticStat()
+    {
+        maxHp = staticStat.maxHP;
+        attack = staticStat.dmg;
+        speed = staticStat.speed;
+        defence = staticStat.def;
+        duration = staticStat.duration;
+        range = staticStat.range;
     }
 }

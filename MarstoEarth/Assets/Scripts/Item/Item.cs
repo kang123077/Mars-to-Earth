@@ -44,13 +44,14 @@ namespace Item
             switch (type)
             {
                 case ItemType.Heal:
-                    player.MaxHp += 5;
+                    player.MaxHp += 20;
                     break;
                 case ItemType.Boost:
-                    player.speed += 0.1f;
+                    player.speed += 0.05f;
                     break;
                 case ItemType.PowerUp:
-                    player.dmg += 1;
+                    player.dmg += 1
+                        ;
                     break;
             }
             player.AddBuff(spcs[(int)type]);
