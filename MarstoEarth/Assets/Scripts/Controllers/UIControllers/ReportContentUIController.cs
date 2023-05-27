@@ -9,16 +9,21 @@ public class ReportContentUIController : MonoBehaviour
     public TMP_Text clearedStage;
     public TMP_Text clearedRooms;
     public TMP_Text playedTime;
+    public TMP_Text hpCoreAmount;
+    public TMP_Text dmgCoreAmount;
+    public TMP_Text speedCoreAmount;
     public PlayerStatUIController playerStatUI;
 
     public void InitContent()
     {
         InitDateTime();
-        string stageString = UIManager.Instance.gameInfoUIController.stageUI.text;
-        string cleanedString = stageString.Replace("Stage", "").Trim();
-        clearedStage.text = cleanedString;
+        int intClearedStage = MapInfo.cur_Stage - 1;
+        clearedStage.text = intClearedStage.ToString();
         clearedRooms.text = InGameManager.clearedRooms.ToString();
         playedTime.text = UIManager.Instance.gameInfoUIController.timeUI.text;
+        hpCoreAmount.text = MapInfo.hpCore.ToString();
+        dmgCoreAmount.text = MapInfo.dmgCore.ToString();
+        speedCoreAmount.text = MapInfo.speedCore.ToString();
         InitPlayerStat();
     }
 

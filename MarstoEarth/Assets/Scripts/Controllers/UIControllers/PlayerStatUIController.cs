@@ -97,6 +97,7 @@ public class PlayerStatUIController : MonoBehaviour
     }
     public void InitStaticStat()
     {
+        core = MapInfo.core;
         maxHp = staticStat.maxHP;
         attack = staticStat.dmg;
         speed = staticStat.speed;
