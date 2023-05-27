@@ -44,7 +44,6 @@ public enum desertPool
 
 public enum SkillName
 {
-    Roll,
     Stimpack,
     Grenade,
     Gardian,
@@ -63,6 +62,7 @@ public enum OnlyMonsterSkill
 {
     Smash,
     Bite,
+    Roll
 }
 
 public enum CommonSPC
@@ -94,8 +94,6 @@ public class ResourceManager : Singleton<ResourceManager>
     {
         base.Awake();
         //skillInfos = Resources.LoadAll<SkillInfo>("SkillsStat");
-
-        skills.Add(new RollSkill());//플레이어 전용
         skills.Add(new StimPackSkill());
         skills.Add(new GrenadeSkill());
         skills.Add(new GardianSkill());
@@ -109,7 +107,7 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new BlockSkill());
         skills.Add(new ChargeSkill());//플레이어 전용
     }
-    //public static T DeepCopy<T>(T obj)
+    //public static T DeepCopy<T>(T obj) 비용이 많이듬.
     //{
     //    using (var stream = new MemoryStream())
     //    {

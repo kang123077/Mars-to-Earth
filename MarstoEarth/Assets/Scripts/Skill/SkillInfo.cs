@@ -9,6 +9,7 @@ namespace Skill
     public class SkillInfo:ScriptableObject
     {        
         public string description;
+        public string description2;
         public string clipName;
         public byte clipLayer;
         public byte dmg;

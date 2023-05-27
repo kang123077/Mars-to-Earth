@@ -7,7 +7,9 @@ public class InGameManager : Singleton<InGameManager>
     public static int clearedRooms = 0; // 클리어한 룸 수를 저장하는 변수
     public static int clearedBossRoom = 0;
     public GameObject cardUICon;
+    public GameObject reinforceCardUICon;
     public CardInfo cardInfo;
+    public ReinforceInfo reinforceInfo;
     public List<Skill.Skill> inGameSkill;
 
     protected override void Awake()
@@ -21,6 +23,7 @@ public class InGameManager : Singleton<InGameManager>
     {
         // CardUI 부모 객체를 끔
         cardUICon.SetActive(false);
+        reinforceCardUICon.SetActive(false);
         InitInGame();
     }
 
@@ -34,35 +37,45 @@ public class InGameManager : Singleton<InGameManager>
         cardInfo.CardInit();
     }
 
-    ///*
-    // * 맵을 클리어할 때 이벤트를 발생시키고
-    // * 맵의 특정한 구역에 적용하면 구역 통과시
-    // * 맵 클리어할 때 발동되는 코드
-    // */
+    // 맵 클리어 시 발동 함수
     public void OnRoomCleared()
     {
         clearedRooms++;
-        //if (clearedRooms % 2 == 0) // 2 개의 방을 클리어했을 때
-        //{
-        //    TriggerEvent();
-        //}
-        if(clearedBossRoom % 1 == 0)
+        if (clearedRooms % 1 == 0 && !CombatUI.fullCheck == true)
         {
             TriggerEvent();
         }
+        else if (clearedRooms % 1 == 0 && CombatUI.fullCheck == true)
+        {
+            ReinforceEvent();
+        }
+    }
+
+    private void ReinforceEvent()
+    {
+        reinforceCardUICon.SetActive(true);
+        reinforceInfo.ReinforceAdd();
     }
 
     public void OnBossCleared()
     {
         clearedBossRoom++;
-        //TriggerEvent();
+        Vector3 point = SpawnManager.Instance.playerTransform.position;
+        point.y = 0.8f;
+
+        for (ushort i = 0; i < 8; i++)
+        {
+            SpawnManager.Instance.DropItem(point + Vector3.right *
+                SpawnManager.rand.Next(-8, 8) + Vector3.forward * SpawnManager.rand.Next(-8, 8), EnemyPool.Boss);
+        }
+        Character.staticStat.ResetValues();
         Debug.Log("보스 클리어 이벤트 함수");
     }
 
     public void InitInGame()
     {
         MapManager.Instance.GenerateMapCall();
-        foreach(PathController path in MapManager.Instance.paths)
+        foreach (PathController path in MapManager.Instance.paths)
         {
             path.InitPath();
         }

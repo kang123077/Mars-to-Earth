@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SkillSlot : MonoBehaviour
 {
     public Image skillImage;
+    public Image isEnforce;
     public Image coolDown;
 
     public Skill.Skill skill;

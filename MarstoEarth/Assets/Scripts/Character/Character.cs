@@ -11,7 +11,7 @@ namespace Character
     {
         public static readonly int MotionTime = Animator.StringToHash("motionTime");
         protected static readonly int animSpeed = Animator.StringToHash("movingSpeed");
-        protected static readonly int attacking = Animator.StringToHash("attacking");
+        public static readonly int attacking = Animator.StringToHash("attacking");
         protected static readonly int onTarget = Animator.StringToHash("onTarget");
         public StatInfo characterStat;
         [SerializeField] public Animator anim;
@@ -48,7 +48,6 @@ namespace Character
         public Skill.Skill onSkill;
         private float SPCActionWeight;
         [HideInInspector] public Vector3 impact;
-        [HideInInspector] public float dmg;
         [HideInInspector] public float def;
         [HideInInspector] public float duration;
         [HideInInspector] public float range;
@@ -56,8 +55,17 @@ namespace Character
         [HideInInspector] public float sightLength;
 
         public float bulletSpeed;
-        private float _speed;
-        public float speed
+        protected float _dmg;
+        public virtual float dmg
+        {
+            get => _dmg;
+            set
+            {
+                _dmg = value;
+            }
+        }
+        protected float _speed;
+        public virtual float speed
         {
             get => _speed;
             set
@@ -66,8 +74,8 @@ namespace Character
                 _speed = value;
             }
         }
-        protected float _hp;
-        protected internal float hp
+        public float _hp;
+        protected internal virtual float hp
         {
             get => _hp;
             set
@@ -75,7 +83,8 @@ namespace Character
                 if (value > MaxHp)
                     value = MaxHp;
                 _hp = value;
-                hpBar.value = hp / MaxHp;
+                if(hpBar!= null)
+                    hpBar.value = hp / MaxHp;
                 if (value <= 0)
                 {
                     SpawnManager.Instance.player.target = null;
@@ -84,7 +93,7 @@ namespace Character
             }
         }
 
-        public float MaxHp { get; set; }
+        public virtual float MaxHp { get; set; }
 
         [HideInInspector] public int layerMask;
 
@@ -122,12 +131,7 @@ namespace Character
 
             nockBackResist = characterStat.maxHP * 0.05f;
             impact = Vector3.zero;
-            dmg = characterStat.dmg;
-            speed = characterStat.speed;
-            def = characterStat.def;
-            duration = characterStat.duration;
-            _hp = MaxHp = characterStat.maxHP;
-            range = characterStat.range;
+            
             viewAngle = characterStat.viewAngle;
             sightLength = characterStat.sightLength;
             onSkill = null;
@@ -166,7 +170,8 @@ namespace Character
         {
             if (gameObject.tag == "Player")
             {
-                UIManager.Instance.Gameover();
+                // player 태그 확인 후 맞으면 2초 후 게임오버
+                Invoke("PlayerDie", 2f);
             }
             dying = true;
             hpBar.gameObject.SetActive(false);
@@ -180,6 +185,11 @@ namespace Character
                 SpawnManager.Instance.ReleaseMonster((Monster)this);
             else
                 Destroy(gameObject);
+        }
+
+        protected virtual void PlayerDie()
+        {
+            UIManager.Instance.Gameover();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -242,7 +252,6 @@ namespace Character
             }
             else if (findBuff.currentTime < buff.duration)
                 findBuff.Init(buff.duration);
-
 
             return findBuff is null;
         }

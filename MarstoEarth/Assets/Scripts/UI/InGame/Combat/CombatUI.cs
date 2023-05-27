@@ -7,14 +7,39 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Pool;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 public class CombatUI : UI
 {
     public SkillSlot[] skillSlots;
     public Transform[] mSlotPos;
 
-    private int curSkillCount;
+    private int _curSkillCount;
+
+    private int curSkillCount
+    {
+        get => _curSkillCount;
+        set
+        {
+            if (value >= skillSlots.Length)
+                fullCheck = true;
+            else
+                _curSkillCount = value;
+        }
+    }
+    private int _curEnforceSkillCount;
+
+    private int curEnforceSkillCount
+    {
+        get => _curEnforceSkillCount;
+        set
+        {
+            if (value >= skillSlots.Length)
+                enforceFullCheck = true;
+            else
+                _curEnforceSkillCount = value;
+        }
+    }
+
     public UnityEngine.UI.Slider mplayerHP;
     public UnityEngine.UI.Slider playerHP;
     public UnityEngine.UI.Image hitScreen;
@@ -31,6 +56,10 @@ public class CombatUI : UI
     public JoyStick MovingPad;
     public RectTransform Shot;
     public RectTransform Pause;
+    public RectTransform Dodge;
+
+    public static bool fullCheck;
+    public static bool enforceFullCheck;
 
     private void Awake()
     {
@@ -81,9 +110,23 @@ public class CombatUI : UI
         skillSlots[curSkillCount].skill.Init(SpawnManager.Instance.player);
         curSkillCount++;
     }
+
+    public int EnforceSkill()
+    {
+        if (enforceFullCheck) return -1;
+        int randIdx;
+        do
+        {
+            randIdx = SpawnManager.rand.Next(0, 4);
+        } while (skillSlots[randIdx].skill.enforce);
+        skillSlots[randIdx].skill.enforce = true;
+        skillSlots[randIdx].isEnforce.gameObject.SetActive(true);
+        curEnforceSkillCount++;
+        return randIdx;
+    }
     public void ClickSkill(int idx)
     {
-        if (curSkillCount <= idx) return;
+        if (curSkillCount < idx) return;
         SkillSlot slot = skillSlots[idx];
 
         if ((!slot.skill.isCombo && slot.coolDown.fillAmount <= 0) ||
@@ -109,11 +152,16 @@ public class CombatUI : UI
                 {                    
                     if (RectTransformUtility.RectangleContainsScreenPoint(Shot,touch.position))
                     {
-                        SpawnManager.Instance.player.Attacken();
+                        SpawnManager.Instance.player.anim.SetTrigger( Character.Character.attacking);
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                     {
                         UIManager.Instance.UIs[(int)UIType.Setting].gameObject.SetActive(true);
+                        Time.timeScale = 0f;
+                    }
+                    else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))
+                    {
+                        SpawnManager.Instance.player.actives[0].Use();
                     }
                     else if (touch.position.x< Screen.width*0.3f)
                     {

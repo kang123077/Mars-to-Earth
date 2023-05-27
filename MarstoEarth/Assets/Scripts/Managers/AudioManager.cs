@@ -45,10 +45,7 @@ public class AudioManager : Singleton<AudioManager>
     private float finalEffectVolume = 0.6f;
     private float finalBGM_Volume = 0.6f;
 
-    protected override void Awake()
-    {
-        base.Awake();
-    }
+   
 
     void Start()
     {

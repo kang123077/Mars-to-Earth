@@ -1,3 +1,4 @@
+using System;
 /// <summary>
 /// static GameInfo나 진배없음
 /// </summary>
@@ -19,6 +20,9 @@ public static class MapInfo
     public static float maxDistance = 3f;
     // 게임 시작 후 경과한 시간
     public static float cur_Time = 0;
+    // 지금까지 먹은 아이템 갯수
+    public static int core = 0;
+
     public static void ResetValues()
     {
         seed_Number = 0;
@@ -29,5 +33,6 @@ public static class MapInfo
         isRetry = false;
         maxDistance = 3f;
         cur_Time = 0;
+        core = 0;
     }
 }

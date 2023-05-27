@@ -40,7 +40,7 @@ public class SpawnManager : Singleton<SpawnManager>
                 curNode.IsNodeCleared = true;
                 if (curNode.isBossNode)
                 {
-                    UIManager.Instance.StageClear();
+                    Invoke("RequestStageClear", 6f);
                     InGameManager.Instance.OnBossCleared();
                 }
                 else
@@ -82,6 +82,12 @@ public class SpawnManager : Singleton<SpawnManager>
                 return copyPrefab;
             },
             actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
+    }
+
+    public void RequestStageClear()
+    {
+        staticStat.saveStat(player);
+        UIManager.Instance.StageClear();
     }
 
     public void InitSpawn()
@@ -175,6 +181,8 @@ public class SpawnManager : Singleton<SpawnManager>
         curMonsterCount++;
         target.gameObject.SetActive(true);
     }
+
+
 
     public void ReleaseMonster(Monster target)
     {

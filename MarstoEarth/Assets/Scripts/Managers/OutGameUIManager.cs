@@ -24,10 +24,6 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
         Application.Quit();
     }
 
-    void Start()
-    {
-        
-    }
 
     void Update()
     {

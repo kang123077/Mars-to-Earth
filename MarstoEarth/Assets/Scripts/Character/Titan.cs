@@ -22,6 +22,8 @@ namespace Character
             jumpEleapse = 8;
         }
 
+     
+
         protected override void Attacked()
         {
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.swing, weapon);

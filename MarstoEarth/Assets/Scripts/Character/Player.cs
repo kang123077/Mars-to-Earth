@@ -1,3 +1,4 @@
+using System;
 using Skill;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,9 +31,42 @@ namespace Character
                 base.target = CinemachineManager.Instance.bossCam.LookAt = value;
             }
         }
+        public override float dmg
+        {
+            get => _dmg;
+            set
+            {
+                _dmg = value;
+                if(UIManager.Instance)
+                    UIManager.Instance.playerStatUIController.attack = _dmg;
+            }
+        }
 
+        public override float speed
+        {
+            get => _speed;
+            set
+            {
+                anim.SetFloat(animSpeed, 1 + value * 0.05f);
+                _speed = value;
+                if (UIManager.Instance)
+                    UIManager.Instance.playerStatUIController.speed = _speed;
+            }
+        }
 
-        protected List<Skill.Skill> actives;
+        public float _MaxHP;
+
+        public override float MaxHp
+        {   get => _MaxHP;
+            set
+            {
+                _MaxHP = value;
+                if (UIManager.Instance)
+                    UIManager.Instance.playerStatUIController.maxHp = _MaxHP;
+            }
+        }
+
+        public List<Skill.Skill> actives;
 
         public float xInput;
         public float zInput;
@@ -59,7 +93,7 @@ namespace Character
             KeyCode.Q,
             KeyCode.E,
             KeyCode.R,
-            KeyCode.Space
+            KeyCode.F,
         };
 
         private bool _isRun;
@@ -88,6 +122,7 @@ namespace Character
 
         protected override void Awake()
         {
+            
             base.Awake();
            
             colliders = new Collider[8];
@@ -99,13 +134,14 @@ namespace Character
 
         protected override void Start()
         {
-
+            staticStat.LoadStat(this);
             base.Start();
             //테스트용
+            actives.Add(new RollSkill());
+            actives[0].Init(this);
 #if UNITY_EDITOR
 
 
-            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Roll]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Grenade]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.GravityBomb]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.SpiderMine]);
@@ -129,12 +165,20 @@ namespace Character
             hitScreenColor = hitScreen.color;
         }
 
+        
         // ReSharper disable Unity.PerformanceAnalysis
         public override bool AddBuff(SPC buff)
         {
             if (!base.AddBuff(buff)) return false;
             combatUI.ConnectSPCImage(buff.icon);
             return true;
+        }
+        public void ClearBuff()//각각 다른 몬스터들이 준 버프 주소값 
+        {
+            for (int i = 0; i < Buffs.Count; i++)
+            {
+                RemoveBuff(Buffs[i]);
+            }
         }
         // ReSharper disable Unity.PerformanceAnalysis
         public override int RemoveBuff(SPC buff)
@@ -166,9 +210,9 @@ namespace Character
                 return;
             Vector3 position = thisCurTransform.position;
 
-#if UNITY_ANDROID || UNITY_IOS
+
             
-#elif UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN
 
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
@@ -204,11 +248,11 @@ namespace Character
 
                 if (Input.anyKey)
                 {
+                   
                     foreach (KeyCode keyCode in moveKeys)
                     {
                         if (Input.GetKeyDown(keyCode))
                         {
-                            
                             
                             if (Time.time - lastInputTime < 0.3f && key == keyCode)
                                 if (onSkill is not MassShootingSkill)
@@ -241,6 +285,8 @@ namespace Character
                 anim.SetFloat(X, lowerDir.x);
                 anim.SetFloat(Z, lowerDir.z);
             }
+            if (Input.GetKeyDown(KeyCode.Space))
+                actives[0].Use();
 
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
@@ -305,63 +351,60 @@ namespace Character
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
                     combatUI.ClickSkill(i);
-            #region Test
+                
+                #region Test
+
 #if UNITY_EDITOR
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                actives[0].Use();
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    actives[1].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
 
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                actives[1].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-
-            {
-                actives[2].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                actives[12].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad0))
-            {
-                actives[3].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad1))
-            {
-                actives[4].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad2))
-            {
-                actives[5].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad3))
-            {
-                actives[6].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad4))
-            {
-                actives[7].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad5))
-            {
-                actives[8].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad6))
-            {
-                actives[9].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad7))
-            {
-                actives[10].Use();
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad8))
-            {
-                actives[11].Use();
-            }
+                {
+                    actives[2].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    actives[12].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad0))
+                {
+                    actives[3].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad1))
+                {
+                    actives[4].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad2))
+                {
+                    actives[5].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad3))
+                {
+                    actives[6].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad4))
+                {
+                    actives[7].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad5))
+                {
+                    actives[8].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad6))
+                {
+                    actives[9].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad7))
+                {
+                    actives[10].Use();
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad8))
+                {
+                    actives[11].Use();
+                }
 
 
 #endif

@@ -1,23 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Projectile
 {
     public class SpiderMine : Installation
-    {
-       
-        private float maxDist = 1000;
-        private static float curDist;
-
+    {        
         private Transform targetTr;
-
-        
-
         private void Update()
         {
-            
             BaseUpdate();
             if (targetTr)
             {
@@ -37,19 +26,9 @@ namespace Projectile
                     Destroy(gameObject);
                 }
             }
-            else
+            else if(enforce)
             {
-                thisTransform.position = SpawnManager.Instance.playerTransform.position;
-                int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders, layerMask);
-                for (int i = 0; i < count; i++)
-                {
-                    curDist = Vector3.Distance(thisTransform.position, colliders[i].transform.position);
-                    if (curDist < maxDist)
-                    {
-                        targetTr = colliders[i].transform;
-                        maxDist = curDist;
-                    }
-                }
+                thisTransform.position = SpawnManager.Instance.playerTransform.position;                
             }
         }
 

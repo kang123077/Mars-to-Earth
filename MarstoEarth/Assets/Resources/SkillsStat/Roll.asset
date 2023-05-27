@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Roll
   m_EditorClassIdentifier: 
   description: "\uC774\uB3D9\uBC29\uD5A5\uC73C\uB85C \uAD6C\uB978\uB2E4"
+  description2: "\uC2DC\uC804\uC911 \uBAA8\uB4E0\uACF5\uACA9\uC744 \uD68C\uD53C\uD55C\uB2E4."
   clipName: Roll
   clipLayer: 2
   dmg: 0
