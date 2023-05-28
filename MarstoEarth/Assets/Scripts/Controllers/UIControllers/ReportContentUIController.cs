@@ -1,6 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
+using static GameoverUIController;
 
 public class ReportContentUIController : MonoBehaviour
 {
@@ -14,29 +14,16 @@ public class ReportContentUIController : MonoBehaviour
     public TMP_Text speedCoreAmount;
     public PlayerStatUIController playerStatUI;
 
-    public void InitContent()
+    public void InitContent(PlayerInfo playerInfo)
     {
-        InitDateTime();
-        int intClearedStage = MapInfo.cur_Stage - 1;
-        clearedStage.text = intClearedStage.ToString();
-        clearedRooms.text = InGameManager.clearedRooms.ToString();
-        playedTime.text = UIManager.Instance.gameInfoUIController.timeUI.text;
-        hpCoreAmount.text = MapInfo.hpCore.ToString();
-        dmgCoreAmount.text = MapInfo.dmgCore.ToString();
-        speedCoreAmount.text = MapInfo.speedCore.ToString();
-        InitPlayerStat();
-    }
-
-    private void InitDateTime()
-    {
-        // 현재 시간을 가져옴
-        DateTime currentDateTime = DateTime.Now;
-        // 날짜와 시간을 원하는 형식으로 변환
-        string formattedDateTime = currentDateTime.ToString("yyyy / MM / dd");
-        string formattedTime = currentDateTime.ToString("HH : mm");
-        // UI에 텍스트로 표시
-        date.text = formattedDateTime;
-        time.text = formattedTime;
+        date.text = playerInfo.date;
+        time.text = playerInfo.time;
+        clearedStage.text = playerInfo.clearedStage.ToString();
+        clearedRooms.text = playerInfo.clearedRooms.ToString();
+        playedTime.text = playerInfo.playedTime;
+        hpCoreAmount.text = playerInfo.hpCoreAmount.ToString();
+        dmgCoreAmount.text = playerInfo.dmgCoreAmount.ToString();
+        speedCoreAmount.text = playerInfo.speedCoreAmount.ToString();
     }
 
     public void InitPlayerStat()
