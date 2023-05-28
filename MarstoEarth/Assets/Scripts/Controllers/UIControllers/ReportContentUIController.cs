@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using static GameoverUIController;
 
 public class ReportContentUIController : MonoBehaviour
 {
@@ -14,20 +13,21 @@ public class ReportContentUIController : MonoBehaviour
     public TMP_Text speedCoreAmount;
     public PlayerStatUIController playerStatUI;
 
-    public void InitContent(PlayerInfo playerInfo)
+    public void InitContent(PlayerSaveInfo playerSaveInfo)
     {
-        date.text = playerInfo.date;
-        time.text = playerInfo.time;
-        clearedStage.text = playerInfo.clearedStage.ToString();
-        clearedRooms.text = playerInfo.clearedRooms.ToString();
-        playedTime.text = playerInfo.playedTime;
-        hpCoreAmount.text = playerInfo.hpCoreAmount.ToString();
-        dmgCoreAmount.text = playerInfo.dmgCoreAmount.ToString();
-        speedCoreAmount.text = playerInfo.speedCoreAmount.ToString();
+        date.text = playerSaveInfo.date;
+        time.text = playerSaveInfo.time;
+        clearedStage.text = playerSaveInfo.clearedStage.ToString();
+        clearedRooms.text = playerSaveInfo.clearedRooms.ToString();
+        playedTime.text = playerSaveInfo.playedTime;
+        hpCoreAmount.text = playerSaveInfo.hpCoreAmount.ToString();
+        dmgCoreAmount.text = playerSaveInfo.dmgCoreAmount.ToString();
+        speedCoreAmount.text = playerSaveInfo.speedCoreAmount.ToString();
+        InitPlayerStat(playerSaveInfo);
     }
 
-    public void InitPlayerStat()
+    public void InitPlayerStat(PlayerSaveInfo playerSaveInfo)
     {
-        playerStatUI.InitStaticStat();
+        playerStatUI.InitPlayerInfoUI(playerSaveInfo);
     }
 }
