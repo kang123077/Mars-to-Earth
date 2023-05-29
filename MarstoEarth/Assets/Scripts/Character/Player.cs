@@ -268,7 +268,7 @@ namespace Character
                             key = KeyCode.LeftShift;
                             if (onSkill is not MassShootingSkill)
                                 isRun = true;
-                        }else if (key == KeyCode.LeftShift&& Input.GetKeyUp(KeyCode.LeftShift))
+                        }else if (Input.GetKeyUp(KeyCode.LeftShift))
                         {
                             isRun = false;
                         }

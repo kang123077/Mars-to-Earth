@@ -5,6 +5,9 @@ namespace Projectile
     public class SpiderMine : Installation
     {        
         private Transform targetTr;
+        private float curDist;
+        private float maxDist=1000;
+
         private void Update()
         {
             BaseUpdate();
@@ -26,9 +29,21 @@ namespace Projectile
                     Destroy(gameObject);
                 }
             }
-            else if(enforce)
+            else //타겟 찾는중
             {
-                thisTransform.position = SpawnManager.Instance.playerTransform.position;                
+                if (enforce)
+                    thisTransform.position = SpawnManager.Instance.playerTransform.position;
+
+                int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders, layerMask);
+                for (int i = 0; i < count; i++)
+                {
+                    curDist = Vector3.Distance(thisTransform.position, colliders[i].transform.position);
+                    if (curDist < maxDist)
+                    {
+                        targetTr = colliders[i].transform;
+                        maxDist = curDist;
+                    }
+                }
             }
         }
 
