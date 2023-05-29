@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: "\uC77C\uBC18\uACF5\uACA9\uC2DC \uBAA9\uD45C\uBB3C\uC5D0 \uB9DE\uC73C\uBA74
     \uD3ED\uBC1C\uD558\uB294 \uC720\uD0C4\uC744 \uC7A5\uC804\uD55C\uB2E4. "
-  description2: "\uD55C\uBC88 \uC7A5\uC804\uD560\uB54C \uC720\uD0C4\uC774 \uB450\uAC1C
+  description2: "\uD55C\uBC88 \uC7A5\uC804\uD560\uB54C \uC720\uD0C4\uC774 \uC138\uAC1C
     \uC7A5\uCC29\uB41C\uB2E4."
   clipName: Reload
   clipLayer: 1
-  dmg: 25
+  dmg: 30
   duration: 0
   range: 3
-  cool: 3
+  cool: 4
   speed: 35
   icon: {fileID: 21300000, guid: ef4bd7f8a7b361c4fa1877f0c2990e1b, type: 3}
   effects:

@@ -41,16 +41,22 @@ namespace Item
             ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle,(int)CombatEffectClip.itemUse,1,20);
             effect.transform.SetParent(player.transform,true);
             spcs[(int)type].Init(20);
+            decimal boostValue = 0.05m;
             switch (type)
             {
                 case ItemType.Heal:
-                    player.MaxHp += 5;
+                    player.MaxHp += 20;
+                    MapInfo.hpCore++;
                     break;
                 case ItemType.Boost:
-                    player.speed += 0.1f;
+                    // decimal 자료형으로 연산 후 다시 float로 형변환
+                    player.speed = (float)((decimal)player.speed + boostValue);
+                    MapInfo.speedCore++;
                     break;
                 case ItemType.PowerUp:
                     player.dmg += 1;
+                    MapInfo.dmgCore++;
+                    ;
                     break;
             }
             player.AddBuff(spcs[(int)type]);

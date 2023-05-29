@@ -22,6 +22,9 @@ public static class MapInfo
     public static float cur_Time = 0;
     // 지금까지 먹은 아이템 갯수
     public static int core = 0;
+    public static int hpCore = 0;
+    public static int dmgCore = 0;
+    public static int speedCore = 0;
 
     public static void ResetValues()
     {
@@ -34,5 +37,8 @@ public static class MapInfo
         maxDistance = 3f;
         cur_Time = 0;
         core = 0;
+        hpCore = 0;
+        dmgCore = 0;
+        speedCore = 0;
     }
 }
