@@ -2149,7 +2149,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &5871366995778593677
 GameObject:
   m_ObjectHideFlags: 0
@@ -2358,6 +2358,7 @@ MonoBehaviour:
   dmgCoreAmount: {fileID: 855195010065413053}
   speedCoreAmount: {fileID: 3633715520502411880}
   playerStatUI: {fileID: 3469306630357047222}
+  contentToggle: {fileID: 5871366994849622233}
 --- !u!1 &5871366996192777648
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,10 +18,10 @@ MonoBehaviour:
     \uC7A5\uCC29\uB41C\uB2E4."
   clipName: Reload
   clipLayer: 1
-  dmg: 25
+  dmg: 30
   duration: 0
   range: 3
-  cool: 3
+  cool: 4
   speed: 35
   icon: {fileID: 21300000, guid: ef4bd7f8a7b361c4fa1877f0c2990e1b, type: 3}
   effects:

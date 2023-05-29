@@ -15,14 +15,10 @@ public class GameoverUIController : MonoBehaviour
 
     public void GotoTitle()
     {
+        // UI 버튼에서 사용
         Time.timeScale = 1f;
         SceneManager.LoadScene("OutGameScene");
         gameObject.SetActive(false);
-    }
-
-    public void InitReportContent(PlayerSaveInfo playerInfo)
-    {
-        reportContent.InitContent(playerInfo);
     }
 
     public void SaveReportContent()
@@ -50,19 +46,26 @@ public class GameoverUIController : MonoBehaviour
         playerSaveInfo.defence = staticStat.def;
         playerSaveInfo.duration = staticStat.duration;
         playerSaveInfo.range = staticStat.range;
+        playerSaveInfo.fileName = currentDateTime.ToString("yyyMMdd") + currentDateTime.ToString("HHmm");
 
         // JSON 형식으로 직렬화
+        // (정보, 이쁘게프린트 true)
         string jsonData = JsonUtility.ToJson(playerSaveInfo, true);
-        // 파일 이름 설정 (확장자 .json 추가)
+        // 파일 이름 설정
         string fileName = $"{currentDateTime.ToString("yyyyMMdd")}{currentDateTime.ToString("HHmm")}.json";
-        // 파일 경로 설정 (persistentDataPath 사용)
+        // 파일 경로 설정
         string filePath = System.IO.Path.Combine(Application.dataPath, "Record", fileName);
-        // List -> Json 데이터로 저장
+        // Json 데이터로 저장
         using (StreamWriter sw = new StreamWriter(filePath))
         {
             sw.WriteLine(jsonData);
         }
 
         InitReportContent(playerSaveInfo);
+    }
+
+    public void InitReportContent(PlayerSaveInfo playerInfo)
+    {
+        reportContent.InitContent(playerInfo);
     }
 }
