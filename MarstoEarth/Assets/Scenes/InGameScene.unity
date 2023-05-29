@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0056604696, g: 0.05049204, b: 0.08187662, a: 1}
+  m_IndirectSpecularColor: {r: 0.005706853, g: 0.0504621, b: 0.081910215, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2416,6 +2416,10 @@ MonoBehaviour:
   gameInfoUIController: {fileID: 132280308}
   playerStatUIController: {fileID: 719027791}
   inputField: {fileID: 2098711299}
+  aimSprite: {fileID: 398775555}
+  spriteArray:
+  - {fileID: 1110618863, guid: d2f749daac57f0545bc456edd8044200, type: 3}
+  - {fileID: 21300000, guid: 1ebc58ac4f0fca944846fe1f3f07acb8, type: 3}
   aimImage: {fileID: 398775554}
   muzzleTr: {fileID: 0}
   lookAtTr: {fileID: 0}
@@ -3517,10 +3521,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866457572df6dcb4f8533bcd987d5d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BGM_AudioClips: []
-  UI_EffectAudioClips:
-  - {fileID: 8300000, guid: 492883b63b0ff3047972cc900e4938a5, type: 3}
-  - {fileID: 8300000, guid: 9373d71516690da439e5d4362d03c68d, type: 3}
   CombatEffectAudioClips:
   - {fileID: 8300000, guid: 68b5ccbcffafbc24c9578b16c3d51a48, type: 3}
   - {fileID: 8300000, guid: 072e0f37d8bb8144fa938d8e308a5169, type: 3}
@@ -3545,8 +3545,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1420d52d032531447859e2c99a4b7d44, type: 3}
   - {fileID: 8300000, guid: aa77b0dc10d56f74b9a953b7b1a99647, type: 3}
   - {fileID: 8300000, guid: b3589b7b532f79c4986bbc42cf653785, type: 3}
-  bgmAudioSource: {fileID: 0}
-  effectAudioSource: {fileID: 0}
 --- !u!4 &454389733
 Transform:
   m_ObjectHideFlags: 0

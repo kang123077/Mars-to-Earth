@@ -45,8 +45,6 @@ public class AudioManager : Singleton<AudioManager>
     public static float finalEffectVolume = 0.6f;
     public static float finalBGM_Volume = 0.6f;
 
-   
-
     void Start()
     {
         // BGM용 AudioSource 컴포넌트 추가 및 설정

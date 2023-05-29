@@ -22,6 +22,8 @@ public class UIManager : Singleton<UIManager>
     public GameInfoUIController gameInfoUIController;
     public PlayerStatUIController playerStatUIController;
     public TMP_InputField inputField;
+    public UnityEngine.UI.Image aimSprite;
+    public Sprite[] spriteArray;
     public RectTransform aimImage;
     public Transform muzzleTr;
     public Transform lookAtTr;
@@ -84,11 +86,10 @@ public class UIManager : Singleton<UIManager>
             // 보간을 사용하여 현재 위치에서 목표 위치로 부드럽게 이동합니다.
             Vector2 currentAnchorMin = aimImage.anchorMin;
             Vector2 currentAnchorMax = aimImage.anchorMax;
-
             float smoothness = 15f; // 조절 가능한 매끄러움 정도입니다. 0에 가까울수록 부드럽게 이동합니다.
-
             aimImage.anchorMin = Vector2.Lerp(currentAnchorMin, viewportPos, smoothness * Time.deltaTime);
             aimImage.anchorMax = Vector2.Lerp(currentAnchorMax, viewportPos, smoothness * Time.deltaTime);
+            aimSprite.sprite = spriteArray[0];
         }
         else if (CinemachineManager.Instance.bossCam.gameObject.activeSelf)
         {
@@ -102,7 +103,7 @@ public class UIManager : Singleton<UIManager>
                 Vector3 currentScale = aimImage.localScale;
 
                 float smoothness = 15f; // 조절 가능한 매끄러움 정도입니다. 0에 가까울수록 부드럽게 이동합니다.
-
+                aimSprite.sprite = spriteArray[1];
                 aimImage.anchorMin = Vector2.Lerp(currentAnchorMin, viewportPos, smoothness * Time.deltaTime);
                 aimImage.anchorMax = Vector2.Lerp(currentAnchorMax, viewportPos, smoothness * Time.deltaTime);
                 aimImage.localScale = Vector3.Lerp(currentScale, new Vector3(1.3f, 1.3f), smoothness * Time.deltaTime);
