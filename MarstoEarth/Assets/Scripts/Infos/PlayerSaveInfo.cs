@@ -16,4 +16,5 @@ public class PlayerSaveInfo
     public float defence;
     public float duration;
     public float range;
+    public string fileName;
 }

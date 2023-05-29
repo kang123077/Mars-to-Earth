@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using UnityEditor;
+using System.Linq;
 
 public class ReportCheckUI : MonoBehaviour
 {
@@ -44,16 +46,27 @@ public class ReportCheckUI : MonoBehaviour
             reportContent.InitContent(playerSaveInfo);
             reportContentList.Add(reportContent);
         }
+        playerSaveInfoList.Clear();
     }
 
     public void DataChoiceDelete()
     {
-        
+        foreach(ReportContentUIController reportContent in reportContentList)
+        {
+            if (reportContent.contentToggle.isOn == true)
+            {
+                reportContentList.Remove(reportContent);
+                Destroy(reportContent.gameObject);
+                string filePath = Directory.GetFiles(saveFolderPath, $"{reportContent.fileName}.json").FirstOrDefault();
+                string metaPath = Directory.GetFiles(saveFolderPath, $"{reportContent.fileName}.json.meta").FirstOrDefault();
+                File.Delete(filePath);
+                File.Delete(metaPath);
+            }
+        }
     }
 
     public void DataAllDelete()
     {
-        playerSaveInfoList.Clear();
         foreach(ReportContentUIController reportContent in reportContentList)
         {
             Destroy(reportContent.gameObject);

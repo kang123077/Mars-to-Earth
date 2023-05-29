@@ -14,6 +14,7 @@ public class ReportContentUIController : MonoBehaviour
     public TMP_Text speedCoreAmount;
     public PlayerStatUIController playerStatUI;
     public Toggle contentToggle;
+    public string fileName;
 
     public void InitContent(PlayerSaveInfo playerSaveInfo)
     {
@@ -25,6 +26,7 @@ public class ReportContentUIController : MonoBehaviour
         hpCoreAmount.text = playerSaveInfo.hpCoreAmount.ToString();
         dmgCoreAmount.text = playerSaveInfo.dmgCoreAmount.ToString();
         speedCoreAmount.text = playerSaveInfo.speedCoreAmount.ToString();
+        fileName = playerSaveInfo.fileName;
         InitPlayerStat(playerSaveInfo);
     }
 

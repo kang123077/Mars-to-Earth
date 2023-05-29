@@ -52,6 +52,7 @@ public class GameoverUIController : MonoBehaviour
         string jsonData = JsonUtility.ToJson(playerSaveInfo, true);
         // 파일 이름 설정
         string fileName = $"{currentDateTime.ToString("yyyyMMdd")}{currentDateTime.ToString("HHmm")}.json";
+        playerSaveInfo.fileName = currentDateTime.ToString("yyyMMdd") + currentDateTime.ToString("HHmm");
         // 파일 경로 설정
         string filePath = System.IO.Path.Combine(Application.dataPath, "Record", fileName);
         // Json 데이터로 저장
