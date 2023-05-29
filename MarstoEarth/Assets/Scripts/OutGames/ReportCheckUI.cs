@@ -31,6 +31,7 @@ public class ReportCheckUI : MonoBehaviour
             PlayerSaveInfo saveInfo = JsonUtility.FromJson<PlayerSaveInfo>(json);
             saveInfoList.Add(saveInfo);
         }
+        // List로 Return
         return saveInfoList;
     }
 
@@ -43,31 +44,6 @@ public class ReportCheckUI : MonoBehaviour
             reportContent.InitContent(playerSaveInfo);
             reportContentList.Add(reportContent);
         }
-        /*
-        TMPro.TextMeshProUGUI cloneText = reportGameClone.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-
-        for (int i = 0; i < 5; i++)
-        {
-            ClearReport clearReport = new ClearReport();
-            clearReport.CLEARROOM = 100 + i; //InGameManager.clearedBossRoom + InGameManager.clearedBossRoom;
-            clearReport.CLEARTIME = i / 10f;
-            clearReportList.Add(clearReport);
-        }
-        // List -> Json 데이터로 저장
-        string jsonDataList = JsonUtility.ToJson(new Serialization<ClearReport>(clearReportList));
-        using (StreamWriter sr = new StreamWriter(Application.dataPath + "/" + "ClearData.json"))
-        {
-            sr.WriteLine(jsonDataList);
-            sr.Close();
-        }
-        // Json -> List 데이터로 저장
-        List<ClearReport> clearReportToList = JsonUtility.FromJson<Serialization<ClearReport>>(jsonDataList).ToList();
-        foreach (ClearReport one in clearReportToList)
-        {
-            // cloneText.text = "ClearRooms = " + one.CLEARROOM.ToString() + "\n\n\n" + "ClearTime " + one.CLEARTIME.ToString();
-            Instantiate(reportGameClone, cloneParents);
-        }
-        */
     }
 
     public void DataChoiceDelete()
@@ -77,6 +53,22 @@ public class ReportCheckUI : MonoBehaviour
 
     public void DataAllDelete()
     {
+        playerSaveInfoList.Clear();
+        foreach(ReportContentUIController reportContent in reportContentList)
+        {
+            Destroy(reportContent.gameObject);
+        }
+        reportContentList.Clear();
+        string[] filePaths = Directory.GetFiles(saveFolderPath, "*.json");
+        string[] metaPaths = Directory.GetFiles(saveFolderPath, "*.meta");
+        foreach (string filePath in filePaths)
+        {
+            File.Delete(filePath);
+        }
+        foreach (string metaPath in metaPaths)
+        {
+            File.Delete(metaPath);
+        }
     }
 
     public void ReportGame()
