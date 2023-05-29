@@ -39,7 +39,7 @@ public class ReportCheckUI : MonoBehaviour
 
     void Start()
     {
-        foreach(PlayerSaveInfo playerSaveInfo in playerSaveInfoList)
+        foreach (PlayerSaveInfo playerSaveInfo in playerSaveInfoList)
         {
             ReportContentUIController reportContent =
                 Instantiate(reportGameContent, cloneParentsTF).GetComponent<ReportContentUIController>();
@@ -51,23 +51,37 @@ public class ReportCheckUI : MonoBehaviour
 
     public void DataChoiceDelete()
     {
-        foreach(ReportContentUIController reportContent in reportContentList)
+        List<ReportContentUIController> contentToRemove = new List<ReportContentUIController>();
+        foreach (ReportContentUIController reportContent in reportContentList)
         {
             if (reportContent.contentToggle.isOn == true)
             {
-                reportContentList.Remove(reportContent);
-                Destroy(reportContent.gameObject);
-                string filePath = Directory.GetFiles(saveFolderPath, $"{reportContent.fileName}.json").FirstOrDefault();
-                string metaPath = Directory.GetFiles(saveFolderPath, $"{reportContent.fileName}.json.meta").FirstOrDefault();
-                File.Delete(filePath);
-                File.Delete(metaPath);
+                contentToRemove.Add(reportContent);
             }
+        }
+        foreach (ReportContentUIController removeContent in contentToRemove)
+        {
+            reportContentList.Remove(removeContent);
+            Destroy(removeContent.gameObject);
+
+            string filePath = System.IO.Path.Combine(saveFolderPath, $"{removeContent.fileName}.json");
+            string metaPath = System.IO.Path.Combine(saveFolderPath, $"{removeContent.fileName}.json.meta");
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+            else
+                Debug.Log("File Doesn't exist!");
+
+            if (File.Exists(metaPath))
+                File.Delete(metaPath);
+            else
+                Debug.Log("MetaFile Doesn't exist!");
         }
     }
 
     public void DataAllDelete()
     {
-        foreach(ReportContentUIController reportContent in reportContentList)
+        foreach (ReportContentUIController reportContent in reportContentList)
         {
             Destroy(reportContent.gameObject);
         }

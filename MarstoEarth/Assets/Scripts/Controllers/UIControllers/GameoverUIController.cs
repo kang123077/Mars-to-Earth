@@ -46,13 +46,13 @@ public class GameoverUIController : MonoBehaviour
         playerSaveInfo.defence = staticStat.def;
         playerSaveInfo.duration = staticStat.duration;
         playerSaveInfo.range = staticStat.range;
+        playerSaveInfo.fileName = currentDateTime.ToString("yyyMMdd") + currentDateTime.ToString("HHmm");
 
         // JSON 형식으로 직렬화
         // (정보, 이쁘게프린트 true)
         string jsonData = JsonUtility.ToJson(playerSaveInfo, true);
         // 파일 이름 설정
         string fileName = $"{currentDateTime.ToString("yyyyMMdd")}{currentDateTime.ToString("HHmm")}.json";
-        playerSaveInfo.fileName = currentDateTime.ToString("yyyMMdd") + currentDateTime.ToString("HHmm");
         // 파일 경로 설정
         string filePath = System.IO.Path.Combine(Application.dataPath, "Record", fileName);
         // Json 데이터로 저장
