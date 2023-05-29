@@ -69,7 +69,6 @@ public class InGameManager : Singleton<InGameManager>
                 SpawnManager.rand.Next(-8, 8) + Vector3.forward * SpawnManager.rand.Next(-8, 8), EnemyPool.Boss);
         }
         Character.staticStat.ResetValues();
-        Debug.Log("보스 클리어 이벤트 함수");
     }
 
     public void InitInGame()

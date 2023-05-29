@@ -1,0 +1,17 @@
+{
+    "date": "2023 - 05 - 28",
+    "time": "22 : 03",
+    "clearedStage": 0,
+    "clearedRooms": 0,
+    "playedTime": "00 : 12",
+    "hpCoreAmount": 0,
+    "dmgCoreAmount": 0,
+    "speedCoreAmount": 0,
+    "core": 0,
+    "maxHp": 200.0,
+    "attack": 15.0,
+    "speed": 4.5,
+    "defence": 0.0,
+    "duration": 0.5,
+    "range": 1.0
+}

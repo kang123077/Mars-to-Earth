@@ -1,8 +1,7 @@
 using Character;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static GameoverUIController;
 
 public class PlayerStatUIController : MonoBehaviour
 {
@@ -86,7 +85,7 @@ public class PlayerStatUIController : MonoBehaviour
             rangeText.text = _range.ToString();
         }
     }
-    public void initStatUI(StatInfo statInfo)
+    public void InitStatUI(StatInfo statInfo)
     {
         maxHp = statInfo.maxHP;
         attack = statInfo.dmg;
@@ -94,5 +93,27 @@ public class PlayerStatUIController : MonoBehaviour
         defence = statInfo.def;
         duration = statInfo.duration;
         range = statInfo.range;
+    }
+
+    public void InitStaticStat()
+    {
+        core = MapInfo.core;
+        maxHp = staticStat.maxHP;
+        attack = staticStat.dmg;
+        speed = staticStat.speed;
+        defence = staticStat.def;
+        duration = staticStat.duration;
+        range = staticStat.range;
+    }
+
+    public void InitPlayerInfoUI(PlayerSaveInfo playerSaveInfo)
+    {
+        core = playerSaveInfo.core;
+        maxHp = playerSaveInfo.maxHp;
+        attack = playerSaveInfo.attack;
+        speed = playerSaveInfo.speed;
+        defence = playerSaveInfo.defence;
+        duration = playerSaveInfo.duration;
+        range = playerSaveInfo.range;
     }
 }
