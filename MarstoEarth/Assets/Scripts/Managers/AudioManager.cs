@@ -32,6 +32,8 @@ public class AudioManager : Singleton<AudioManager>
 {
     public static AudioClip[] BGM_AudioClips;
     public static AudioClip[] UI_EffectAudioClips;
+    public AudioClip[] _BGM_AudioClips; // 임시방편
+    public AudioClip[] _UI_EffectAudioClips; // 임시방편
     public AudioClip[] CombatEffectAudioClips;
 
     public static AudioSource bgmAudioSource;
@@ -44,8 +46,6 @@ public class AudioManager : Singleton<AudioManager>
 
     public static float finalEffectVolume = 0.6f;
     public static float finalBGM_Volume = 0.6f;
-
-   
 
     void Start()
     {
@@ -63,6 +63,13 @@ public class AudioManager : Singleton<AudioManager>
         
         // 플레이 중인 오디오 소스의 리스트를 초기화 함
         playingSource = new List<AudioSource>();
+
+        // 추후 수정 후 지울 예정 임시방편
+        if(BGM_AudioClips == null)
+        {
+            BGM_AudioClips = _BGM_AudioClips;
+            UI_EffectAudioClips = _UI_EffectAudioClips;
+        }
     }
 
     public void PlayBGM(int clipIndex)
