@@ -4,54 +4,46 @@ using System.Collections.Generic;
 using System.IO;
 using System;
 
-[Serializable]
-public class ClearReport
-{
-    [SerializeField]int clearRooms;
-    [SerializeField]float clearTimes;
-    public int CLEARROOM
-    {
-        get { return clearRooms; }
-        set { clearRooms = value; }
-    }
-    public float CLEARTIME
-    {
-        get { return clearTimes; }
-        set { clearTimes = value; }
-    }
-    public ClearReport()
-    {
-    }
-    public ClearReport(int _clearRooms, float _clearTimes)
-    {
-        clearRooms = _clearRooms;
-        clearTimes = _clearTimes;
-    }
-}
-[Serializable]
-public class Serialization<T>
-{
-    [SerializeField]
-    List<T> _t;
-    public List<T> ToList() { return _t; }
-    public Serialization(List<T> _tmp)
-    {
-        _t = _tmp;
-    }
-}
 public class ReportCheckUI : MonoBehaviour
 {
+    private string saveFolderPath;
+    public List<PlayerSaveInfo> playerSaveInfoList;
+    public List<ReportContentUIController> reportContentList;
+    public GameObject reportGameContent;
+    public Transform cloneParentsTF;
     public Scrollbar reportScroll;
-    public GameObject reportGameClone;
-    public Transform cloneParents;
-    List<ClearReport> clearReportList;
 
     private void Awake()
     {
-        clearReportList = new List<ClearReport>();
+        saveFolderPath = System.IO.Path.Combine(Application.dataPath, "Record");
+        playerSaveInfoList = LoadPlayerSaveInfo();
     }
+
+    private List<PlayerSaveInfo> LoadPlayerSaveInfo()
+    {
+        List<PlayerSaveInfo> saveInfoList = new List<PlayerSaveInfo>();
+
+        // 폴더 내의 모든 JSON 파일에 대해 반복
+        string[] filePaths = Directory.GetFiles(saveFolderPath, "*.json");
+        foreach (string filePath in filePaths)
+        {
+            string json = File.ReadAllText(filePath);
+            PlayerSaveInfo saveInfo = JsonUtility.FromJson<PlayerSaveInfo>(json);
+            saveInfoList.Add(saveInfo);
+        }
+        return saveInfoList;
+    }
+
     void Start()
     {
+        foreach(PlayerSaveInfo playerSaveInfo in playerSaveInfoList)
+        {
+            ReportContentUIController reportContent =
+                Instantiate(reportGameContent, cloneParentsTF).GetComponent<ReportContentUIController>();
+            reportContent.InitContent(playerSaveInfo);
+            reportContentList.Add(reportContent);
+        }
+        /*
         TMPro.TextMeshProUGUI cloneText = reportGameClone.GetComponentInChildren<TMPro.TextMeshProUGUI>();
 
         for (int i = 0; i < 5; i++)
@@ -75,6 +67,7 @@ public class ReportCheckUI : MonoBehaviour
             // cloneText.text = "ClearRooms = " + one.CLEARROOM.ToString() + "\n\n\n" + "ClearTime " + one.CLEARTIME.ToString();
             Instantiate(reportGameClone, cloneParents);
         }
+        */
     }
 
     public void DataChoiceDelete()
@@ -84,12 +77,6 @@ public class ReportCheckUI : MonoBehaviour
 
     public void DataAllDelete()
     {
-        int childCount = cloneParents.childCount;
-
-        for (int i = childCount - 1; i >= 0; i--)
-        {
-            Destroy(cloneParents.GetChild(i).gameObject);
-        }
     }
 
     public void ReportGame()

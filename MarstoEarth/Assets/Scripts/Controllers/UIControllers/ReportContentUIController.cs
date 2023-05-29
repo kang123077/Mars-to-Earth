@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ReportContentUIController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class ReportContentUIController : MonoBehaviour
     public TMP_Text dmgCoreAmount;
     public TMP_Text speedCoreAmount;
     public PlayerStatUIController playerStatUI;
+    public Toggle contentToggle;
 
     public void InitContent(PlayerSaveInfo playerSaveInfo)
     {
