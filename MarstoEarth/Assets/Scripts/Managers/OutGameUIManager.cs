@@ -6,9 +6,13 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
     public GameObject reportUI;
     public GameObject explainUI;
     public GameObject settingUI;
+    public AudioClip[] _BGM_AudioClips;
+    public AudioClip[] _UI_EffectAudioClips;
 
     protected override void Awake()
     {
+        AudioManager.BGM_AudioClips = _BGM_AudioClips;
+        AudioManager.UI_EffectAudioClips = _UI_EffectAudioClips;
         reportUI.SetActive(false);
         explainUI.SetActive(false);
         settingUI.SetActive(false);

@@ -2660,6 +2660,10 @@ MonoBehaviour:
   reportUI: {fileID: 591429232}
   explainUI: {fileID: 419255209}
   settingUI: {fileID: 1190386469}
+  _BGM_AudioClips: []
+  _UI_EffectAudioClips:
+  - {fileID: 8300000, guid: 492883b63b0ff3047972cc900e4938a5, type: 3}
+  - {fileID: 8300000, guid: 9373d71516690da439e5d4362d03c68d, type: 3}
 --- !u!1 &658131813
 GameObject:
   m_ObjectHideFlags: 0
