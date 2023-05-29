@@ -30,20 +30,20 @@ public enum CombatEffectClip
 
 public class AudioManager : Singleton<AudioManager>
 {
-    public AudioClip[] BGM_AudioClips;
-    public AudioClip[] UI_EffectAudioClips;
+    public static AudioClip[] BGM_AudioClips;
+    public static AudioClip[] UI_EffectAudioClips;
     public AudioClip[] CombatEffectAudioClips;
 
-    public AudioSource bgmAudioSource;
-    public AudioSource effectAudioSource;
+    public static AudioSource bgmAudioSource;
+    public static AudioSource effectAudioSource;
     List<AudioSource> playingSource;
 
-    private float masterVolume = 1f;
-    private float bgmVolume = 1f;
-    private float effectVolume = 1f;
+    public static float masterVolume = 1f;
+    public static float bgmVolume = 1f;
+    public static float effectVolume = 1f;
 
-    private float finalEffectVolume = 0.6f;
-    private float finalBGM_Volume = 0.6f;
+    public static float finalEffectVolume = 0.6f;
+    public static float finalBGM_Volume = 0.6f;
 
    
 
