@@ -18,7 +18,7 @@ namespace Character
                 return ;
             isAttacking= false;
             SpawnManager.Instance.Launch(thisCurTransform.position,
-                target ? target.position : thisCurTransform.forward * range, dmg, 2 + duration * 0.5f, 15 + speed * 2,
+                target ? target.position : thisCurTransform.forward * range, dmg, 2 + duration * 0.5f, 5+ speed ,
                 range * 0.1f, ref projectileInfo);
             
         }
