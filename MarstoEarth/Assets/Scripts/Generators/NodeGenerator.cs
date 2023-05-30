@@ -15,6 +15,7 @@ public enum Node
 {
     Test_00,
     SFRoom_00,
+    YellowRock_00
 }
 
 
@@ -25,7 +26,8 @@ public enum InsideNodePool
 
 public enum OutsideNodePool
 {
-    Test_00
+    Test_00,
+    YellowRock_00
 }
 
 public enum PathPool
