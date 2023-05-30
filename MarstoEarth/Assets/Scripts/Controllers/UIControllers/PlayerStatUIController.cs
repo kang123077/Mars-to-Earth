@@ -1,7 +1,6 @@
 using Character;
 using TMPro;
 using UnityEngine;
-using static GameoverUIController;
 
 public class PlayerStatUIController : MonoBehaviour
 {

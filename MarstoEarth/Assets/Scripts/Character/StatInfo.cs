@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Character
 {
-    [CreateAssetMenu(fileName = "new CharacterStat",menuName = "Character/StatInfo")]
+    [CreateAssetMenu(fileName = "new CharacterStat", menuName = "Character/StatInfo")]
     public class StatInfo : ScriptableObject
     {
         public float dmg;
@@ -18,7 +18,7 @@ namespace Character
     public static class staticStat
     {
         public static float dmg;
-        public static float speed ;
+        public static float speed;
         public static float def;
         public static float duration;
         public static float maxHP;
@@ -58,7 +58,7 @@ namespace Character
             maxHP = player.MaxHp;
             range = player.range;
         }
-        
+
         public static void ResetValues()
         {
             count = 0;

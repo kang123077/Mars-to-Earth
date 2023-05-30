@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 namespace Character
@@ -10,7 +9,7 @@ namespace Character
 
         public ParticleSystem readySkillEffect;
         private Skill.Skill bite;
-        private byte biteEleapse=5;
+        private byte biteEleapse = 5;
         protected override void Start()
         {
             base.Start();
@@ -22,13 +21,13 @@ namespace Character
             jumpEleapse = 8;
         }
 
-     
+
 
         protected override void Attacked()
         {
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.swing, weapon);
             base.Attacked();
-            
+
             biteEleapse++;
             if (biteEleapse > 5)
             {
@@ -73,7 +72,7 @@ namespace Character
                     jumpEleapse += Time.deltaTime;
                     if (targetDistance <= range + 0.5f)
                     {
-                         isAttacking = true;
+                        isAttacking = true;
                     }
                     else if (jumpEleapse > 15 && targetDistance > range * 2.5f)
                     {
@@ -90,7 +89,7 @@ namespace Character
                 int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength, colliders, 1 << 3);
                 if (size > 0)
                 {
-                    float angle =Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
+                    float angle = Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
 
                     if ((angle < 0 ? -angle : angle) < viewAngle ||
                         Vector3.Distance(colliders[0].transform.position, thisCurTransform.position) <

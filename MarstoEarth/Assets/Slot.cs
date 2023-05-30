@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Slot : MonoBehaviour
@@ -8,18 +6,19 @@ public class Slot : MonoBehaviour
     public UnityEngine.UI.Image icon;
 
     public RectTransform rcTr;
-    private Rect rc;// ¡¬ªÛ¥‹ ±‚¡ÿ ∑∫∆Æ
+    private Rect rc;// Ï¢åÏÉÅÎã® Í∏∞Ï§Ä Î†âÌä∏
 
     public Rect RC
     {
-        get {
+        get
+        {
             rc.x = rcTr.position.x - rcTr.rect.width * 0.5f;
             rc.y = rcTr.position.y - rcTr.rect.height * 0.5f;
-            return rc; }
+            return rc;
+        }
 
     }
 
-    
     void Start()
     {
         rc.width = rcTr.rect.width;

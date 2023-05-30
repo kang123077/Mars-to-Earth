@@ -41,7 +41,7 @@ public class LoadingScene : MonoBehaviour
         // operation.isDone;   // 작업 완료 유무 boolean형 반환
         // operation.progress; // 진행 정도를 floa형 0, 1을 반환(0:진행중, 1:진행완)
         operation.allowSceneActivation = false; // true시 로딩 완료면 씬을 넘김 false면 progress가 0.9f에서 멈춤 true가 될 때까지 기다림
-        while(!operation.isDone)    // 로딩이 끝나 isDone이 true가 되기 전까지 계속 반복
+        while (!operation.isDone)    // 로딩이 끝나 isDone이 true가 되기 전까지 계속 반복
         {
             yield return null;
 #if UNITY_ANDROID || UNITY_IOS
@@ -78,7 +78,7 @@ public class LoadingScene : MonoBehaviour
             {
                 loadingText.text = "Spacebar를 누르세요!";
             }
-            if(Input.GetKeyDown(KeyCode.Space) && progressBar.value >= 1f && operation.progress >= 0.9f)
+            if (Input.GetKeyDown(KeyCode.Space) && progressBar.value >= 1f && operation.progress >= 0.9f)
             {
                 operation.allowSceneActivation = true;
             }

@@ -1,11 +1,6 @@
-using Character;
 using Skill;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.Pool;
 
 public class CombatUI : UI
@@ -101,7 +96,7 @@ public class CombatUI : UI
             {
                 if (skillSlots[i].skill == InGameManager.Instance.inGameSkill[skillName])
                 {
-                    skillSlots[i].skill.enforce =true;
+                    skillSlots[i].skill.enforce = true;
                 }
             }
             return;

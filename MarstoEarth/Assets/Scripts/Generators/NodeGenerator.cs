@@ -166,16 +166,16 @@ public class NodeGenerator : MonoBehaviour
                 Path[] AllPaths = (Path[])Enum.GetValues(typeof(Path));
                 Path AllPath = AllPaths[Random.Range(0, AllPaths.Length)];
                 return (int)Enum.Parse(typeof(Path), AllPath.ToString());
-                /*
-            case PathPool.Inside:
-                InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
-                InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
-                return (int)Enum.Parse(typeof(Node), insideNode.ToString());
-            case PathPool.Outside:
-                OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
-                OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
-                return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
-                */
+            /*
+        case PathPool.Inside:
+            InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
+            InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
+            return (int)Enum.Parse(typeof(Node), insideNode.ToString());
+        case PathPool.Outside:
+            OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
+            OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
+            return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
+            */
             default:
                 return 0;
         }
@@ -189,16 +189,16 @@ public class NodeGenerator : MonoBehaviour
                 Wall[] AllNodes = (Wall[])Enum.GetValues(typeof(Wall));
                 Wall Allnode = AllNodes[Random.Range(0, AllNodes.Length)];
                 return (int)Enum.Parse(typeof(Wall), Allnode.ToString());
-                /*
-            case WallPool.Inside:
-                InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
-                InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
-                return (int)Enum.Parse(typeof(Node), insideNode.ToString());
-            case WallPool.Outside:
-                OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
-                OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
-                return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
-                */
+            /*
+        case WallPool.Inside:
+            InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
+            InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
+            return (int)Enum.Parse(typeof(Node), insideNode.ToString());
+        case WallPool.Outside:
+            OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
+            OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
+            return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
+            */
             default:
                 return 0;
         }

@@ -18,15 +18,15 @@ public class SkillSlot : MonoBehaviour
 
     private void Update()
     {
-        if(!skill)return;
+        if (!skill) return;
         if (skill.isCombo)
         {
-            coolDown.fillAmount= (Time.time-skill.lastUsedTime) / skill.curCoolTime;
+            coolDown.fillAmount = (Time.time - skill.lastUsedTime) / skill.curCoolTime;
             if (coolDown.fillAmount >= 1)
                 skill.isCombo = false;
         }
         else
-            coolDown.fillAmount= (skill.lastUsedTime+skill.curCoolTime -Time.time) / skill.curCoolTime;
-            
+            coolDown.fillAmount = (skill.lastUsedTime + skill.curCoolTime - Time.time) / skill.curCoolTime;
+
     }
 }

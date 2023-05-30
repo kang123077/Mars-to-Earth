@@ -8,7 +8,7 @@ namespace Skill
         public GrenadeSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Grenade];
-           
+
         }
         public override void Init(Character.Character caster)
         {
@@ -22,8 +22,8 @@ namespace Skill
                    fireSlot.SetActive(false);
                    fireSlot.transform.position = point;
                    Projectile.Fire fire = fireSlot.AddComponent<Projectile.Fire>();
-                   fire.Init(caster.layerMask, (skillInfo.dmg*0.2f + caster.dmg*0.1f), skillInfo.range + caster.range * 0.5f,
-                       skillInfo.duration + caster.duration * 0.5f, 0 ,enforce);
+                   fire.Init(caster.layerMask, (skillInfo.dmg * 0.2f + caster.dmg * 0.1f), skillInfo.range + caster.range * 0.5f,
+                       skillInfo.duration + caster.duration * 0.5f, 0, enforce);
                    fireSlot.SetActive(true);
                });
         }
@@ -38,8 +38,8 @@ namespace Skill
 
         public override void Effect()
         {
-            SpawnManager.Instance.Launch(caster.transform.position+Vector3.up, caster.target ?
-                    caster.target.position : caster.transform.forward * (12+ caster.range*0.5f),
+            SpawnManager.Instance.Launch(caster.transform.position + Vector3.up, caster.target ?
+                    caster.target.position : caster.transform.forward * (12 + caster.range * 0.5f),
                     skillInfo.dmg + caster.dmg * 0.5f, skillInfo.duration + caster.duration, skillInfo.speed + caster.speed,
                     skillInfo.range + caster.range * 0.5f, ref projectileInfo);
         }

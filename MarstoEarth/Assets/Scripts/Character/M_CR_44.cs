@@ -15,12 +15,12 @@ namespace Character
         protected override void Attacked()
         {
             if (dying)
-                return ;
-            isAttacking= false;
+                return;
+            isAttacking = false;
             SpawnManager.Instance.Launch(thisCurTransform.position,
-                target ? target.position : thisCurTransform.forward * range, dmg, 2 + duration * 0.5f, 5+ speed ,
+                target ? target.position : thisCurTransform.forward * range, dmg, 2 + duration * 0.5f, 5 + speed,
                 range * 0.1f, ref projectileInfo);
-            
+
         }
 
         protected void Update()
@@ -42,7 +42,7 @@ namespace Character
                 if (targetDistance <= sightLength * 2f)
                 {
                     if (!(targetDistance <= range)) return;
-                    isAttacking= true;
+                    isAttacking = true;
                 }
                 else
                 {
@@ -56,7 +56,7 @@ namespace Character
                 if (size > 0)
                 {
                     float angle = Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
-      
+
                     if ((angle < 0 ? -angle : angle) < viewAngle ||
                         Vector3.Distance(colliders[0].transform.position, thisCurTransform.position) <
                         sightLength * 0.4f)

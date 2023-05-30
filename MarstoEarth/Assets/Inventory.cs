@@ -1,14 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Inventory : MonoBehaviour,  IBeginDragHandler, IEndDragHandler, IDragHandler
+public class Inventory : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     public List<Slot> slots;
     int workingSlotIdx = -1;
     public UnityEngine.UI.Image ClickedIcon;
-   
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         for (int i = 0; i < slots.Count; i++)
@@ -35,7 +34,7 @@ public class Inventory : MonoBehaviour,  IBeginDragHandler, IEndDragHandler, IDr
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (workingSlotIdx < 0) return; 
+        if (workingSlotIdx < 0) return;
         for (int i = 0; i < slots.Count; i++)
         {
             if (slots[i].RC.Contains(eventData.position))

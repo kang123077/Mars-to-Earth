@@ -83,7 +83,7 @@ namespace Character
                 if (value > MaxHp)
                     value = MaxHp;
                 _hp = value;
-                if(hpBar!= null)
+                if (hpBar != null)
                     hpBar.value = hp / MaxHp;
                 if (value <= 0)
                 {
@@ -131,7 +131,7 @@ namespace Character
 
             nockBackResist = characterStat.maxHP * 0.05f;
             impact = Vector3.zero;
-            
+
             viewAngle = characterStat.viewAngle;
             sightLength = characterStat.sightLength;
             onSkill = null;

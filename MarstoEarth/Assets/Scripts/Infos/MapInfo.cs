@@ -1,4 +1,3 @@
-using System;
 /// <summary>
 /// static GameInfo나 진배없음
 /// </summary>

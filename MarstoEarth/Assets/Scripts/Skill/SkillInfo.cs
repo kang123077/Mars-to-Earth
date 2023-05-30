@@ -1,13 +1,11 @@
-using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace Skill
 {
- 
+
     [CreateAssetMenu(fileName = "New SkillInfo", menuName = "SkillInfo")]
-    public class SkillInfo:ScriptableObject
-    {        
+    public class SkillInfo : ScriptableObject
+    {
         public string description;
         public string description2;
         public string clipName;

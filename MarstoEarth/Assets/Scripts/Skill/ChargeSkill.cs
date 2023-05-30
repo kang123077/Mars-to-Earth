@@ -1,4 +1,3 @@
-using Character;
 using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -15,7 +14,7 @@ namespace Skill
             get => _onCharge;
             set
             {
-                if (value)                
+                if (value)
                     effects[2].Play();
                 else
                     effects[2].Stop();
@@ -28,12 +27,12 @@ namespace Skill
         public ChargeSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Charge];
-            effectsLength = (byte)(skillInfo.effects.Length-1);
+            effectsLength = (byte)(skillInfo.effects.Length - 1);
         }
         public override void Init(Character.Character caster)
         {
             base.Init(caster);
-            
+
             chargeProjectileInfo = new Projectile.ProjectileInfo(caster.layerMask,
                 ResourceManager.Instance.projectileMesh[(int)Projectile.projectileMesh.Bullet1].sharedMesh,
                 Projectile.Type.Bullet, (point) =>
@@ -47,13 +46,13 @@ namespace Skill
                         if (caster.targetCharacter)
                         {
                             if (!caster.targetCharacter.Hit(point, skillInfo.dmg + caster.dmg * 2f, 0)) continue;
-                        } 
+                        }
                     }
-                    SpawnManager.Instance.GetEffect(point,skillInfo.effects[^1],(int)CombatEffectClip.explosion2, (skillInfo.range + caster.range * 0.2f) * 0.4f);
+                    SpawnManager.Instance.GetEffect(point, skillInfo.effects[^1], (int)CombatEffectClip.explosion2, (skillInfo.range + caster.range * 0.2f) * 0.4f);
                 });
 
-            
-            effects[0]= Object.Instantiate(skillInfo.effects[0], caster.muzzle);            
+
+            effects[0] = Object.Instantiate(skillInfo.effects[0], caster.muzzle);
             effects[1] = Object.Instantiate(skillInfo.effects[1], caster.handguard);
             effects[2] = Object.Instantiate(skillInfo.effects[2], caster.handguard);
             effects[2].Stop();
@@ -62,7 +61,7 @@ namespace Skill
         {
             if (onCharge) return false;
             caster.PlaySkillClip(this);
-            if (enforce )
+            if (enforce)
             {
 
                 bulletCount = 2;
@@ -77,19 +76,19 @@ namespace Skill
         public override void Effect()
         {
             onCharge = true;
-            AudioManager.Instance.PlayEffect((int)CombatEffectClip.charge,caster.weapon);
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.charge, caster.weapon);
             attackTemp = caster.Attacken;
             caster.Attacken = () =>
             {
-                for ( byte i=0; i< effectsLength; i++)
+                for (byte i = 0; i < effectsLength; i++)
                     effects[i].Play();
-                AudioManager.Instance.PlayEffect((int)CombatEffectClip.missile,caster.weapon);
+                AudioManager.Instance.PlayEffect((int)CombatEffectClip.missile, caster.weapon);
                 SpawnManager.Instance.Launch(caster.muzzle.position, caster.muzzle.forward, 0, 2,
                     caster.bulletSpeed,
                     skillInfo.range * 0.5f, ref chargeProjectileInfo);
 
                 caster.impact -= (skillInfo.dmg + caster.dmg * 0.5f) * 0.1f * caster.muzzle.forward;
-                
+
                 if (bulletCount == 0)
                 {
                     onCharge = false;

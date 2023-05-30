@@ -1,7 +1,4 @@
-using System;
 using Skill;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Projectile
@@ -11,7 +8,7 @@ namespace Projectile
         private SPC fire;
         private AudioSource sound;
         private int fireEleapse;
-        
+
         private SPC stun;
         private void Awake()
         {
@@ -19,7 +16,7 @@ namespace Projectile
                 ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.fire]);
             sound = Instantiate(SpawnManager.Instance.effectSound, transform);
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.fire, sound);
-            sound.loop= true;
+            sound.loop = true;
             stun = new Skill.SPC((ch) => { ch.stun = true; }, (ch) => { ch.stun = false; },
                 ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
         }
@@ -37,7 +34,7 @@ namespace Projectile
         void Update()
         {
             BaseUpdate();
-            
+
             int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
                 layerMask);
             for (int i = 0; i < count; i++)
