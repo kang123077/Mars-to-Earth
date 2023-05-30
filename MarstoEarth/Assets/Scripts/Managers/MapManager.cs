@@ -55,7 +55,7 @@ public class MapManager : Singleton<MapManager>
             // retry아니어야 함
             if (MapInfo.isRetry == false)
             {
-                MapInfo.difficulty += 1;
+                MapInfo.difficulty += 0.5f;
                 MapInfo.node_num += 1;
                 MapInfo.maxDistance += 0.125f;
                 MapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Character;
 using Skill;
 using UnityEngine;
 
@@ -46,15 +47,18 @@ namespace Item
             {
                 case ItemType.Heal:
                     player.MaxHp += 20;
+                    staticStat.maxHP += 20;
                     MapInfo.hpCore++;
                     break;
                 case ItemType.Boost:
                     // decimal 자료형으로 연산 후 다시 float로 형변환
                     player.speed = (float)((decimal)player.speed + boostValue);
+                    staticStat.speed = (float)((decimal)player.speed + boostValue);
                     MapInfo.speedCore++;
                     break;
                 case ItemType.PowerUp:
                     player.dmg += 1;
+                    staticStat.dmg += 1;
                     MapInfo.dmgCore++;
                     ;
                     break;

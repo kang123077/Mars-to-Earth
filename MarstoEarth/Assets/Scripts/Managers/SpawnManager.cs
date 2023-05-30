@@ -157,7 +157,6 @@ public class SpawnManager : Singleton<SpawnManager>
                 BossType[] bosses = (BossType[])Enum.GetValues(typeof(BossType));
                 BossType bossType = bosses[UnityEngine.Random.Range(0, bosses.Length)];
                 GetMonster(randomPosition, (EnemyType)Enum.Parse(typeof(EnemyType), bossType.ToString()));
-                Debug.Log(bossType.ToString());
                 break;
             default:
                 break;
