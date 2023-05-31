@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Skill
@@ -28,17 +27,17 @@ namespace Skill
         // ReSharper disable Unity.PerformanceAnalysis
         protected override bool Activate()
         {
-            
+
             switch (curCount)
             {
                 case 1:
                     //distortion.Init(skillInfo.duration+caster.duration*0.5f);
                     caster.onSkill = this;
                     var transform = caster.transform;
-                    firstPos=transform.position;
+                    firstPos = transform.position;
                     //targetPoint=  transform.position+(transform.forward*(skillInfo.range + caster.range * 0.5f));
                     //caster.AddBuff(distortion);
-                    caster.impact += transform.forward * ((skillInfo.range + caster.range * 0.5f)*6);
+                    caster.impact += transform.forward * ((skillInfo.range + caster.range * 0.5f) * 6);
                     caster.SkillEffect();
                     break;
 
@@ -58,7 +57,7 @@ namespace Skill
             //     if(enemy)
             //         enemy.Hit(caster.transform.position, skillInfo.dmg + caster.dmg * 0.5f, 0);
             // }
-            
+
         }
     }
 }

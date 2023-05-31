@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+using Character;
 using System;
 using System.IO;
-using Character;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameoverUIController : MonoBehaviour
 {

@@ -1,5 +1,3 @@
-using System.Xml;
-using TMPro;
 using UnityEngine;
 
 public class DamageText : MonoBehaviour
@@ -10,21 +8,21 @@ public class DamageText : MonoBehaviour
     //public TextMeshPro text;
     public RectTransform thisRect;
     Color alpha;
-    
+
     private float lifeTime;
     private static float duration;
 
     private static CombatUI combatUI;
     private static Transform follower;
-    
+
     // Start is called before the first frame update
     void Start()
     {
         moveSpeed = 2f;
         alphaSpeed = .7f;
-        duration= 1.2f;
+        duration = 1.2f;
         alpha = text.color;
-        
+
         combatUI = (CombatUI)UIManager.Instance.UIs[(int)UIType.Combat];
         follower = CinemachineManager.Instance.follower;
     }
@@ -35,7 +33,7 @@ public class DamageText : MonoBehaviour
         alpha.a = 1;
         text.color = alpha;
         text.transform.localScale = Vector3.one * (120.0f / Screen.width);
-        
+
     }
 
     // Update is called once per frame
@@ -50,5 +48,5 @@ public class DamageText : MonoBehaviour
         text.color = alpha;
     }
 
-  
+
 }

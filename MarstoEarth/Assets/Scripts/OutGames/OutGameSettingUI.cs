@@ -10,7 +10,7 @@ public class OutGameSettingUI : MonoBehaviour
     FullScreenMode screenMode;
     public UnityEngine.UI.Toggle fullScreen;
     List<Resolution> resolutions;
-    
+
 
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class OutGameSettingUI : MonoBehaviour
     void Start()
     {
         resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>();
-        ogsbgmVolume.onValueChanged.AddListener(delegate { SetBGMVolume(); } );
+        ogsbgmVolume.onValueChanged.AddListener(delegate { SetBGMVolume(); });
         ogseffectVolume.onValueChanged.AddListener(delegate { SetEffectVolume(); });
         ResolInit();
     }

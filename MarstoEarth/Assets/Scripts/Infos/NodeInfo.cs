@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +13,7 @@ public class NodeInfo : MonoBehaviour
     public bool isBossNode;
     public bool isInside;
     public bool nodeInitFinished;
+    public Wall[] wallPool;
     private List<MeshRenderer> meshRenderers;
 
     public delegate void RoomClearedHandler(NodeInfo clearedNode);

@@ -1,6 +1,4 @@
 using Character;
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -9,11 +7,11 @@ namespace Skill
     public class MassShootingSkill : Skill
     {
         private Projectile.ProjectileInfo projectileInfo;
-        float atkEleapse ;
+        float atkEleapse;
         private SPC massShooting;
         private float speed;
         private ParticleSystem[] effects = new ParticleSystem[2];
-        
+
         private byte effectsLength;
         private static readonly int Parring = Animator.StringToHash("parring");
 
@@ -22,20 +20,20 @@ namespace Skill
         public MassShootingSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.MassShooting];
-            massShooting = new SPC( (ch) =>
+            massShooting = new SPC((ch) =>
             {
-                for ( byte i=0; i< effectsLength; i++)
+                for (byte i = 0; i < effectsLength; i++)
                     effects[i].Play();
                 ch.weapon.loop = true;
                 ch.weapon.pitch = 1;
                 ch.bulletSpeed += 20;
-                AudioManager.Instance.PlayEffect((int)CombatEffectClip.massShoot,ch.weapon);
+                AudioManager.Instance.PlayEffect((int)CombatEffectClip.massShoot, ch.weapon);
             }, (ch) =>
             {
                 atkEleapse += Time.deltaTime;
                 if (atkEleapse > speed)
                 {
-                    SpawnManager.Instance.Launch(ctr.position, ctr.forward,enforce?skillInfo.dmg+4 + ch.dmg * 0.2f:
+                    SpawnManager.Instance.Launch(ctr.position, ctr.forward, enforce ? skillInfo.dmg + 4 + ch.dmg * 0.2f :
                             skillInfo.dmg + ch.dmg * 0.2f, 2,
                         ch.bulletSpeed, skillInfo.range * 0.3f + ch.range * 0.1f, ref projectileInfo);
                     atkEleapse -= speed;
@@ -48,12 +46,12 @@ namespace Skill
                     effects[i].Stop();
                 }
                 ch.bulletSpeed -= 20;
-                caster.anim.SetBool(Parring,false);
+                caster.anim.SetBool(Parring, false);
                 isShooting = false;
                 ch.weapon.loop = false;
                 ch.weapon.Stop();
                 ch.SkillEffect();
-            },skillInfo.icon);
+            }, skillInfo.icon);
             effectsLength = (byte)skillInfo.effects.Length;
         }
 
@@ -69,7 +67,7 @@ namespace Skill
             effects[0].Stop();
             effects[1] = Object.Instantiate(skillInfo.effects[1], caster.handguard);
             effects[1].Stop();
-            
+
         }
         protected override bool Activate()
         {
@@ -95,12 +93,12 @@ namespace Skill
 
             massShooting.Init(skillInfo.duration + caster.duration * 0.5f);
 
-            speed = 4/(skillInfo.speed + caster.speed * 0.5f);
+            speed = 4 / (skillInfo.speed + caster.speed * 0.5f);
             caster.AddBuff(massShooting);
             isShooting = true;
 
 
-            return true;           
+            return true;
         }
         public override void Effect()
         {

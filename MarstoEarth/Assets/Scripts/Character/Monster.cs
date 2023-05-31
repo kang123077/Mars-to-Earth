@@ -1,23 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.AI;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = UnityEngine.Random;
-
 
 namespace Character
 {
-    
     public class Monster : Character
     {
-        private static readonly Vector3[] trackingDirection = 
+        private static readonly Vector3[] trackingDirection =
             {Vector3.forward,Vector3.right,Vector3.back,Vector3.left };
 
         private Vector3[] patrolPoints;
         protected List<float> positions;
         private int patrolIdx;
         private float showHpEleapse;
-        
+
         public NavMeshAgent ai;
         private Coroutine StuckCheckCoroutine;
         protected bool trackingPermission;
@@ -39,13 +37,15 @@ namespace Character
                     ai.speed = speed;
                 }
                 base.target = value;
-            } 
+            }
         }
 
         private bool _isAttacking;
-        protected virtual bool isAttacking {
-            get =>_isAttacking;  
-            set {
+        protected virtual bool isAttacking
+        {
+            get => _isAttacking;
+            set
+            {
                 if (!value && target)
                 {
                     AudioManager.Instance.PlayEffect((int)CombatEffectClip.run, step);
@@ -59,8 +59,9 @@ namespace Character
                 anim.SetBool(attacking, value);
                 positions.Clear();
                 travelDistance = 0;
-                _isAttacking= value;
-            } }
+                _isAttacking = value;
+            }
+        }
 
         public EnemyType enemyType;
 
@@ -73,7 +74,7 @@ namespace Character
             {
                 yield return new WaitForSeconds(0.2f);
                 if (stun) continue;
-                float curMoveDistance = Vector3.Distance(lastPosition,thisCurTransform.position);
+                float curMoveDistance = Vector3.Distance(lastPosition, thisCurTransform.position);
                 travelDistance += curMoveDistance;
                 positions.Add(curMoveDistance);
                 if (positions.Count >= 10)
@@ -83,10 +84,10 @@ namespace Character
                     if (travelDistance < 2.5f)
                     {
 
-                        
+
                         trackingPermission = false;
                         target = null;
-                            
+
                         int randIdx;
                         do randIdx = Random.Range(0, 4);
                         while (patrolIdx == randIdx);
@@ -94,35 +95,35 @@ namespace Character
                         positions.Clear();
                         travelDistance = 0;
                         ai.SetDestination(patrolPoints[patrolIdx]);
-                        
-                        
+
+
                     }
                     else
                         trackingPermission = true;
                 }
                 lastPosition = transform.position;
             }
-           
+
         }
-        
+
         protected override void Awake()
         {
-            dmg = characterStat.dmg + characterStat.dmg* MapInfo.difficulty;
+            dmg = characterStat.dmg + (characterStat.dmg * MapInfo.difficulty * 0.5f);
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;
-            hp = MaxHp = characterStat.maxHP + characterStat.maxHP* MapInfo.difficulty;
+            hp = MaxHp = characterStat.maxHP + characterStat.maxHP * MapInfo.difficulty;
             range = characterStat.range;
             base.Awake();
             patrolPoints = new Vector3[4];
-      
+
             positions = new List<float>();
             trackingPermission = true;
             colliders = new Collider[1];
-            
-            ai.stoppingDistance = range-1;
-            StuckCheckCoroutine =StartCoroutine(StuckCheck());
-            anim.keepAnimatorStateOnDisable=true; // 껏다켜져도 애니메이션이 작동하게 하는 프로퍼티
+
+            ai.stoppingDistance = range - 1;
+            StuckCheckCoroutine = StartCoroutine(StuckCheck());
+            anim.keepAnimatorStateOnDisable = true; // 껏다켜져도 애니메이션이 작동하게 하는 프로퍼티
         }
         protected override void Start()
         {
@@ -133,15 +134,15 @@ namespace Character
 
         protected override bool BaseUpdate()
         {
-            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position+Vector3.up*1.5f );
+            hpBar.transform.position = mainCam.WorldToScreenPoint(thisCurTransform.position + Vector3.up * 1.5f);
             if (!base.BaseUpdate())
                 return false;
-            anim.SetFloat($"z",ai.velocity.magnitude*(1/speed));
-            
+            anim.SetFloat($"z", ai.velocity.magnitude * (1 / speed));
+
             if (showHpEleapse > 0)
             {
                 showHpEleapse -= Time.deltaTime;
-                if(showHpEleapse<=0) hpBar.gameObject.SetActive(false);
+                if (showHpEleapse <= 0) hpBar.gameObject.SetActive(false);
             }
             return !stun;
         }
@@ -155,17 +156,17 @@ namespace Character
             target = null;
             Vector3 point = thisCurTransform.position;
             point.y = 0.8f;
-            SpawnManager.Instance.DropItem(point,rank);
+            SpawnManager.Instance.DropItem(point, rank);
 
             return base.Die();
         }
 
         private void OnEnable()
         {
-            if(!dying)return;
+            if (!dying) return;
             target = null;
-            
-            dmg = characterStat.dmg + characterStat.dmg* MapInfo.difficulty;
+
+            dmg = characterStat.dmg + characterStat.dmg * MapInfo.difficulty;
             //speed = characterStat.speed+ characterStat.speed * MapInfo.difficulty;
             //def = characterStat.def+ characterStat.def * MapInfo.difficulty;
             //duration = characterStat.duration + characterStat.duration * MapInfo.difficulty;
@@ -176,7 +177,7 @@ namespace Character
             NavMeshHit hit;
             for (int i = 0; i < trackingDirection.Length; i++)
             {
-                NavMesh.SamplePosition(thisCurTransform.position + trackingDirection[i] * (sightLength * 2), 
+                NavMesh.SamplePosition(thisCurTransform.position + trackingDirection[i] * (sightLength * 2),
                     out hit, 1000f, NavMesh.AllAreas);
 
                 patrolPoints[i] = hit.position;
@@ -186,32 +187,32 @@ namespace Character
             patrolIdx = Random.Range(0, 4);
             ai.SetDestination(patrolPoints[patrolIdx]);
             hpBar.value = 1;
-            hpBar.gameObject.SetActive(false);            
+            hpBar.gameObject.SetActive(false);
             col.enabled = true;
-            StuckCheckCoroutine =StartCoroutine(StuckCheck());           
+            StuckCheckCoroutine = StartCoroutine(StuckCheck());
             dying = false;
         }
 
         protected override void Attacked()
         {
-            isAttacking = false ;
+            isAttacking = false;
             weapon.Play();
             int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, range, colliders, 1 << 3);
-            if (target&&size > 0)
+            if (target && size > 0)
             {
-                float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position-thisCurTransform.forward*range), Vector3.up);
-                if((angle < 0 ? -angle : angle) < viewAngle-60)
+                float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position - thisCurTransform.forward * range), Vector3.up);
+                if ((angle < 0 ? -angle : angle) < viewAngle - 60)
                 {
-                    
-                    targetCharacter.Hit(thisCurTransform.position,dmg,0);
+
+                    targetCharacter.Hit(thisCurTransform.position, dmg, 0);
                     AudioManager.Instance.PlayEffect((int)CombatEffectClip.hitExplotion, weapon);
                 }
             }
         }
         // ReSharper disable Unity.PerformanceAnalysis
-        protected internal override bool Hited(Vector3 attacker, float dmg,float penetrate=0)
+        protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)
         {
-            if(!base.Hited(attacker, dmg, penetrate))
+            if (!base.Hited(attacker, dmg, penetrate))
                 return false;
             hpBar.gameObject.SetActive(true);
             showHpEleapse = 4;

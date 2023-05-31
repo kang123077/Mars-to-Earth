@@ -10,12 +10,12 @@ namespace Skill
         public float currentTime;
         public Action<Character.Character> Apply;
         public Action<Character.Character> Remove;
-        
-        
+
+
         public Action<Character.Character> Dots;
-        
-        
-        
+
+
+
         private static float eleapse = 0.2f;
         private float curEleapse;
 
@@ -27,21 +27,21 @@ namespace Skill
         {
             this.icon = icon;
         }
-        public SPC(Action<Character.Character> apply,Action<Character.Character> remove, Sprite icon)
+        public SPC(Action<Character.Character> apply, Action<Character.Character> remove, Sprite icon)
         {
             Apply = apply;
             Remove = remove;
             Dots = null;
             this.icon = icon;
         }
-        public SPC( Action<Character.Character> dots, Sprite icon)
+        public SPC(Action<Character.Character> dots, Sprite icon)
         {
             Dots = dots;
             Apply = null;
-            Remove =null;
+            Remove = null;
             this.icon = icon;
         }
-        public SPC(Action<Character.Character> apply, Action<Character.Character> dots,Action<Character.Character> remove, Sprite icon)
+        public SPC(Action<Character.Character> apply, Action<Character.Character> dots, Action<Character.Character> remove, Sprite icon)
         {
             Apply = apply;
             Dots = dots;
@@ -49,11 +49,11 @@ namespace Skill
             this.icon = icon;
         }
         public void Activation(Character.Character character)
-        {            
-            if(currentTime>0)
+        {
+            if (currentTime > 0)
             {
                 currentTime -= Time.deltaTime;
-                
+
                 Dots?.Invoke(character);
             }
             else
@@ -64,7 +64,7 @@ namespace Skill
         public void Tick(Action<float> action)
         {
             curEleapse += Time.deltaTime;
-            if (curEleapse>eleapse)
+            if (curEleapse > eleapse)
             {
                 action(curEleapse);
                 curEleapse -= eleapse;

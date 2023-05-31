@@ -27,7 +27,7 @@ namespace Skill
                     effect.Play();
                     target.Hit(casterPoint, skillInfo.dmg * stack, 0);
                 });
-                
+
                 target.transform.position = caster.muzzle.position + Vector3.down * 1.5f;
             }, (target) => target.stun = false, skillInfo.icon);
         }

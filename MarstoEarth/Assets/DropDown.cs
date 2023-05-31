@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DropDown : MonoBehaviour
 {
@@ -10,7 +7,7 @@ public class DropDown : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log (uiDropDown.options[0].text);
+        Debug.Log(uiDropDown.options[0].text);
         uiDropDown.value = 3;
     }
 

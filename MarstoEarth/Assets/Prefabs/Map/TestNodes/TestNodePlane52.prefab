@@ -1776,6 +1776,7 @@ MonoBehaviour:
   isBossNode: 0
   isInside: 0
   nodeInitFinished: 0
+  wallPool: 00000000
 --- !u!65 &1049478105992500372
 BoxCollider:
   m_ObjectHideFlags: 0

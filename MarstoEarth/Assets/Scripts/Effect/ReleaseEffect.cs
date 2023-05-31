@@ -1,10 +1,8 @@
-
-using System;
 using UnityEngine;
 
 namespace Skill
 {
-    public class ReleaseEffect:MonoBehaviour
+    public class ReleaseEffect : MonoBehaviour
     {
         public ParticleSystem refParticle;
         public float duration;
@@ -12,8 +10,8 @@ namespace Skill
         public AudioSource sound;
         public void Init(float dr, float sc)
         {
-            transform.localScale= sc* Vector3.one;
-            duration= dr;
+            transform.localScale = sc * Vector3.one;
+            duration = dr;
         }
 
         void OnParticleSystemStopped()
@@ -30,7 +28,7 @@ namespace Skill
 
         private void Update()
         {
-            if (duration <0) return;
+            if (duration < 0) return;
             eleapse += Time.deltaTime;
             if (eleapse < duration) return;
             eleapse = 0;

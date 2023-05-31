@@ -1,6 +1,4 @@
 using Skill;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -74,7 +72,7 @@ public enum CommonSPC
     heal,
     speedUp,
     powerUp,
-       
+
 }
 
 

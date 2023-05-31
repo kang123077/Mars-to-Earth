@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Projectile
@@ -9,10 +8,10 @@ namespace Projectile
         private AudioSource sound;
         public void Init(int lm, float dg, float rg, float sp)
         {
-            base.Init(lm, dg, rg, 0, sp,false);
+            base.Init(lm, dg, rg, 0, sp, false);
             sound = Instantiate(SpawnManager.Instance.effectSound, transform);
-            
-            
+
+
 
         }
         private void Awake()
@@ -37,7 +36,7 @@ namespace Projectile
                     colliders[0].TryGetComponent(out Character.Character target);
                     if (target)
                     {
-                        target.Hit(transform.position, dmg,0);
+                        target.Hit(transform.position, dmg, 0);
                         AudioManager.Instance.PlayEffect((int)CombatEffectClip.buzz, sound);
                     }
                 }

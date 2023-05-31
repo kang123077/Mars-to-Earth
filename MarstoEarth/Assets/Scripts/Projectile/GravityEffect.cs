@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Projectile
@@ -11,7 +8,7 @@ namespace Projectile
         private AudioSource sound;
         public void Init(float dr, float dg, float rg, int lm, bool enforce)
         {
-            base.Init(lm, dr, dg, rg, 0,enforce);
+            base.Init(lm, dr, dg, rg, 0, enforce);
             sound = Instantiate(SpawnManager.Instance.effectSound, transform);
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.gravity, sound);
             sound.loop = true;
@@ -22,7 +19,7 @@ namespace Projectile
         private void OnEnable()
         {
             sound.Play();
-            if (enforce )
+            if (enforce)
             {
                 stun.Init(5);
                 target.AddBuff(stun);
@@ -41,7 +38,7 @@ namespace Projectile
                 {
                     target.impact += dmg * Time.deltaTime *
                                      (thisTransform.position - colliders[i].transform.position).normalized;
-                    
+
                 }
             }
         }

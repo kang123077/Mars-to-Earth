@@ -1,6 +1,6 @@
-using UnityEngine.UI;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class CardInfo : MonoBehaviour
 {
@@ -9,8 +9,8 @@ public class CardInfo : MonoBehaviour
     public GameObject reroll;
     public TextMeshProUGUI cardLeftText;
     public TextMeshProUGUI cardRightText;
-    [HideInInspector]public int randomIndexLeft;
-    [HideInInspector]public int randomIndexRight;
+    [HideInInspector] public int randomIndexLeft;
+    [HideInInspector] public int randomIndexRight;
     private System.Random random;
 
     public void CardInit()
@@ -22,7 +22,7 @@ public class CardInfo : MonoBehaviour
         randomIndexLeft = random.Next(0, InGameManager.Instance.inGameSkill.Count);
         randomIndexRight = random.Next(0, InGameManager.Instance.inGameSkill.Count);
         // 같은 인덱스가 나왔을 경우 랜덤 라이트 인덱스의 값에 1을 더해 중복을 피함
-        if(randomIndexLeft == randomIndexRight)
+        if (randomIndexLeft == randomIndexRight)
         {
             randomIndexRight = (randomIndexRight + 1) % InGameManager.Instance.inGameSkill.Count;
         }

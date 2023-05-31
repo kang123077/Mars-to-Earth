@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -23,7 +22,7 @@ public class CameraController : MonoBehaviour
                 }
             }
         }
-        catch(MissingReferenceException)
+        catch (MissingReferenceException)
         {
             // 케릭터 죽은 후 에러
         }

@@ -1,6 +1,5 @@
-using System;
-using UnityEngine;
 using Cinemachine;
+using UnityEngine;
 
 public class CinemachineManager : Singleton<CinemachineManager>
 {
@@ -10,7 +9,7 @@ public class CinemachineManager : Singleton<CinemachineManager>
     public Transform follower;
 
     public Vector3 curAngle;
-    public float cameraSpeed ;
+    public float cameraSpeed;
     void Start()
     {
         playerCam.Follow = follower;
@@ -31,7 +30,7 @@ public class CinemachineManager : Singleton<CinemachineManager>
         curAngle.y += Input.GetAxis("Mouse X") * cameraSpeed * Time.deltaTime;
         follower.rotation = Quaternion.Euler(curAngle);
 
-       
+
 #endif
     }
 

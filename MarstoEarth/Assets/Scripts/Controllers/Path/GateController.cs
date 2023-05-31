@@ -11,7 +11,7 @@ public class GateController : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        navMeshObstacle= GetComponent<NavMeshObstacle>();
+        navMeshObstacle = GetComponent<NavMeshObstacle>();
         audioSource = GetComponent<AudioSource>();
         isGateOpen = false;
     }

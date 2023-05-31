@@ -15,8 +15,8 @@ public enum Node
 {
     Test_00,
     SFRoom_00,
+    YellowRock_00
 }
-
 
 public enum InsideNodePool
 {
@@ -25,7 +25,8 @@ public enum InsideNodePool
 
 public enum OutsideNodePool
 {
-    Test_00
+    Test_00,
+    YellowRock_00
 }
 
 public enum PathPool
@@ -50,7 +51,8 @@ public enum WallPool
 public enum Wall
 {
     TestWall,
-    BrokenGate_00
+    BrokenGate_00,
+    YellowRock_00
 }
 
 public class NodeGenerator : MonoBehaviour
@@ -166,16 +168,16 @@ public class NodeGenerator : MonoBehaviour
                 Path[] AllPaths = (Path[])Enum.GetValues(typeof(Path));
                 Path AllPath = AllPaths[Random.Range(0, AllPaths.Length)];
                 return (int)Enum.Parse(typeof(Path), AllPath.ToString());
-                /*
-            case PathPool.Inside:
-                InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
-                InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
-                return (int)Enum.Parse(typeof(Node), insideNode.ToString());
-            case PathPool.Outside:
-                OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
-                OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
-                return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
-                */
+            /*
+        case PathPool.Inside:
+            InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
+            InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
+            return (int)Enum.Parse(typeof(Node), insideNode.ToString());
+        case PathPool.Outside:
+            OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
+            OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
+            return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
+            */
             default:
                 return 0;
         }
@@ -189,51 +191,92 @@ public class NodeGenerator : MonoBehaviour
                 Wall[] AllNodes = (Wall[])Enum.GetValues(typeof(Wall));
                 Wall Allnode = AllNodes[Random.Range(0, AllNodes.Length)];
                 return (int)Enum.Parse(typeof(Wall), Allnode.ToString());
-                /*
-            case WallPool.Inside:
-                InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
-                InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
-                return (int)Enum.Parse(typeof(Node), insideNode.ToString());
-            case WallPool.Outside:
-                OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
-                OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
-                return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
-                */
+            /*
+        case WallPool.Inside:
+            InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
+            InsideNodePool insideNode = insideNodes[Random.Range(0, insideNodes.Length)];
+            return (int)Enum.Parse(typeof(Node), insideNode.ToString());
+        case WallPool.Outside:
+            OutsideNodePool[] outsideNodes = (OutsideNodePool[])Enum.GetValues(typeof(OutsideNodePool));
+            OutsideNodePool outsideNode = outsideNodes[Random.Range(0, outsideNodes.Length)];
+            return (int)Enum.Parse(typeof(Node), outsideNode.ToString());
+            */
             default:
                 return 0;
         }
+    }
+
+    public int WallPoolCheck(Wall[] wallPool)
+    {
+        Wall[] AllWalls = (Wall[])Enum.GetValues(typeof(Wall));
+        Wall wall = wallPool[Random.Range(0, wallPool.Length)];
+        return (int)Enum.Parse(typeof(Wall), wall.ToString());
     }
 
     public void CreatePathWall()
     {
         foreach (NodeInfo node in MapManager.Instance.nodes)
         {
-            if (node.east == null)
+            if (node.wallPool != null)
             {
-                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
-                wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
-                wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
-                MapManager.Instance.walls.Add(wallObject);
+                Wall[] wallPool = node.wallPool;
+                if (node.east == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
+                    wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.west == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
+                    wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.south == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
+                    wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.north == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
             }
-            if (node.west == null)
+            else
             {
-                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
-                wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
-                wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
-                MapManager.Instance.walls.Add(wallObject);
-            }
-            if (node.south == null)
-            {
-                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
-                wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
-                wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
-                MapManager.Instance.walls.Add(wallObject);
-            }
-            if (node.north == null)
-            {
-                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
-                wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
-                MapManager.Instance.walls.Add(wallObject);
+                if (node.east == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
+                    wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.west == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
+                    wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.south == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
+                    wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.north == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
             }
         }
     }

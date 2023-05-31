@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using Skill;
 using UnityEngine;
 
@@ -8,15 +6,15 @@ namespace Item
     public class Item : MonoBehaviour
     {
         public ItemType type;
-        
+
         private SPC[] spcs;
 
         static ItemInfo[] infos = new ItemInfo[3];
-        float[] temps= new float[2];
+        float[] temps = new float[2];
 
-        private void Awake()        
+        private void Awake()
         {
-            for(int i = 0; i< ResourceManager.Instance.itemInfos.Length;i++)
+            for (int i = 0; i < ResourceManager.Instance.itemInfos.Length; i++)
             {
                 infos[i] = ResourceManager.Instance.itemInfos[i];
             }
@@ -38,23 +36,26 @@ namespace Item
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Player player)
         {
-            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle,(int)CombatEffectClip.itemUse,1,20);
-            effect.transform.SetParent(player.transform,true);
+            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle, (int)CombatEffectClip.itemUse, 1, 20);
+            effect.transform.SetParent(player.transform, true);
             spcs[(int)type].Init(20);
             decimal boostValue = 0.05m;
             switch (type)
             {
                 case ItemType.Heal:
                     player.MaxHp += 20;
+                    staticStat.maxHP += 20;
                     MapInfo.hpCore++;
                     break;
                 case ItemType.Boost:
                     // decimal 자료형으로 연산 후 다시 float로 형변환
                     player.speed = (float)((decimal)player.speed + boostValue);
+                    staticStat.speed = (float)((decimal)player.speed + boostValue);
                     MapInfo.speedCore++;
                     break;
                 case ItemType.PowerUp:
                     player.dmg += 1;
+                    staticStat.dmg += 1;
                     MapInfo.dmgCore++;
                     ;
                     break;
@@ -64,6 +65,6 @@ namespace Item
             MapInfo.core++;
             UIManager.Instance.playerStatUIController.core = MapInfo.core;
             gameObject.SetActive(false);
-        }        
+        }
     }
 }

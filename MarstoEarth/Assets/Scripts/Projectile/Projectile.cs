@@ -21,16 +21,16 @@ namespace Projectile
         public Type ty;
         public Action<Vector3> ef;
 
-        
-        public ProjectileInfo(int layerMask, Mesh mesh, Type type,Action<Vector3> effect)
-        {   
+
+        public ProjectileInfo(int layerMask, Mesh mesh, Type type, Action<Vector3> effect)
+        {
             lm = layerMask;
             ms = mesh;
             ty = type;
             ef = effect;
         }
     }
-    public class Projectile:MonoBehaviour
+    public class Projectile : MonoBehaviour
     {
         public Vector3 attackerPos;
         public Vector3 targetPos;
@@ -50,18 +50,18 @@ namespace Projectile
         public float eleapse;
         Transform thisTransform;
         public ParticleSystem[] effects;
-        public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp , float rg ,ref ProjectileInfo info)
+        public void Init(Vector3 ap, Vector3 tp, float dg, float dr, float sp, float rg, ref ProjectileInfo info)
         {
             trail.Clear();
             attackerPos = ap;
             targetPos = tp;
-            dmg= dg;
+            dmg = dg;
             duration = dr;
             speed = sp;
             range = rg;
             trail.widthMultiplier = range * 0.2f;
             trail.emitting = true;
-            transform.localScale = range*0.05f*Vector3.one;
+            transform.localScale = range * 0.05f * Vector3.one;
             transform.position = ap;
             transform.forward = tp;
             mesh.mesh = info.ms;
@@ -72,22 +72,22 @@ namespace Projectile
         }
 
 
-        
+
         // ReSharper disable Unity.PerformanceAnalysis
         private void Bullet()
         {
-            thisTransform.position += targetPos * (Time.deltaTime * speed); 
+            thisTransform.position += targetPos * (Time.deltaTime * speed);
             Vector3 position = thisTransform.position;
-            if (Physics.OverlapCapsuleNonAlloc(position, position+ thisTransform.forward*(Time.deltaTime * speed),range*0.05f, colliders,
-                    thisInfo[0].lm|1<<9|1<<0) > 0)
+            if (Physics.OverlapCapsuleNonAlloc(position, position + thisTransform.forward * (Time.deltaTime * speed), range * 0.05f, colliders,
+                    thisInfo[0].lm | 1 << 9 | 1 << 0) > 0)
             {
                 colliders[0].TryGetComponent(out target);
                 if (target)
-                    target.Hit(attackerPos, dmg,0);
-                
+                    target.Hit(attackerPos, dmg, 0);
+
                 thisInfo[0].ef?.Invoke(position);
-                SpawnManager.Instance.GetEffect(position,effects[(int)Type.Bullet], target? (int)CombatEffectClip.hit2:(int)CombatEffectClip.hit1); 
-                if(gameObject.activeSelf)
+                SpawnManager.Instance.GetEffect(position, effects[(int)Type.Bullet], target ? (int)CombatEffectClip.hit2 : (int)CombatEffectClip.hit1);
+                if (gameObject.activeSelf)
                     SpawnManager.Instance.projectileManagedPool.Release(this);
             }
         }
@@ -106,23 +106,23 @@ namespace Projectile
             if (fracComplete < 1) return;
             Vector3 position = thisTransform.position;
             int count = Physics.OverlapSphereNonAlloc(position, range, colliders,
-                thisInfo[0].lm|1<<9|1<<0);
+                thisInfo[0].lm | 1 << 9 | 1 << 0);
             for (int i = 0; i < count; i++)
             {
                 colliders[i].TryGetComponent(out target);
                 if (target)
-                    target.Hit(attackerPos, dmg,0);
+                    target.Hit(attackerPos, dmg, 0);
             }
-            SpawnManager.Instance.GetEffect(position,effects[(int)Type.Cannon],count > 1 ? (int)CombatEffectClip.explosion2 : (int)CombatEffectClip.explosion1,range*0.4f); 
+            SpawnManager.Instance.GetEffect(position, effects[(int)Type.Cannon], count > 1 ? (int)CombatEffectClip.explosion2 : (int)CombatEffectClip.explosion1, range * 0.4f);
             thisInfo[0].ef?.Invoke(position);
             SpawnManager.Instance.projectileManagedPool.Release(this);
-            
+
         }
-       
+
         private void Update()
         {
             duration -= Time.deltaTime;
-            if(duration <0)
+            if (duration < 0)
                 SpawnManager.Instance.projectileManagedPool.Release(this);
             thisTransform = transform;
 
