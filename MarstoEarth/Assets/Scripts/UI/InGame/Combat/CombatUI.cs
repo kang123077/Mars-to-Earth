@@ -121,7 +121,7 @@ public class CombatUI : UI
     }
     public void ClickSkill(int idx)
     {
-        if (curSkillCount < idx) return;
+        if (curSkillCount <= idx) return;
         SkillSlot slot = skillSlots[idx];
 
         if ((!slot.skill.isCombo && slot.coolDown.fillAmount <= 0) ||
@@ -129,6 +129,7 @@ public class CombatUI : UI
         {
             slot.skill.Use();
         }
+        
     }
 
 #if  UNITY_ANDROID || UNITY_IOS 

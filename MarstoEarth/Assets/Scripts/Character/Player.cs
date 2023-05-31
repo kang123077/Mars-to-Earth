@@ -197,7 +197,7 @@ namespace Character
 
             if (!stun && hitScreenAlphaValue > 0)
             {
-                hitScreenAlphaValue -= Time.deltaTime * hp * (1 / MaxHp);
+                hitScreenAlphaValue -= Time.deltaTime ;
                 hitScreenColor.a = hitScreenAlphaValue;
                 hitScreen.color = hitScreenColor;
             }
