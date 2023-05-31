@@ -72,7 +72,7 @@ public class CardUIControll : UI
         Vector2 pos = new Vector2(center.x, center.y);
         button.transform.SetAsLastSibling();
         button.gameObject.transform.position = pos;
-        button.gameObject.transform.localScale = new Vector2(1.3f, 1.3f);
+        button.gameObject.transform.localScale = new Vector2(1.2f, 1.2f);
     }
 
     // 카드에 저장된 스킬을 추가 시 카드가 스킬 슬롯으로 들어가게 만들고 해당하는 스킬이 중복으로 뜨지 않도록 스킬의 리스트를 삭제함, 코루틴 함수를 발동시킴
