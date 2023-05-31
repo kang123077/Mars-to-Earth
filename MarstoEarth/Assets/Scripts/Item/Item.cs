@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using Character;
 using Skill;
 using UnityEngine;
 
@@ -9,15 +6,15 @@ namespace Item
     public class Item : MonoBehaviour
     {
         public ItemType type;
-        
+
         private SPC[] spcs;
 
         static ItemInfo[] infos = new ItemInfo[3];
-        float[] temps= new float[2];
+        float[] temps = new float[2];
 
-        private void Awake()        
+        private void Awake()
         {
-            for(int i = 0; i< ResourceManager.Instance.itemInfos.Length;i++)
+            for (int i = 0; i < ResourceManager.Instance.itemInfos.Length; i++)
             {
                 infos[i] = ResourceManager.Instance.itemInfos[i];
             }
@@ -39,8 +36,8 @@ namespace Item
         // ReSharper disable Unity.PerformanceAnalysis
         public void Use(Character.Player player)
         {
-            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle,(int)CombatEffectClip.itemUse,1,20);
-            effect.transform.SetParent(player.transform,true);
+            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle, (int)CombatEffectClip.itemUse, 1, 20);
+            effect.transform.SetParent(player.transform, true);
             spcs[(int)type].Init(20);
             decimal boostValue = 0.05m;
             switch (type)
@@ -68,6 +65,6 @@ namespace Item
             MapInfo.core++;
             UIManager.Instance.playerStatUIController.core = MapInfo.core;
             gameObject.SetActive(false);
-        }        
+        }
     }
 }

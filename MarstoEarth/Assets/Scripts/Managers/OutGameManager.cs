@@ -15,7 +15,7 @@ public class OutGameManager : Singleton<OutGameManager>
 
     public void OutGameInit()
     {
-        MapInfo.ResetValues();        
+        MapInfo.ResetValues();
         Character.staticStat.ResetValues();
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Projectile
@@ -25,7 +23,7 @@ namespace Projectile
                 Destroy(gameObject);
             if (!caster)
                 Destroy(gameObject);
-            transform.position = caster.transform.position+Vector3.up;
+            transform.position = caster.transform.position + Vector3.up;
             transform.Rotate(0f, speed * 10 * Time.deltaTime, 0f); // y축 기준 회전
         }
     }

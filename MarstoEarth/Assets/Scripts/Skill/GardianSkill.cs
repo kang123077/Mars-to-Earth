@@ -1,7 +1,4 @@
-using Character;
-using System;
 using UnityEngine;
-using Object = System.Object;
 
 namespace Skill
 {
@@ -15,12 +12,12 @@ namespace Skill
         };
         public GardianSkill()
         {
-            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Gardian]; 
+            skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Gardian];
         }
         protected override bool Activate()
         {
             caster.PlaySkillClip(this);
-            
+
             return true;
         }
 
@@ -28,9 +25,9 @@ namespace Skill
         public override void Effect()
         {
 
-            GameObject gardianSlot = new ();
+            GameObject gardianSlot = new();
             gardianSlot.SetActive(false);
-            Projectile.Gardians gardians= gardianSlot.AddComponent<Projectile.Gardians>();
+            Projectile.Gardians gardians = gardianSlot.AddComponent<Projectile.Gardians>();
             gardians.Init(caster.transform, skillInfo.duration + caster.duration * 0.5f,
                 skillInfo.speed + caster.speed * 0.5f);
             for (int i = 0; i < 3; i++)
@@ -38,34 +35,34 @@ namespace Skill
                 var sattlliteSlot =
                     UnityEngine.Object.Instantiate(ResourceManager.Instance.skillInfos[(int)SkillName.Gardian]
                         .effects[1]);
-                
-                UnityEngine.Object.Instantiate (skillInfo.effects[0], sattlliteSlot.transform);
-                sattlliteSlot.transform.localScale = Vector3.one* (skillInfo.range+caster.range*0.2f);
-                sattlliteSlot.transform.position = gardianSlot.transform.position+points[i]*(skillInfo.range*1.5f);
+
+                UnityEngine.Object.Instantiate(skillInfo.effects[0], sattlliteSlot.transform);
+                sattlliteSlot.transform.localScale = Vector3.one * (skillInfo.range + caster.range * 0.2f);
+                sattlliteSlot.transform.position = gardianSlot.transform.position + points[i] * (skillInfo.range * 1.5f);
                 sattlliteSlot.transform.LookAt(gardianSlot.transform.position);
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
 
                 Projectile.Gardian satllite = sattlliteSlot.gameObject.AddComponent<Projectile.Gardian>();
-                satllite.Init(caster.layerMask,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.range + caster.range * 0.2f,skillInfo.speed+caster.speed*0.2f)  ;
-                
+                satllite.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 0.5f, skillInfo.range + caster.range * 0.2f, skillInfo.speed + caster.speed * 0.2f);
+
             }
 
-            if (enforce )
+            if (enforce)
             {
                 var sattlliteSlot =
                     UnityEngine.Object.Instantiate(ResourceManager.Instance.skillInfos[(int)SkillName.Gardian]
                         .effects[1]);
-                
-                UnityEngine.Object.Instantiate (skillInfo.effects[0], sattlliteSlot.transform);
-                sattlliteSlot.transform.localScale = Vector3.one* (skillInfo.range+caster.range*0.2f);
+
+                UnityEngine.Object.Instantiate(skillInfo.effects[0], sattlliteSlot.transform);
+                sattlliteSlot.transform.localScale = Vector3.one * (skillInfo.range + caster.range * 0.2f);
                 Vector3 forwad = caster.transform.forward;
                 forwad.y = 0;
-                sattlliteSlot.transform.position = Vector3.up+ caster.transform.position+forwad*(skillInfo.range*1.5f);
-                
+                sattlliteSlot.transform.position = Vector3.up + caster.transform.position + forwad * (skillInfo.range * 1.5f);
+
                 sattlliteSlot.transform.SetParent(caster.transform);
 
                 Projectile.Gardian satllite = sattlliteSlot.gameObject.AddComponent<Projectile.Gardian>();
-                satllite.Init(caster.layerMask,skillInfo.dmg + caster.dmg * 0.5f,skillInfo.range + caster.range * 0.2f,skillInfo.speed+caster.speed*0.2f)  ;
+                satllite.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 0.5f, skillInfo.range + caster.range * 0.2f, skillInfo.speed + caster.speed * 0.2f);
 
             }
             gardianSlot.SetActive(true);

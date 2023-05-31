@@ -40,13 +40,13 @@ namespace Character
                 int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength, colliders, layerMask);
                 if (size > 0)
                 {
-                    float angle =Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
-                     
+                    float angle = Mathf.Acos(Vector3.Dot(thisCurTransform.forward, (colliders[0].transform.position - thisCurTransform.position).normalized)) * Mathf.Rad2Deg;
+
                     if ((angle < 0 ? -angle : angle) < viewAngle ||
                         Vector3.Distance(colliders[0].transform.position, thisCurTransform.position) <
                         sightLength * 0.4f)
                     {
-                         target = colliders[0].transform;
+                        target = colliders[0].transform;
                     }
                 }
             }

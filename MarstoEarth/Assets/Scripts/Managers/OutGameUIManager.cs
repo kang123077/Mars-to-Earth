@@ -11,7 +11,7 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
     {
         AudioManager.BGM_AudioClips = _BGM_AudioClips;
         AudioManager.UI_EffectAudioClips = _UI_EffectAudioClips;
-        for(int i = 0; i < UIcontroll.Length; i++)
+        for (int i = 0; i < UIcontroll.Length; i++)
         {
             UIcontroll[i].gameObject.SetActive(false);
         }
@@ -39,12 +39,12 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
                     // 활성화된 UI를 비활성화시킴
                     ui.SetActive(false);
                 }
-                else if(!ui.activeSelf)
+                else if (!ui.activeSelf)
                 {
                     Debug.Log("나가기 UI 활성화");
                 }
             }
         }
-        
+
     }
 }

@@ -1,10 +1,10 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public enum CombatEffectClip
 {
     buzz,
-    charge,    
+    charge,
     explosion1,
     explosion2,
     fire,
@@ -25,7 +25,7 @@ public enum CombatEffectClip
     swing,
     titanStep,
     titanVoice,
-    walk,    
+    walk,
 }
 
 public class AudioManager : Singleton<AudioManager>
@@ -60,12 +60,12 @@ public class AudioManager : Singleton<AudioManager>
         effectAudioSource.loop = false;
         effectAudioSource.volume = 1f;
         effectAudioSource.spatialize = false;
-        
+
         // 플레이 중인 오디오 소스의 리스트를 초기화 함
         playingSource = new List<AudioSource>();
 
         // 추후 수정 후 지울 예정 임시방편
-        if(BGM_AudioClips == null)
+        if (BGM_AudioClips == null)
         {
             BGM_AudioClips = _BGM_AudioClips;
             UI_EffectAudioClips = _UI_EffectAudioClips;
@@ -81,18 +81,18 @@ public class AudioManager : Singleton<AudioManager>
         bgmAudioSource.Play();
     }
 
-    public void PlayEffect(int clipIndex ) 
+    public void PlayEffect(int clipIndex)
     {
         if (clipIndex < 0 || clipIndex >= UI_EffectAudioClips.Length) return; // 인덱스 범위 확인
-        
+
         effectAudioSource.clip = UI_EffectAudioClips[clipIndex];
         effectAudioSource.volume = finalEffectVolume; // 볼륨 설정
-        effectAudioSource.Play();       
+        effectAudioSource.Play();
     }
     public void PlayEffect(int clipIndex, AudioSource source)
     {
         if (clipIndex < 0 || clipIndex >= CombatEffectAudioClips.Length) return; // 인덱스 범위 확인
-        
+
         source.clip = CombatEffectAudioClips[clipIndex];
         if (source.transform.parent.gameObject.activeSelf)
         {

@@ -1,4 +1,3 @@
-using System;
 using Skill;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,7 +36,7 @@ namespace Character
             set
             {
                 _dmg = value;
-                if(UIManager.Instance)
+                if (UIManager.Instance)
                     UIManager.Instance.playerStatUIController.attack = _dmg;
             }
         }
@@ -57,7 +56,8 @@ namespace Character
         public float _MaxHP;
 
         public override float MaxHp
-        {   get => _MaxHP;
+        {
+            get => _MaxHP;
             set
             {
                 _MaxHP = value;
@@ -122,9 +122,9 @@ namespace Character
 
         protected override void Awake()
         {
-            
+
             base.Awake();
-           
+
             colliders = new Collider[8];
             itemColliders = new Collider[1];
             actives = new List<Skill.Skill>();
@@ -165,7 +165,7 @@ namespace Character
             hitScreenColor = hitScreen.color;
         }
 
-        
+
         // ReSharper disable Unity.PerformanceAnalysis
         public override bool AddBuff(SPC buff)
         {
@@ -211,7 +211,7 @@ namespace Character
             Vector3 position = thisCurTransform.position;
 
 
-            
+
 #if UNITY_STANDALONE_WIN
 
             xInput = Input.GetAxis("Horizontal");
@@ -248,12 +248,12 @@ namespace Character
 
                 if (Input.anyKey)
                 {
-                   
+
                     foreach (KeyCode keyCode in moveKeys)
                     {
                         if (Input.GetKeyDown(keyCode))
                         {
-                            
+
                             if (Time.time - lastInputTime < 0.3f && key == keyCode)
                                 if (onSkill is not MassShootingSkill)
                                     isRun = true;
@@ -268,7 +268,8 @@ namespace Character
                             key = KeyCode.LeftShift;
                             if (onSkill is not MassShootingSkill)
                                 isRun = true;
-                        }else if (Input.GetKeyUp(KeyCode.LeftShift))
+                        }
+                        else if (Input.GetKeyUp(KeyCode.LeftShift))
                         {
                             isRun = false;
                         }
@@ -351,7 +352,7 @@ namespace Character
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
                     combatUI.ClickSkill(i);
-                
+
                 #region Test
 
 #if UNITY_EDITOR

@@ -1,10 +1,7 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using System.IO;
-using System;
-using UnityEditor;
-using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class ReportCheckUI : MonoBehaviour
 {
@@ -70,7 +67,7 @@ public class ReportCheckUI : MonoBehaviour
             if (File.Exists(filePath))
                 File.Delete(filePath);
             else
-                Debug.Log("File Doesn't exist!");
+                Debug.Log("JsonFile Doesn't exist!");
 
             if (File.Exists(metaPath))
                 File.Delete(metaPath);

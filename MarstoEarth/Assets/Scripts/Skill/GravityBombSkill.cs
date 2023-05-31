@@ -6,7 +6,6 @@ namespace Skill
     public class GravityBombSkill : Skill
     {
         // readonly Collider[] colliders;
-
         private Projectile.ProjectileInfo projectileInfo;
         public GravityBombSkill()
         {

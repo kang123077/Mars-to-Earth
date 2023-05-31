@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class SettingUI : UI
 {
@@ -15,12 +15,12 @@ public class SettingUI : UI
 
     private void Awake()
     {
-       resolutions = new List<Resolution>();
+        resolutions = new List<Resolution>();
     }
 
     void Start()
     {
-        resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>(); 
+        resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>();
         maserVolume.onValueChanged.AddListener(delegate { OnMasterVolumeChanged(); });
         BGMVolume.onValueChanged.AddListener(delegate { OnBGMVolumeChanged(); });
         effectVolume.onValueChanged.AddListener(delegate { OnEffectVolumeChanged(); });
@@ -46,7 +46,7 @@ public class SettingUI : UI
 
     void ResolInit()
     {
-        for(int i = 0; i < Screen.resolutions.Length; i++)
+        for (int i = 0; i < Screen.resolutions.Length; i++)
         {
             if (Screen.resolutions[i].width * 9 == Screen.resolutions[i].height * 16)
             {
@@ -62,7 +62,7 @@ public class SettingUI : UI
             option.text = item.width + " X " + item.height + " ";
             resolutionCon.options.Add(option);
 
-            if(item.width == Screen.width && item.height == Screen.height)
+            if (item.width == Screen.width && item.height == Screen.height)
             {
                 resolutionCon.value = resolutionNum;
                 resolutionNum++;
@@ -108,7 +108,7 @@ public class SettingUI : UI
     {
         Debug.Log("게임을 재실행 합니다.");
         UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
-        Time.timeScale= 1.0f;
+        Time.timeScale = 1.0f;
     }
 
     public void GameExit()
