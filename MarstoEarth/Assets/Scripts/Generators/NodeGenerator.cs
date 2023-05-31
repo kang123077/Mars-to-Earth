@@ -15,8 +15,8 @@ public enum Node
 {
     Test_00,
     SFRoom_00,
+    YellowRock_00
 }
-
 
 public enum InsideNodePool
 {
@@ -25,7 +25,8 @@ public enum InsideNodePool
 
 public enum OutsideNodePool
 {
-    Test_00
+    Test_00,
+    YellowRock_00
 }
 
 public enum PathPool
@@ -50,7 +51,8 @@ public enum WallPool
 public enum Wall
 {
     TestWall,
-    BrokenGate_00
+    BrokenGate_00,
+    YellowRock_00
 }
 
 public class NodeGenerator : MonoBehaviour
@@ -204,36 +206,77 @@ public class NodeGenerator : MonoBehaviour
         }
     }
 
+    public int WallPoolCheck(Wall[] wallPool)
+    {
+        Wall[] AllWalls = (Wall[])Enum.GetValues(typeof(Wall));
+        Wall wall = wallPool[Random.Range(0, wallPool.Length)];
+        return (int)Enum.Parse(typeof(Wall), wall.ToString());
+    }
+
     public void CreatePathWall()
     {
         foreach (NodeInfo node in MapManager.Instance.nodes)
         {
-            if (node.east == null)
+            if (node.wallPool != null)
             {
-                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
-                wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
-                wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
-                MapManager.Instance.walls.Add(wallObject);
+                Wall[] wallPool = node.wallPool;
+                if (node.east == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
+                    wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.west == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
+                    wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.south == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
+                    wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.north == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
             }
-            if (node.west == null)
+            else
             {
-                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
-                wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
-                wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
-                MapManager.Instance.walls.Add(wallObject);
-            }
-            if (node.south == null)
-            {
-                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
-                wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
-                wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
-                MapManager.Instance.walls.Add(wallObject);
-            }
-            if (node.north == null)
-            {
-                GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
-                wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
-                MapManager.Instance.walls.Add(wallObject);
+                if (node.east == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
+                    wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.west == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
+                    wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.south == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
+                    wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
+                if (node.north == null)
+                {
+                    GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
+                    wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
+                    MapManager.Instance.walls.Add(wallObject);
+                }
             }
         }
     }

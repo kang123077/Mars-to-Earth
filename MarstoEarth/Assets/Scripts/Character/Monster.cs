@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-
 namespace Character
 {
-
     public class Monster : Character
     {
         private static readonly Vector3[] trackingDirection =
@@ -110,7 +108,7 @@ namespace Character
 
         protected override void Awake()
         {
-            dmg = characterStat.dmg + characterStat.dmg * MapInfo.difficulty;
+            dmg = characterStat.dmg + (characterStat.dmg * MapInfo.difficulty * 0.5f);
             speed = characterStat.speed;
             def = characterStat.def;
             duration = characterStat.duration;

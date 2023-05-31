@@ -1,0 +1,18 @@
+{
+    "date": "2023 - 05 - 30",
+    "time": "13 : 39",
+    "clearedStage": 1,
+    "clearedRooms": 4,
+    "playedTime": "03 : 46",
+    "hpCoreAmount": 3,
+    "dmgCoreAmount": 6,
+    "speedCoreAmount": 4,
+    "core": 13,
+    "maxHp": 260.0,
+    "attack": 25.0,
+    "speed": 4.650000095367432,
+    "defence": 0.0,
+    "duration": 0.5,
+    "range": 1.0,
+    "fileName": "202305301339"
+}

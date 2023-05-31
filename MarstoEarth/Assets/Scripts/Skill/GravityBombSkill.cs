@@ -6,8 +6,6 @@ namespace Skill
     public class GravityBombSkill : Skill
     {
         // readonly Collider[] colliders;
-
-
         private Projectile.ProjectileInfo projectileInfo;
         public GravityBombSkill()
         {
@@ -39,7 +37,6 @@ namespace Skill
 
         public override void Effect()
         {
-            Debug.Log(caster.target);
             SpawnManager.Instance.Launch(caster.transform.position + Vector3.up, caster.target ?
                     caster.target.position : caster.transform.position + caster.transform.forward * (skillInfo.range + caster.range * 0.5f),
                     0, skillInfo.duration + caster.duration, skillInfo.speed + caster.speed,

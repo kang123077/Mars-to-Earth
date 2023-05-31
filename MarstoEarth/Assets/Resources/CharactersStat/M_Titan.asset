@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dmg: 25
   speed: 6
-  def: 5
+  def: 4
   duration: 0
-  maxHP: 450
+  maxHP: 420
   range: 5
   sightLength: 30
   viewAngle: 85
