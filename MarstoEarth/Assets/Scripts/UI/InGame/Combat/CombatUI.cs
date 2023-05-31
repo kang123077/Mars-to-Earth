@@ -166,11 +166,11 @@ public class CombatUI : UI
                         MovingPad.gameObject.SetActive(true);                      
                         MovingPadId =touch.fingerId;
                         //MovingPad.OnDrag(touch.position);
-                        if (Time.time - lastInputTime < 0.3f)
-                        {
-                            SpawnManager.Instance.player.isRun = true;
-                        }
-                        lastInputTime = Time.time;
+                        // if (Time.time - lastInputTime < 0.3f)
+                        // {
+                        //     SpawnManager.Instance.player.isRun = true;
+                        // }
+                        // lastInputTime = Time.time;
                     }
                     else
                     {
