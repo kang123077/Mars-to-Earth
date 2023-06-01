@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+
 public enum UIType
 {
     Combat,
@@ -15,6 +16,7 @@ public enum UIType
 public class UIManager : Singleton<UIManager>
 {
     public UI[] UIs;
+    bool isPaused = false;
 
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
@@ -29,6 +31,7 @@ public class UIManager : Singleton<UIManager>
     public Transform muzzleTr;
     public Transform lookAtTr;
     public GameObject[] PCMO;
+
 
     protected override void Awake()
     {
@@ -59,39 +62,33 @@ public class UIManager : Singleton<UIManager>
         playerStatUIController.core = MapInfo.core;
     }
 
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        {
+            isPaused = true;
+            UIs[(int)UIType.Setting].gameObject.SetActive(true);
+        }
+        else
+        {
+            if (pause)
+            {
+                isPaused = false;
+            }
+        }
+        isPaused = pause;
+    }
+
     private void Update()
     {
 #if UNITY_ANDROID || UNITY_IOS
-        // 일시정지 UI 클릭 시 소리를 끄고 MobileSettingUI 활성화
-        //if(Input.touchCount == 1f)
-        //{
-        //    AudioManager.Instance.PlayEffect(1);
-        //    AudioManager.Instance.PauseSource();
-        //    aimImage.gameObject.SetActive(false);
-        //      if (UIs[(int)UIType.MobileSetting].gameObject.activeSelf != true)
-        //    {
-        //        UIs[(int)UIType.MobileSetting].gameObject.SetActive(true);
-        //        Time.timeScale = 0f;
-        //    }
-        //    else if (UIs[(int)UIType.MobileSetting].gameObject.activeSelf == true)
-        //    {
-        //        if (UIs[(int)UIType.Card].gameObject.activeSelf == true)
-        //        {
-        //            Time.timeScale = 0f;
-        //        }
-        //        else if (UIs[(int)UIType.Card].gameObject.activeSelf != true)
-        //        {
-        //            AudioManager.Instance.UnPauseSorce();
-        //            Time.timeScale = 1f;
-        //            aimImage.gameObject.SetActive(true);
-        //        }
-        //        UIs[(int)UIType.MobileSetting].gameObject.SetActive(false);
-        //    }
-        //}
+
+    
 #else
+        
         // Esc 버튼 클릭 시 소리를 끄고 Setting UI를 활성화
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
+        {  
             AudioManager.Instance.PlayEffect(1);
             AudioManager.Instance.PauseSource();
             aimImage.gameObject.SetActive(false);
