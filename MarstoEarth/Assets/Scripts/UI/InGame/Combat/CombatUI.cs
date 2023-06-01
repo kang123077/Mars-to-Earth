@@ -139,7 +139,6 @@ public class CombatUI : UI
 #if  UNITY_ANDROID || UNITY_IOS || UNITY_EDITOR
     int MovingPadId = -1;
     int sightId = -1;
-    float lastInputTime;
 
 
     private void Update()
@@ -153,6 +152,11 @@ public class CombatUI : UI
                     if (RectTransformUtility.RectangleContainsScreenPoint(Shot,touch.position)
                         &&player.isRun==false)
                     {
+                        if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
+                        {
+                            Debug.Log("클립레이어가 2번인 스킬이 onskill에 있으므로 리턴");
+                            return;
+                        }
                         player.anim.SetTrigger( Character.Character.attacking);
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
@@ -163,8 +167,11 @@ public class CombatUI : UI
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))
                     {
                         if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
+                        {
+                            Debug.Log("클립레이어가 2번인 스킬이 onskill에 있으므로 리턴");
                             return;
-                        CinemachineManager.Instance.follower.rotation = Quaternion.Euler(CinemachineManager.Instance.curAngle);
+                        }
+                        player.InputDir = CinemachineManager.Instance.follower.rotation * player.InputDir;
                         player.actives[0].Use();
                     }
                     else if (touch.position.x< Screen.width*0.3f)
@@ -181,15 +188,12 @@ public class CombatUI : UI
                         // lastInputTime = Time.time;
                     }
                     else
-                    {                        
-                        sightId=touch.fingerId;
-                    }
+                        sightId=touch.fingerId;                    
                 }
                 else if (touch.phase == TouchPhase.Moved)
                 {                   
-
-                    if (MovingPadId == touch.fingerId)                    
-                        MovingPad.OnDrag(touch.position);
+                    if (MovingPadId == touch.fingerId && MovingPadId != -1)                                            
+                        MovingPad.OnDrag(touch.position);                    
                     
                     else if (sightId == touch.fingerId)
                     {
@@ -204,6 +208,7 @@ public class CombatUI : UI
                         MovingPadId = -1;
                         player.xInput = 0;
                         player.zInput = 0;
+                        player.InputDir = Vector3.zero;
                         player.isRun = false; 
                         MovingPad.gameObject.SetActive(false);
                     }else if (sightId == touch.fingerId)                    
