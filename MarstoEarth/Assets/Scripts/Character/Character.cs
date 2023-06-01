@@ -260,7 +260,8 @@ namespace Character
         {
             buff.Remove?.Invoke(this);
             int findIndex = Buffs.FindIndex((el) => el == buff);
-            Buffs.RemoveAt(findIndex);
+            if (findIndex >= 0)
+                Buffs.RemoveAt(findIndex);
             return findIndex;
         }
         public void PlaySkillClip(Skill.Skill skill)
@@ -276,7 +277,6 @@ namespace Character
                 onSkill = null;
             }
         }
-
 
     }
 }

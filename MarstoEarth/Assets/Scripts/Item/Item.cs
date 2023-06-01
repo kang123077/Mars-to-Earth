@@ -43,7 +43,8 @@ namespace Item
             switch (type)
             {
                 case ItemType.Heal:
-                    player.MaxHp += 20;
+
+                    player.hp= player.MaxHp += 20;
                     Character.staticStat.maxHP += 20;
                     MapInfo.hpCore++;
                     break;
@@ -56,8 +57,8 @@ namespace Item
                 case ItemType.PowerUp:
                     player.dmg += 1;
                     Character.staticStat.dmg += 1;
+
                     MapInfo.dmgCore++;
-                    ;
                     break;
             }
             player.AddBuff(spcs[(int)type]);

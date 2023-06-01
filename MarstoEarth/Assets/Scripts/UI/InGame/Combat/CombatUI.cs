@@ -121,7 +121,7 @@ public class CombatUI : UI
     }
     public void ClickSkill(int idx)
     {
-        if (curSkillCount < idx) return;
+        if (curSkillCount <= idx) return;
         SkillSlot slot = skillSlots[idx];
 
         if ((!slot.skill.isCombo && slot.coolDown.fillAmount <= 0) ||
@@ -129,6 +129,7 @@ public class CombatUI : UI
         {
             slot.skill.Use();
         }
+        
     }
 
 #if  UNITY_ANDROID || UNITY_IOS 
@@ -165,11 +166,11 @@ public class CombatUI : UI
                         MovingPad.gameObject.SetActive(true);                      
                         MovingPadId =touch.fingerId;
                         //MovingPad.OnDrag(touch.position);
-                        if (Time.time - lastInputTime < 0.3f)
-                        {
-                            SpawnManager.Instance.player.isRun = true;
-                        }
-                        lastInputTime = Time.time;
+                        // if (Time.time - lastInputTime < 0.3f)
+                        // {
+                        //     SpawnManager.Instance.player.isRun = true;
+                        // }
+                        // lastInputTime = Time.time;
                     }
                     else
                     {
@@ -180,11 +181,9 @@ public class CombatUI : UI
                 else if (touch.phase == TouchPhase.Moved)
                 {                   
 
-                    if (MovingPadId == touch.fingerId)
-                    {
+                    if (MovingPadId == touch.fingerId)                    
                         MovingPad.OnDrag(touch.position);
-
-                    }
+                    
                     else if (sightId == touch.fingerId)
                     {
                         CinemachineManager.Instance.curAngle.y += touch.deltaPosition.x*Time.deltaTime*3;
@@ -195,16 +194,13 @@ public class CombatUI : UI
                 {
                     if (MovingPadId==touch.fingerId)
                     {
-                       
                         MovingPadId = -1;
                         SpawnManager.Instance.player.xInput = 0;
                         SpawnManager.Instance.player.zInput = 0;
                         SpawnManager.Instance.player.isRun = false; 
-                        MovingPad.gameObject.SetActive(false);                        
-                    }else if (sightId == touch.fingerId)
-                    {
-                        sightId = -1;
-                    }
+                        MovingPad.gameObject.SetActive(false);
+                    }else if (sightId == touch.fingerId)                    
+                        sightId = -1;                    
                 }
                 
             }
