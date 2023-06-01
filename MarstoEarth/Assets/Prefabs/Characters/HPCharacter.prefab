@@ -2444,19 +2444,20 @@ MonoBehaviour:
   weapon: {fileID: 548273612036332164}
   step: {fileID: 359489956403245129}
   impact: {x: 0, y: 0, z: 0}
-  dmg: 0
   def: 0
   duration: 0
   range: 0
   viewAngle: 0
   sightLength: 0
   bulletSpeed: 0
+  _hp: 0
   layerMask: 0
   immune: 0
   dying: 0
   InputDir: {x: 0, y: 0, z: 0}
   camPoint: {fileID: 3434857689237907732}
   isInsidePath: 0
+  _MaxHP: 0
   xInput: 0
   zInput: 0
   effects:
@@ -3112,7 +3113,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8159907720028639162}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.247, y: 1.697, z: 1.53}
+  m_LocalPosition: {x: 0.247, y: 1.697, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

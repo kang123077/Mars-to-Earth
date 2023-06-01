@@ -87,9 +87,4 @@ public class OutGameSettingUI : MonoBehaviour
         AudioManager.finalBGM_Volume = AudioManager.masterVolume * AudioManager.bgmVolume;
         AudioManager.finalEffectVolume = AudioManager.masterVolume * AudioManager.effectVolume;
     }
-
-    public void GameSettingUI()
-    {
-        gameObject.SetActive(true);
-    }
 }

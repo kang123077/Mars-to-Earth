@@ -59,7 +59,7 @@ public class LoadingScene : MonoBehaviour
             {
                 mloadingText.text = "화면을 터치해주세요!";
             }
-            if(Input.touchCount == 1f && mprogressBar.value >= 1f && operation.progress >= 0.9f)
+            if (Input.touchCount == 1f || Input.GetMouseButton(0) && mprogressBar.value >= 1f && operation.progress >= 0.9f)
             {
                 operation.allowSceneActivation = true;
             }

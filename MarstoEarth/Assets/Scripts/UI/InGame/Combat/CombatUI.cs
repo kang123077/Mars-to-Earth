@@ -1,3 +1,4 @@
+using Character;
 using Skill;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +56,7 @@ public class CombatUI : UI
 
     public static bool fullCheck;
     public static bool enforceFullCheck;
+    public static Player player;
 
     private void Awake()
     {
@@ -65,6 +67,7 @@ public class CombatUI : UI
             return copyPrefab;
         }, actionOnRelease: (dt) => dt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
 
+        player = SpawnManager.Instance.player;
 #if UNITY_ANDROID || UNITY_IOS
         PCMO[0].SetActive(false);
         PCMO[1].SetActive(true);
@@ -102,7 +105,7 @@ public class CombatUI : UI
             return;
         }
         skillSlots[curSkillCount].Init(InGameManager.Instance.inGameSkill[skillName]);
-        skillSlots[curSkillCount].skill.Init(SpawnManager.Instance.player);
+        skillSlots[curSkillCount].skill.Init(player);
         curSkillCount++;
     }
 
@@ -123,18 +126,19 @@ public class CombatUI : UI
     {
         if (curSkillCount < idx) return;
         SkillSlot slot = skillSlots[idx];
+        if(slot.skill is null) return;
 
         if ((!slot.skill.isCombo && slot.coolDown.fillAmount <= 0) ||
-           (slot.skill.isCombo) || (SpawnManager.Instance.player.onSkill is MassShootingSkill))
+           (slot.skill.isCombo) || (player.onSkill is MassShootingSkill))
         {
             slot.skill.Use();
         }
+        
     }
 
-#if  UNITY_ANDROID || UNITY_IOS 
+#if  UNITY_ANDROID || UNITY_IOS || UNITY_EDITOR
     int MovingPadId = -1;
     int sightId = -1;
-    float lastInputTime;
 
 
     private void Update()
@@ -145,18 +149,30 @@ public class CombatUI : UI
             {                
                 if (touch.phase == TouchPhase.Began)
                 {                    
-                    if (RectTransformUtility.RectangleContainsScreenPoint(Shot,touch.position))
+                    if (RectTransformUtility.RectangleContainsScreenPoint(Shot,touch.position)
+                        &&player.isRun==false)
                     {
-                        SpawnManager.Instance.player.anim.SetTrigger( Character.Character.attacking);
+                        if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
+                        {
+                            Debug.Log("클립레이어가 2번인 스킬이 onskill에 있으므로 리턴");
+                            return;
+                        }
+                        player.anim.SetTrigger( Character.Character.attacking);
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                     {
-                        UIManager.Instance.UIs[(int)UIType.Setting].gameObject.SetActive(true);
+                        UIManager.Instance.UIs[(int)UIType.MobileSetting].gameObject.SetActive(true);
                         Time.timeScale = 0f;
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))
                     {
-                        SpawnManager.Instance.player.actives[0].Use();
+                        if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
+                        {
+                            Debug.Log("클립레이어가 2번인 스킬이 onskill에 있으므로 리턴");
+                            return;
+                        }
+                        player.InputDir = CinemachineManager.Instance.follower.rotation * player.InputDir;
+                        player.actives[0].Use();
                     }
                     else if (touch.position.x< Screen.width*0.3f)
                     {
@@ -165,26 +181,20 @@ public class CombatUI : UI
                         MovingPad.gameObject.SetActive(true);                      
                         MovingPadId =touch.fingerId;
                         //MovingPad.OnDrag(touch.position);
-                        if (Time.time - lastInputTime < 0.3f)
-                        {
-                            SpawnManager.Instance.player.isRun = true;
-                        }
-                        lastInputTime = Time.time;
+                        // if (Time.time - lastInputTime < 0.3f)
+                        // {
+                        //     SpawnManager.Instance.player.isRun = true;
+                        // }
+                        // lastInputTime = Time.time;
                     }
                     else
-                    {
-                        
-                        sightId=touch.fingerId;
-                    }
+                        sightId=touch.fingerId;                    
                 }
                 else if (touch.phase == TouchPhase.Moved)
                 {                   
-
-                    if (MovingPadId == touch.fingerId)
-                    {
-                        MovingPad.OnDrag(touch.position);
-
-                    }
+                    if (MovingPadId == touch.fingerId && MovingPadId != -1)                                            
+                        MovingPad.OnDrag(touch.position);                    
+                    
                     else if (sightId == touch.fingerId)
                     {
                         CinemachineManager.Instance.curAngle.y += touch.deltaPosition.x*Time.deltaTime*3;
@@ -195,16 +205,14 @@ public class CombatUI : UI
                 {
                     if (MovingPadId==touch.fingerId)
                     {
-                       
                         MovingPadId = -1;
-                        SpawnManager.Instance.player.xInput = 0;
-                        SpawnManager.Instance.player.zInput = 0;
-                        SpawnManager.Instance.player.isRun = false; 
-                        MovingPad.gameObject.SetActive(false);                        
-                    }else if (sightId == touch.fingerId)
-                    {
-                        sightId = -1;
-                    }
+                        player.xInput = 0;
+                        player.zInput = 0;
+                        player.InputDir = Vector3.zero;
+                        player.isRun = false; 
+                        MovingPad.gameObject.SetActive(false);
+                    }else if (sightId == touch.fingerId)                    
+                        sightId = -1;                    
                 }
                 
             }

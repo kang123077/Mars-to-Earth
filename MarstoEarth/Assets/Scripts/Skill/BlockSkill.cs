@@ -18,10 +18,9 @@ namespace Skill
             block = new SPC((ch) =>
             {
                 temp = ch.Hit;
-
                 ch.Hit = (attacker, dmg, penetrate) =>
                 {
-                    if (!ch.Hited(attacker, dmg * 0.2f, penetrate)) return false;
+                    if (!ch.Hited(attacker, dmg * 0.05f, penetrate)) return false;
                     if (parrying || Physics.OverlapSphereNonAlloc(ch.transform.position, skillInfo.range, caster.colliders, ch.layerMask) < 1) return true;
                     effect.Play();
                     AudioManager.Instance.PlayEffect((int)CombatEffectClip.parryingKick, ch.weapon);
@@ -33,7 +32,6 @@ namespace Skill
                 };
             }, (ch) =>
             {
-
                 ch.Hit = temp;
                 if (parrying) return;
                 ch.onSkill = null;
