@@ -44,7 +44,4 @@ public class JoyStick : MonoBehaviour// ,IPointerDownHandler, IDragHandler, IPoi
         SpawnManager.Instance.player.xInput = dir.x * distance * (1 / radius);
         SpawnManager.Instance.player.zInput = dir.y * distance * (1 / radius);
     }
-
-
-
 }

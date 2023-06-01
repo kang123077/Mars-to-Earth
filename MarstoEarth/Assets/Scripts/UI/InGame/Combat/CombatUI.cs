@@ -181,11 +181,9 @@ public class CombatUI : UI
                 else if (touch.phase == TouchPhase.Moved)
                 {                   
 
-                    if (MovingPadId == touch.fingerId)
-                    {
+                    if (MovingPadId == touch.fingerId)                    
                         MovingPad.OnDrag(touch.position);
-
-                    }
+                    
                     else if (sightId == touch.fingerId)
                     {
                         CinemachineManager.Instance.curAngle.y += touch.deltaPosition.x*Time.deltaTime*3;
@@ -196,16 +194,13 @@ public class CombatUI : UI
                 {
                     if (MovingPadId==touch.fingerId)
                     {
-                       
                         MovingPadId = -1;
                         SpawnManager.Instance.player.xInput = 0;
                         SpawnManager.Instance.player.zInput = 0;
                         SpawnManager.Instance.player.isRun = false; 
-                        MovingPad.gameObject.SetActive(false);                        
-                    }else if (sightId == touch.fingerId)
-                    {
-                        sightId = -1;
-                    }
+                        MovingPad.gameObject.SetActive(false);
+                    }else if (sightId == touch.fingerId)                    
+                        sightId = -1;                    
                 }
                 
             }

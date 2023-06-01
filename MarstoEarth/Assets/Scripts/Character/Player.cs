@@ -322,18 +322,22 @@ namespace Character
 
 
             float targetDist = 0;
+
             if (target)
             {
                 Vector3 targetPos = target.position;
                 targetPos.y = 0;
                 var velocity = ((Monster)targetCharacter).ai.velocity;
+                
                 if (velocity.x is > 0.1f or < -0.1f || velocity.z is > 0.1f or < -0.1f)
                 {
                     targetDist = Vector3.Distance(targetPos, position);
-                    targetPos += velocity * (targetDist * (1 / bulletSpeed));
+                    targetPos += velocity * (targetDist * (1 / bulletSpeed)) + targetCharacter.impact*Time.deltaTime;
                 }
                 targetDir = targetPos - position;
             }
+
+
             if (minAngle > 179 && target)
             {
                 angle = Mathf.Acos(Vector3.Dot(repoterForward, targetDir.normalized)) * Mathf.Rad2Deg;
@@ -428,7 +432,7 @@ namespace Character
         {
             if (!base.Hited(attacker, dmg, penetrate)) return false;
             if (!(hitScreenAlphaValue < 0.8f)) return true;
-            hitScreenAlphaValue += dmg * 3 * (1 / MaxHp);
+            hitScreenAlphaValue += dmg * 2.5f * (1 / MaxHp);
             hitScreenColor.a = hitScreenAlphaValue;
             hitScreen.color = hitScreenColor;
             return true;

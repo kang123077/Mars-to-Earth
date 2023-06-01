@@ -48,6 +48,7 @@ namespace Skill
                 curCount = 1;
             if (!Activate())
                 return false;
+
             curCount++;
             lastUsedTime = Time.time;
             isCombo = curCount <= comboCount;
