@@ -37,10 +37,9 @@ public class ReportCheckPPUI : MonoBehaviour
         for (int i = 0; i < saveCount; i++)
         {
             // saveCount 횟수만큼 가져와서 직렬화한 후 넣어준다
-            if (PlayerPrefs.HasKey("save" + saveCount.ToString()))
+            if (PlayerPrefs.HasKey("save" + i.ToString()))
             {
-                string jsonData = PlayerPrefs.GetString("save" + saveCount.ToString());
-                Debug.Log(jsonData);
+                string jsonData = PlayerPrefs.GetString("save" + i.ToString());
                 PlayerSaveInfo saveInfo = JsonUtility.FromJson<PlayerSaveInfo>(jsonData);
                 saveInfoList.Add(saveInfo);
             }
