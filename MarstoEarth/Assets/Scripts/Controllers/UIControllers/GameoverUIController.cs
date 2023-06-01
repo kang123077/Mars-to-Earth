@@ -1,12 +1,12 @@
 using Character;
 using System;
-using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameoverUIController : MonoBehaviour
 {
     public ReportContentUIController reportContent;
+    private int saveCount;
 
     private void OnEnable()
     {
@@ -19,6 +19,25 @@ public class GameoverUIController : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("OutGameScene");
         gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// PP = PlayerPrefs
+    /// </summary>
+    public void SavePPContent(PlayerSaveInfo playerSaveInfo)
+    {
+        // JSON 형식으로 직렬화
+        string jsonData = JsonUtility.ToJson(playerSaveInfo, true);
+        // 지금까지 save들의 수 확인, 없으면 0
+        if (PlayerPrefs.HasKey("saveCount"))
+            saveCount = PlayerPrefs.GetInt("saveCount");
+        else
+            saveCount = 0;
+        // 현재 Save Idx에 저장
+        // ex : save0, save1, save2
+        PlayerPrefs.SetString("save" + saveCount.ToString(), jsonData);
+        // Save를 하나 추가
+        PlayerPrefs.SetInt("saveCount", saveCount + 1);
     }
 
     public void SaveReportContent()
@@ -48,19 +67,7 @@ public class GameoverUIController : MonoBehaviour
         playerSaveInfo.range = staticStat.range;
         playerSaveInfo.fileName = currentDateTime.ToString("yyyMMdd") + currentDateTime.ToString("HHmm");
 
-        // JSON 형식으로 직렬화
-        // (정보, 이쁘게프린트 true)
-        string jsonData = JsonUtility.ToJson(playerSaveInfo, true);
-        // 파일 이름 설정
-        string fileName = $"{currentDateTime.ToString("yyyyMMdd")}{currentDateTime.ToString("HHmm")}.json";
-        // 파일 경로 설정
-        string filePath = System.IO.Path.Combine(Application.dataPath, "Record", fileName);
-        // Json 데이터로 저장
-        using (StreamWriter sw = new StreamWriter(filePath))
-        {
-            sw.WriteLine(jsonData);
-        }
-
+        SavePPContent(playerSaveInfo);
         InitReportContent(playerSaveInfo);
     }
 

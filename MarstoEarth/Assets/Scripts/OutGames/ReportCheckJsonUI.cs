@@ -3,7 +3,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ReportCheckUI : MonoBehaviour
+public class ReportCheckJsonUI : MonoBehaviour
 {
     private string saveFolderPath;
     public List<PlayerSaveInfo> playerSaveInfoList;
@@ -14,7 +14,6 @@ public class ReportCheckUI : MonoBehaviour
 
     private void Awake()
     {
-        saveFolderPath = System.IO.Path.Combine(Application.dataPath, "Record");
         playerSaveInfoList = LoadPlayerSaveInfo();
     }
 
