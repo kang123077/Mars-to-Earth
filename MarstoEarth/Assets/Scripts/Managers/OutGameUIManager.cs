@@ -53,7 +53,6 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
         Application.Quit();
     }
 
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2480,7 +2480,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 591429234}
-        m_TargetAssemblyTypeName: ReportCheckUI, Assembly-CSharp
+        m_TargetAssemblyTypeName: ReportCheckPPUI, Assembly-CSharp
         m_MethodName: ReportGame
         m_Mode: 1
         m_Arguments:
@@ -3340,10 +3340,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 591429232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa147b97a25b98543a5326b65eacfd4c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f787f0fd6d79654f97acd8948361b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSaveInfoList: []
   reportContentList: []
   reportGameContent: {fileID: 5871366996141499663, guid: 357c5e185be004e4fb0078ea8d7c746e, type: 3}
   cloneParentsTF: {fileID: 368342297}
@@ -9841,7 +9840,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 591429234}
-        m_TargetAssemblyTypeName: ReportCheckUI, Assembly-CSharp
+        m_TargetAssemblyTypeName: ReportCheckPPUI, Assembly-CSharp
         m_MethodName: DataChoiceDelete
         m_Mode: 1
         m_Arguments:
@@ -12666,7 +12665,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 591429234}
-        m_TargetAssemblyTypeName: ReportCheckUI, Assembly-CSharp
+        m_TargetAssemblyTypeName: ReportCheckPPUI, Assembly-CSharp
         m_MethodName: DataAllDelete
         m_Mode: 1
         m_Arguments:
