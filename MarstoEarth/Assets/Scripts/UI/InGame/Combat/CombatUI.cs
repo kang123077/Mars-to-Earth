@@ -1,3 +1,4 @@
+using Character;
 using Skill;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,6 +56,7 @@ public class CombatUI : UI
 
     public static bool fullCheck;
     public static bool enforceFullCheck;
+    public static Player player;
 
     private void Awake()
     {
@@ -65,6 +67,7 @@ public class CombatUI : UI
             return copyPrefab;
         }, actionOnRelease: (dt) => dt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
 
+        player = SpawnManager.Instance.player;
 #if UNITY_ANDROID || UNITY_IOS
         PCMO[0].SetActive(false);
         PCMO[1].SetActive(true);
@@ -102,7 +105,7 @@ public class CombatUI : UI
             return;
         }
         skillSlots[curSkillCount].Init(InGameManager.Instance.inGameSkill[skillName]);
-        skillSlots[curSkillCount].skill.Init(SpawnManager.Instance.player);
+        skillSlots[curSkillCount].skill.Init(player);
         curSkillCount++;
     }
 
@@ -121,18 +124,19 @@ public class CombatUI : UI
     }
     public void ClickSkill(int idx)
     {
-        if (curSkillCount <= idx) return;
+        if (curSkillCount < idx) return;
         SkillSlot slot = skillSlots[idx];
+        if(slot.skill is null) return;
 
         if ((!slot.skill.isCombo && slot.coolDown.fillAmount <= 0) ||
-           (slot.skill.isCombo) || (SpawnManager.Instance.player.onSkill is MassShootingSkill))
+           (slot.skill.isCombo) || (player.onSkill is MassShootingSkill))
         {
             slot.skill.Use();
         }
         
     }
 
-#if  UNITY_ANDROID || UNITY_IOS 
+#if  UNITY_ANDROID || UNITY_IOS || UNITY_EDITOR
     int MovingPadId = -1;
     int sightId = -1;
     float lastInputTime;
@@ -146,9 +150,10 @@ public class CombatUI : UI
             {                
                 if (touch.phase == TouchPhase.Began)
                 {                    
-                    if (RectTransformUtility.RectangleContainsScreenPoint(Shot,touch.position))
+                    if (RectTransformUtility.RectangleContainsScreenPoint(Shot,touch.position)
+                        &&player.isRun==false)
                     {
-                        SpawnManager.Instance.player.anim.SetTrigger( Character.Character.attacking);
+                        player.anim.SetTrigger( Character.Character.attacking);
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                     {
@@ -157,7 +162,10 @@ public class CombatUI : UI
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))
                     {
-                        SpawnManager.Instance.player.actives[0].Use();
+                        if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
+                            return;
+                        CinemachineManager.Instance.follower.rotation = Quaternion.Euler(CinemachineManager.Instance.curAngle);
+                        player.actives[0].Use();
                     }
                     else if (touch.position.x< Screen.width*0.3f)
                     {
@@ -173,8 +181,7 @@ public class CombatUI : UI
                         // lastInputTime = Time.time;
                     }
                     else
-                    {
-                        
+                    {                        
                         sightId=touch.fingerId;
                     }
                 }
@@ -195,9 +202,9 @@ public class CombatUI : UI
                     if (MovingPadId==touch.fingerId)
                     {
                         MovingPadId = -1;
-                        SpawnManager.Instance.player.xInput = 0;
-                        SpawnManager.Instance.player.zInput = 0;
-                        SpawnManager.Instance.player.isRun = false; 
+                        player.xInput = 0;
+                        player.zInput = 0;
+                        player.isRun = false; 
                         MovingPad.gameObject.SetActive(false);
                     }else if (sightId == touch.fingerId)                    
                         sightId = -1;                    
