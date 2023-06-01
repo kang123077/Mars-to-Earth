@@ -14,7 +14,7 @@ public class JoyStick : MonoBehaviour// ,IPointerDownHandler, IDragHandler, IPoi
     private void Awake()
     {
 
-        radius = GetComponent<RectTransform>().sizeDelta.y * 0.5f;
+        radius = GetComponent<RectTransform>().sizeDelta.y * 0.25f;
         dir = Vector2.zero;
     }
     private void OnEnable()
@@ -31,12 +31,12 @@ public class JoyStick : MonoBehaviour// ,IPointerDownHandler, IDragHandler, IPoi
         if (distance < radius)
         {
             innerStick.transform.position = curPos;
-            SpawnManager.Instance.player.isRun = false;
+            //SpawnManager.Instance.player.isRun = false;
         }
         else 
         {
-            if (distance > radius + 0.2f)
-                SpawnManager.Instance.player.isRun = true;
+            //if (distance > radius+2f)
+            //    SpawnManager.Instance.player.isRun = true;
             distance = radius;
             innerStick.transform.position = startPos + dir * radius;
         }
