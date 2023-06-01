@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+
 public enum UIType
 {
     Combat,
     Card,
     MiniMap,
     Setting,
+    MobileSetting,
 }
 
 public class UIManager : Singleton<UIManager>
 {
     public UI[] UIs;
+    bool isPaused = false;
 
     private Stack<UI> uiStack = new Stack<UI>();
     private UI currentView;
@@ -27,6 +30,8 @@ public class UIManager : Singleton<UIManager>
     public RectTransform aimImage;
     public Transform muzzleTr;
     public Transform lookAtTr;
+    public GameObject[] PCMO;
+
 
     protected override void Awake()
     {
@@ -40,6 +45,14 @@ public class UIManager : Singleton<UIManager>
         {
             // 씬에 StageClearUI or GameoverUI가 없거나 UIManager에 등록하지 않음
         }
+
+#if UNITY_ANDROID || UNITY_IOS
+        PCMO[0].SetActive(false);
+        PCMO[1].SetActive(true);
+#else
+        PCMO[0].SetActive(true);
+        PCMO[1].SetActive(false);
+#endif
     }
 
     private void Start()
@@ -49,11 +62,33 @@ public class UIManager : Singleton<UIManager>
         playerStatUIController.core = MapInfo.core;
     }
 
+    private void OnApplicationPause(bool pause)
+    {
+        if(pause)
+        {
+            isPaused = true;
+            UIs[(int)UIType.Setting].gameObject.SetActive(true);
+        }
+        else
+        {
+            if (pause)
+            {
+                isPaused = false;
+            }
+        }
+        isPaused = pause;
+    }
+
     private void Update()
     {
+#if UNITY_ANDROID || UNITY_IOS
+
+    
+#else
+        
         // Esc 버튼 클릭 시 소리를 끄고 Setting UI를 활성화
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
+        {  
             AudioManager.Instance.PlayEffect(1);
             AudioManager.Instance.PauseSource();
             aimImage.gameObject.SetActive(false);
@@ -77,6 +112,8 @@ public class UIManager : Singleton<UIManager>
                 UIs[(int)UIType.Setting].gameObject.SetActive(false); // UI 활성화
             }
         }
+#endif
+
 
         // 시네 카메라 활성화에 따른 위치값을 받음 anchorMin과 anchorMax에 해당하는 위치를 저장해 어느 해상도에도 반응이 되게 설정함
         if (CinemachineManager.Instance.playerCam.gameObject.activeSelf)

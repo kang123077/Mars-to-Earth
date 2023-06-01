@@ -38,6 +38,10 @@ public class CardInfo : MonoBehaviour
         // 랜덤한 스킬 아이콘 선택하기
         randomIndexLeft = random.Next(0, InGameManager.Instance.inGameSkill.Count);
         randomIndexRight = random.Next(0, InGameManager.Instance.inGameSkill.Count);
+        if (randomIndexLeft == randomIndexRight)
+        {
+            randomIndexRight = (randomIndexRight + 1) % InGameManager.Instance.inGameSkill.Count;
+        }
         SkillIcon(randomIndexLeft, randomIndexRight);
         SkillDescription(randomIndexLeft, randomIndexRight);
         AudioManager.Instance.PlayEffect(1);

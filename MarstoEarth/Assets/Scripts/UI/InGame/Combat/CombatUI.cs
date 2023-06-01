@@ -152,7 +152,7 @@ public class CombatUI : UI
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                     {
-                        UIManager.Instance.UIs[(int)UIType.Setting].gameObject.SetActive(true);
+                        UIManager.Instance.UIs[(int)UIType.MobileSetting].gameObject.SetActive(true);
                         Time.timeScale = 0f;
                     }
                     else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))

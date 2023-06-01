@@ -28,11 +28,17 @@ public class ReinforceInfo : MonoBehaviour
         reinText.text = loadSkills[checkIndex].skill.skillInfo.name + "\n\n" + loadSkills[checkIndex].skill.skillInfo.description2;
     }
 
+    public void ReinforceStop()
+    {
+        Time.timeScale = 0f;
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
             gameObject.SetActive(false);
+            Time.timeScale = 1f;
         }
     }
 }
