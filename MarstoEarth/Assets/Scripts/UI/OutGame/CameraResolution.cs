@@ -6,7 +6,6 @@ public class CameraResolution : MonoBehaviour
     {
         Camera camera = GetComponent<Camera>();
         Rect rect = camera.rect;
-        print(Screen.width / Screen.height);
         float scaleHeight = ((float)Screen.width / Screen.height) / ((float)16f / 9f);
         float scaleWidth = 1f / scaleHeight;
         if(scaleHeight < 1)
