@@ -64,7 +64,7 @@ public class UIManager : Singleton<UIManager>
 
     private void OnApplicationPause(bool pause)
     {
-        if(pause)
+        if (pause)
         {
             isPaused = true;
             UIs[(int)UIType.Setting].gameObject.SetActive(true);
@@ -85,31 +85,24 @@ public class UIManager : Singleton<UIManager>
 
     
 #else
-        
+
         // Esc 버튼 클릭 시 소리를 끄고 Setting UI를 활성화
         if (Input.GetKeyDown(KeyCode.Escape))
-        {  
+        {
             AudioManager.Instance.PlayEffect(1);
             AudioManager.Instance.PauseSource();
             aimImage.gameObject.SetActive(false);
             if (UIs[(int)UIType.Setting].gameObject.activeSelf != true)
             {
                 UIs[(int)UIType.Setting].gameObject.SetActive(true); // UI 활성화
-                Time.timeScale = 0f;
+                MapInfo.pauseRequest++;
             }
             else if (UIs[(int)UIType.Setting].gameObject.activeSelf == true)
             {
-                if (UIs[(int)UIType.Card].gameObject.activeSelf == true)
-                {
-                    Time.timeScale = 0f;
-                }
-                else if (UIs[(int)UIType.Card].gameObject.activeSelf != true)
-                {
-                    AudioManager.Instance.UnPauseSorce();
-                    Time.timeScale = 1f;
-                    aimImage.gameObject.SetActive(true);
-                }
-                UIs[(int)UIType.Setting].gameObject.SetActive(false); // UI 활성화
+                AudioManager.Instance.UnPauseSorce();
+                MapInfo.pauseRequest--;
+                aimImage.gameObject.SetActive(true);
+                UIs[(int)UIType.Setting].gameObject.SetActive(false); // UI 비활성화
             }
         }
 #endif
@@ -163,13 +156,13 @@ public class UIManager : Singleton<UIManager>
 
     public void StageClear()
     {
-        Time.timeScale = 0f;
+        MapInfo.pauseRequest++;
         stageClearUI.gameObject.SetActive(true);
     }
 
     public void Gameover()
     {
-        Time.timeScale = 0f;
+        MapInfo.pauseRequest++;
         gameoverUI.gameObject.SetActive(true);
     }
 

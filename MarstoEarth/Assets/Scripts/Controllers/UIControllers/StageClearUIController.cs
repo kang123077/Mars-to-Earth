@@ -5,7 +5,7 @@ public class StageClearUIController : MonoBehaviour
 {
     public void NextStage()
     {
-        Time.timeScale = 1f;
+        MapInfo.pauseRequest--;
         SceneManager.LoadScene("LoadingScene");
         gameObject.SetActive(false);
     }

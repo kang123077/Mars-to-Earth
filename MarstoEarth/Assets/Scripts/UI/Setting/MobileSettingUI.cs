@@ -25,7 +25,7 @@ public class MobileSettingUI : UI
             gameObject.SetActive(false);
             if (gameObject.activeSelf == false)
             {
-                Time.timeScale = 1f;
+                MapInfo.pauseRequest--;
             }
         }
     }
@@ -49,8 +49,8 @@ public class MobileSettingUI : UI
     {
         Debug.Log("게임을 재실행 합니다.");
         InGameManager.Instance.panel.SetActive(true); // 더 좋은 방법을 찾아볼 것
-        UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene"); 
-        Time.timeScale = 1.0f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
+        MapInfo.pauseRequest--;
     }
 
     public void MGameExit()

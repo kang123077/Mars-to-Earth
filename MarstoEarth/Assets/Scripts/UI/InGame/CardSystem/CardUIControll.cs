@@ -94,7 +94,7 @@ public class CardUIControll : UI
     IEnumerator HideCardUI()
     {
         yield return new WaitForSecondsRealtime(0.5f);
-        Time.timeScale = 1f;
+        MapInfo.pauseRequest--;
         gameObject.SetActive(false);
         Init();
         cardHovers[0].isBool = false;

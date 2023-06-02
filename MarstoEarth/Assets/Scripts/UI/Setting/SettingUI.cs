@@ -41,7 +41,7 @@ public class SettingUI : UI
             gameObject.SetActive(false);
             if (gameObject.activeSelf == false)
             {
-                Time.timeScale = 1f;
+                MapInfo.pauseRequest--;
             }
         }
     }
@@ -111,7 +111,7 @@ public class SettingUI : UI
         Debug.Log("게임을 재실행 합니다.");
         InGameManager.Instance.panel.SetActive(true);
         UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
-        Time.timeScale = 1.0f;
+        MapInfo.pauseRequest--;
     }
 
     public void GameExit()

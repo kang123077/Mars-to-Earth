@@ -67,7 +67,7 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
                 }
                 else if (!ui.activeSelf)
                 {
-                    Debug.Log("나가기 UI 활성화");
+                    // Debug.Log("나가기 UI 활성화");
                 }
             }
         }
