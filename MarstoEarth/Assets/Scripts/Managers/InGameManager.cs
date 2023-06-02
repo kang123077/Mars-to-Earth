@@ -31,7 +31,7 @@ public class InGameManager : Singleton<InGameManager>
 
     private void TriggerEvent()
     {
-        Time.timeScale = 0f;
+        MapInfo.pauseRequest++;
         AudioManager.Instance.PlayEffect(1);
         AudioManager.Instance.PauseSource();
         UIManager.Instance.aimImage.gameObject.SetActive(false);

@@ -30,7 +30,7 @@ public class ReinforceInfo : MonoBehaviour
 
     public void ReinforceStop()
     {
-        Time.timeScale = 0f;
+        MapInfo.pauseRequest++;
     }
 
     private void Update()
@@ -38,7 +38,7 @@ public class ReinforceInfo : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             gameObject.SetActive(false);
-            Time.timeScale = 1f;
+            MapInfo.pauseRequest--;
         }
     }
 }
