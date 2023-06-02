@@ -10,6 +10,8 @@ public class OutGameSettingUI : MonoBehaviour
     FullScreenMode screenMode;
     public UnityEngine.UI.Toggle fullScreen;
     List<Resolution> resolutions;
+    public static UnityEngine.UI.Slider savebgmSlider;
+    public static TMPro.TMP_Dropdown saveResol;
 
 
     private void Awake()
@@ -20,6 +22,8 @@ public class OutGameSettingUI : MonoBehaviour
     void Start()
     {
         resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>();
+        saveResol = resolutionCon;
+        savebgmSlider = ogsbgmVolume;
         ogsbgmVolume.onValueChanged.AddListener(delegate { SetBGMVolume(); });
         ogseffectVolume.onValueChanged.AddListener(delegate { SetEffectVolume(); });
         ResolInit();
@@ -59,8 +63,9 @@ public class OutGameSettingUI : MonoBehaviour
 
     public void OnResolutionChanged()
     {
-        Debug.Log(resolutionNum);
         Screen.SetResolution(resolutions[resolutionNum].width, resolutions[resolutionNum].height, screenMode);
+        saveResol.value = resolutionCon.value;
+        Debug.Log(saveResol.value);
     }
 
     public void FullScreenToggle(bool isFull)
@@ -72,6 +77,7 @@ public class OutGameSettingUI : MonoBehaviour
     {
         float value = ogsbgmVolume.value;
         AudioManager.bgmVolume = value;
+        savebgmSlider.value = value;
         UpdateAllVolumes();
     }
 

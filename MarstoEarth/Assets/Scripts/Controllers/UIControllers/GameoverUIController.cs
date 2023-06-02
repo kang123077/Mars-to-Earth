@@ -17,6 +17,7 @@ public class GameoverUIController : MonoBehaviour
     {
         // UI 버튼에서 사용
         Time.timeScale = 1f;
+        InGameManager.Instance.panel.SetActive(true);
         SceneManager.LoadScene("OutGameScene");
         gameObject.SetActive(false);
     }

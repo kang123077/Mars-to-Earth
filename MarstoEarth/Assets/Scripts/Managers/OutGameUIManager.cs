@@ -9,6 +9,7 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
     public GameObject[] PCMO;
     public UnityEngine.UI.Button settingButton;
 
+
     protected override void Awake()
     {
         AudioManager.BGM_AudioClips = _BGM_AudioClips;
