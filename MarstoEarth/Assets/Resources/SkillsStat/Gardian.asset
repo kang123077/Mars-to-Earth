@@ -22,7 +22,7 @@ MonoBehaviour:
   dmg: 5
   duration: 30
   range: 2
-  cool: 10
+  cool: 20
   speed: 4
   icon: {fileID: 21300000, guid: ba1d38f7f411f684bb4531f3dffba9b2, type: 3}
   effects:
