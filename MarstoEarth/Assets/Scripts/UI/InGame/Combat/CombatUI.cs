@@ -169,11 +169,11 @@ public class CombatUI : UI
                         {
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
                                 return;
-                            player.InputDir = CinemachineManager.Instance.follower.rotation * player.InputDir;
+                           
                             player.actives[0].Use();
                         }
                         else if (touch.position.x < Screen.width * 0.3f)
-                        {                            
+                        {
                             MovingPad.transform.position = touch.position;
                             MovingPad.gameObject.SetActive(true);
                             MovingPadId = touch.fingerId;
