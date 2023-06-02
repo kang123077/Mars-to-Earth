@@ -23,7 +23,6 @@ namespace Character
         public void Roll()
         {
             attackReady = true;
-            def += 10;
             ai.speed = speed * 30;
         }
 
@@ -41,7 +40,7 @@ namespace Character
                     float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
 
                     ai.SetDestination(targetPosition);
-                    if (targetDistance > sightLength * 2f || targetDistance <= range)
+                    if (targetDistance > sightLength || targetDistance <= range)
                     {                        
                         if (targetDistance <= range)
                         {

@@ -2249,7 +2249,7 @@ GameObject:
   - component: {fileID: 8391662847705199536}
   - component: {fileID: 614779288}
   m_Layer: 6
-  m_Name: Kamikaze
+  m_Name: Cr-Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
