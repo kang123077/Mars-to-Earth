@@ -3640,7 +3640,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc75d5e419006b24da20b824347de825, type: 2}
   - {fileID: 11400000, guid: 79afa3454e94c29448446fd2bf934ccd, type: 2}
   enemys:
-  - {fileID: 614779288, guid: 2c69063b9b53dfe43a86160194e9dcf3, type: 3}
+  - {fileID: 6770917455191006859, guid: c5c48a345ba8e9349843ccaa52fc12ae, type: 3}
   - {fileID: 2184933562526754823, guid: e4d7194487c3e444d81a9a8db513a81b, type: 3}
   - {fileID: 1497055048246410246, guid: 395ab56652343a54fab90390ea468b05, type: 3}
   - {fileID: 8293137938102071660, guid: ac8d4db5be71d5041b9780b0efdbe083, type: 3}
