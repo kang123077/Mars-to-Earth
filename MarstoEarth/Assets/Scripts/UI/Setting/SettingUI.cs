@@ -21,12 +21,13 @@ public class SettingUI : UI
     void Start()
     {
         resolutionCon = GetComponentInChildren<TMPro.TMP_Dropdown>();
-        //resolutionCon.value = OutGameSettingUI.saveResol.value;
-        //BGMVolume.value = OutGameSettingUI.savebgmSlider.value;
         maserVolume.onValueChanged.AddListener(delegate { OnMasterVolumeChanged(); });
         BGMVolume.onValueChanged.AddListener(delegate { OnBGMVolumeChanged(); });
         effectVolume.onValueChanged.AddListener(delegate { OnEffectVolumeChanged(); });
         ResolInit();
+        BGMVolume.value = AudioManager.bgmVolume;
+        effectVolume.value = AudioManager.effectVolume;
+        resolutionCon.value = OutGameSettingUI.resolSave;
         gameObject.SetActive(false); // UI 비활성화
     }
 
@@ -84,6 +85,7 @@ public class SettingUI : UI
     {
         Screen.SetResolution(resolutions[resolutionNum].width,
             resolutions[resolutionNum].height, screenMode);
+        OutGameSettingUI.resolSave = resolutionNum;
     }
 
     public void FullScreenToggle(bool isFull)
