@@ -44,7 +44,7 @@ namespace Item
             {
                 case ItemType.Heal:
 
-                    player.hp= player.MaxHp += 20;
+                    player.hp = player.MaxHp += 20;
                     Character.staticStat.maxHP += 20;
                     MapInfo.hpCore++;
                     break;
