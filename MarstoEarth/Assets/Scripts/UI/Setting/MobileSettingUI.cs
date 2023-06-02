@@ -11,6 +11,8 @@ public class MobileSettingUI : UI
         maserVolume.onValueChanged.AddListener(delegate { MOnMasterVolumeChanged(); });
         BGMVolume.onValueChanged.AddListener(delegate { MOnBGMVolumeChanged(); });
         effectVolume.onValueChanged.AddListener(delegate { MOnEffectVolumeChanged(); });
+        BGMVolume.value = AudioManager.bgmVolume;
+        effectVolume.value = AudioManager.effectVolume;
         gameObject.SetActive(false); // UI 비활성화
     }
 
