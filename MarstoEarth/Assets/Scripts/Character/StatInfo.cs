@@ -42,7 +42,7 @@ namespace Character
             player.speed = speed;
             player.def = def;
             player.duration = duration;
-            player._hp = player.MaxHp = maxHP;
+            player.hp = player.MaxHp = maxHP;
             player.range = range;
 
         }
