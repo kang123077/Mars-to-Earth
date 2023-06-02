@@ -14,7 +14,7 @@ public class JoyStick : MonoBehaviour// ,IPointerDownHandler, IDragHandler, IPoi
     private void Awake()
     {
 
-        radius = GetComponent<RectTransform>().sizeDelta.y * 0.25f;
+        radius = GetComponent<RectTransform>().sizeDelta.y * 0.5f;
         dir = Vector2.zero;
     }
     private void OnEnable()

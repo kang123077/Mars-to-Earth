@@ -9,7 +9,7 @@ namespace Character
 
         public ParticleSystem readySkillEffect;
         private Skill.Skill bite;
-        private byte biteEleapse = 5;
+        private byte biteEleapse ;
         protected override void Start()
         {
             base.Start();

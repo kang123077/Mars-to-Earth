@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace Character
 {
-    public class M_Kamikaze : Monster
+    public class M_CR_Ball : Monster
     {
         private bool attackReady;
+        private float rollTime;
 
         protected override void Awake()
         {
@@ -23,7 +24,9 @@ namespace Character
         public void Roll()
         {
             attackReady = true;
-            ai.speed = speed * 30;
+            ai.speed = speed +50;
+            def += 3;
+            rollTime = 4;
         }
 
         protected void Update()
@@ -34,6 +37,19 @@ namespace Character
 
             if (target)
             {
+                if (attackReady)
+                {
+                    rollTime -= Time.deltaTime;
+                    if (rollTime < 0)
+                    {
+                        target = null;
+                        def -= 3;
+                        ai.speed = speed;
+                        attackReady = false;
+                        return;
+                    }
+                }
+               
                 Vector3 targetPosition = target.position;
                 if (attackReady)
                 {
@@ -48,7 +64,8 @@ namespace Character
                             targetCharacter.Hit(thisCurTransform.position, dmg, 0);
                         }
                         target = null;
-                        def -= 10;
+                        def -= 3;
+                        ai.speed = speed;
                         attackReady = false;
                     }
                 }

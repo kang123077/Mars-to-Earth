@@ -46,7 +46,7 @@ namespace Skill
         protected override bool Activate()
         {
             
-            dir = CinemachineManager.Instance.follower.rotation *((Player)caster).InputDir.normalized;
+            dir = ((Player)caster).InputDir;
             if (dir.magnitude < 0.1f)
             {
                 dir = caster.transform.forward;
