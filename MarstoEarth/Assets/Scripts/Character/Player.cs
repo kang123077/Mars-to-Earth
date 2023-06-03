@@ -293,11 +293,12 @@ namespace Character
             repoterForward.y = 0;
 
             #endregion
-            #region Targeting
+#region Targeting
 
+#if UNITY_STANDALONE_WIN
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
-
+#endif
             int size = Physics.OverlapSphereNonAlloc(position, sightLength - 1, colliders,
                 layerMask);
             float minAngle = 180;
@@ -352,12 +353,12 @@ namespace Character
                 Vector3.RotateTowards(thisCurTransform.forward,
                     isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 3.5f, 0);
             //thisCurTransform.forward = isRun ? InputDir : target ? targetDir : repoterForward;
-            #endregion
+#endregion
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
                     combatUI.ClickSkill(i);
 
-                #region Test
+#region Test
 
 #if UNITY_EDITOR
 
@@ -413,7 +414,7 @@ namespace Character
 
 
 #endif
-            #endregion
+#endregion
         }
 
         protected override void Attacked()

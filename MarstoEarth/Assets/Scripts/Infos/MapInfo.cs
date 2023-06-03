@@ -1,3 +1,4 @@
+using UnityEngine;
 /// <summary>
 /// static GameInfo나 진배없음
 /// </summary>
@@ -24,6 +25,43 @@ public static class MapInfo
     public static int hpCore = 0;
     public static int dmgCore = 0;
     public static int speedCore = 0;
+
+    // Pause인지 아닌지 나타내는 bool
+    private static bool _gamePause = false;
+    public static bool gamePause
+    {
+        get => _gamePause;
+        set 
+        {
+            _gamePause = value;
+            if (value)
+            {
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
+        }
+    }
+    // Pause를 요청하는 이벤트 갯수, 하나라도 있으면 pause = true
+    private static int _pauseRequest = 0;
+    public static int pauseRequest
+    {
+        get => _pauseRequest;
+        set
+        {
+            _pauseRequest = value;
+            if (value == 0)
+            {
+                gamePause = false;
+            }
+            else
+            {
+                gamePause = true;
+            }
+        }
+    }
 
     public static void ResetValues()
     {

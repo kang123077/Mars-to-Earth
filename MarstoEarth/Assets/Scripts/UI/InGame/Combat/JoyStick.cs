@@ -31,12 +31,12 @@ public class JoyStick : MonoBehaviour// ,IPointerDownHandler, IDragHandler, IPoi
         if (distance < radius)
         {
             innerStick.transform.position = curPos;
-            SpawnManager.Instance.player.isRun = false;
+            //SpawnManager.Instance.player.isRun = false;
         }
         else 
         {
-            if (distance > radius + 0.2f)
-                SpawnManager.Instance.player.isRun = true;
+            //if (distance > radius+2f)
+            //    SpawnManager.Instance.player.isRun = true;
             distance = radius;
             innerStick.transform.position = startPos + dir * radius;
         }

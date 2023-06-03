@@ -45,7 +45,8 @@ namespace Skill
 
         protected override bool Activate()
         {
-            dir = ((Player)caster).InputDir.normalized;
+            
+            dir = ((Player)caster).InputDir;
             if (dir.magnitude < 0.1f)
             {
                 dir = caster.transform.forward;

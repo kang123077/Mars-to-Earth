@@ -25,6 +25,9 @@ public class SettingUI : UI
         BGMVolume.onValueChanged.AddListener(delegate { OnBGMVolumeChanged(); });
         effectVolume.onValueChanged.AddListener(delegate { OnEffectVolumeChanged(); });
         ResolInit();
+        BGMVolume.value = AudioManager.bgmVolume;
+        effectVolume.value = AudioManager.effectVolume;
+        resolutionCon.value = OutGameSettingUI.resolSave;
         gameObject.SetActive(false); // UI 비활성화
     }
 
@@ -39,7 +42,7 @@ public class SettingUI : UI
             gameObject.SetActive(false);
             if (gameObject.activeSelf == false)
             {
-                Time.timeScale = 1f;
+                MapInfo.pauseRequest--;
             }
         }
     }
@@ -82,6 +85,7 @@ public class SettingUI : UI
     {
         Screen.SetResolution(resolutions[resolutionNum].width,
             resolutions[resolutionNum].height, screenMode);
+        OutGameSettingUI.resolSave = resolutionNum;
     }
 
     public void FullScreenToggle(bool isFull)
@@ -107,8 +111,9 @@ public class SettingUI : UI
     public void GameGoTitle()
     {
         Debug.Log("게임을 재실행 합니다.");
+        InGameManager.Instance.panel.SetActive(true);
         UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
-        Time.timeScale = 1.0f;
+        MapInfo.pauseRequest--;
     }
 
     public void GameExit()

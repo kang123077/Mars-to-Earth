@@ -54,7 +54,7 @@ namespace Character
         [HideInInspector] public float viewAngle;
         [HideInInspector] public float sightLength;
 
-        public float bulletSpeed;
+        [HideInInspector] public float bulletSpeed;
         protected float _dmg;
         public virtual float dmg
         {
@@ -74,7 +74,7 @@ namespace Character
                 _speed = value;
             }
         }
-        public float _hp;
+        protected float _hp;
         protected internal virtual float hp
         {
             get => _hp;

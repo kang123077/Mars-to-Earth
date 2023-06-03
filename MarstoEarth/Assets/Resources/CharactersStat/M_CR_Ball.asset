@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe362b65159445338108f6252fa3718b, type: 3}
-  m_Name: M_Kamikaze
+  m_Name: M_CR_Ball
   m_EditorClassIdentifier: 
   dmg: 40
   speed: 3
-  def: 0
+  def: 1
   duration: 0
-  maxHP: 50
+  maxHP: 70
   range: 2
-  sightLength: 22
+  sightLength: 25
   viewAngle: 80

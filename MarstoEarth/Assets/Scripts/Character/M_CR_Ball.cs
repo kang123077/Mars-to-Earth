@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace Character
 {
-    public class M_Kamikaze : Monster
+    public class M_CR_Ball : Monster
     {
         private bool attackReady;
+        private float rollTime;
 
         protected override void Awake()
         {
@@ -23,8 +24,9 @@ namespace Character
         public void Roll()
         {
             attackReady = true;
-            def += 10;
-            ai.speed = speed * 30;
+            ai.speed = speed +50;
+            def += 3;
+            rollTime = 4;
         }
 
         protected void Update()
@@ -35,34 +37,42 @@ namespace Character
 
             if (target)
             {
-                Vector3 targetPosition = target.position;
-                if (!isAttacking)
+                if (attackReady)
                 {
-                    isAttacking = true;
+                    rollTime -= Time.deltaTime;
+                    if (rollTime < 0)
+                    {
+                        target = null;
+                        def -= 3;
+                        ai.speed = speed;
+                        attackReady = false;
+                        return;
+                    }
                 }
-
+               
+                Vector3 targetPosition = target.position;
                 if (attackReady)
                 {
                     float targetDistance = Vector3.Distance(targetPosition, thisCurTransform.position);
 
-                    ai.SetDestination(target.position);
-                    if (targetDistance > sightLength * 2f || targetDistance <= range)
-                    {
+                    ai.SetDestination(targetPosition);
+                    if (targetDistance > sightLength || targetDistance <= range)
+                    {                        
                         if (targetDistance <= range)
                         {
                             target.gameObject.TryGetComponent(out targetCharacter);
                             targetCharacter.Hit(thisCurTransform.position, dmg, 0);
                         }
-                        isAttacking = false;
-                        def -= 10;
-                        attackReady = false;
                         target = null;
+                        def -= 3;
+                        ai.speed = speed;
+                        attackReady = false;
                     }
                 }
             }
             else
             {
-                if (!trackingPermission) return;
+                if (!trackingPermission) return;                
                 int size = Physics.OverlapSphereNonAlloc(thisCurTransform.position, sightLength, colliders, 1 << 3);
                 if (size > 0)
                 {
