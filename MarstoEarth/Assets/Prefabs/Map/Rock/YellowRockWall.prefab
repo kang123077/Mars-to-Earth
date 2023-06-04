@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1374751403383848248}
   - component: {fileID: 1374751403382977142}
   - component: {fileID: 1374751403381910540}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock_2_v2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1550283110503318601}
   - component: {fileID: 1550283110504188679}
   - component: {fileID: 1550283110505190781}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock_2_v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 2261690059495379337}
   - component: {fileID: 2261690059498807647}
   - component: {fileID: 2261690059497669465}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock_7_v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 3761766228204625866}
   - component: {fileID: 3761766228201831098}
   - component: {fileID: 3761766228202865816}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rock_1_v2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 8127481815405533414}
   - component: {fileID: 6553442140085800545}
   - component: {fileID: 6941696800795848845}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: YellowRockWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
