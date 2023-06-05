@@ -17,8 +17,8 @@ TagManager:
   - Obstacle
   - TransObstacle
   - MiniMap
-  - Floor
-  - 
+  - OutFloor
+  - InFloor
   - 
   - 
   - 
