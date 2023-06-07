@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
-  m_Name: StimPack
+  m_Name: OverClock
   m_EditorClassIdentifier: 
   description: "\uCCB4\uB825\uC758 10\uD37C\uC13C\uD2B8 \uC18C\uBAA8\uD574 \uACF5\uACA9\uB825\uACFC
     \uC2A4\uD53C\uB4DC\uB97C 20\uCD08\uAC04 \uC2A4\uD53C\uB4DC\uB97C30\uD37C\uC13C\uD2B8

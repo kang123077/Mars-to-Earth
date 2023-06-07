@@ -212,7 +212,7 @@ namespace Character
 
 
 
-#if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN||UNITY_EDITOR
 
             xInput = Input.GetAxis("Horizontal");
             zInput = Input.GetAxis("Vertical");
@@ -298,7 +298,7 @@ namespace Character
             #endregion
 #region Targeting
 
-#if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN||UNITY_EDITOR
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
 #endif
@@ -335,10 +335,10 @@ namespace Character
                 
                 if (velocity.x is > 0.1f or < -0.1f || velocity.z is > 0.1f or < -0.1f)
                 {
-                    targetDist = Vector3.Distance(targetPos, position);
+                    targetDist = Vector3.Distance(targetPos, thisCurTransform.position);
                     targetPos += velocity * (targetDist * (1 / bulletSpeed)) + targetCharacter.impact*Time.deltaTime;
                 }
-                targetDir = targetPos - position;
+                targetDir = targetPos - thisCurTransform.position;
             }
 
 
@@ -428,7 +428,7 @@ namespace Character
             effects[1].Play();
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.revolver, weapon);
             SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
-                dmg, 1 + duration * 0.5f, 35 + speed * 2, range * 0.5f, ref projectileInfo);
+                dmg, 1 + duration * 0.5f, bulletSpeed, range * 0.5f, ref projectileInfo);
             impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
         }
 

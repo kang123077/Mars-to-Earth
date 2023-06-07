@@ -19,11 +19,11 @@ MonoBehaviour:
     \uB0A8\uC740 \uC2DC\uAC04\uC744 \uCFE8\uD0C0\uC784\uC5D0 \uB3CC\uB824\uBC1B\uB294\uB2E4."
   clipName: MassShooting
   clipLayer: 1
-  dmg: 16
+  dmg: 13
   duration: 8
   range: 8
   cool: 24
-  speed: 15
+  speed: 25
   icon: {fileID: 21300000, guid: c04d40f3bd200bf418e4d777f7d801f2, type: 3}
   effects:
   - {fileID: 198845034460101788, guid: 9e08e7eea9b67324f9c545b241004b0b, type: 3}
