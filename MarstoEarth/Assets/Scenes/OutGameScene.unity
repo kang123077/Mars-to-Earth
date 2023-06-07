@@ -2018,6 +2018,9 @@ MonoBehaviour:
   - {fileID: 1139871108}
   - {fileID: 1446819487}
   - {fileID: 2124124713}
+  mobilaArray:
+  - {fileID: 21300000, guid: f6df4bb17e13f0c4f988bc3368384cdb, type: 3}
+  - {fileID: 21300000, guid: e217162fd8384304aaea03b28e6c40a0, type: 3}
 --- !u!1 &449812217
 GameObject:
   m_ObjectHideFlags: 0
@@ -13129,7 +13132,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2129204368
 RectTransform:
   m_ObjectHideFlags: 0

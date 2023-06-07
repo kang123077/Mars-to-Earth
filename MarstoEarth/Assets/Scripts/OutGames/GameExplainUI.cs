@@ -6,6 +6,7 @@ public class GameExplainUI : MonoBehaviour
     public UnityEngine.UI.Image explainImage;
     public GameObject buttonsCon;
     public LoadExplainSprite[] buttonsArray;
+    public Sprite[] mobilaArray;
     private int currentImageIndex = 0; // 현재 이미지 인덱스를 저장할 변수
     void Start()
     {
@@ -36,8 +37,23 @@ public class GameExplainUI : MonoBehaviour
     {
         explainImage.gameObject.SetActive(true);
         buttonsCon.SetActive(false);
+#if UNITY_ANDROID || UNITY_IOS
+
+        if (index == 0)
+        {
+            spriteArray = mobilaArray;
+            explainImage.sprite = mobilaArray[0];
+        }
+        else
+        {
+            spriteArray = buttonsArray[index].explainArray;
+            explainImage.sprite = buttonsArray[index].explainArray[0];
+        }
+#else
         spriteArray = buttonsArray[index].explainArray;
         explainImage.sprite = buttonsArray[index].explainArray[0];
+#endif
+
     }
 
     public void ExitUI()
