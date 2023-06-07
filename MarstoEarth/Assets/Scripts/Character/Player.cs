@@ -287,7 +287,10 @@ namespace Character
                 anim.SetFloat(Z, lowerDir.z);
             }
             if (Input.GetKeyDown(KeyCode.Space))
+            {
                 actives[0].Use();
+            }
+              
 
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: "\uCCB4\uB825\uC758 10\uD37C\uC13C\uD2B8 \uC18C\uBAA8\uD574 \uACF5\uACA9\uB825\uACFC
     \uC2A4\uD53C\uB4DC\uB97C 20\uCD08\uAC04 \uC2A4\uD53C\uB4DC\uB97C30\uD37C\uC13C\uD2B8
-    \uC0C1\uC131\uC2DC\uD0A8\uB2E4."
+    \uC0C1\uC2B9\uC2DC\uD0A8\uB2E4."
   description2: "\uCD5C\uB300\uCCB4\uB825\uC744\uC601\uAD6C\uC801\uC73C\uB85C 5\uD68D\uB4DD
     \uD55C\uB2E4."
   clipName: CastSpell
@@ -24,6 +24,6 @@ MonoBehaviour:
   range: 0
   cool: 22
   speed: 2
-  icon: {fileID: 21300000, guid: ea8a6d3adbbf4794293edb84fe93b525, type: 3}
+  icon: {fileID: 21300000, guid: 455aba357b81a6943b3232ea93e9af81, type: 3}
   effects:
   - {fileID: 198701760564810788, guid: 2cfd9cf3b1dc4ad489f9d2a7574d2463, type: 3}

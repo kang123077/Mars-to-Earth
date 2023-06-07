@@ -64,7 +64,7 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
                 {
                     // 활성화된 UI를 비활성화시킴
                     ui.SetActive(false);
-                    gameExplainUICon.ExitUI();
+                    gameExplainUICon.UndoUI();
                 }
                 else if (!ui.activeSelf)
                 {

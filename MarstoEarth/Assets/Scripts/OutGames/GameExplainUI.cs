@@ -5,6 +5,7 @@ public class GameExplainUI : MonoBehaviour
     public Sprite[] spriteArray; // 이미지 배열 선언
     public UnityEngine.UI.Image explainImage;
     public GameObject buttonsCon;
+    public LoadExplainSprite[] buttonsArray;
     private int currentImageIndex = 0; // 현재 이미지 인덱스를 저장할 변수
     void Start()
     {
@@ -31,16 +32,23 @@ public class GameExplainUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void ExplainOn()
+    public void ExplainOn(int index)
     {
         explainImage.gameObject.SetActive(true);
         buttonsCon.SetActive(false);
-        explainImage.sprite = spriteArray[0];
+        spriteArray = buttonsArray[index].explainArray;
+        explainImage.sprite = buttonsArray[index].explainArray[0];
     }
 
     public void ExitUI()
     {
         gameObject.SetActive(false);
+        explainImage.gameObject.SetActive(false);
+        buttonsCon.SetActive(true);
+    }
+
+    public void UndoUI()
+    {
         explainImage.gameObject.SetActive(false);
         buttonsCon.SetActive(true);
     }
