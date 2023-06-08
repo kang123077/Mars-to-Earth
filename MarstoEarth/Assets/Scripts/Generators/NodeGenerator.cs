@@ -15,12 +15,14 @@ public enum Node
 {
     Test_00,
     SFRoom_00,
-    YellowRock_00
+    YellowRock_00,
+    SFWareHouse_00
 }
 
 public enum InsideNodePool
 {
-    SFRoom_00
+    SFRoom_00,
+    SFWareHouse_00
 }
 
 public enum OutsideNodePool

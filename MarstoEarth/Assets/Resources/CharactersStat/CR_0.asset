@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe362b65159445338108f6252fa3718b, type: 3}
   m_Name: CR_0
   m_EditorClassIdentifier: 
-  dmg: 30
+  dmg: 20
   speed: 6
   def: 3
   duration: 0
   maxHP: 100
-  range: 4
+  range: 3.5
   sightLength: 25
   viewAngle: 85

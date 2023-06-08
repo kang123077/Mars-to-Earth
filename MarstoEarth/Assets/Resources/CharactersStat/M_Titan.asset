@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: M_Titan
   m_EditorClassIdentifier: 
   dmg: 25
-  speed: 5
+  speed: 5.5
   def: 4
   duration: 0
   maxHP: 300
