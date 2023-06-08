@@ -83,11 +83,8 @@ namespace Character
                     positions.RemoveAt(0);
                     if (travelDistance < 2.5f)
                     {
-
-
                         trackingPermission = false;
                         target = null;
-
                         int randIdx;
                         do randIdx = Random.Range(0, 4);
                         while (patrolIdx == randIdx);
@@ -95,8 +92,6 @@ namespace Character
                         positions.Clear();
                         travelDistance = 0;
                         ai.SetDestination(patrolPoints[patrolIdx]);
-
-
                     }
                     else
                         trackingPermission = true;
@@ -120,7 +115,18 @@ namespace Character
             positions = new List<float>();
             trackingPermission = true;
             colliders = new Collider[1];
-
+            
+            NavMeshHit hit;
+            for (int i = 0; i < trackingDirection.Length; i++)
+            {
+                NavMesh.SamplePosition(thisCurTransform.position + trackingDirection[i] * (sightLength*2),
+                    out hit, 50f, NavMesh.AllAreas);
+                
+                patrolPoints[i] = hit.position;
+                //patrolPoints[i] = thisCurTransform.position + trackingDirection[i] * sightLength;
+            }
+            
+           
             ai.stoppingDistance = range - 1;
             StuckCheckCoroutine = StartCoroutine(StuckCheck());
             anim.keepAnimatorStateOnDisable = true; // 껏다켜져도 애니메이션이 작동하게 하는 프로퍼티
@@ -177,12 +183,13 @@ namespace Character
             NavMeshHit hit;
             for (int i = 0; i < trackingDirection.Length; i++)
             {
-                NavMesh.SamplePosition(thisCurTransform.position + trackingDirection[i] * (sightLength * 2),
-                    out hit, 1000f, NavMesh.AllAreas);
-
+                NavMesh.SamplePosition(thisCurTransform.position + trackingDirection[i] * (sightLength*2),
+                    out hit, 50f, NavMesh.AllAreas);
+                
                 patrolPoints[i] = hit.position;
+                //patrolPoints[i] = thisCurTransform.position + trackingDirection[i] * sightLength;
             }
-
+            
             lastPosition = thisCurTransform.position;
             patrolIdx = Random.Range(0, 4);
             ai.SetDestination(patrolPoints[patrolIdx]);
@@ -203,7 +210,6 @@ namespace Character
                 float angle = Vector3.SignedAngle(thisCurTransform.forward, target.position - (thisCurTransform.position - thisCurTransform.forward * range), Vector3.up);
                 if ((angle < 0 ? -angle : angle) < viewAngle - 60)
                 {
-
                     targetCharacter.Hit(thisCurTransform.position, dmg, 0);
                     AudioManager.Instance.PlayEffect((int)CombatEffectClip.hitExplotion, weapon);
                 }

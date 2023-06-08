@@ -120,6 +120,7 @@ public class UIManager : Singleton<UIManager>
             aimImage.anchorMin = Vector2.Lerp(currentAnchorMin, viewportPos, smoothness * Time.deltaTime);
             aimImage.anchorMax = Vector2.Lerp(currentAnchorMax, viewportPos, smoothness * Time.deltaTime);
             aimSprite.sprite = spriteArray[0];
+            aimSprite.color = Color.clear;
         }
         else if (CinemachineManager.Instance.bossCam.gameObject.activeSelf)
         {
@@ -134,6 +135,7 @@ public class UIManager : Singleton<UIManager>
 
                 float smoothness = 15f; // 조절 가능한 매끄러움 정도입니다. 0에 가까울수록 부드럽게 이동합니다.
                 aimSprite.sprite = spriteArray[1];
+                aimSprite.color = Color.black;
                 aimImage.anchorMin = Vector2.Lerp(currentAnchorMin, viewportPos, smoothness * Time.deltaTime);
                 aimImage.anchorMax = Vector2.Lerp(currentAnchorMax, viewportPos, smoothness * Time.deltaTime);
                 aimImage.localScale = Vector3.Lerp(currentScale, new Vector3(1.3f, 1.3f), smoothness * Time.deltaTime);

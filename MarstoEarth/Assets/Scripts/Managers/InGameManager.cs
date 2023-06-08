@@ -11,14 +11,13 @@ public class InGameManager : Singleton<InGameManager>
     public CardInfo cardInfo;
     public ReinforceInfo reinforceInfo;
     public List<Skill.Skill> inGameSkill;
-    public GameObject panel; // 패널을 활성화 및 비활성화를 통해 씬 전체의 화면을 가리게 만들었음 추후 더 좋은 구조 찾아서 변경할 것
+
 
     protected override void Awake()
     {
         base.Awake();
         // 스킬들을 리스트로 만듦
         inGameSkill = ResourceManager.Instance.skills.ToList();
-        panel.SetActive(false);
     }
 
     private void Start()
