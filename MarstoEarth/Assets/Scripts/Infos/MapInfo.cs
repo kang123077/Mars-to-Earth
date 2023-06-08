@@ -31,7 +31,7 @@ public static class MapInfo
     public static bool gamePause
     {
         get => _gamePause;
-        set 
+        set
         {
             _gamePause = value;
             if (value)
