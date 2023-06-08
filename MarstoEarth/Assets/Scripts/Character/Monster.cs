@@ -92,12 +92,6 @@ namespace Character
                         positions.Clear();
                         travelDistance = 0;
                         ai.SetDestination(patrolPoints[patrolIdx]);
-                        for (int i = 0; i < patrolPoints.Length; i++)
-                        {
-                            Debug.Log(patrolIdx);
-                            Debug.Log(patrolPoints[i]);
-                        }
-
                     }
                     else
                         trackingPermission = true;
