@@ -8,6 +8,7 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
     public AudioClip[] _UI_EffectAudioClips;
     public GameObject[] PCMO;
     public UnityEngine.UI.Button settingButton;
+    public GameExplainUI gameExplainUICon;
 
     protected override void Awake()
     {
@@ -63,6 +64,7 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
                 {
                     // 활성화된 UI를 비활성화시킴
                     ui.SetActive(false);
+                    gameExplainUICon.UndoUI();
                 }
                 else if (!ui.activeSelf)
                 {

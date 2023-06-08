@@ -17,9 +17,9 @@ MonoBehaviour:
   description2: "\uD3ED\uBC1C\uC2DC \uC8FC\uBCC0\uC801\uC744 5\uCD08\uAC04 \uAE30\uC808\uC2DC\uD0A8\uB2E4."
   clipName: TossGrenade
   clipLayer: 1
-  dmg: 30
+  dmg: 50
   duration: 10
-  range: 12
+  range: 13
   cool: 20
   speed: 5
   icon: {fileID: 21300000, guid: aa8c58f36a4b51a45ba37c95b313b8b8, type: 3}

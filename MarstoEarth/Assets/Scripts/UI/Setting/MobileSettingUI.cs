@@ -49,15 +49,12 @@ public class MobileSettingUI : UI
 
     public void MGameGoTitle()
     {
-        Debug.Log("게임을 재실행 합니다.");
-        InGameManager.Instance.panel.SetActive(true); // 더 좋은 방법을 찾아볼 것
         UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
         MapInfo.pauseRequest--;
     }
 
     public void MGameExit()
     {
-        Debug.Log("게임을 나갑니다.");
         Application.Quit();
     }
 }

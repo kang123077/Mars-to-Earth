@@ -110,15 +110,12 @@ public class SettingUI : UI
 
     public void GameGoTitle()
     {
-        Debug.Log("게임을 재실행 합니다.");
-        InGameManager.Instance.panel.SetActive(true);
         UnityEngine.SceneManagement.SceneManager.LoadScene("OutGameScene");
         MapInfo.pauseRequest--;
     }
 
     public void GameExit()
     {
-        Debug.Log("게임을 나갑니다.");
         Application.Quit();
     }
 }

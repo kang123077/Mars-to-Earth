@@ -26,7 +26,7 @@ public class CinemachineManager : Singleton<CinemachineManager>
 
 
 
-#if UNITY_STANDALONE_WIN
+#if UNITY_STANDALONE_WIN||UNITY_EDITOR
         curAngle.y += Input.GetAxis("Mouse X") * cameraSpeed * Time.deltaTime;
         follower.rotation = Quaternion.Euler(curAngle);
 
