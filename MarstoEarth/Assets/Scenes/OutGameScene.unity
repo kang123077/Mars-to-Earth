@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.1273174, g: 0.13414761, b: 0.12107885, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2279,7 +2279,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 419255211}
         m_TargetAssemblyTypeName: GameExplainUI, Assembly-CSharp
-        m_MethodName: ChangeImage
+        m_MethodName: ChangeImageNext
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12296,7 +12296,7 @@ GameObject:
   - component: {fileID: 2019032308}
   - component: {fileID: 2019032307}
   m_Layer: 5
-  m_Name: next
+  m_Name: prev
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12369,7 +12369,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 419255211}
         m_TargetAssemblyTypeName: GameExplainUI, Assembly-CSharp
-        m_MethodName: ChangeImage
+        m_MethodName: ChangeImagePrev
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

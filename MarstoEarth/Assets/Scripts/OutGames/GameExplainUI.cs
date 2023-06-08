@@ -13,7 +13,22 @@ public class GameExplainUI : MonoBehaviour
         explainImage.gameObject.SetActive(false);
     }
 
-    public void ChangeImage()
+    public void ChangeImagePrev()
+    {
+        if (spriteArray.Length > 0) // 이미지 배열에 이미지가 있는지 확인합니다.
+        {
+            currentImageIndex--; // 이전 이미지 인덱스로 이동합니다.
+
+            if (currentImageIndex < 0) // 이미지 인덱스가 배열 범위를 벗어날 경우
+            {
+                currentImageIndex = spriteArray.Length - 1; // 마지막 이미지로 돌아갑니다.
+            }
+
+            explainImage.sprite = spriteArray[currentImageIndex]; // 이미지를 변경합니다.
+        }
+    }
+
+    public void ChangeImageNext()
     {
         if (spriteArray.Length > 0) // 이미지 배열에 이미지가 있는지 확인합니다.
         {
