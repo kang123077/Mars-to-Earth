@@ -18,18 +18,8 @@ public class MobileSettingUI : UI
 
     public void MOffSettingUI()
     {
-        if (UIManager.Instance.UIs[(int)UIType.Card].gameObject.activeSelf == true)
-        {
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            gameObject.SetActive(false);
-            if (gameObject.activeSelf == false)
-            {
-                MapInfo.pauseRequest--;
-            }
-        }
+        gameObject.SetActive(false);
+        MapInfo.pauseRequest--;
     }
 
     public void MOnMasterVolumeChanged()

@@ -33,18 +33,8 @@ public class SettingUI : UI
 
     public void OffSettingUI()
     {
-        if (UIManager.Instance.UIs[(int)UIType.Card].gameObject.activeSelf == true)
-        {
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            gameObject.SetActive(false);
-            if (gameObject.activeSelf == false)
-            {
-                MapInfo.pauseRequest--;
-            }
-        }
+        gameObject.SetActive(false);
+        MapInfo.pauseRequest--;
     }
 
     void ResolInit()
