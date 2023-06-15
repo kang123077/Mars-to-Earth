@@ -119,7 +119,7 @@ namespace Character
 
         public ParticleSystem[] effects;
 
-        public void Resurrect()
+        public void Revive()
         {
             dying = false;
             col.enabled = true;
