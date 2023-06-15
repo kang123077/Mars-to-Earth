@@ -119,7 +119,12 @@ namespace Character
 
         public ParticleSystem[] effects;
 
-
+        public void Resurrect()
+        {
+            dying = false;
+            col.enabled = true;
+            hp = MaxHp;
+        }
         protected override void Awake()
         {
 
