@@ -9,6 +9,8 @@ public class OutGameMobileSetting : MonoBehaviour
     {
         ogsbgmVolume.onValueChanged.AddListener(delegate { SetBGMVolume(); });
         ogseffectVolume.onValueChanged.AddListener(delegate { SetEffectVolume(); });
+        ogsbgmVolume.value = AudioManager.bgmVolume;
+        ogseffectVolume.value = AudioManager.effectVolume;
     }
 
     public void SetBGMVolume()
