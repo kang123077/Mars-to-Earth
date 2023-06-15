@@ -162,6 +162,7 @@ public class CombatUI : UI
                         }
                         else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                         {
+                            if (UIManager.Instance.UIs[(int)UIType.MobileSetting].gameObject.activeSelf) break;                            
                             UIManager.Instance.UIs[(int)UIType.MobileSetting].gameObject.SetActive(true);
                             MapInfo.pauseRequest++;
                         }
@@ -174,11 +175,12 @@ public class CombatUI : UI
                         }
                         else if (touch.position.x < Screen.width * 0.3f)
                         {
+                            if (MovingPadId != -1) break;
                             MovingPad.transform.position = touch.position;
                             MovingPad.gameObject.SetActive(true);
                             MovingPadId = touch.fingerId;
                             MovingPad.OnDrag(touch.position);
-                            if (Time.time - lastInputTime < 0.3f)                            
+                            if (Time.time - lastInputTime < 0.3f)                   
                                 SpawnManager.Instance.player.isRun = true;
                             
                             lastInputTime = Time.time;

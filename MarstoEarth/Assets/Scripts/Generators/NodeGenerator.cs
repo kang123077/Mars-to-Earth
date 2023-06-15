@@ -38,7 +38,7 @@ public enum PathPool
     Outside
 }
 
-public enum Path
+public enum Paths
 {
     TestGate
 }
@@ -167,9 +167,9 @@ public class NodeGenerator : MonoBehaviour
         switch (pathPool)
         {
             case PathPool.All:
-                Path[] AllPaths = (Path[])Enum.GetValues(typeof(Path));
-                Path AllPath = AllPaths[Random.Range(0, AllPaths.Length)];
-                return (int)Enum.Parse(typeof(Path), AllPath.ToString());
+                Paths[] AllPaths = (Paths[])Enum.GetValues(typeof(Paths));
+                Paths AllPath = AllPaths[Random.Range(0, AllPaths.Length)];
+                return (int)Enum.Parse(typeof(Paths), AllPath.ToString());
             /*
         case PathPool.Inside:
             InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));

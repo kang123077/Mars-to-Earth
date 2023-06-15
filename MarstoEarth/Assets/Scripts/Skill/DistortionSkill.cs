@@ -1,3 +1,4 @@
+using Character;
 using UnityEngine;
 
 namespace Skill
@@ -35,9 +36,15 @@ namespace Skill
                     caster.onSkill = this;
                     var transform = caster.transform;
                     firstPos = transform.position;
+                    Vector3 dir = ((Player)caster).InputDir.normalized;
+                    if (dir.magnitude < 0.1f)
+                    {
+                        dir = transform.forward;
+                    }
                     //targetPoint=  transform.position+(transform.forward*(skillInfo.range + caster.range * 0.5f));
                     //caster.AddBuff(distortion);
-                    caster.impact += transform.forward * ((skillInfo.range + caster.range * 0.5f) * 6);
+                    caster.impact += dir * ((skillInfo.range + caster.range * 0.5f) * 7);
+
                     caster.SkillEffect();
                     break;
 
