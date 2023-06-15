@@ -19,8 +19,8 @@ TagManager:
   - MiniMap
   - OutFloor
   - InFloor
-  - 
-  - 
+  - InObstacle
+  - InRoof
   - 
   - 
   - 

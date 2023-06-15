@@ -227,6 +227,7 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
                     wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.west == null)
@@ -234,6 +235,7 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
                     wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.south == null)
@@ -241,12 +243,14 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
                     wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.north == null)
                 {
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
             }
@@ -257,6 +261,7 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
                     wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.west == null)
@@ -264,6 +269,7 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
                     wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.south == null)
@@ -271,15 +277,30 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
                     wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.north == null)
                 {
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
             }
+        }
+    }
+
+    void ChangeLayerRecursively(Transform transform, bool isInsideNode)
+    {
+        if (!isInsideNode)
+            return;
+        int inObstacleLayer = 14;
+        transform.gameObject.layer = inObstacleLayer;
+
+        foreach (Transform child in transform)
+        {
+            ChangeLayerRecursively(child, isInsideNode);
         }
     }
 

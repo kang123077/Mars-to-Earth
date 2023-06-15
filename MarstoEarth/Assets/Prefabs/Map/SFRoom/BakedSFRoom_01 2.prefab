@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 73522816751855920}
   - component: {fileID: 875874379214050907}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: WallColldier (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6785950995261469429}
   - component: {fileID: 2234183767186737600}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: WallColldier (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9054826041410211646}
   - component: {fileID: 3684548869511820464}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: WallColldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3860664075461972818}
   - component: {fileID: 4913110566998040331}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: WallColldier (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -383,7 +383,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8829433564923664378}
   - component: {fileID: 1469180996205864137}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: WallColldier (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -428,7 +428,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6174548598530488927}
   - component: {fileID: 3929649009200403393}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: WallColldier (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -473,7 +473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8213995915168852167}
   - component: {fileID: 491949128607449904}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: WallColldier (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -518,7 +518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2098665492343606735}
   - component: {fileID: 7325571156091060936}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: WallColldier (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,6 +656,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 622590219818929726}
     m_Modifications:
     - target: {fileID: 517327379843509910, guid: 0fe14487f5e147b48aeefdf83f816df0, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 517327379843509910, guid: 0fe14487f5e147b48aeefdf83f816df0, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -720,6 +724,10 @@ PrefabInstance:
       value: BakedSFWalls0
       objectReference: {fileID: 0}
     - target: {fileID: 5921903125166323109, guid: 0fe14487f5e147b48aeefdf83f816df0, type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5921903125166323109, guid: 0fe14487f5e147b48aeefdf83f816df0, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -766,6 +774,10 @@ PrefabInstance:
     - target: {fileID: 203258717618085942, guid: 65f0aa4dbc125f84c9c71874ce34db1c, type: 3}
       propertyPath: m_Name
       value: BakedSFRoofs0
+      objectReference: {fileID: 0}
+    - target: {fileID: 203258717618085942, guid: 65f0aa4dbc125f84c9c71874ce34db1c, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 203258717618085942, guid: 65f0aa4dbc125f84c9c71874ce34db1c, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -826,6 +838,10 @@ PrefabInstance:
     - target: {fileID: 313051466335968265, guid: 65f0aa4dbc125f84c9c71874ce34db1c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4248975580508481326, guid: 65f0aa4dbc125f84c9c71874ce34db1c, type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4248975580508481326, guid: 65f0aa4dbc125f84c9c71874ce34db1c, type: 3}
       propertyPath: m_StaticEditorFlags
