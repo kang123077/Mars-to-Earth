@@ -43,9 +43,9 @@ namespace Item
             switch (type)
             {
                 case ItemType.Heal:
-                    player.hp += 20;
-                    player.MaxHp += 20;
-                    Character.staticStat.maxHP += 20;
+                    player.hp += 40;
+                    player.MaxHp += 40;
+                    Character.staticStat.maxHP += 40;
                     MapInfo.hpCore++;
                     break;
                 case ItemType.Boost:
@@ -55,8 +55,8 @@ namespace Item
                     MapInfo.speedCore++;
                     break;
                 case ItemType.PowerUp:
-                    player.dmg += 1;
-                    Character.staticStat.dmg += 1;
+                    player.dmg += 2;
+                    Character.staticStat.dmg += 2;
 
                     MapInfo.dmgCore++;
                     break;

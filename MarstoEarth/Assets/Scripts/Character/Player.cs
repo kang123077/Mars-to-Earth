@@ -197,7 +197,7 @@ namespace Character
 
             if (!stun && hitScreenAlphaValue > 0)
             {
-                hitScreenAlphaValue -= Time.deltaTime ;
+                hitScreenAlphaValue -= Time.deltaTime;
                 hitScreenColor.a = hitScreenAlphaValue;
                 hitScreen.color = hitScreenColor;
             }
@@ -290,15 +290,15 @@ namespace Character
             {
                 actives[0].Use();
             }
-              
+
 
             repoterForward = CinemachineManager.Instance.follower.forward;
             repoterForward.y = 0;
 
             #endregion
-#region Targeting
+            #region Targeting
 
-#if UNITY_STANDALONE_WIN||UNITY_EDITOR
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
             if (Input.GetMouseButtonDown(0))
                 anim.SetTrigger(attacking);
 #endif
@@ -332,11 +332,13 @@ namespace Character
                 Vector3 targetPos = target.position;
                 targetPos.y = 0;
                 var velocity = ((Monster)targetCharacter).ai.velocity;
-                
+                Vector3 muzlePosition = muzzle.position;
+                muzlePosition.y = 0;
                 if (velocity.x is > 0.1f or < -0.1f || velocity.z is > 0.1f or < -0.1f)
                 {
-                    targetDist = Vector3.Distance(targetPos, thisCurTransform.position);
-                    targetPos += velocity * (targetDist * (1 / bulletSpeed)) + targetCharacter.impact*Time.deltaTime;
+                    
+                    targetDist = Vector3.Distance(targetPos, muzlePosition);
+                    targetPos += velocity * (targetDist * (1 / bulletSpeed)) + targetCharacter.impact * Time.deltaTime;
                 }
                 targetDir = targetPos - thisCurTransform.position;
             }
@@ -356,12 +358,12 @@ namespace Character
                 Vector3.RotateTowards(thisCurTransform.forward,
                     isRun ? InputDir : target ? targetDir : repoterForward, Time.deltaTime * speed * 3.5f, 0);
             //thisCurTransform.forward = isRun ? InputDir : target ? targetDir : repoterForward;
-#endregion
+            #endregion
             for (int i = 0; i < skillKeys.Length; i++)
                 if (Input.GetKeyDown(skillKeys[i]))
                     combatUI.ClickSkill(i);
 
-#region Test
+                #region Test
 
 #if UNITY_EDITOR
 
@@ -417,7 +419,7 @@ namespace Character
 
 
 #endif
-#endregion
+            #endregion
         }
 
         protected override void Attacked()
