@@ -162,6 +162,7 @@ public class CombatUI : UI
                         }
                         else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                         {
+                            if (UIManager.Instance.UIs[(int)UIType.MobileSetting].gameObject.activeSelf) break;                            
                             UIManager.Instance.UIs[(int)UIType.MobileSetting].gameObject.SetActive(true);
                             MapInfo.pauseRequest++;
                         }
