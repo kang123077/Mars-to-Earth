@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5384676774007699011}
   - component: {fileID: 1839368141911460538}
   - component: {fileID: 581530900988348049}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Plain (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7279191152785175305}
   - component: {fileID: 8002945433988633675}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: WallsCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6058795289293498787}
   - component: {fileID: 6938506689993359333}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: CorridorObstacle (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,12 +275,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546005180652244985}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -6.54, y: 0, z: 26}
+  m_LocalPosition: {x: -6.54, y: 1.6941671, z: 26}
   m_LocalScale: {x: 4, y: 1.85, z: 2.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7015866655225297470}
-  m_RootOrder: 9
+  m_Father: {fileID: 8405002835828067403}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!208 &6938506689993359333
 NavMeshObstacle:
@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 1637908432540353460}
   - component: {fileID: 6224640557303851393}
   - component: {fileID: 4752144076774084376}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Corner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -419,7 +419,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5057727928078027663}
   - component: {fileID: 5932041448989078220}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: CorridorObstacle (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -434,12 +434,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1704010966359821438}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 6.65, y: 0, z: -26}
+  m_LocalPosition: {x: 6.65, y: 1.6941671, z: -26}
   m_LocalScale: {x: 4, y: 1.85, z: 2.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7015866655225297470}
-  m_RootOrder: 10
+  m_Father: {fileID: 8405002835828067403}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!208 &5932041448989078220
 NavMeshObstacle:
@@ -469,7 +469,7 @@ GameObject:
   - component: {fileID: 5878645840917692156}
   - component: {fileID: 191873943315022341}
   - component: {fileID: 1386282420066405934}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Plain (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -567,7 +567,7 @@ GameObject:
   - component: {fileID: 3464241730939198224}
   - component: {fileID: 2135239367571644517}
   - component: {fileID: 1041474327989467200}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Ceiling Closed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -678,7 +678,7 @@ GameObject:
   m_Component:
   - component: {fileID: 587649890376305673}
   - component: {fileID: 4493197711743746831}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: CorridorObstacle (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -693,12 +693,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2897442661656241650}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 26, y: 0, z: -6.58}
+  m_LocalPosition: {x: 26, y: 1.6941671, z: -6.58}
   m_LocalScale: {x: 4, y: 1.85, z: 2.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7015866655225297470}
-  m_RootOrder: 6
+  m_Father: {fileID: 8405002835828067403}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!208 &4493197711743746831
 NavMeshObstacle:
@@ -728,7 +728,7 @@ GameObject:
   - component: {fileID: 8506327103099954673}
   - component: {fileID: 2679644002126862600}
   - component: {fileID: 3793366605402494243}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Plain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -827,7 +827,7 @@ GameObject:
   - component: {fileID: 1240727462388168525}
   - component: {fileID: 8993428556321560980}
   - component: {fileID: 762506954680974823}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Corridor (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -951,7 +951,7 @@ GameObject:
   - component: {fileID: 659576253829021710}
   - component: {fileID: 6492994879265242359}
   - component: {fileID: 5444707507150237916}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Plain (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1049,7 +1049,7 @@ GameObject:
   - component: {fileID: 6728011254454452066}
   - component: {fileID: 2127926664778011991}
   - component: {fileID: 726968777390011342}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Corner (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1161,7 +1161,7 @@ GameObject:
   - component: {fileID: 7507372249228191389}
   - component: {fileID: 420923674918275140}
   - component: {fileID: 8326170876247469111}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Corridor (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1285,7 +1285,7 @@ GameObject:
   - component: {fileID: 999634756314163229}
   - component: {fileID: 6837559249010595044}
   - component: {fileID: 5726150151411194063}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Plain (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1380,7 +1380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 16957546391643764}
   - component: {fileID: 9142236239519338824}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1444,7 +1444,7 @@ GameObject:
   m_Component:
   - component: {fileID: 14587247530821031}
   - component: {fileID: 2016832925121021712}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: CorridorObstacle (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1459,12 +1459,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5367532537816274756}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -6.54, y: 0, z: 26}
+  m_LocalPosition: {x: -6.54, y: 1.6941671, z: 26}
   m_LocalScale: {x: 4, y: 1.85, z: 2.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7015866655225297470}
-  m_RootOrder: 8
+  m_Father: {fileID: 8405002835828067403}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!208 &2016832925121021712
 NavMeshObstacle:
@@ -1496,7 +1496,7 @@ GameObject:
   - component: {fileID: 6945298386061101267}
   - component: {fileID: 980175615151138314}
   - component: {fileID: 8917588031627969145}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Corridor (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1618,7 +1618,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2840466651015534089}
   - component: {fileID: 4053613640907429263}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: CorridorObstacle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1633,12 +1633,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5737834084022440353}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26, y: 0, z: -6.58}
+  m_LocalPosition: {x: -26, y: 1.6941671, z: -6.58}
   m_LocalScale: {x: 4, y: 1.85, z: 2.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7015866655225297470}
-  m_RootOrder: 4
+  m_Father: {fileID: 8405002835828067403}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!208 &4053613640907429263
 NavMeshObstacle:
@@ -1670,7 +1670,7 @@ GameObject:
   - component: {fileID: 9028804034290652781}
   - component: {fileID: 1203624368716085428}
   - component: {fileID: 7417369668399389895}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Corridor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1792,7 +1792,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1164024549399787449}
   - component: {fileID: 9162209751715066645}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: CorridorObstacle (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1807,12 +1807,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6570904849892546337}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -26, y: 0, z: -6.58}
+  m_LocalPosition: {x: -26, y: 1.6941671, z: -6.58}
   m_LocalScale: {x: 4, y: 1.85, z: 2.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7015866655225297470}
-  m_RootOrder: 5
+  m_Father: {fileID: 8405002835828067403}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!208 &9162209751715066645
 NavMeshObstacle:
@@ -1842,7 +1842,7 @@ GameObject:
   - component: {fileID: 1598308147420580563}
   - component: {fileID: 4977284225856583210}
   - component: {fileID: 6090662681520994817}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Plain (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1940,7 +1940,7 @@ GameObject:
   - component: {fileID: 5088136838683899488}
   - component: {fileID: 452024549369683029}
   - component: {fileID: 1284851533843987148}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Corner (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2049,7 +2049,7 @@ GameObject:
   - component: {fileID: 7015866654714352329}
   - component: {fileID: 8824870875142888876}
   - component: {fileID: 8961069139997217750}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Walls (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2111,7 +2111,7 @@ GameObject:
   - component: {fileID: 7015866654997815406}
   - component: {fileID: 7852900927887993511}
   - component: {fileID: 455276333795502238}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Walls (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2173,7 +2173,7 @@ GameObject:
   - component: {fileID: 7015866655058054532}
   - component: {fileID: 8089080096558595915}
   - component: {fileID: 3374378480385119764}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2258,14 +2258,7 @@ Transform:
   - {fileID: 7279191152785175305}
   - {fileID: 16957546391643764}
   - {fileID: 2194654533579431391}
-  - {fileID: 2840466651015534089}
-  - {fileID: 1164024549399787449}
-  - {fileID: 587649890376305673}
-  - {fileID: 5222356518884767342}
-  - {fileID: 14587247530821031}
-  - {fileID: 6058795289293498787}
-  - {fileID: 5057727928078027663}
-  - {fileID: 2148992668569564502}
+  - {fileID: 8405002835828067403}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2316,7 +2309,7 @@ GameObject:
   - component: {fileID: 7015866655270117562}
   - component: {fileID: 8464940437219235307}
   - component: {fileID: 798582455989117345}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Walls (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2378,7 +2371,7 @@ GameObject:
   - component: {fileID: 7015866655313989587}
   - component: {fileID: 857690578072531986}
   - component: {fileID: 3132250873377078249}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Walls (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2473,7 +2466,7 @@ GameObject:
   - component: {fileID: 7015866655539195949}
   - component: {fileID: 599894400719721431}
   - component: {fileID: 950367003947936906}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Walls (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2535,7 +2528,7 @@ GameObject:
   - component: {fileID: 7015866656170162112}
   - component: {fileID: 4060592483388960111}
   - component: {fileID: 5107893751339197035}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Walls (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2597,7 +2590,7 @@ GameObject:
   - component: {fileID: 7015866656550729791}
   - component: {fileID: 5390188430888797503}
   - component: {fileID: 869013046279375710}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Walls (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2648,6 +2641,45 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 8, z: 24}
   m_Center: {x: 8, y: 4, z: -38}
+--- !u!1 &7204737694890115477
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8405002835828067403}
+  m_Layer: 14
+  m_Name: NavMeshObstacles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8405002835828067403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204737694890115477}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.6941671, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2840466651015534089}
+  - {fileID: 1164024549399787449}
+  - {fileID: 587649890376305673}
+  - {fileID: 5222356518884767342}
+  - {fileID: 14587247530821031}
+  - {fileID: 6058795289293498787}
+  - {fileID: 5057727928078027663}
+  - {fileID: 2148992668569564502}
+  m_Father: {fileID: 7015866655225297470}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8088847975871672166
 GameObject:
   m_ObjectHideFlags: 0
@@ -2660,7 +2692,7 @@ GameObject:
   - component: {fileID: 4269697251844958019}
   - component: {fileID: 7529326348870212538}
   - component: {fileID: 8784612735837706129}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Plain (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2842,7 +2874,7 @@ GameObject:
   - component: {fileID: 8015733672855953003}
   - component: {fileID: 3451098579300381790}
   - component: {fileID: 4068333317089432263}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Corner (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2952,7 +2984,7 @@ GameObject:
   - component: {fileID: 4391674146317421899}
   - component: {fileID: 8056611209040867762}
   - component: {fileID: 9104706028528795033}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: Wall Plain (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3047,7 +3079,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5222356518884767342}
   - component: {fileID: 7792793545350413083}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: CorridorObstacle (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3062,12 +3094,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8973385199192148182}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 26, y: 0, z: -6.58}
+  m_LocalPosition: {x: 26, y: 1.6941671, z: -6.58}
   m_LocalScale: {x: 4, y: 1.85, z: 2.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7015866655225297470}
-  m_RootOrder: 7
+  m_Father: {fileID: 8405002835828067403}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!208 &7792793545350413083
 NavMeshObstacle:
@@ -3095,7 +3127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2148992668569564502}
   - component: {fileID: 8090370749962586353}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: CorridorObstacle (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3110,12 +3142,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8995653662596834046}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 6.65, y: 0, z: -26}
+  m_LocalPosition: {x: 6.65, y: 1.6941671, z: -26}
   m_LocalScale: {x: 4, y: 1.85, z: 2.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7015866655225297470}
-  m_RootOrder: 11
+  m_Father: {fileID: 8405002835828067403}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!208 &8090370749962586353
 NavMeshObstacle:
