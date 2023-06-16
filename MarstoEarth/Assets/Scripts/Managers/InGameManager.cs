@@ -14,11 +14,11 @@ public class InGameManager : Singleton<InGameManager>
     public ReinforceInfo reinforceInfo;
     public List<Skill.Skill> inGameSkill;
 
-    // "ca-app-pub-3459570317181089/8456868389";
-    // Test= "ca-app-pub-3940256099942544/5224354917";
+    // "ca-app-pub-3459570317181089/8456868389"; 실제광고
+    // Test= "ca-app-pub-3940256099942544/5224354917"; 테스트
     // These ad units are configured to always serve test ads.
 #if UNITY_ANDROID
-    private string _adUnitId = "ca-app-pub-3940256099942544/5224354917";
+    private string _adUnitId = "ca-app-pub-3459570317181089/8456868389";
 #elif UNITY_IPHONE
   private string _adUnitId = "ca-app-pub-3940256099942544/1712485313";
 #else

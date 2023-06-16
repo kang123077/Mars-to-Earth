@@ -142,7 +142,7 @@ public class CombatUI : UI
     int MovingPadId = -1;
     int sightId = -1;
     float lastInputTime;
-
+    float beganPoint = 0;
 
     private void Update()
     {
@@ -170,7 +170,8 @@ public class CombatUI : UI
                         {
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
                                 return;
-                            
+                            sightId = touch.fingerId;
+                            beganPoint = touch.position.x;
                             player.actives[0].Use();
                         }
                         else if (touch.position.x < Screen.width * 0.3f)
@@ -186,7 +187,10 @@ public class CombatUI : UI
                             lastInputTime = Time.time;
                         }
                         else
+                        {
                             sightId = touch.fingerId;
+                            beganPoint = touch.position.x;
+                        }
                         break;
                     case TouchPhase.Moved:
                         if (MovingPadId == touch.fingerId && MovingPadId != -1)
@@ -194,7 +198,7 @@ public class CombatUI : UI
 
                         else if (sightId == touch.fingerId)
                         {
-                            CinemachineManager.Instance.curAngle.y += touch.deltaPosition.x * Time.deltaTime * 4;
+                            CinemachineManager.Instance.curAngle.y += (touch.position.x -beganPoint) * Time.deltaTime *4;
                             CinemachineManager.Instance.follower.rotation = Quaternion.Euler(CinemachineManager.Instance.curAngle);
                         }
                         break;
