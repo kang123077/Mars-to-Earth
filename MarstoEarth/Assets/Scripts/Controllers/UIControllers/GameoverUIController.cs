@@ -1,7 +1,6 @@
 using Character;
 using GoogleMobileAds.Api;
 using System;
-using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,12 +9,19 @@ public class GameoverUIController : MonoBehaviour
     public ReportContentUIController reportContent;
     private int saveCount;
     public UnityEngine.UI.Button addmobButton;
-    
+    private PlayerSaveInfo saveInfo;
+
+    public void OnEnable()
+    {
+        SaveReportContent();
+        InitReportContent(saveInfo);
+    }
+
     public void GotoTitle()
     {
         // UI 버튼에서 사용
         MapInfo.pauseRequest--;
-        SaveReportContent();
+        SavePPContent(saveInfo);
         SceneManager.LoadScene("OutGameScene");
         gameObject.SetActive(false);
     }
@@ -84,9 +90,7 @@ public class GameoverUIController : MonoBehaviour
         playerSaveInfo.duration = staticStat.duration;
         playerSaveInfo.range = staticStat.range;
         playerSaveInfo.fileName = currentDateTime.ToString("yyyMMdd") + currentDateTime.ToString("HHmm");
-
-        SavePPContent(playerSaveInfo);
-        InitReportContent(playerSaveInfo);
+        saveInfo = playerSaveInfo;
     }
 
     public void InitReportContent(PlayerSaveInfo playerInfo)
