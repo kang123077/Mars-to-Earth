@@ -202,6 +202,8 @@ namespace Character
         {
             if (impact.magnitude > 0.1f)
             {
+                if (impact.magnitude > 35)
+                    impact = impact.normalized * 35;
                 transform.position += impact * Time.deltaTime;
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }

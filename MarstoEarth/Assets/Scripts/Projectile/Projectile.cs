@@ -79,7 +79,7 @@ namespace Projectile
             thisTransform.position += targetPos * (Time.deltaTime * speed);
             Vector3 position = thisTransform.position;
             if (Physics.OverlapCapsuleNonAlloc(position, position + thisTransform.forward * (Time.deltaTime * speed), range * 0.05f, colliders,
-                    thisInfo[0].lm | 1 << 9 | 1 << 0) > 0)
+                    thisInfo[0].lm | 1 << 9 | 1 << 0|1<<14) > 0)
             {
                 colliders[0].TryGetComponent(out target);
                 if (target)
@@ -106,7 +106,7 @@ namespace Projectile
             if (fracComplete < 1) return;
             Vector3 position = thisTransform.position;
             int count = Physics.OverlapSphereNonAlloc(position, range, colliders,
-                thisInfo[0].lm | 1 << 9 | 1 << 0);
+                thisInfo[0].lm | 1 << 9 | 1 << 0 | 1 << 14);
             for (int i = 0; i < count; i++)
             {
                 colliders[i].TryGetComponent(out target);
