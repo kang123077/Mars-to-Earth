@@ -1,5 +1,7 @@
 using Character;
+using GoogleMobileAds.Api;
 using System;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,18 +9,34 @@ public class GameoverUIController : MonoBehaviour
 {
     public ReportContentUIController reportContent;
     private int saveCount;
-
-    private void OnEnable()
-    {
-        SaveReportContent();
-    }
-
+    public UnityEngine.UI.Button addmobButton;
+    
     public void GotoTitle()
     {
         // UI 버튼에서 사용
         MapInfo.pauseRequest--;
+        SaveReportContent();
         SceneManager.LoadScene("OutGameScene");
         gameObject.SetActive(false);
+    }
+
+    public void ShowRewardedAd()
+    {
+        const string rewardMsg =
+            "Rewarded ad rewarded the user. Type: {0}, amount: {1}.";
+
+        if (InGameManager.Instance.rewardedAd != null && InGameManager.Instance.rewardedAd.CanShowAd())
+        {
+            InGameManager.Instance.rewardedAd.Show((Reward reward) =>
+            {
+                // TODO: Reward the user.
+                SpawnManager.Instance.player.Revive();
+
+                Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
+                MapInfo.pauseRequest--;
+                gameObject.SetActive(false);
+            });
+        }
     }
 
     /// <summary>
