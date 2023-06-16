@@ -22,11 +22,11 @@ public class InGameManager : Singleton<InGameManager>
 #elif UNITY_IPHONE
   private string _adUnitId = "ca-app-pub-3940256099942544/1712485313";
 #else
-  private string _adUnitId = "unused";
+    private string _adUnitId = "unused";
 #endif
 
     public RewardedAd rewardedAd;
-   
+
     private void RegisterEventHandlers(RewardedAd ad)
     {
         // Raised when the ad is estimated to have earned money.
@@ -52,19 +52,19 @@ public class InGameManager : Singleton<InGameManager>
             Debug.Log("Rewarded ad full screen content opened.");
         };
         // Raised when the ad closed full screen content.
-        ad.OnAdFullScreenContentClosed += ()=>
-    {
+        ad.OnAdFullScreenContentClosed += () =>
+        {
             Debug.Log("Rewarded Ad full screen content closed.");
-            UIManager.Instance.gameoverUI.addmobButton.interactable = false;
-        // Reload the ad so that we can show another as soon as possible.
-        LoadRewardedAd();
+            MapInfo.isRevive = true;
+            // Reload the ad so that we can show another as soon as possible.
+            LoadRewardedAd();
         };
         // Raised when the ad failed to open full screen content.
         ad.OnAdFullScreenContentFailed += (AdError error) =>
         {
             Debug.LogError("Rewarded ad failed to open full screen content " +
                            "with error : " + error);
-            UIManager.Instance.gameoverUI.addmobButton.interactable = false;
+            MapInfo.isRevive = true;
             // Reload the ad so that we can show another as soon as possible.
             LoadRewardedAd();
         };
@@ -104,8 +104,8 @@ public class InGameManager : Singleton<InGameManager>
 
                 rewardedAd = ad;
                 RegisterEventHandlers(rewardedAd);
-                
-                
+
+
             });
     }
 

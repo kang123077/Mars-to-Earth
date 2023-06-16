@@ -13,6 +13,7 @@ public class GameoverUIController : MonoBehaviour
 
     public void OnEnable()
     {
+        playerReviveChecker();
         SaveReportContent();
         InitReportContent(saveInfo);
     }
@@ -24,6 +25,14 @@ public class GameoverUIController : MonoBehaviour
         SavePPContent(saveInfo);
         SceneManager.LoadScene("OutGameScene");
         gameObject.SetActive(false);
+    }
+
+    public void playerReviveChecker()
+    {
+        if (MapInfo.isRevive)
+        {
+            addmobButton.interactable = false;
+        }
     }
 
     public void ShowRewardedAd()
