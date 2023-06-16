@@ -72,9 +72,9 @@ namespace Projectile
         private void Update()
         {
             BaseUpdate();
-            thisTransform.position += enforce ? Vector3.MoveTowards(thisTransform.position,
-                    SpawnManager.Instance.player.target.position, Time.deltaTime * speed * 0.2f) :
-            thisTransform.forward * (Time.deltaTime * speed * 0.2f);
+            //thisTransform.position += enforce&& SpawnManager.Instance.player.target ? Vector3.MoveTowards(thisTransform.position,
+            //        SpawnManager.Instance.player.target.position, Time.deltaTime * speed * 0.2f) :
+            //thisTransform.forward * (Time.deltaTime * speed * 0.2f);
 
             eleapse += Time.deltaTime;
             if (eleapse > atkSpd)

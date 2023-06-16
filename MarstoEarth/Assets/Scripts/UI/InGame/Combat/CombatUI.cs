@@ -156,6 +156,8 @@ public class CombatUI : UI
                         if (RectTransformUtility.RectangleContainsScreenPoint(Shot, touch.position)
                        && player.isRun == false)
                         {
+                            sightId = touch.fingerId;
+                            beganPoint = touch.position.x;
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
                                 return;
                             player.anim.SetTrigger(Character.Character.attacking);
@@ -170,8 +172,8 @@ public class CombatUI : UI
                         {
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
                                 return;
-                            sightId = touch.fingerId;
-                            beganPoint = touch.position.x;
+                           
+                            
                             player.actives[0].Use();
                         }
                         else if (touch.position.x < Screen.width * 0.3f)
@@ -198,7 +200,14 @@ public class CombatUI : UI
 
                         else if (sightId == touch.fingerId)
                         {
-                            CinemachineManager.Instance.curAngle.y += (touch.position.x -beganPoint) * Time.deltaTime *4;
+                            CinemachineManager.Instance.curAngle.y += (touch.position.x -beganPoint) * Time.deltaTime *1.5f;
+                            CinemachineManager.Instance.follower.rotation = Quaternion.Euler(CinemachineManager.Instance.curAngle);
+                        }
+                        break;
+                    case TouchPhase.Stationary:
+                        if (sightId == touch.fingerId)
+                        {
+                            CinemachineManager.Instance.curAngle.y += (touch.position.x - beganPoint) * Time.deltaTime * 1.5f;
                             CinemachineManager.Instance.follower.rotation = Quaternion.Euler(CinemachineManager.Instance.curAngle);
                         }
                         break;
