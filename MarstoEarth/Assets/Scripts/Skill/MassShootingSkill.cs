@@ -33,7 +33,7 @@ namespace Skill
                 atkEleapse += Time.deltaTime;
                 if (atkEleapse > speed)
                 {
-                    SpawnManager.Instance.Launch(ctr.position, ctr.forward, enforce ? skillInfo.dmg + 4 + ch.dmg * 0.3f :
+                    SpawnManager.Instance.Launch(ctr.position, ctr.forward, enforce ? skillInfo.dmg + ch.dmg * 0.3f :
                             skillInfo.dmg + ch.dmg * 0.3f, 2,
                         ch.bulletSpeed, skillInfo.range * 0.3f + ch.range * 0.1f, ref projectileInfo);
                     atkEleapse -= speed;

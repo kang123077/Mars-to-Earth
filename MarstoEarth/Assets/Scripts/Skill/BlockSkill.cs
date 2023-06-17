@@ -69,7 +69,7 @@ namespace Skill
                 caster.colliders[i].TryGetComponent(out caster.targetCharacter);
                 if (caster.targetCharacter)
                 {
-                    if (!caster.targetCharacter.Hit(transPos, skillInfo.dmg + caster.dmg * 0.5f, 0)) return;
+                    if (!caster.targetCharacter.Hit(transPos, skillInfo.dmg + caster.dmg * 2f, 0)) return;
                     parring.Init(skillInfo.duration + caster.duration * 0.2f);
                     caster.targetCharacter.AddBuff(parring);
                     caster.targetCharacter.impact -= caster.targetCharacter.transform.forward * 3;
