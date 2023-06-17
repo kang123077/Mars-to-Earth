@@ -93,11 +93,13 @@ public class AudioManager : Singleton<AudioManager>
     {
         if (clipIndex < 0 || clipIndex >= CombatEffectAudioClips.Length) return; // 인덱스 범위 확인
 
-        source.clip = CombatEffectAudioClips[clipIndex];
+        
         if (source.transform.parent.gameObject.activeSelf)
         {
+            source.clip = CombatEffectAudioClips[clipIndex];
             source.Play();
             playingSource.Add(source);
+
         }
         source.volume = finalEffectVolume; // 볼륨 설정
         // 발소리가 포함 안되는 이슈가 있음

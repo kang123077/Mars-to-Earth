@@ -22,7 +22,14 @@ namespace Projectile
             if (enforce)
             {
                 stun.Init(5);
-                target.AddBuff(stun);
+                int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
+                layerMask);
+                for (int i = 0; i < count; i++)
+                {
+                    colliders[i].TryGetComponent(out target);
+                    target?.AddBuff(stun);                    
+                }
+                
             }
         }
 
