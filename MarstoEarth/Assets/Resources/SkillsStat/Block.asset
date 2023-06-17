@@ -17,7 +17,7 @@ MonoBehaviour:
   description2: 
   clipName: Block
   clipLayer: 2
-  dmg: 40
+  dmg: 10
   duration: 0.8
   range: 3
   cool: 4

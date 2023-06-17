@@ -17,7 +17,7 @@ MonoBehaviour:
   description2: "\uD3ED\uBC1C\uC2DC \uC8FC\uBCC0\uC801\uC744 5\uCD08\uAC04 \uAE30\uC808\uC2DC\uD0A8\uB2E4."
   clipName: TossGrenade
   clipLayer: 1
-  dmg: 50
+  dmg: 30
   duration: 10
   range: 13
   cool: 20

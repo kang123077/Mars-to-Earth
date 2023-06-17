@@ -43,7 +43,7 @@ namespace Skill
                 sattlliteSlot.transform.SetParent(gardianSlot.transform);
 
                 Projectile.Gardian satllite = sattlliteSlot.gameObject.AddComponent<Projectile.Gardian>();
-                satllite.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 1f, skillInfo.range + caster.range * 0.2f, skillInfo.speed + caster.speed * 0.2f);
+                satllite.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 0.6f, skillInfo.range + caster.range * 0.2f, skillInfo.speed + caster.speed * 0.2f);
 
             }
 
@@ -62,7 +62,7 @@ namespace Skill
                 sattlliteSlot.transform.SetParent(caster.transform);
                 sattlliteSlot.gameObject.SetActive(false);
                 Projectile.Gardian satllite = sattlliteSlot.gameObject.AddComponent<Projectile.Gardian>();
-                satllite.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 1f, skillInfo.range + caster.range * 0.2f, skillInfo.speed + caster.speed * 0.2f);
+                satllite.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 0.6f, skillInfo.range + caster.range * 0.2f, skillInfo.speed + caster.speed * 0.2f);
                 sattlliteSlot.gameObject.SetActive(true);
             }
             gardianSlot.SetActive(true);
