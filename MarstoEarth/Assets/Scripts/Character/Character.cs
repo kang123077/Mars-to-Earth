@@ -173,19 +173,19 @@ namespace Character
                 // player 태그 확인 후 맞으면 2초 후 게임오버
                 Invoke("PlayerDie", 2f);
             }
-            dying = true;            
+            dying = true;
             col.enabled = false;
             Buffs.Clear();
             anim.Play($"Die", 2, 0);
             anim.SetLayerWeight(2, 1);
-            if(this is Monster)
+            if (this is Monster)
             {
                 hpBar.gameObject.SetActive(false);
             }
-            
+
             yield return new WaitForSeconds(3);
             if (this is Monster)
-            {               
+            {
                 SpawnManager.Instance.ReleaseMonster((Monster)this);
             }
             //else
@@ -262,6 +262,7 @@ namespace Character
 
             return findBuff is null;
         }
+
         // ReSharper disable Unity.PerformanceAnalysis
         public virtual int RemoveBuff(Skill.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
         {

@@ -104,7 +104,7 @@ namespace Character
         protected override void Awake()
         {
             dmg = characterStat.dmg + (characterStat.dmg * MapInfo.difficulty * 0.4f);
-            speed = characterStat.speed + (characterStat.speed * MapInfo.difficulty * 0.05f);
+            speed = characterStat.speed + (characterStat.speed * MapInfo.difficulty * 0.02f);
             def = characterStat.def + (characterStat.def * MapInfo.difficulty * 0.2f);
             duration = characterStat.duration;
             hp = MaxHp = characterStat.maxHP + (characterStat.maxHP * MapInfo.difficulty * 0.5f);
