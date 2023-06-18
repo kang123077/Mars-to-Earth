@@ -3407,6 +3407,7 @@ GameObject:
   m_Component:
   - component: {fileID: 347745907}
   - component: {fileID: 347745906}
+  - component: {fileID: 347745908}
   m_Layer: 0
   m_Name: Outside Light
   m_TagString: Untagged
@@ -3463,7 +3464,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 8191
+    m_Bits: 5961
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -3491,6 +3492,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &347745908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347745905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5899bd7a797b4441b51ca97df8ba5ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightComponent: {fileID: 347745906}
 --- !u!1 &359435125
 GameObject:
   m_ObjectHideFlags: 0
@@ -11091,6 +11105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1283023471}
   - component: {fileID: 1283023470}
+  - component: {fileID: 1283023472}
   m_Layer: 0
   m_Name: Inside Light
   m_TagString: Untagged
@@ -11147,7 +11162,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 8264
+    m_Bits: 8648
   m_RenderingLayerMask: 1
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
@@ -11175,6 +11190,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 70, y: -30, z: 0}
+--- !u!114 &1283023472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283023469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5899bd7a797b4441b51ca97df8ba5ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightComponent: {fileID: 1283023470}
 --- !u!1 &1288576184
 GameObject:
   m_ObjectHideFlags: 0
@@ -12308,8 +12336,8 @@ MonoBehaviour:
   curNormal: 3
   curElite: 1
   spawnInstantiateFinished: 0
-  outsideLight: {fileID: 347745905}
-  insideLight: {fileID: 1283023469}
+  outsideLight: {fileID: 347745908}
+  insideLight: {fileID: 1283023472}
   effectPool: []
   itemPool: []
   objectPool:
