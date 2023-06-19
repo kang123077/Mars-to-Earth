@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0056604696, g: 0.05049204, b: 0.08187662, a: 1}
+  m_IndirectSpecularColor: {r: 0.0059023933, g: 0.050778933, b: 0.08205038, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4450,6 +4450,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1420d52d032531447859e2c99a4b7d44, type: 3}
   - {fileID: 8300000, guid: aa77b0dc10d56f74b9a953b7b1a99647, type: 3}
   - {fileID: 8300000, guid: b3589b7b532f79c4986bbc42cf653785, type: 3}
+  - {fileID: 8300000, guid: 668c9fe9ae1186842942300bcd2c3c17, type: 3}
+  - {fileID: 8300000, guid: 4fcf83755da16d849b7a7c62c276f1a0, type: 3}
 --- !u!4 &454389733
 Transform:
   m_ObjectHideFlags: 0
@@ -12334,8 +12336,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7739833361423966859, guid: 4a99ec8f6364bc64d9d59786f4218424, type: 3}
   ItemPrefab: {fileID: 7553558701899239993, guid: 35df84e648031e74c97a0fe6916db76f, type: 3}
   monsterPool: []
-  curNormal: 3
-  curElite: 1
   spawnInstantiateFinished: 0
   outsideLight: {fileID: 347745908}
   insideLight: {fileID: 1283023472}
