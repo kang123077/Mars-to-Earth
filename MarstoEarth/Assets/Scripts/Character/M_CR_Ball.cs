@@ -27,6 +27,7 @@ namespace Character
             ai.speed = speed +50;
             def += 3;
             rollTime = 4;
+            AudioManager.Instance.PlayEffect((int)CombatEffectClip.rollingBall,weapon);
         }
 
         protected void Update()
@@ -46,6 +47,7 @@ namespace Character
                         def -= 3;
                         ai.speed = speed;
                         attackReady = false;
+                        weapon.Stop();
                         return;
                     }
                 }
@@ -61,6 +63,7 @@ namespace Character
                         if (targetDistance <= range)
                         {
                             target.gameObject.TryGetComponent(out targetCharacter);
+                            AudioManager.Instance.PlayEffect((int)CombatEffectClip.crash,weapon);
                             targetCharacter.Hit(thisCurTransform.position, dmg, 0);
                         }
                         target = null;
