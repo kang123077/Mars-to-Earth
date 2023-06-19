@@ -65,6 +65,7 @@ public class NodeGenerator : MonoBehaviour
     public float nodeSpacing;
     public Transform nodeParentTF;
     public Material bossMaterial;
+    public Sprite bossIcon;
 
     private void Awake()
     {
@@ -554,6 +555,7 @@ public class NodeGenerator : MonoBehaviour
             }
         }
         MapManager.Instance.bossNode.isBossNode = true;
+        MapManager.Instance.bossNode.alertIcon.sprite = bossIcon;
         // MapManager.Instance.bossNode.transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = bossMaterial;
     }
 }

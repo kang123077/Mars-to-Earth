@@ -13,6 +13,7 @@ public class NodeInfo : MonoBehaviour
     public bool isBossNode;
     public bool isInside;
     public bool nodeInitFinished;
+    public SpriteRenderer alertIcon;
     public Wall[] wallPool;
     private List<MeshRenderer> meshRenderers;
 
