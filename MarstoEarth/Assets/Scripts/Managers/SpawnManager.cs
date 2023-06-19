@@ -62,6 +62,7 @@ public class SpawnManager : Singleton<SpawnManager>
         set
         {
             _curNode = value;
+            curNode.alertIcon.gameObject.SetActive(false);
             StartCoroutine(CheckLightCoroutine(_curNode.isInside));
             if (!curNode.IsNodeCleared)
             {
