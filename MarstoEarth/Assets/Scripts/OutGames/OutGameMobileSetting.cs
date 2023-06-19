@@ -17,6 +17,7 @@ public class OutGameMobileSetting : MonoBehaviour
     {
         float value = ogsbgmVolume.value;
         AudioManager.bgmVolume = value;
+        OutGameAudio.Instance.bgms.volume = value;
         UpdateAllVolumes();
     }
 
@@ -24,6 +25,7 @@ public class OutGameMobileSetting : MonoBehaviour
     {
         float value = ogseffectVolume.value;
         AudioManager.effectVolume = value;
+        OutGameAudio.Instance.effes.volume = value;
         UpdateAllVolumes();
     }
 

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0056604696, g: 0.05049204, b: 0.08187662, a: 1}
+  m_IndirectSpecularColor: {r: 0.0059068133, g: 0.05077364, b: 0.08204637, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4422,7 +4422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866457572df6dcb4f8533bcd987d5d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _BGM_AudioClips: []
+  _BGM_AudioClips:
+  - {fileID: 8300000, guid: 0c4994566deb71746b43061e868b56eb, type: 3}
   _UI_EffectAudioClips:
   - {fileID: 8300000, guid: 492883b63b0ff3047972cc900e4938a5, type: 3}
   - {fileID: 8300000, guid: 9373d71516690da439e5d4362d03c68d, type: 3}
@@ -12334,8 +12335,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 7739833361423966859, guid: 4a99ec8f6364bc64d9d59786f4218424, type: 3}
   ItemPrefab: {fileID: 7553558701899239993, guid: 35df84e648031e74c97a0fe6916db76f, type: 3}
   monsterPool: []
-  curNormal: 3
-  curElite: 1
   spawnInstantiateFinished: 0
   outsideLight: {fileID: 347745908}
   insideLight: {fileID: 1283023472}

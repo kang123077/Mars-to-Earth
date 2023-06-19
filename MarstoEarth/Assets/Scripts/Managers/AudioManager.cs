@@ -70,6 +70,7 @@ public class AudioManager : Singleton<AudioManager>
             BGM_AudioClips = _BGM_AudioClips;
             UI_EffectAudioClips = _UI_EffectAudioClips;
         }
+        PlayBGM(0);
     }
 
     public void PlayBGM(int clipIndex)
