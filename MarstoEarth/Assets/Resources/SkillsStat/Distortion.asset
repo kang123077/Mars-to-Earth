@@ -18,7 +18,7 @@ MonoBehaviour:
     \uB3CC\uC544\uC628\uB2E4."
   clipName: 
   clipLayer: 0
-  dmg: 25
+  dmg: 20
   duration: 0.5
   range: 8
   cool: 10

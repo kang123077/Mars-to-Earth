@@ -18,7 +18,7 @@ MonoBehaviour:
     \uB450\uBC30\uAC00 \uB41C\uB2E4."
   clipName: Block
   clipLayer: 2
-  dmg: 40
+  dmg: 10
   duration: 0.8
   range: 3
   cool: 4

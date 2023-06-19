@@ -27,9 +27,10 @@ public class SpawnManager : Singleton<SpawnManager>
     public int curNormal = 3;
     public int curElite = 1;
     public bool spawnInstantiateFinished;
-    public GameObject outsideLight;
-    public GameObject insideLight;
+    public LightController outsideLight;
+    public LightController insideLight;
     private int _curMonsterCount;
+
     public int curMonsterCount
     {
         get => _curMonsterCount;
@@ -234,23 +235,26 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         if (isInside)
         {
-            insideLight.SetActive(true);
+            insideLight.addMonsterLayer();
+            insideLight.gameObject.SetActive(true);
+            outsideLight.removeMonsterLayer();
             yield return new WaitForSeconds(2f); // Wait for 2 seconds
-            outsideLight.SetActive(false);
+            outsideLight.gameObject.SetActive(false);
         }
         else
         {
-            outsideLight.SetActive(true);
+            outsideLight.addMonsterLayer();
+            outsideLight.gameObject.SetActive(true);
+            insideLight.removeMonsterLayer();
             yield return new WaitForSeconds(2f); // Wait for 2 seconds
-            insideLight.SetActive(false);
-
+            insideLight.gameObject.SetActive(false);
         }
     }
 
     public void CheckLight(bool isInside)
     {
-        insideLight.SetActive(isInside);
-        outsideLight.SetActive(!isInside);
+        insideLight.gameObject.SetActive(isInside);
+        outsideLight.gameObject.SetActive(!isInside);
     }
 
     public void DropItem(Vector3 spawnPoint, EnemyPool rank)

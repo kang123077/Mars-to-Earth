@@ -24,7 +24,7 @@ namespace Skill
             Projectile.Hyperion hyperion = hyperionSlot.AddComponent<Projectile.Hyperion>();
             hyperionSlot.layer = 8;
             hyperionSlot.transform.position = caster.transform.position + new Vector3(0, 20, 0);
-            hyperion.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 0.5f, skillInfo.range + caster.range * 0.5f,
+            hyperion.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 1f, skillInfo.range + caster.range * 0.5f,
                 skillInfo.duration + caster.duration * 0.5f, skillInfo.speed + caster.speed * 0.5f, enforce);
             hyperionSlot.transform.forward = caster.transform.forward;
             hyperionSlot.SetActive(true);

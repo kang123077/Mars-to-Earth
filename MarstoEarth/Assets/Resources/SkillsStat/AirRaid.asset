@@ -18,7 +18,7 @@ MonoBehaviour:
   description2: "\uD50C\uB808\uC774\uC5B4\uC758 \uD0C0\uAC9F\uC744 \uCD94\uACA9\uD55C\uB2E4."
   clipName: CastSpell
   clipLayer: 1
-  dmg: 25
+  dmg: 0
   duration: 25
   range: 4
   cool: 30

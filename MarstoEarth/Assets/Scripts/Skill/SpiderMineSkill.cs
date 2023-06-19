@@ -25,7 +25,7 @@ namespace Skill
             spiderMineSlot.transform.position = caster.transform.position;
             Projectile.SpiderMine mine = spiderMineSlot.AddComponent<Projectile.SpiderMine>();
 
-            mine.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 2, skillInfo.range + caster.range * 0.5f,
+            mine.Init(caster.layerMask, skillInfo.dmg + caster.dmg * 2f, skillInfo.range + caster.range * 0.5f,
                 skillInfo.duration + caster.duration * 0.5f, skillInfo.speed + caster.speed * 0.5f, enforce);
 
             spiderMineSlot.SetActive(true);
