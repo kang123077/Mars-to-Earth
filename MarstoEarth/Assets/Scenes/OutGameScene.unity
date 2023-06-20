@@ -6163,7 +6163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   URL: https://marstoearth.netlify.app/version.txt
-  CurVersion: 1.0.2
+  CurVersion: 1.0.3
   newVersionAvailable: {fileID: 242233684}
   internetCheck: {fileID: 2126629275}
 --- !u!1 &874635913
@@ -12703,6 +12703,8 @@ MonoBehaviour:
   _UI_EffectAudioClips:
   - {fileID: 8300000, guid: 492883b63b0ff3047972cc900e4938a5, type: 3}
   - {fileID: 8300000, guid: 9373d71516690da439e5d4362d03c68d, type: 3}
+  bgms: {fileID: 0}
+  effes: {fileID: 0}
 --- !u!1 &1713138009
 GameObject:
   m_ObjectHideFlags: 0

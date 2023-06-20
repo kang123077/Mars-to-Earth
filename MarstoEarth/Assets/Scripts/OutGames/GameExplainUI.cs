@@ -45,6 +45,7 @@ public class GameExplainUI : MonoBehaviour
 
     public void GameExplain()
     {
+        OutGameAudio.Instance.PlayEffect(1);
         gameObject.SetActive(true);
     }
 
