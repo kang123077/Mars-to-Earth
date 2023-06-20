@@ -25,7 +25,7 @@ namespace Skill
                 targetBite.Tick((stack) =>
                 {
                     effect.Play();
-                    target.Hit(casterPoint, skillInfo.dmg * stack, 0);
+                    target.Hit(casterPoint, (skillInfo.dmg +caster.dmg*0.5f) * stack, 0);
                 });
 
                 target.transform.position = caster.muzzle.position + Vector3.down * 1.5f;

@@ -9,7 +9,8 @@ namespace Skill
         private Character.Character enemy;
         Vector3 firstPos;
         Vector3 secondPos;
-        // SPC distortion;
+        SPC distortion;
+        Vector3 dir;
         // Vector3 targetPoint;
         public override bool enforce
         {
@@ -25,15 +26,10 @@ namespace Skill
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Distortion];
             comboCount = 2;
-            // distortion = new SPC( null, (ch) =>
-            // {
-            //     ch.transform.position = Vector3.MoveTowards(ch.transform.position, targetPoint, (skillInfo.speed + ch.speed * 0.5f) * Time.deltaTime);
-            //     if (ch.transform.position == targetPoint)
-            //     {
-            //         ch.RemoveBuff(distortion);
-            //         ch.SkillEffect();
-            //     }
-            // }, (ch) =>ch.SkillEffect(),skillInfo.icon);
+            distortion = new SPC(null, (ch) =>
+            {
+                ch.transform.position += dir;
+            }, (ch) => ch.SkillEffect(), skillInfo.icon);
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
@@ -47,14 +43,15 @@ namespace Skill
                     caster.onSkill = this;
                     var transform = caster.transform;
                     firstPos = transform.position;
-                    Vector3 dir = ((Player)caster).InputDir.normalized;
+                    dir = ((Player)caster).InputDir.normalized;
                     if (dir.magnitude < 0.1f)
                     {
                         dir = transform.forward;
                     }
-                    //targetPoint=  transform.position+(transform.forward*(skillInfo.range + caster.range * 0.5f));
-                    //caster.AddBuff(distortion);
-                    caster.impact += dir * ((skillInfo.range + caster.range * 0.5f) * 7);
+
+                    distortion.Init(0.4f);
+                    caster.AddBuff(distortion);
+                    //caster.impact += dir * ((skillInfo.range + caster.range * 0.5f) * 7);
 
                     caster.SkillEffect();
                     break;
