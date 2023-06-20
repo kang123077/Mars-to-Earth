@@ -172,11 +172,11 @@ namespace Character
 
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public override bool AddBuff(SPC buff)
+        public override void AddBuff(SPC buff)
         {
-            if (!base.AddBuff(buff)) return false;
+            base.AddBuff(buff);
             combatUI.ConnectSPCImage(buff.icon);
-            return true;
+            
         }
         public void ClearBuff()//각각 다른 몬스터들이 준 버프 주소값 
         {
@@ -198,7 +198,8 @@ namespace Character
             if (!base.BaseUpdate())
                 return false;
             for (buffElementIdx = 0; buffElementIdx < Buffs.Count; buffElementIdx++)
-                combatUI.SPCSlots[buffElementIdx].fillAmount = Buffs[buffElementIdx].currentTime * (1 / Buffs[buffElementIdx].duration);
+                if(combatUI.SPCSlots.Count> buffElementIdx&& combatUI.SPCSlots[buffElementIdx])
+                    combatUI.SPCSlots[buffElementIdx].fillAmount = Buffs[buffElementIdx].currentTime * (1 / Buffs[buffElementIdx].duration);
 
             if (!stun && hitScreenAlphaValue > 0)
             {
@@ -436,7 +437,7 @@ namespace Character
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.revolver, weapon);
             SpawnManager.Instance.Launch(muzzle.position, muzzleForward,
                 dmg, 1 + duration * 0.5f, bulletSpeed, range * 0.5f, ref projectileInfo);
-            impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
+            //impact -= (15 + dmg * 0.2f) * 0.1f * muzzleForward;
         }
 
         protected internal override bool Hited(Vector3 attacker, float dmg, float penetrate = 0)

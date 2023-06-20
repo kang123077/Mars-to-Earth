@@ -325,4 +325,16 @@ public class SpawnManager : Singleton<SpawnManager>
 
         target.gameObject.SetActive(true);
     }
+    public void ItemTest()
+    {
+       
+        Item.Item target;
+       
+            target = Instantiate(ItemPrefab, Vector3.zero, Quaternion.identity, objectPool[(int)PoolType.Item]);
+            Instantiate(ResourceManager.Instance.itemInfos[(int)2].thisParticle, target.transform);
+        target.type = ItemType.Boost;
+        
+   
+
+    }
 }
