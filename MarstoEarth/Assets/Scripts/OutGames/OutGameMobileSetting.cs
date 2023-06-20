@@ -9,12 +9,15 @@ public class OutGameMobileSetting : MonoBehaviour
     {
         ogsbgmVolume.onValueChanged.AddListener(delegate { SetBGMVolume(); });
         ogseffectVolume.onValueChanged.AddListener(delegate { SetEffectVolume(); });
+        ogsbgmVolume.value = AudioManager.bgmVolume;
+        ogseffectVolume.value = AudioManager.effectVolume;
     }
 
     public void SetBGMVolume()
     {
         float value = ogsbgmVolume.value;
         AudioManager.bgmVolume = value;
+        OutGameAudio.Instance.bgms.volume = value;
         UpdateAllVolumes();
     }
 
@@ -22,6 +25,7 @@ public class OutGameMobileSetting : MonoBehaviour
     {
         float value = ogseffectVolume.value;
         AudioManager.effectVolume = value;
+        OutGameAudio.Instance.effes.volume = value;
         UpdateAllVolumes();
     }
 

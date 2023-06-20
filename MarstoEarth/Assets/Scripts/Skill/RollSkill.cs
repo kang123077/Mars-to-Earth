@@ -18,8 +18,8 @@ namespace Skill
                 ch.step.Stop();
                 temp = ch.step.clip;
                 AudioManager.Instance.PlayEffect((int)CombatEffectClip.rolling, ch.step);
-                if (enforce)
-                    ch.immune = true;
+                //if (enforce)
+                ch.immune = true;
             }, (ch) =>
             {
 
@@ -59,8 +59,8 @@ namespace Skill
         }
         public override void Effect()
         {
-            if (enforce)
-                caster.immune = false;
+            //if (enforce)
+            caster.immune = false;
 
             caster.anim.SetFloat(Character.Character.MotionTime, 0);
         }

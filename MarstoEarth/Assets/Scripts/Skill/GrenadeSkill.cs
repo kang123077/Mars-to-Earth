@@ -22,7 +22,7 @@ namespace Skill
                    fireSlot.SetActive(false);
                    fireSlot.transform.position = point;
                    Projectile.Fire fire = fireSlot.AddComponent<Projectile.Fire>();
-                   fire.Init(caster.layerMask, (skillInfo.dmg * 0.2f + caster.dmg * 0.1f), skillInfo.range + caster.range * 0.5f,
+                   fire.Init(caster.layerMask, (skillInfo.dmg * 0.2f + caster.dmg * 0.2f), skillInfo.range + caster.range * 0.5f,
                        skillInfo.duration + caster.duration * 0.5f, 0, enforce);
                    fireSlot.SetActive(true);
                });
@@ -40,7 +40,7 @@ namespace Skill
         {
             SpawnManager.Instance.Launch(caster.transform.position + Vector3.up, caster.target ?
                     caster.target.position : caster.transform.forward * (12 + caster.range * 0.5f),
-                    skillInfo.dmg + caster.dmg * 0.5f, skillInfo.duration + caster.duration, skillInfo.speed + caster.speed,
+                    skillInfo.dmg + caster.dmg * 1.5f, skillInfo.duration + caster.duration, skillInfo.speed + caster.speed,
                     skillInfo.range + caster.range * 0.5f, ref projectileInfo);
         }
     }

@@ -4,16 +4,12 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
 {
     public int recordClearRoom;
     public GameObject[] UIcontroll;
-    public AudioClip[] _BGM_AudioClips;
-    public AudioClip[] _UI_EffectAudioClips;
     public GameObject[] PCMO;
     public UnityEngine.UI.Button settingButton;
     public GameExplainUI gameExplainUICon;
 
     protected override void Awake()
     {
-        AudioManager.BGM_AudioClips = _BGM_AudioClips;
-        AudioManager.UI_EffectAudioClips = _UI_EffectAudioClips;
         for (int i = 0; i < UIcontroll.Length; i++)
         {
             UIcontroll[i].gameObject.SetActive(false);

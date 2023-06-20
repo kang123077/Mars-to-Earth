@@ -1,4 +1,5 @@
 using Character;
+using GoogleMobileAds.Api;
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,18 +8,50 @@ public class GameoverUIController : MonoBehaviour
 {
     public ReportContentUIController reportContent;
     private int saveCount;
+    public UnityEngine.UI.Button addmobButton;
+    private PlayerSaveInfo saveInfo;
 
-    private void OnEnable()
+    public void OnEnable()
     {
+        playerReviveChecker();
         SaveReportContent();
+        InitReportContent(saveInfo);
     }
 
     public void GotoTitle()
     {
         // UI 버튼에서 사용
         MapInfo.pauseRequest--;
+        SavePPContent(saveInfo);
         SceneManager.LoadScene("OutGameScene");
         gameObject.SetActive(false);
+    }
+
+    public void playerReviveChecker()
+    {
+        if (MapInfo.isRevive)
+        {
+            addmobButton.interactable = false;
+        }
+    }
+
+    public void ShowRewardedAd()
+    {
+        const string rewardMsg =
+            "Rewarded ad rewarded the user. Type: {0}, amount: {1}.";
+
+        if (InGameManager.Instance.rewardedAd != null && InGameManager.Instance.rewardedAd.CanShowAd())
+        {
+            InGameManager.Instance.rewardedAd.Show((Reward reward) =>
+            {
+                // TODO: Reward the user.
+                SpawnManager.Instance.player.Revive();
+
+                Debug.Log(String.Format(rewardMsg, reward.Type, reward.Amount));
+                MapInfo.pauseRequest--;
+                gameObject.SetActive(false);
+            });
+        }
     }
 
     /// <summary>
@@ -66,9 +99,7 @@ public class GameoverUIController : MonoBehaviour
         playerSaveInfo.duration = staticStat.duration;
         playerSaveInfo.range = staticStat.range;
         playerSaveInfo.fileName = currentDateTime.ToString("yyyMMdd") + currentDateTime.ToString("HHmm");
-
-        SavePPContent(playerSaveInfo);
-        InitReportContent(playerSaveInfo);
+        saveInfo = playerSaveInfo;
     }
 
     public void InitReportContent(PlayerSaveInfo playerInfo)

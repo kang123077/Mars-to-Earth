@@ -39,6 +39,6 @@ public class GameInfoUIController : MonoBehaviour
 
     public void LevelUIUpdate()
     {
-        levelUI.text = MapInfo.difficulty.ToString("F0");
+        levelUI.text = Mathf.Floor(MapInfo.difficulty).ToString("F0");
     }
 }

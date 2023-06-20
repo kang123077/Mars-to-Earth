@@ -14,8 +14,13 @@ namespace Skill
         protected float curCount = 1;
 
         public float lastUsedTime;
+        private bool _enforce;
 
-        public bool enforce;
+        public virtual bool enforce
+        {
+            get => _enforce;
+            set => _enforce = value;
+        }
         private float originCoolTime;
         private bool _isCombo;
         public bool isCombo

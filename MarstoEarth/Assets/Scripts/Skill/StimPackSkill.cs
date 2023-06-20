@@ -50,7 +50,10 @@ namespace Skill
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.itemUse, caster.weapon);
             caster.AddBuff(StimPack);
             if (enforce)
-                caster.MaxHp += 5;
+            {
+                caster.MaxHp += 10;
+                caster.hp += 10;
+            }
         }
     }
 }

@@ -1607,7 +1607,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 2
   MaxDistance: 30
   Pan2D: 0
   rolloffMode: 0
@@ -2183,7 +2183,6 @@ MonoBehaviour:
   weapon: {fileID: 4209191267598382671}
   step: {fileID: 4721864952324736446}
   impact: {x: 0, y: 0, z: 0}
-  dmg: 0
   def: 0
   duration: 0
   range: 0

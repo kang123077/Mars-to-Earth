@@ -1,14 +1,26 @@
+using Character;
 using UnityEngine;
 
 namespace Skill
 {
     public class DistortionSkill : Skill
     {
-        private readonly Collider[] colliders = new Collider[8];
+        //private readonly Collider[] colliders = new Collider[8];
         private Character.Character enemy;
         Vector3 firstPos;
+        Vector3 secondPos;
         // SPC distortion;
         // Vector3 targetPoint;
+        public override bool enforce
+        {
+            get=>base.enforce;
+            set
+            {
+                if (value)
+                    comboCount = 3;
+                base.enforce = value;
+            }
+        }
         public DistortionSkill()
         {
             skillInfo = ResourceManager.Instance.skillInfos[(int)SkillName.Distortion];
@@ -35,14 +47,24 @@ namespace Skill
                     caster.onSkill = this;
                     var transform = caster.transform;
                     firstPos = transform.position;
+                    Vector3 dir = ((Player)caster).InputDir.normalized;
+                    if (dir.magnitude < 0.1f)
+                    {
+                        dir = transform.forward;
+                    }
                     //targetPoint=  transform.position+(transform.forward*(skillInfo.range + caster.range * 0.5f));
                     //caster.AddBuff(distortion);
-                    caster.impact += transform.forward * ((skillInfo.range + caster.range * 0.5f) * 6);
+                    caster.impact += dir * ((skillInfo.range + caster.range * 0.5f) * 7);
+
                     caster.SkillEffect();
                     break;
 
                 case 2:
+                    secondPos = caster.transform.position;
                     caster.transform.position = firstPos;
+                    break;
+                case 3:
+                    caster.transform.position = secondPos;
                     break;
             }
 

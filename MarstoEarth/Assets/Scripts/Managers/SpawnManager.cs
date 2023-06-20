@@ -16,6 +16,7 @@ enum PoolType
     Monster,
     Item,
 }
+
 public class SpawnManager : Singleton<SpawnManager>
 {
     public Player player;
@@ -24,12 +25,14 @@ public class SpawnManager : Singleton<SpawnManager>
     public Projectile.Projectile projectilePrefab;
     public Item.Item ItemPrefab;
     public List<Monster> monsterPool;
-    public int curNormal = 3;
-    public int curElite = 1;
     public bool spawnInstantiateFinished;
-    public GameObject outsideLight;
-    public GameObject insideLight;
+    public LightController outsideLight;
+    public LightController insideLight;
     private int _curMonsterCount;
+    private int curNormal = 3;
+    private int curElite = 1;
+    private int curBoss = 1;
+
     public int curMonsterCount
     {
         get => _curMonsterCount;
@@ -61,6 +64,7 @@ public class SpawnManager : Singleton<SpawnManager>
         set
         {
             _curNode = value;
+            curNode.alertIcon.gameObject.SetActive(false);
             StartCoroutine(CheckLightCoroutine(_curNode.isInside));
             if (!curNode.IsNodeCleared)
             {
@@ -101,19 +105,60 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void NodeSpawn(NodeInfo spawnNode)
     {
+        curDiffcultyCheck();
         if (spawnNode.isBossNode)
         {
-            RandomSpawnMonster(curNode.transform.position, EnemyPool.Boss);
-            // 쫄들을 소환할수도 있긴 함
+            for (int i = 0; i < curBoss; i++)
+            {
+                RandomSpawnMonster(curNode.transform.position, EnemyPool.Boss);
+            }
             return;
+        }
+        for (int i = 0; i < curElite; i++)
+        {
+            RandomSpawnMonster(curNode.transform.position, EnemyPool.Elite);
         }
         for (int i = 0; i < curNormal; i++)
         {
             RandomSpawnMonster(curNode.transform.position, EnemyPool.Normal);
         }
-        for (int i = 0; i < curElite; i++)
+    }
+
+    public void curDiffcultyCheck()
+    {
+        int curDifficulty = Mathf.FloorToInt(MapInfo.difficulty);
+        if (curDifficulty > 2)
         {
-            RandomSpawnMonster(curNode.transform.position, EnemyPool.Elite);
+            curNormal = 4;
+        }
+        if (curDifficulty > 4)
+        {
+            curNormal = 5;
+        }
+        if (curDifficulty > 6)
+        {
+            curElite = 2;
+        }
+        if (curDifficulty > 8)
+        {
+            curNormal = 6;
+            curBoss = 2;
+        }
+        if (curDifficulty > 10)
+        {
+            curNormal = 7;
+        }
+        if (curDifficulty > 12)
+        {
+            curNormal = 8;
+        }
+        if (curDifficulty > 14)
+        {
+            curElite = 3;
+        }
+        if (curDifficulty > 16)
+        {
+            curBoss = 3;
         }
     }
 
@@ -234,23 +279,26 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         if (isInside)
         {
-            insideLight.SetActive(true);
+            insideLight.addMonsterLayer();
+            insideLight.gameObject.SetActive(true);
+            outsideLight.removeMonsterLayer();
             yield return new WaitForSeconds(2f); // Wait for 2 seconds
-            outsideLight.SetActive(false);
+            outsideLight.gameObject.SetActive(false);
         }
         else
         {
-            outsideLight.SetActive(true);
+            outsideLight.addMonsterLayer();
+            outsideLight.gameObject.SetActive(true);
+            insideLight.removeMonsterLayer();
             yield return new WaitForSeconds(2f); // Wait for 2 seconds
-            insideLight.SetActive(false);
-
+            insideLight.gameObject.SetActive(false);
         }
     }
 
     public void CheckLight(bool isInside)
     {
-        insideLight.SetActive(isInside);
-        outsideLight.SetActive(!isInside);
+        insideLight.gameObject.SetActive(isInside);
+        outsideLight.gameObject.SetActive(!isInside);
     }
 
     public void DropItem(Vector3 spawnPoint, EnemyPool rank)

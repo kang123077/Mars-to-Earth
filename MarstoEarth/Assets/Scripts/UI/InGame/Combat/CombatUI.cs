@@ -142,7 +142,7 @@ public class CombatUI : UI
     int MovingPadId = -1;
     int sightId = -1;
     float lastInputTime;
-
+    float beganPoint = 0;
 
     private void Update()
     {
@@ -156,12 +156,15 @@ public class CombatUI : UI
                         if (RectTransformUtility.RectangleContainsScreenPoint(Shot, touch.position)
                        && player.isRun == false)
                         {
+                            sightId = touch.fingerId;
+                            beganPoint = touch.position.x;
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
                                 return;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
                         else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
                         {
+                            if (UIManager.Instance.UIs[(int)UIType.MobileSetting].gameObject.activeSelf) break;
                             UIManager.Instance.UIs[(int)UIType.MobileSetting].gameObject.SetActive(true);
                             MapInfo.pauseRequest++;
                         }
@@ -169,22 +172,27 @@ public class CombatUI : UI
                         {
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
                                 return;
-                            
+
+
                             player.actives[0].Use();
                         }
                         else if (touch.position.x < Screen.width * 0.3f)
                         {
+                            if (MovingPadId != -1) break;
                             MovingPad.transform.position = touch.position;
                             MovingPad.gameObject.SetActive(true);
                             MovingPadId = touch.fingerId;
                             MovingPad.OnDrag(touch.position);
-                            if (Time.time - lastInputTime < 0.3f)                            
+                            if (Time.time - lastInputTime < 0.3f)
                                 SpawnManager.Instance.player.isRun = true;
-                            
+
                             lastInputTime = Time.time;
                         }
                         else
+                        {
                             sightId = touch.fingerId;
+                            beganPoint = touch.position.x;
+                        }
                         break;
                     case TouchPhase.Moved:
                         if (MovingPadId == touch.fingerId && MovingPadId != -1)
@@ -192,7 +200,24 @@ public class CombatUI : UI
 
                         else if (sightId == touch.fingerId)
                         {
-                            CinemachineManager.Instance.curAngle.y += touch.deltaPosition.x * Time.deltaTime * 4;
+                            float rotate = (touch.position.x - beganPoint) * Time.deltaTime * 0.8f;
+                            //if (rotate < 0&& rotate<-3)
+                            //{
+                            //    rotate = -3;
+                            //}else if (rotate >0 && rotate > 3)
+                            //{
+                            //    rotate = 3;
+                            //}
+                            CinemachineManager.Instance.curAngle.y += rotate;
+                            CinemachineManager.Instance.follower.rotation = Quaternion.Euler(CinemachineManager.Instance.curAngle);
+                        }
+                        break;
+                    case TouchPhase.Stationary:
+                        if (sightId == touch.fingerId)
+                        {
+                            float rotate = (touch.position.x - beganPoint) * Time.deltaTime * 0.8f;
+
+                            CinemachineManager.Instance.curAngle.y += rotate;
                             CinemachineManager.Instance.follower.rotation = Quaternion.Euler(CinemachineManager.Instance.curAngle);
                         }
                         break;
@@ -208,7 +233,7 @@ public class CombatUI : UI
                         }
                         else if (sightId == touch.fingerId)
                             sightId = -1;
-                        break;                  
+                        break;
                 }
             }
         }

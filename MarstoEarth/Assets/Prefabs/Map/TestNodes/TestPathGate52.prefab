@@ -1014,6 +1014,7 @@ GameObject:
   - component: {fileID: 4865112417291874002}
   - component: {fileID: 4865112417294774002}
   - component: {fileID: 4865112417293773874}
+  - component: {fileID: 2852581084561524393}
   m_Layer: 9
   m_Name: Door_Left
   m_TagString: Untagged
@@ -1086,6 +1087,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &2852581084561524393
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4865112417291580146}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.087000005, y: 1.269, z: 0.93200004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.008, y: -0.15, z: -0.36900002}
+  m_TimeToStationary: 0.5
 --- !u!1 &4865112417291580148
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,6 +1114,7 @@ GameObject:
   - component: {fileID: 4865112417291874004}
   - component: {fileID: 4865112417294774004}
   - component: {fileID: 4865112417293773876}
+  - component: {fileID: 4008950058790147324}
   m_Layer: 9
   m_Name: Door_Right
   m_TagString: Untagged
@@ -1169,6 +1187,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &4008950058790147324
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4865112417291580148}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.009000001, y: 0.127, z: 0.09200001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &4865112417291580156
 GameObject:
   m_ObjectHideFlags: 0
@@ -1180,7 +1214,6 @@ GameObject:
   - component: {fileID: 4865112417291874012}
   - component: {fileID: 3805957843684167203}
   - component: {fileID: 5237500995507800954}
-  - component: {fileID: 9163412197854710698}
   - component: {fileID: 1231800830619134365}
   - component: {fileID: 965544550195992626}
   - component: {fileID: 8026627943063317263}
@@ -1241,24 +1274,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0262e3ef50036fa4a9a01a423696779c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navMeshObstacle_Left: {fileID: 2852581084561524393}
+  navMeshObstacle_Right: {fileID: 4008950058790147324}
   animator: {fileID: 3805957843684167203}
   isGateOpen: 0
---- !u!208 &9163412197854710698
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4865112417291580156}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.14939515, y: 1.4459205, z: 1.83517}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 0
-  m_Center: {x: -0.00000047683716, y: 0.00000035762787, z: -0.9}
-  m_TimeToStationary: 0.5
 --- !u!114 &1231800830619134365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2213,7 +2232,6 @@ GameObject:
   - component: {fileID: 8309173557924751714}
   - component: {fileID: 289706858648848797}
   - component: {fileID: 8681554438211833028}
-  - component: {fileID: 5764254013934980116}
   - component: {fileID: 2435454471078145571}
   - component: {fileID: 4445625691481137036}
   - component: {fileID: 6880357710374001886}
@@ -2274,24 +2292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0262e3ef50036fa4a9a01a423696779c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  navMeshObstacle_Left: {fileID: 8024542353275673409}
+  navMeshObstacle_Right: {fileID: 2645775256924353991}
   animator: {fileID: 289706858648848797}
   isGateOpen: 0
---- !u!208 &5764254013934980116
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8309173557924721986}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.14939515, y: 1.4459205, z: 1.83517}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 0
-  m_Center: {x: -0.00000047683716, y: 0.00000035762787, z: -0.9}
-  m_TimeToStationary: 0.5
 --- !u!114 &2435454471078145571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2511,6 +2515,7 @@ GameObject:
   - component: {fileID: 8309173557924751722}
   - component: {fileID: 8309173557923424586}
   - component: {fileID: 8309173557922458506}
+  - component: {fileID: 2645775256924353991}
   m_Layer: 9
   m_Name: Door_Right
   m_TagString: Untagged
@@ -2583,6 +2588,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &2645775256924353991
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8309173557924721994}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.009000001, y: 0.127, z: 0.09200001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &8309173557924721996
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,6 +2615,7 @@ GameObject:
   - component: {fileID: 8309173557924751724}
   - component: {fileID: 8309173557923424588}
   - component: {fileID: 8309173557922458508}
+  - component: {fileID: 8024542353275673409}
   m_Layer: 9
   m_Name: Door_Left
   m_TagString: Untagged
@@ -2666,6 +2688,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &8024542353275673409
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8309173557924721996}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.087000005, y: 1.269, z: 0.93200004}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.008, y: -0.15, z: -0.36900002}
+  m_TimeToStationary: 0.5
 --- !u!1 &8516935031161047721
 GameObject:
   m_ObjectHideFlags: 0

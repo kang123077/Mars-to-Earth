@@ -17,6 +17,8 @@ public class ReinforceInfo : MonoBehaviour
     public void ReinforceAdd()
     {
         checkIndex = combatInfo.EnforceSkill();
+        if (checkIndex == -1)
+            return;
         if (CombatUI.fullCheck == true)
         {
             for (int i = 0; i < combatInfo.skillSlots.Length; i++)

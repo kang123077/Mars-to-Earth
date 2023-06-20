@@ -144,7 +144,7 @@ namespace Character
             Hit = Hited;
             Attacken = Attacked;
 
-            AudioManager.Instance.PlayEffect((int)CombatEffectClip.walk, step);
+            //AudioManager.Instance.PlayEffect((int)CombatEffectClip.walk, step);
         }
 
         protected virtual void Start()
@@ -174,17 +174,22 @@ namespace Character
                 Invoke("PlayerDie", 2f);
             }
             dying = true;
-            hpBar.gameObject.SetActive(false);
             col.enabled = false;
             Buffs.Clear();
             anim.Play($"Die", 2, 0);
             anim.SetLayerWeight(2, 1);
-            yield return new WaitForSeconds(3);
-
             if (this is Monster)
+            {
+                hpBar.gameObject.SetActive(false);
+            }
+
+            yield return new WaitForSeconds(3);
+            if (this is Monster)
+            {
                 SpawnManager.Instance.ReleaseMonster((Monster)this);
-            else
-                Destroy(gameObject);
+            }
+            //else
+            //    Destroy(gameObject);
         }
 
         protected virtual void PlayerDie()
@@ -197,6 +202,8 @@ namespace Character
         {
             if (impact.magnitude > 0.1f)
             {
+                if (impact.magnitude > 35)
+                    impact = impact.normalized * 35;
                 transform.position += impact * Time.deltaTime;
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
@@ -255,6 +262,7 @@ namespace Character
 
             return findBuff is null;
         }
+
         // ReSharper disable Unity.PerformanceAnalysis
         public virtual int RemoveBuff(Skill.SPC buff)//각각 다른 몬스터들이 준 버프 주소값 
         {

@@ -39,25 +39,25 @@ namespace Item
             ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle, (int)CombatEffectClip.itemUse, 1, 20);
             effect.transform.SetParent(player.transform, true);
             spcs[(int)type].Init(20);
-            decimal boostValue = 0.05m;
+            decimal spdValue = 0.05m;
+            decimal dmgValue = 2;
             switch (type)
             {
                 case ItemType.Heal:
-                    player.hp += 20;
-                    player.MaxHp += 20;
-                    Character.staticStat.maxHP += 20;
+                    player.hp += 40;
+                    player.MaxHp += 40;
+                    Character.staticStat.maxHP += 40;
                     MapInfo.hpCore++;
                     break;
                 case ItemType.Boost:
                     // decimal 자료형으로 연산 후 다시 float로 형변환
-                    player.speed = (float)((decimal)player.speed + boostValue);
-                    Character.staticStat.speed = (float)((decimal)player.speed + boostValue);
+                    player.speed = (float)((decimal)player.speed + spdValue);
+                    Character.staticStat.speed = (float)((decimal)player.speed + spdValue);
                     MapInfo.speedCore++;
                     break;
                 case ItemType.PowerUp:
-                    player.dmg += 1;
-                    Character.staticStat.dmg += 1;
-
+                    player.dmg = (float)((decimal)player.dmg + dmgValue);
+                    Character.staticStat.dmg = (float)((decimal)player.dmg + dmgValue);
                     MapInfo.dmgCore++;
                     break;
             }

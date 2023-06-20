@@ -67,6 +67,8 @@ public class MapManager : Singleton<MapManager>
         {
             //cur_Stage == 0 일때 한정 초기화
             MapInfo.seed_Number = UnityEngine.Random.Range(int.MinValue, int.MaxValue);
+            // cur_Stage == 0 일때 유저에게 부활권 지급
+            MapInfo.isRevive = false;
         }
         // MapManager의 Awake시 항상 Stage++
         MapInfo.cur_Stage++;
@@ -74,7 +76,7 @@ public class MapManager : Singleton<MapManager>
 
     private void UpdateDifficulty()
     {
-        float increaseRate = 0.01f; // Difficulty가 증가하는 비율
+        float increaseRate = 0.0075f; // Difficulty가 증가하는 비율
         MapInfo.difficulty += increaseRate * Time.deltaTime;
         MapInfo.cur_Time += Time.deltaTime;
     }

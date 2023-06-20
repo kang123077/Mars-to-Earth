@@ -3,7 +3,6 @@ using UnityEngine.AI;
 
 public class GateController : MonoBehaviour
 {
-    private NavMeshObstacle navMeshObstacle;
     private AudioSource audioSource;
     public Animator animator;
     public bool isGateOpen;
@@ -11,7 +10,6 @@ public class GateController : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        navMeshObstacle = GetComponent<NavMeshObstacle>();
         audioSource = GetComponent<AudioSource>();
         isGateOpen = false;
     }
@@ -22,7 +20,6 @@ public class GateController : MonoBehaviour
         AudioManager.Instance.PlayEffect((int)CombatEffectClip.steam, audioSource);
         isGateOpen = true;
         gameObject.layer = 10;
-        navMeshObstacle.enabled = false;
     }
 
     public void GateClose()
@@ -31,6 +28,5 @@ public class GateController : MonoBehaviour
         AudioManager.Instance.PlayEffect((int)CombatEffectClip.steam, audioSource);
         isGateOpen = false;
         gameObject.layer = 9;
-        navMeshObstacle.enabled = true;
     }
 }

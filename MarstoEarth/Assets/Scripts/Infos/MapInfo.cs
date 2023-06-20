@@ -25,6 +25,8 @@ public static class MapInfo
     public static int hpCore = 0;
     public static int dmgCore = 0;
     public static int speedCore = 0;
+    // 유저가 지금까지 부활한 적 있는지
+    public static bool isRevive = false;
 
     // Pause인지 아닌지 나타내는 bool
     private static bool _gamePause = false;

@@ -26,6 +26,8 @@ public enum CombatEffectClip
     titanStep,
     titanVoice,
     walk,
+    crash,
+    rollingBall,
 }
 
 public class AudioManager : Singleton<AudioManager>
@@ -70,6 +72,7 @@ public class AudioManager : Singleton<AudioManager>
             BGM_AudioClips = _BGM_AudioClips;
             UI_EffectAudioClips = _UI_EffectAudioClips;
         }
+        PlayBGM(0);
     }
 
     public void PlayBGM(int clipIndex)
@@ -92,14 +95,12 @@ public class AudioManager : Singleton<AudioManager>
     public void PlayEffect(int clipIndex, AudioSource source)
     {
         if (clipIndex < 0 || clipIndex >= CombatEffectAudioClips.Length) return; // 인덱스 범위 확인
-
         source.clip = CombatEffectAudioClips[clipIndex];
-        if (source.transform.parent.gameObject.activeSelf)
-        {
-            source.Play();
-            playingSource.Add(source);
-        }
         source.volume = finalEffectVolume; // 볼륨 설정
+        playingSource.Add(source);
+        if (source.transform.parent.gameObject.activeSelf)
+            source.Play();
+        
         // 발소리가 포함 안되는 이슈가 있음
     }
 

@@ -16,7 +16,7 @@ namespace Projectile
                 thisTransform.position = Vector3.MoveTowards(thisTransform.position, targetTr.position, Time.deltaTime * speed);
                 if (Vector3.Distance(thisTransform.position, targetTr.position) < 0.2f)
                 {
-                    int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range * 0.3f, colliders,
+                    int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range * 0.5f, colliders,
                         layerMask);
                     for (int i = 0; i < count; i++)
                     {

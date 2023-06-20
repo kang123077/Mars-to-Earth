@@ -13,7 +13,7 @@ public class CardHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         if (!isBool)
         {
-            gameObject.transform.localScale = new Vector3(1.1f, 1.1f);
+            gameObject.transform.localScale = new Vector3(1.0f, 1.0f);
         }
     }
 
@@ -21,7 +21,7 @@ public class CardHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         if (!isBool)
         {
-            gameObject.transform.localScale = Vector3.one;
+            gameObject.transform.localScale = new Vector3(0.8f, 0.8f);
         }
     }
 }

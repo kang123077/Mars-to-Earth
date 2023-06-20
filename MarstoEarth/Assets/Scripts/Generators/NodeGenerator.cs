@@ -38,7 +38,7 @@ public enum PathPool
     Outside
 }
 
-public enum Path
+public enum Paths
 {
     TestGate
 }
@@ -65,6 +65,7 @@ public class NodeGenerator : MonoBehaviour
     public float nodeSpacing;
     public Transform nodeParentTF;
     public Material bossMaterial;
+    public Sprite bossIcon;
 
     private void Awake()
     {
@@ -167,9 +168,9 @@ public class NodeGenerator : MonoBehaviour
         switch (pathPool)
         {
             case PathPool.All:
-                Path[] AllPaths = (Path[])Enum.GetValues(typeof(Path));
-                Path AllPath = AllPaths[Random.Range(0, AllPaths.Length)];
-                return (int)Enum.Parse(typeof(Path), AllPath.ToString());
+                Paths[] AllPaths = (Paths[])Enum.GetValues(typeof(Paths));
+                Paths AllPath = AllPaths[Random.Range(0, AllPaths.Length)];
+                return (int)Enum.Parse(typeof(Paths), AllPath.ToString());
             /*
         case PathPool.Inside:
             InsideNodePool[] insideNodes = (InsideNodePool[])Enum.GetValues(typeof(InsideNodePool));
@@ -227,6 +228,7 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
                     wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.west == null)
@@ -234,6 +236,7 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
                     wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.south == null)
@@ -241,12 +244,14 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
                     wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.north == null)
                 {
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(wallPool)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
             }
@@ -257,6 +262,7 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x + (nodeSpacing / 2f) - 2f, 0, node.transform.position.z);
                     wallObject.transform.rotation = Quaternion.Euler(0, 90f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.west == null)
@@ -264,6 +270,7 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x - (nodeSpacing / 2f) + 2f, 0, node.transform.position.z);
                     wallObject.transform.rotation = Quaternion.Euler(0, -90f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.south == null)
@@ -271,15 +278,30 @@ public class NodeGenerator : MonoBehaviour
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z - (nodeSpacing / 2f) + 2f);
                     wallObject.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
                 if (node.north == null)
                 {
                     GameObject wallObject = Instantiate(walls[WallPoolCheck(WallPool.All)], node.transform, true);
                     wallObject.transform.position = new Vector3(node.transform.position.x, 0, node.transform.position.z + (nodeSpacing / 2f) - 2f);
+                    ChangeLayerRecursively(wallObject.transform, node.isInside);
                     MapManager.Instance.walls.Add(wallObject);
                 }
             }
+        }
+    }
+
+    void ChangeLayerRecursively(Transform transform, bool isInsideNode)
+    {
+        if (!isInsideNode)
+            return;
+        int inObstacleLayer = 14;
+        transform.gameObject.layer = inObstacleLayer;
+
+        foreach (Transform child in transform)
+        {
+            ChangeLayerRecursively(child, isInsideNode);
         }
     }
 
@@ -533,6 +555,7 @@ public class NodeGenerator : MonoBehaviour
             }
         }
         MapManager.Instance.bossNode.isBossNode = true;
+        MapManager.Instance.bossNode.alertIcon.sprite = bossIcon;
         // MapManager.Instance.bossNode.transform.GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = bossMaterial;
     }
 }
