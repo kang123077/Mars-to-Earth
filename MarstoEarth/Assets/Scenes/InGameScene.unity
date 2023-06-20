@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.039653186, g: 0.079289235, b: 0.10670343, a: 1}
+  m_IndirectSpecularColor: {r: 0.0059068133, g: 0.05077364, b: 0.08204637, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4422,7 +4422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866457572df6dcb4f8533bcd987d5d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _BGM_AudioClips: []
+  _BGM_AudioClips:
+  - {fileID: 8300000, guid: 0c4994566deb71746b43061e868b56eb, type: 3}
   _UI_EffectAudioClips:
   - {fileID: 8300000, guid: 492883b63b0ff3047972cc900e4938a5, type: 3}
   - {fileID: 8300000, guid: 9373d71516690da439e5d4362d03c68d, type: 3}
@@ -4928,7 +4929,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &493783208
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5196,7 +5197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &519616266
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8915,7 +8916,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &935955336
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9328,6 +9329,7 @@ MonoBehaviour:
   reinIcon: {fileID: 2136977700}
   reinText: {fileID: 2073819923}
   combatInfo: {fileID: 1476263011}
+  text: {fileID: 0}
 --- !u!95 &1033350645
 Animator:
   serializedVersion: 5
