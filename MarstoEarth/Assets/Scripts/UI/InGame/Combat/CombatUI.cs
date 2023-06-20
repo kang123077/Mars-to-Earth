@@ -155,12 +155,11 @@ public class CombatUI : UI
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
-                        if (RectTransformUtility.RectangleContainsScreenPoint(Shot, touch.position)
-                       && player.isRun == false)
+                        if (RectTransformUtility.RectangleContainsScreenPoint(Shot, touch.position))
                         {
                             attakingId = sightId = touch.fingerId;
                             beganPoint = touch.position.x;
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
                                 return;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
@@ -199,7 +198,7 @@ public class CombatUI : UI
                     case TouchPhase.Moved:
                         if (attakingId != -1)
                         {
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
                                 return;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
@@ -223,7 +222,7 @@ public class CombatUI : UI
                     case TouchPhase.Stationary:
                         if (attakingId != -1)
                         {
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
                                 return;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
