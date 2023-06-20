@@ -8,6 +8,7 @@ public class ReinforceInfo : MonoBehaviour
     public CombatUI combatInfo;
     SkillSlot[] loadSkills;
     int checkIndex;
+    public TMPro.TextMeshProUGUI text;
 
     private void Awake()
     {
@@ -33,6 +34,8 @@ public class ReinforceInfo : MonoBehaviour
     public void ReinforceStop()
     {
         MapInfo.pauseRequest++;
+        text.gameObject.SetActive(true);
+
     }
 
     private void Update()
@@ -40,6 +43,7 @@ public class ReinforceInfo : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             gameObject.SetActive(false);
+            text.gameObject.SetActive(false);
             MapInfo.pauseRequest--;
         }
     }
