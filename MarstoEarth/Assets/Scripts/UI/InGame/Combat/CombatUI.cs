@@ -160,7 +160,7 @@ public class CombatUI : UI
                             attakingId = sightId = touch.fingerId;
                             beganPoint = touch.position.x;
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2|| player.isRun)
-                                return;
+                                break;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
                         else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
@@ -172,8 +172,7 @@ public class CombatUI : UI
                         else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))
                         {
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
-                                return;
-
+                                break;
 
                             player.actives[0].Use();
                         }
@@ -199,7 +198,7 @@ public class CombatUI : UI
                         if (attakingId != -1)
                         {
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2|| player.isRun)
-                                return;
+                                break;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
                         if (MovingPadId == touch.fingerId && MovingPadId != -1)
@@ -223,8 +222,7 @@ public class CombatUI : UI
                         if (attakingId != -1)
                         {
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2|| player.isRun)
-                                return;
-
+                                break;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
                         if (sightId == touch.fingerId)

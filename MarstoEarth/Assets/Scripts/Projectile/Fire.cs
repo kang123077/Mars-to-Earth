@@ -17,20 +17,21 @@ namespace Projectile
             sound = Instantiate(SpawnManager.Instance.effectSound, transform);
             AudioManager.Instance.PlayEffect((int)CombatEffectClip.fire, sound);
             sound.loop = true;
-            stun = new Skill.SPC((ch) => { ch.stun = true; }, (ch) => { ch.stun = false; },
-                ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
-        }
+                   }
 
         private void OnEnable()
         {
             if (enforce)
             {
-                stun.Init(3);
+                
                 int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
                 layerMask);
                 for (int i = 0; i < count; i++)
                 {
                     colliders[i].TryGetComponent(out target);
+                    stun = new Skill.SPC((ch) => { ch.stun = true; }, (ch) => { ch.stun = false; },
+                        ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
+                    stun.Init(5);
                     target?.AddBuff(stun);
                 }
             }

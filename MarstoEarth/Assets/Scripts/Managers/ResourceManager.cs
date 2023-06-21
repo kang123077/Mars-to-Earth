@@ -54,6 +54,7 @@ public enum SkillName
     MassShooting,
     Block,
     Charge,
+    Smash,
 }
 
 public enum OnlyMonsterSkill
@@ -104,6 +105,7 @@ public class ResourceManager : Singleton<ResourceManager>
         skills.Add(new MassShootingSkill());
         skills.Add(new BlockSkill());
         skills.Add(new ChargeSkill());//플레이어 전용
+        skills.Add(new SmashSkill());
     }
     //public static T DeepCopy<T>(T obj) 비용이 많이듬.
     //{

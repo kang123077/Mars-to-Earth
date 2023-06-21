@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0059068133, g: 0.05077364, b: 0.08204637, a: 1}
+  m_IndirectSpecularColor: {r: 0.0059023933, g: 0.050778933, b: 0.08205038, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3728,6 +3728,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59aae42dba9649040b6cd53c9ef3e7eb, type: 2}
   - {fileID: 11400000, guid: f27bad3d52e54e84ca98f37836c8000b, type: 2}
   - {fileID: 11400000, guid: e27e62748caea3342be04bd984a50430, type: 2}
+  - {fileID: 11400000, guid: cca6fe47a661f934e98e8b56bdfacb93, type: 2}
   OnlyMonsterSkillInfos:
   - {fileID: 11400000, guid: cca6fe47a661f934e98e8b56bdfacb93, type: 2}
   - {fileID: 11400000, guid: cc75d5e419006b24da20b824347de825, type: 2}
@@ -4929,7 +4930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &493783208
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5002,7 +5003,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
+          m_IntArgument: 12
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8916,7 +8917,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &935955336
 RectTransform:
   m_ObjectHideFlags: 0

@@ -30,7 +30,7 @@ namespace Projectile
         public void Init(int lm, float dg, float rg, float dr, float sp, Transform caster)
         {
             base.Init(lm, dg, rg, dr, sp, false);
-            var ot = gameObject.AddComponent<NavMeshObstacle>();
+            //var ot = gameObject.AddComponent<NavMeshObstacle>();//네브매쉬 에러를 발생시킴
             caster.TryGetComponent(out casterCh);
             casterCh.enabled = false;
             Vector3 forward = caster.transform.forward;
@@ -47,7 +47,7 @@ namespace Projectile
             }
             transform.forward = forward;
             targetPoint = thisTransform.position + thisTransform.forward * range;
-            ot.size = new Vector3(range * 1.8f, 18, range * 0.2f);
+            //ot.size = new Vector3(range * 1.8f, 18, range * 0.2f);
         }
 
         private void Update()
@@ -72,6 +72,7 @@ namespace Projectile
                 else
                 {
                     colliders[i].TryGetComponent(out target);
+                    ((Character.Monster)target).ai.velocity = Vector3.zero;
                     target.impact += (target.transform.position - startPoint).normalized * dmg;
                 }
 
