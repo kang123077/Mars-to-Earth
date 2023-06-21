@@ -6,6 +6,7 @@ public class GateController : MonoBehaviour
     private AudioSource audioSource;
     public Animator animator;
     public bool isGateOpen;
+    public NavMeshObstacle meshObstacle;
 
     private void Awake()
     {

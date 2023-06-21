@@ -108,10 +108,12 @@ public class PathController : MonoBehaviour
         if (parent.IsNodeCleared)
         {
             gate_1.GateOpen();
+            gate_1.meshObstacle.enabled = false;
         }
         if (children.IsNodeCleared)
         {
             gate_2.GateOpen();
+            gate_2.meshObstacle.enabled = false;
         }
     }
 
@@ -124,18 +126,22 @@ public class PathController : MonoBehaviour
             if (gate_1.isGateOpen)
             {
                 gate_1.GateClose();
+                gate_1.meshObstacle.enabled = true;
                 SpawnManager.Instance.curNode = children;
                 children.IsNodeRendered = true;
                 gate_2.GateOpen();
+                gate_2.meshObstacle.enabled = false;
                 Invoke("SetParentMeshFalse", 2.0f);
             }
             // gate_2(children방향)으로 진입
             else
             {
                 gate_2.GateClose();
+                gate_2.meshObstacle.enabled = true;
                 SpawnManager.Instance.curNode = parent;
                 parent.IsNodeRendered = true;
                 gate_1.GateOpen();
+                gate_1.meshObstacle.enabled = false;
                 Invoke("SetChildrenMeshFalse", 2.0f);
             }
         }
@@ -176,10 +182,12 @@ public class PathController : MonoBehaviour
             if (clearedNode == parent)
             {
                 gate_1.GateOpen();
+                gate_1.meshObstacle.enabled = false;
             }
             else
             {
                 gate_2.GateOpen();
+                gate_2.meshObstacle.enabled = false;
             }
         }
     }
@@ -187,7 +195,9 @@ public class PathController : MonoBehaviour
     public void CloseGate()
     {
         gate_1.GateClose();
+        gate_1.meshObstacle.enabled = true;
         gate_2.GateClose();
+        gate_2.meshObstacle.enabled = true;
     }
 }
 

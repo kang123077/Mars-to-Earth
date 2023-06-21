@@ -1020,7 +1020,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4865112417291874002
 Transform:
@@ -1120,7 +1120,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4865112417291874004
 Transform:
@@ -1217,6 +1217,7 @@ GameObject:
   - component: {fileID: 1231800830619134365}
   - component: {fileID: 965544550195992626}
   - component: {fileID: 8026627943063317263}
+  - component: {fileID: 1796445244320831781}
   m_Layer: 9
   m_Name: Gate52
   m_TagString: Untagged
@@ -1274,10 +1275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0262e3ef50036fa4a9a01a423696779c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshObstacle_Left: {fileID: 2852581084561524393}
-  navMeshObstacle_Right: {fileID: 4008950058790147324}
   animator: {fileID: 3805957843684167203}
   isGateOpen: 0
+  meshObstacle: {fileID: 1796445244320831781}
 --- !u!114 &1231800830619134365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1403,6 +1403,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!208 &1796445244320831781
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4865112417291580156}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.1, y: 1.5, z: 1.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: -0.9}
+  m_TimeToStationary: 0.5
 --- !u!1 &5459251921489796246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2235,6 +2251,7 @@ GameObject:
   - component: {fileID: 2435454471078145571}
   - component: {fileID: 4445625691481137036}
   - component: {fileID: 6880357710374001886}
+  - component: {fileID: 6639992463737705756}
   m_Layer: 9
   m_Name: Gate52
   m_TagString: Untagged
@@ -2292,10 +2309,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0262e3ef50036fa4a9a01a423696779c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  navMeshObstacle_Left: {fileID: 8024542353275673409}
-  navMeshObstacle_Right: {fileID: 2645775256924353991}
   animator: {fileID: 289706858648848797}
   isGateOpen: 0
+  meshObstacle: {fileID: 6639992463737705756}
 --- !u!114 &2435454471078145571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2421,6 +2437,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!208 &6639992463737705756
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8309173557924721986}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.1, y: 1.5, z: 1.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: -0.9}
+  m_TimeToStationary: 0.5
 --- !u!1 &8309173557924721992
 GameObject:
   m_ObjectHideFlags: 0
@@ -2521,7 +2553,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &8309173557924751722
 Transform:
@@ -2621,7 +2653,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &8309173557924751724
 Transform:
