@@ -306,7 +306,7 @@ namespace Character
             #region Targeting
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0)&&!isRun)
                 anim.SetTrigger(attacking);
 #endif
             int size = Physics.OverlapSphereNonAlloc(position, sightLength - 1, colliders,

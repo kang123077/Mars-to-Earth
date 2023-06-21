@@ -21,13 +21,16 @@ namespace Projectile
             sound.Play();
             if (enforce)
             {
-                stun.Init(5);
+               
                 int count = Physics.OverlapSphereNonAlloc(thisTransform.position, range, colliders,
                 layerMask);
                 for (int i = 0; i < count; i++)
                 {
                     colliders[i].TryGetComponent(out target);
-                    target?.AddBuff(stun);                    
+                    stun = new Skill.SPC((ch) => { ch.stun = true; }, (ch) => { ch.stun = false; },
+                        ResourceManager.Instance.commonSPCIcon[(int)CommonSPC.stun]);
+                    stun.Init(5);
+                    target?.AddBuff(stun);                  
                 }
                 
             }
