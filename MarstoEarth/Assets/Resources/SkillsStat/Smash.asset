@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Smash
   m_EditorClassIdentifier: 
   description: "\uCE90\uB9AD\uD130\uAC00 \uBC14\uB77C\uBCF4\uB294 \uBC29\uD5A5\uC73C\uB85C
-    \uC810\uD504\uD6C4 \uCC29\uC9C0\uD560\uB54C \uC8FC\uBCC0\uC5D0 \uD53C\uD574\uB97C
+    \uC810\uD504\uD6C4 \uCC29\uC9C0\uD560 \uB54C \uC8FC\uBCC0\uC5D0 \uD53C\uD574\uB97C
     \uC900\uB2E4"
+  description2: 
   clipName: Jump
   clipLayer: 2
   dmg: 40
