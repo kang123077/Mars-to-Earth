@@ -159,7 +159,7 @@ public class CombatUI : UI
                         {
                             attakingId = sightId = touch.fingerId;
                             beganPoint = touch.position.x;
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2|| player.isRun)
                                 return;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
@@ -198,7 +198,7 @@ public class CombatUI : UI
                     case TouchPhase.Moved:
                         if (attakingId != -1)
                         {
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2|| player.isRun)
                                 return;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
@@ -207,7 +207,7 @@ public class CombatUI : UI
 
                         else if (sightId == touch.fingerId)
                         {
-                            float rotate = (touch.position.x - beganPoint) * Time.deltaTime * 0.8f;
+                            float rotate = (touch.position.x - beganPoint) * Time.deltaTime * 0.5f;
                             //if (rotate < 0&& rotate<-3)
                             //{
                             //    rotate = -3;
@@ -222,8 +222,9 @@ public class CombatUI : UI
                     case TouchPhase.Stationary:
                         if (attakingId != -1)
                         {
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2|| player.isRun)
                                 return;
+
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
                         if (sightId == touch.fingerId)
