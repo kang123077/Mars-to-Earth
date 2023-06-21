@@ -10,6 +10,8 @@ namespace Character
         public Vector3 InputDir;
         public Transform camPoint;
         public bool isInsidePath;
+        private int obstacleLayer;
+
         public override bool stun
         {
             get => _stun;
@@ -135,6 +137,7 @@ namespace Character
             actives = new List<Skill.Skill>();
             isInsidePath = false;
             bulletSpeed = 35 + speed * 2;
+            obstacleLayer = 1 << 14 | 1 << 9;
         }
 
         protected override void Start()
@@ -210,8 +213,39 @@ namespace Character
 
             return !stun;
         }
+
+        public bool CheckObstacle()
+        {
+            if (target is not null)
+            {
+                Vector3 direction = target.position - transform.position;
+                Ray ray = new Ray(transform.position, direction);
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, direction.magnitude, obstacleLayer))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         protected void Update()
         {
+            if (target is not null)
+            {
+                float distance = Vector3.Distance(transform.position, target.position);
+                Vector3 direction = target.position - transform.position;
+                Ray ray = new Ray(transform.position, direction);
+                Debug.DrawLine(transform.position, target.position, Color.green);
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, distance, obstacleLayer))
+                {
+                    target = null;
+                }
+            }
+
             if (!BaseUpdate())
                 return;
             Vector3 position = thisCurTransform.position;
@@ -322,7 +356,7 @@ namespace Character
                     if (minAngle > angle)
                     {
                         minAngle = angle;
-                        if (!isInsidePath)
+                        if (!isInsidePath && CheckObstacle())
                         {
                             target = colliders[i].transform;
                         }
