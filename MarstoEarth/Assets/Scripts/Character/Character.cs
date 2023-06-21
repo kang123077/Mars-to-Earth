@@ -129,7 +129,7 @@ namespace Character
             thisCurTransform = transform;
             target = null;
 
-            nockBackResist = characterStat.maxHP * 0.05f;
+            nockBackResist = characterStat.maxHP * 0.1f;
             impact = Vector3.zero;
 
             viewAngle = characterStat.viewAngle;
@@ -202,8 +202,8 @@ namespace Character
         {
             if (impact.magnitude > 0.1f)
             {
-                if (impact.magnitude > 35)
-                    impact = impact.normalized * 35;
+                if (impact.magnitude > 30)
+                    impact = impact.normalized * 30;
                 transform.position += impact * Time.deltaTime;
                 impact = Vector3.Lerp(impact, Vector3.zero, 3 * Time.deltaTime);
             }
@@ -247,20 +247,27 @@ namespace Character
             return !dying;
         }
 
-        public virtual bool AddBuff(Skill.SPC buff)
+        public virtual void AddBuff(Skill.SPC buff)
         {
 
             Skill.SPC findBuff = Buffs.Find((el) => ReferenceEquals(el.icon, buff.icon));
 
-            if (findBuff is null)
-            {
-                buff.Apply?.Invoke(this);
-                Buffs.Add(buff);
-            }
-            else if (findBuff.currentTime < buff.duration)
-                findBuff.Init(buff.duration);
+            //if (findBuff is null)
+            //{
+            //    buff.Apply?.Invoke(this);
+            //    Buffs.Add(buff);
+            //}
+            //else if (findBuff.currentTime < buff.duration)
+            //    findBuff.Init(buff.duration);
 
-            return findBuff is null;
+            if(findBuff is not null)//이미 적용중이라면
+            {                
+                RemoveBuff(findBuff);
+            }
+            
+            buff.Apply?.Invoke(this);
+            Buffs.Add(buff);
+
         }
 
         // ReSharper disable Unity.PerformanceAnalysis

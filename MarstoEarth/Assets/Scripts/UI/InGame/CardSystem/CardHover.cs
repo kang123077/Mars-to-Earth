@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 public class CardHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool isBool;
+
     void Awake()
     {
         isBool = false;

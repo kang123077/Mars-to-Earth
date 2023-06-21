@@ -24,17 +24,23 @@ public class MobileSettingUI : UI
 
     public void MOnMasterVolumeChanged()
     {
-        AudioManager.Instance.SetMasterVolume(maserVolume.value);
+        float value = maserVolume.value;
+        AudioManager.bgmAudioSource.volume = value;
+        AudioManager.masterVolume = value;
     }
 
     public void MOnBGMVolumeChanged()
     {
-        AudioManager.Instance.SetBGMVolume(BGMVolume.value);
+        float value = BGMVolume.value;
+        AudioManager.bgmAudioSource.volume = value;
+        AudioManager.bgmVolume = value;
     }
 
     public void MOnEffectVolumeChanged()
     {
-        AudioManager.Instance.SetEffectVolume(effectVolume.value);
+        float value = BGMVolume.value;
+        AudioManager.effectAudioSource.volume = value;
+        AudioManager.effectVolume = value;
     }
 
     public void MGameGoTitle()

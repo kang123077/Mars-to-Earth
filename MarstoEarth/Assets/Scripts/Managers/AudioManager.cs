@@ -135,6 +135,7 @@ public class AudioManager : Singleton<AudioManager>
     public void SetMasterVolume(float value)
     {
         masterVolume = value;
+
         UpdateAllVolumes();
     }
 

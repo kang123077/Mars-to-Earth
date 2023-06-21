@@ -126,6 +126,7 @@ public class ReportCheckPPUI : MonoBehaviour
     public void ReportGame()
     {
         // Title Button UI에서 사용
+        OutGameAudio.Instance.PlayEffect(1);
         gameObject.SetActive(true);
     }
 

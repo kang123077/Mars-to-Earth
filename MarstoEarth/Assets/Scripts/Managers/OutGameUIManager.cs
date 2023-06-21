@@ -32,10 +32,12 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
     {
         if(PCMO[0] == true)
         {
+            OutGameAudio.Instance.PlayEffect(1);
             PCMO[0].transform.GetChild(0).gameObject.SetActive(true);
         }
         if(PCMO[1] == true)
         {
+            OutGameAudio.Instance.PlayEffect(1);
             PCMO[1].transform.GetChild(0).gameObject.SetActive(true);
         }
     }

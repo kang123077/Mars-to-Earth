@@ -141,6 +141,8 @@ public class CombatUI : UI
 #if  UNITY_ANDROID || UNITY_IOS 
     int MovingPadId = -1;
     int sightId = -1;
+    int attakingId = -1;
+
     float lastInputTime;
     float beganPoint = 0;
 
@@ -153,12 +155,11 @@ public class CombatUI : UI
                 switch (touch.phase)
                 {
                     case TouchPhase.Began:
-                        if (RectTransformUtility.RectangleContainsScreenPoint(Shot, touch.position)
-                       && player.isRun == false)
+                        if (RectTransformUtility.RectangleContainsScreenPoint(Shot, touch.position))
                         {
-                            sightId = touch.fingerId;
+                            attakingId = sightId = touch.fingerId;
                             beganPoint = touch.position.x;
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
                                 return;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
@@ -195,6 +196,12 @@ public class CombatUI : UI
                         }
                         break;
                     case TouchPhase.Moved:
+                        if (attakingId != -1)
+                        {
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
+                                return;
+                            player.anim.SetTrigger(Character.Character.attacking);
+                        }
                         if (MovingPadId == touch.fingerId && MovingPadId != -1)
                             MovingPad.OnDrag(touch.position);
 
@@ -213,6 +220,12 @@ public class CombatUI : UI
                         }
                         break;
                     case TouchPhase.Stationary:
+                        if (attakingId != -1)
+                        {
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
+                                return;
+                            player.anim.SetTrigger(Character.Character.attacking);
+                        }
                         if (sightId == touch.fingerId)
                         {
                             float rotate = (touch.position.x - beganPoint) * Time.deltaTime * 0.8f;
@@ -232,7 +245,8 @@ public class CombatUI : UI
                             MovingPad.gameObject.SetActive(false);
                         }
                         else if (sightId == touch.fingerId)
-                            sightId = -1;
+                            attakingId= sightId = -1;
+                        
                         break;
                 }
             }
