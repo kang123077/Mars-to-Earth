@@ -14556,6 +14556,8 @@ MonoBehaviour:
   leftCard: {fileID: 790697504}
   rightCard: {fileID: 119115374}
   rerollButton: {fileID: 287344411}
+  leftHover: {fileID: 790697503}
+  rightHover: {fileID: 119115373}
   cardInfo: {fileID: 1686857714}
   combatUI: {fileID: 1476263011}
 --- !u!1 &1699908797
