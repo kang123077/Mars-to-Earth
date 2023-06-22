@@ -262,7 +262,7 @@ namespace Character
             InputDir = new Vector3(xInput, 0, zInput);
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
-                itemColliders[0].TryGetComponent(out Item.Item getItem);
+                itemColliders[0].TryGetComponent(out Item.UsingItem getItem);
                 getItem.Use(this);
             }
 

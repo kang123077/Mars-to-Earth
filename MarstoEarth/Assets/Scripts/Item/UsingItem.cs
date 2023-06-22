@@ -1,11 +1,10 @@
 using Character;
-using GoogleMobileAds.Api;
 using Skill;
 using UnityEngine;
 
 namespace Item
 {
-    public class Item : MonoBehaviour
+    public class UsingItem : MonoBehaviour, IItem
     {
         public ItemType type;
 

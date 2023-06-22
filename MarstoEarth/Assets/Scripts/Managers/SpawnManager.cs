@@ -17,13 +17,14 @@ enum PoolType
     Item,
 }
 
+
 public class SpawnManager : Singleton<SpawnManager>
 {
     public Player player;
     [HideInInspector] public Transform playerTransform;
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
-    public Item.Item ItemPrefab;
+    public Item.UsingItem ItemPrefab;
     public List<Monster> monsterPool;
     public bool spawnInstantiateFinished;
     public LightController outsideLight;
@@ -32,6 +33,8 @@ public class SpawnManager : Singleton<SpawnManager>
     private int curNormal = 3;
     private int curElite = 1;
     private int curBoss = 1;
+
+    public StoryItem StoryItem;
 
     public int curMonsterCount
     {
@@ -55,7 +58,7 @@ public class SpawnManager : Singleton<SpawnManager>
         }
     }
     public List<ReleaseEffect> effectPool;
-    public List<Item.Item> itemPool;
+    public List<Item.UsingItem> itemPool;
 
     private NodeInfo _curNode;
     public NodeInfo curNode
@@ -86,6 +89,10 @@ public class SpawnManager : Singleton<SpawnManager>
                 return copyPrefab;
             },
             actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
+        
+        /*
+         * 스토리 도감 로딩-> 
+         */
     }
 
     public void RequestStageClear()
@@ -305,7 +312,7 @@ public class SpawnManager : Singleton<SpawnManager>
     {
         if (weight[(int)rank] < rand.Next(0, 10))
             return;
-        Item.Item target;
+        Item.UsingItem target;
 
         ItemType type = (ItemType)rand.Next(0, 3);
         int findIdx = itemPool.FindIndex((el) => el.type == type);
@@ -322,19 +329,17 @@ public class SpawnManager : Singleton<SpawnManager>
             target.transform.position = spawnPoint;
             itemPool.RemoveAt(findIdx);
         }
-
         target.gameObject.SetActive(true);
+
     }
-    public void ItemTest()
-    {
-       
-        Item.Item target;
-       
+
+#if UNITY_EDITOR
+    public void ItemTest()//개발자 모드용
+    {       
+        Item.UsingItem target;       
             target = Instantiate(ItemPrefab, Vector3.zero, Quaternion.identity, objectPool[(int)PoolType.Item]);
             Instantiate(ResourceManager.Instance.itemInfos[(int)2].thisParticle, target.transform);
         target.type = ItemType.Boost;
-        
-   
-
     }
+#endif
 }

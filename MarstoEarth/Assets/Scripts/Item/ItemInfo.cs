@@ -17,4 +17,5 @@ namespace Item
         public ParticleSystem targetParticle;
         public Sprite SPC_Sprite;
     }
+
 }
