@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+#if UNITY_ANDROID || UNITY_IOS
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -207,3 +207,4 @@ namespace Google.Play.AssetDelivery.Samples.AssetDeliveryDemo
         }
     }
 }
+#endif

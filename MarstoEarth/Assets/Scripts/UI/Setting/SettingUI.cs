@@ -85,17 +85,25 @@ public class SettingUI : UI
 
     public void OnMasterVolumeChanged()
     {
-        AudioManager.Instance.SetMasterVolume(maserVolume.value);
+        float value = maserVolume.value;
+        AudioManager.masterVolume = value;
+        AudioManager.bgmAudioSource.volume = value * BGMVolume.value;
+        AudioManager.finalEffectVolume = value;
     }
 
     public void OnBGMVolumeChanged()
     {
-        AudioManager.Instance.SetBGMVolume(BGMVolume.value);
+        float value = BGMVolume.value;
+        AudioManager.bgmAudioSource.volume = value * maserVolume.value;
+        AudioManager.bgmVolume = value;
     }
 
     public void OnEffectVolumeChanged()
     {
-        AudioManager.Instance.SetEffectVolume(effectVolume.value);
+        float value = effectVolume.value;
+        AudioManager.effectAudioSource.volume = value;
+        AudioManager.finalEffectVolume = value;
+        AudioManager.effectVolume = value;
     }
 
     public void GameGoTitle()

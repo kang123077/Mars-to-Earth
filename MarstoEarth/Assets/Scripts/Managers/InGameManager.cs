@@ -25,6 +25,7 @@ public class InGameManager : Singleton<InGameManager>
     private string _adUnitId = "unused";
 #endif
 
+#if UNITY_ANDROID || UNITY_IOS
     public RewardedAd rewardedAd;
 
     private void RegisterEventHandlers(RewardedAd ad)
@@ -108,11 +109,14 @@ public class InGameManager : Singleton<InGameManager>
 
             });
     }
+#endif
 
     protected override void Awake()
     {
         base.Awake();
+#if UNITY_ANDROID || UNITY_IOS
         LoadRewardedAd();
+#endif
         // 스킬들을 리스트로 만듦
         inGameSkill = ResourceManager.Instance.skills.ToList();
     }

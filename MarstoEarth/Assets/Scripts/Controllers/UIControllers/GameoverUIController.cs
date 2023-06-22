@@ -35,6 +35,7 @@ public class GameoverUIController : MonoBehaviour
         }
     }
 
+#if UNITY_ANDROID || UNITY_IOS
     public void ShowRewardedAd()
     {
         const string rewardMsg =
@@ -53,6 +54,7 @@ public class GameoverUIController : MonoBehaviour
             });
         }
     }
+#endif
 
     /// <summary>
     /// PP = PlayerPrefs
