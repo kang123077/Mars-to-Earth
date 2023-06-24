@@ -15,5 +15,5 @@ MonoBehaviour:
   type: 3
   itemValue: 0
   thisParticle: {fileID: 198049161608213486, guid: c227dd14e3b49524e887fb34535503e4, type: 3}
-  targetParticle: {fileID: 198701760564810788, guid: 2cfd9cf3b1dc4ad489f9d2a7574d2463, type: 3}
+  targetParticle: {fileID: 198628060487912908, guid: 9a905dc8b3b361840bb50c14f05926a9, type: 3}
   SPC_Sprite: {fileID: 0}

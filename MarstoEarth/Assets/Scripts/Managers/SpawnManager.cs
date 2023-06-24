@@ -341,7 +341,6 @@ public class SpawnManager : Singleton<SpawnManager>
     public void DropStoryItem(Vector3 spawnPoint)
     {
         Item.StoryItem target;
-        int findIdx = itemPool.FindIndex((el) => el.type == ItemType.Story);
         target = Instantiate(StoryItemPrefab, spawnPoint, Quaternion.identity, objectPool[(int)PoolType.Item]);
         Instantiate(ResourceManager.Instance.itemInfos[(int)ItemType.Story].thisParticle, target.transform);
     }
