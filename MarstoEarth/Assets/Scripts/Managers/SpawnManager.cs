@@ -310,7 +310,7 @@ public class SpawnManager : Singleton<SpawnManager>
         // int randValue = rand.Next(0, 200);
         int randValue = 199;
         // storyItem
-        if (randValue == 199 && MapInfo.storyValue < 4)
+        if (randValue >= 199 - (int)MapInfo.difficulty / 2 && MapInfo.storyValue < 4)
         {
             DropStoryItem(spawnPoint);
         }

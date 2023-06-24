@@ -2,22 +2,41 @@ using UnityEngine;
 
 public class EncyclopediaUI : MonoBehaviour
 {
-    public LoadExplainSprite[] buttonsArray;
-    private int currentStoryIndex = 0; // 현재 스토리 인덱스
+    private int currentStoryIndex; // 현재 스토리 인덱스 -1일시 안열린상태
+    [SerializeField]
+    private GameObject arrowImage;
+    [SerializeField]
+    private GameObject buttons;
+    [SerializeField]
+    private GameObject unOpened;
+    [SerializeField]
+    private GameObject[] contents;
 
     private void Awake()
     {
-
+        currentStoryIndex = -1;
     }
 
     public void ChangeStoryPrev()
     {
-
+        contents[currentStoryIndex].SetActive(false);
+        --currentStoryIndex;
+        if (currentStoryIndex < 0)
+        {
+            currentStoryIndex = contents.Length - 1;
+        }
+        contents[currentStoryIndex].SetActive(true);
     }
 
     public void ChangeStoryNext()
     {
-
+        contents[currentStoryIndex].SetActive(false);
+        ++currentStoryIndex;
+        if (currentStoryIndex > contents.Length - 1)
+        {
+            currentStoryIndex = 0;
+        }
+        contents[currentStoryIndex].SetActive(true);
     }
 
     public void EncyclopediaUIOn()
@@ -28,15 +47,25 @@ public class EncyclopediaUI : MonoBehaviour
 
     public void StoryOn(int index)
     {
-
+        currentStoryIndex = index;
+        buttons.SetActive(false);
+        arrowImage.SetActive(true);
+        contents[index].SetActive(true);
     }
 
     public void ExitUI()
     {
+        if (currentStoryIndex >= 0)
+            contents[currentStoryIndex].SetActive(false);
+        currentStoryIndex = -1;
+        buttons.SetActive(true);
         gameObject.SetActive(false);
     }
 
     public void UndoUI()
     {
+        contents[currentStoryIndex].SetActive(false);
+        currentStoryIndex = -1;
+        buttons.SetActive(true);
     }
 }
