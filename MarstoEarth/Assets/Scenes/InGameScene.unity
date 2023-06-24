@@ -3294,6 +3294,7 @@ MonoBehaviour:
   gameoverUI: {fileID: 1943562543}
   gameInfoUIController: {fileID: 132280308}
   playerStatUIController: {fileID: 719027791}
+  combatUI: {fileID: 1476263011}
   inputField: {fileID: 2098711299}
   aimSprite: {fileID: 398775555}
   spriteArray:

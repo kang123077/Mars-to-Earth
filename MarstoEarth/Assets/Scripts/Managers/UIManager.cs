@@ -24,6 +24,7 @@ public class UIManager : Singleton<UIManager>
     public GameoverUIController gameoverUI;
     public GameInfoUIController gameInfoUIController;
     public PlayerStatUIController playerStatUIController;
+    public CombatUI combatUI;
     public TMP_InputField inputField;
     public UnityEngine.UI.Image aimSprite;
     public Sprite[] spriteArray;
