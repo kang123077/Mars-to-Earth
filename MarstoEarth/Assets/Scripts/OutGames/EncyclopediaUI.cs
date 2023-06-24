@@ -15,13 +15,16 @@ public class EncyclopediaUI : MonoBehaviour
     private void Awake()
     {
         currentStoryIndex = -1;
+        for (int i = MapInfo.storyValue; i < contents.Length; i++)
+        {
+            contents[i] = unOpened;
+        }
     }
 
     public void ChangeStoryPrev()
     {
         contents[currentStoryIndex].SetActive(false);
-        --currentStoryIndex;
-        if (currentStoryIndex < 0)
+        if (--currentStoryIndex < 0)
         {
             currentStoryIndex = contents.Length - 1;
         }
@@ -31,8 +34,7 @@ public class EncyclopediaUI : MonoBehaviour
     public void ChangeStoryNext()
     {
         contents[currentStoryIndex].SetActive(false);
-        ++currentStoryIndex;
-        if (currentStoryIndex > contents.Length - 1)
+        if (++currentStoryIndex > contents.Length - 1)
         {
             currentStoryIndex = 0;
         }

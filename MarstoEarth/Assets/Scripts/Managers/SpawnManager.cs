@@ -17,7 +17,6 @@ enum PoolType
     Item,
 }
 
-
 public class SpawnManager : Singleton<SpawnManager>
 {
     public Player player;
@@ -34,6 +33,7 @@ public class SpawnManager : Singleton<SpawnManager>
     private int curNormal = 3;
     private int curElite = 1;
     private int curBoss = 1;
+    private int dropValue;
 
     public int curMonsterCount
     {
@@ -307,14 +307,17 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void DropItem(Vector3 spawnPoint, EnemyPool rank)
     {
-        // int randValue = rand.Next(0, 200);
-        int randValue = 199;
+        int randValue = rand.Next(0, 400);
+        if (MapInfo.storyValue == 0)
+            dropValue = 1;
+        else
+            dropValue = 2 * MapInfo.storyValue;
         // storyItem
-        if (randValue >= 199 - (int)MapInfo.difficulty / 2 && MapInfo.storyValue < 4)
+        if (randValue >= 399 - (int)MapInfo.difficulty / dropValue && MapInfo.storyValue < 4)
         {
             DropStoryItem(spawnPoint);
         }
-        if (weight[(int)rank] * 20 < randValue)
+        if (weight[(int)rank] * 40 < randValue)
         {
             return;
         }
