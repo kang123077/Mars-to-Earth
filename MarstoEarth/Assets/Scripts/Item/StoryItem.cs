@@ -1,6 +1,4 @@
 using Skill;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Item
@@ -11,7 +9,9 @@ namespace Item
         public ItemInfo storyItemInfo;
         public void Use(Character.Player player)
         {
-            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, storyItemInfo.targetParticle, (int)CombatEffectClip.itemUse, 1, 1);
+            ReleaseEffect effect =
+                SpawnManager.Instance.GetEffect(player.transform.position,
+                storyItemInfo.targetParticle, (int)CombatEffectClip.itemUse, 1, 1);
             effect.transform.SetParent(player.transform, true);
             MapInfo.storyValue++;
             PlayerPrefs.SetInt("storyValue", MapInfo.storyValue);
