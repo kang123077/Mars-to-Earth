@@ -11,8 +11,10 @@ namespace Item
         public ItemInfo storyItemInfo;
         public void Use(Character.Player player)
         {
-            SpawnManager.Instance.GetEffect(player.transform.position, storyItemInfo.targetParticle, (int)CombatEffectClip.itemUse, 1, 1);
-            Debug.Log("storyitem Use");
+            ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, storyItemInfo.targetParticle, (int)CombatEffectClip.itemUse, 1, 1);
+            effect.transform.SetParent(player.transform, true);
+            MapInfo.storyValue++;
+            PlayerPrefs.SetInt("storyValue", MapInfo.storyValue);
             gameObject.SetActive(false);
         }
         private void Update()
@@ -20,5 +22,4 @@ namespace Item
             transform.eulerAngles += Vector3.up * (Time.deltaTime * 10);
         }
     }
-
 }
