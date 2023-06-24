@@ -10,7 +10,7 @@ namespace Item
 
         private SPC[] spcs;
 
-        static ItemInfo[] infos = new ItemInfo[3];
+        static ItemInfo[] infos = new ItemInfo[4];
         float[] temps = new float[2];
         static decimal spdValue = 0.05m;
         static decimal dmgValue = 2;
@@ -30,13 +30,13 @@ namespace Item
                     staticStat.maxHP += 40;
                     MapInfo.hpCore++;
                 },(ch) => spcs[0].Tick((stack)=>{ch.hp+=stack* ch.characterStat.maxHP*0.01f; }),null,infos[0].SPC_Sprite),
-                new( (ch) => {                  
+                new( (ch) => {
                     staticStat.speed = ch.speed = (float)((decimal)ch.speed + spdValue);
                     MapInfo.speedCore++;
                      temps[0]= ch.speed;
                      ch.speed+= temps[0]*0.2f;
                  }, (ch) =>ch.speed-=temps[0]*0.2f, infos[1].SPC_Sprite),
-                 new((ch) => {                    
+                 new((ch) => {
                     staticStat.dmg = ch.dmg = (float)((decimal)ch.dmg + dmgValue);
                     MapInfo.dmgCore++;
                      temps[1]= ch.dmg;
@@ -52,9 +52,9 @@ namespace Item
             ReleaseEffect effect = SpawnManager.Instance.GetEffect(player.transform.position, infos[(int)type].targetParticle, (int)CombatEffectClip.itemUse, 1, 20);
             effect.transform.SetParent(player.transform, true);
             spcs[(int)type].Init(20);
-        
+
             player.AddBuff(spcs[(int)type]);
-            
+
             MapInfo.core++;
             UIManager.Instance.playerStatUIController.core = MapInfo.core;
             gameObject.SetActive(false);

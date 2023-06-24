@@ -82,10 +82,26 @@ public class UIManager : Singleton<UIManager>
     private void Update()
     {
 #if UNITY_ANDROID || UNITY_IOS
-
-
+        // Esc 버튼 클릭 시 소리를 끄고 MobileSetting UI를 활성화
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            AudioManager.Instance.PlayEffect(1);
+            AudioManager.Instance.PauseSource();
+            aimImage.gameObject.SetActive(false);
+            if (UIs[(int)UIType.MobileSetting].gameObject.activeSelf != true)
+            {
+                UIs[(int)UIType.MobileSetting].gameObject.SetActive(true); // UI 활성화
+                MapInfo.pauseRequest++;
+            }
+            else if (UIs[(int)UIType.MobileSetting].gameObject.activeSelf == true)
+            {
+                AudioManager.Instance.UnPauseSorce();
+                MapInfo.pauseRequest--;
+                aimImage.gameObject.SetActive(true);
+                UIs[(int)UIType.MobileSetting].gameObject.SetActive(false); // UI 비활성화
+            }
+        }
 #else
-
         // Esc 버튼 클릭 시 소리를 끄고 Setting UI를 활성화
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -106,25 +122,6 @@ public class UIManager : Singleton<UIManager>
             }
         }
 #endif
-        // Esc 버튼 클릭 시 소리를 끄고 MobileSetting UI를 활성화
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            AudioManager.Instance.PlayEffect(1);
-            AudioManager.Instance.PauseSource();
-            aimImage.gameObject.SetActive(false);
-            if (UIs[(int)UIType.MobileSetting].gameObject.activeSelf != true)
-            {
-                UIs[(int)UIType.MobileSetting].gameObject.SetActive(true); // UI 활성화
-                MapInfo.pauseRequest++;
-            }
-            else if (UIs[(int)UIType.MobileSetting].gameObject.activeSelf == true)
-            {
-                AudioManager.Instance.UnPauseSorce();
-                MapInfo.pauseRequest--;
-                aimImage.gameObject.SetActive(true);
-                UIs[(int)UIType.MobileSetting].gameObject.SetActive(false); // UI 비활성화
-            }
-        }
 
 
         // 시네 카메라 활성화에 따른 위치값을 받음 anchorMin과 anchorMax에 해당하는 위치를 저장해 어느 해상도에도 반응이 되게 설정함

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e2b8564b1927804cbef7ad522246acc, type: 3}
-  m_Name: Story4
+  m_Name: Story
   m_EditorClassIdentifier: 
-  type: 0
+  type: 3
   itemValue: 0
-  thisParticle: {fileID: 0}
-  targetParticle: {fileID: 0}
+  thisParticle: {fileID: 198049161608213486, guid: c227dd14e3b49524e887fb34535503e4, type: 3}
+  targetParticle: {fileID: 198701760564810788, guid: 2cfd9cf3b1dc4ad489f9d2a7574d2463, type: 3}
   SPC_Sprite: {fileID: 0}
