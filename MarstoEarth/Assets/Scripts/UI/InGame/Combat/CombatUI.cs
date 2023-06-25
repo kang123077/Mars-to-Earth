@@ -159,8 +159,8 @@ public class CombatUI : UI
                         {
                             attakingId = sightId = touch.fingerId;
                             beganPoint = touch.position.x;
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
-                                return;
+                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2|| player.isRun)
+                                break;
                             player.anim.SetTrigger(Character.Character.attacking);
                         }
                         else if (RectTransformUtility.RectangleContainsScreenPoint(Pause, touch.position))
@@ -172,8 +172,7 @@ public class CombatUI : UI
                         else if (RectTransformUtility.RectangleContainsScreenPoint(Dodge, touch.position))
                         {
                             if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2)
-                                return;
-
+                                break;
 
                             player.actives[0].Use();
                         }
@@ -196,42 +195,38 @@ public class CombatUI : UI
                         }
                         break;
                     case TouchPhase.Moved:
-                        if (attakingId != -1)
-                        {
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
-                                return;
-                            player.anim.SetTrigger(Character.Character.attacking);
-                        }
+                      
                         if (MovingPadId == touch.fingerId && MovingPadId != -1)
                             MovingPad.OnDrag(touch.position);
 
                         else if (sightId == touch.fingerId)
                         {
-                            float rotate = (touch.position.x - beganPoint) * Time.deltaTime * 0.8f;
-                            //if (rotate < 0&& rotate<-3)
-                            //{
-                            //    rotate = -3;
-                            //}else if (rotate >0 && rotate > 3)
-                            //{
-                            //    rotate = 3;
-                            //}
+                            float rotate = (touch.position.x - beganPoint) * Time.deltaTime * 0.5f;
+                      
                             CinemachineManager.Instance.curAngle.y += rotate;
                             CinemachineManager.Instance.follower.rotation = Quaternion.Euler(CinemachineManager.Instance.curAngle);
+                            if (attakingId != -1)
+                            {
+                                if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2 || player.isRun)
+                                    break;
+                                player.anim.SetTrigger(Character.Character.attacking);
+                            }
                         }
                         break;
                     case TouchPhase.Stationary:
-                        if (attakingId != -1)
-                        {
-                            if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2&& player.isRun)
-                                return;
-                            player.anim.SetTrigger(Character.Character.attacking);
-                        }
+                        
                         if (sightId == touch.fingerId)
                         {
                             float rotate = (touch.position.x - beganPoint) * Time.deltaTime * 0.8f;
 
                             CinemachineManager.Instance.curAngle.y += rotate;
                             CinemachineManager.Instance.follower.rotation = Quaternion.Euler(CinemachineManager.Instance.curAngle);
+                            if (attakingId != -1)
+                            {
+                                if (player.onSkill is not null && player.onSkill.skillInfo.clipLayer == 2 || player.isRun)
+                                    break;
+                                player.anim.SetTrigger(Character.Character.attacking);
+                            }
                         }
                         break;
                     case TouchPhase.Ended:

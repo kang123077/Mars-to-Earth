@@ -24,6 +24,7 @@ public class UIManager : Singleton<UIManager>
     public GameoverUIController gameoverUI;
     public GameInfoUIController gameInfoUIController;
     public PlayerStatUIController playerStatUIController;
+    public CombatUI combatUI;
     public TMP_InputField inputField;
     public UnityEngine.UI.Image aimSprite;
     public Sprite[] spriteArray;
@@ -82,10 +83,26 @@ public class UIManager : Singleton<UIManager>
     private void Update()
     {
 #if UNITY_ANDROID || UNITY_IOS
-
-    
+        // Esc 버튼 클릭 시 소리를 끄고 MobileSetting UI를 활성화
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            AudioManager.Instance.PlayEffect(1);
+            AudioManager.Instance.PauseSource();
+            aimImage.gameObject.SetActive(false);
+            if (UIs[(int)UIType.MobileSetting].gameObject.activeSelf != true)
+            {
+                UIs[(int)UIType.MobileSetting].gameObject.SetActive(true); // UI 활성화
+                MapInfo.pauseRequest++;
+            }
+            else if (UIs[(int)UIType.MobileSetting].gameObject.activeSelf == true)
+            {
+                AudioManager.Instance.UnPauseSorce();
+                MapInfo.pauseRequest--;
+                aimImage.gameObject.SetActive(true);
+                UIs[(int)UIType.MobileSetting].gameObject.SetActive(false); // UI 비활성화
+            }
+        }
 #else
-
         // Esc 버튼 클릭 시 소리를 끄고 Setting UI를 활성화
         if (Input.GetKeyDown(KeyCode.Escape))
         {

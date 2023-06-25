@@ -25,21 +25,23 @@ public class MobileSettingUI : UI
     public void MOnMasterVolumeChanged()
     {
         float value = maserVolume.value;
-        AudioManager.bgmAudioSource.volume = value;
         AudioManager.masterVolume = value;
+        AudioManager.bgmAudioSource.volume = value * BGMVolume.value;
+        AudioManager.finalEffectVolume = value;
     }
 
     public void MOnBGMVolumeChanged()
     {
         float value = BGMVolume.value;
-        AudioManager.bgmAudioSource.volume = value;
+        AudioManager.bgmAudioSource.volume = value * maserVolume.value;
         AudioManager.bgmVolume = value;
     }
 
     public void MOnEffectVolumeChanged()
     {
-        float value = BGMVolume.value;
+        float value = effectVolume.value;
         AudioManager.effectAudioSource.volume = value;
+        AudioManager.finalEffectVolume = value;
         AudioManager.effectVolume = value;
     }
 

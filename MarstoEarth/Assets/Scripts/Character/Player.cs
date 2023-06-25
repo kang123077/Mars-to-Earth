@@ -10,6 +10,8 @@ namespace Character
         public Vector3 InputDir;
         public Transform camPoint;
         public bool isInsidePath;
+        private int obstacleLayer;
+
         public override bool stun
         {
             get => _stun;
@@ -135,6 +137,7 @@ namespace Character
             actives = new List<Skill.Skill>();
             isInsidePath = false;
             bulletSpeed = 35 + speed * 2;
+            obstacleLayer = 1 << 14 | 1 << 9;
         }
 
         protected override void Start()
@@ -159,6 +162,7 @@ namespace Character
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Stimpack]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Gardian]);
             actives.Add(ResourceManager.Instance.skills[(int)SkillName.Charge]);
+            actives.Add(ResourceManager.Instance.skills[(int)SkillName.Smash]);
             foreach (var a in actives)
             {
                 a.Init(this);
@@ -210,8 +214,39 @@ namespace Character
 
             return !stun;
         }
+
+        public bool CheckObstacle()
+        {
+            if (target is not null)
+            {
+                Vector3 direction = target.position - transform.position;
+                Ray ray = new Ray(transform.position, direction);
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, direction.magnitude, obstacleLayer))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         protected void Update()
         {
+            if (target is not null)
+            {
+                float distance = Vector3.Distance(transform.position, target.position);
+                Vector3 direction = target.position - transform.position;
+                Ray ray = new Ray(transform.position, direction);
+                Debug.DrawLine(transform.position, target.position, Color.green);
+
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, distance, obstacleLayer))
+                {
+                    target = null;
+                }
+            }
+
             if (!BaseUpdate())
                 return;
             Vector3 position = thisCurTransform.position;
@@ -227,8 +262,14 @@ namespace Character
             InputDir = new Vector3(xInput, 0, zInput);
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
-                itemColliders[0].TryGetComponent(out Item.Item getItem);
-                getItem.Use(this);
+                if (itemColliders[0].TryGetComponent(out Item.UsingItem getItem))
+                {
+                    getItem.Use(this);
+                }
+                else if (itemColliders[0].TryGetComponent(out Item.StoryItem storyItem))
+                {
+                    storyItem.Use(this);
+                }
             }
 
             if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
@@ -305,7 +346,7 @@ namespace Character
             #region Targeting
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0)&&!isRun)
                 anim.SetTrigger(attacking);
 #endif
             int size = Physics.OverlapSphereNonAlloc(position, sightLength - 1, colliders,
@@ -322,7 +363,7 @@ namespace Character
                     if (minAngle > angle)
                     {
                         minAngle = angle;
-                        if (!isInsidePath)
+                        if (!isInsidePath && CheckObstacle())
                         {
                             target = colliders[i].transform;
                         }

@@ -7,7 +7,9 @@ namespace Item
         Heal,
         Boost,
         PowerUp,
+        Story,
     }
+
     [CreateAssetMenu(fileName = "New ItemInfo", menuName = "ItemInfo")]
     public class ItemInfo : ScriptableObject
     {

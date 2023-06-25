@@ -49,8 +49,9 @@ public class AudioManager : Singleton<AudioManager>
     public static float finalEffectVolume = 0.6f;
     public static float finalBGM_Volume = 0.6f;
 
-    void Start()
+    protected override void Awake()
     {
+        base.Awake();
         // BGM용 AudioSource 컴포넌트 추가 및 설정
         bgmAudioSource = gameObject.AddComponent<AudioSource>();
         bgmAudioSource.loop = true;
@@ -62,7 +63,9 @@ public class AudioManager : Singleton<AudioManager>
         effectAudioSource.loop = false;
         effectAudioSource.volume = 1f;
         effectAudioSource.spatialize = false;
-
+    }
+    void Start()
+    {
         // 플레이 중인 오디오 소스의 리스트를 초기화 함
         playingSource = new List<AudioSource>();
 

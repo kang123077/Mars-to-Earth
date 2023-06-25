@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b7ba67a96584c748a2e36dec8c08534, type: 3}
   m_Name: AegisBarrier
   m_EditorClassIdentifier: 
-  description: "\uC804\uBC29\uC744\uD5A5\uD574 \uC801\uC744 \uBC00\uC5B4\uB0B4\uB294
+  description: "\uC804\uBC29\uC744 \uD5A5\uD574 \uC801\uC744 \uBC00\uC5B4\uB0B4\uB294
     \uC7A5\uBCBD\uC744 \uB3CC\uC9C4\uC2DC\uD0A8\uB2E4.  \uC7A5\uBCBD\uC740 \uC801\uC758
     \uD0C4\uD658\uC744 \uB9C9\uC544\uB0B8\uB2E4."
   description2: "\uC7A5\uBCBD\uC744 \uC804\uBC29\uC704\uB85C \uC18C\uD658\uD55C\uB2E4."
   clipName: CastSpell
   clipLayer: 1
   dmg: 0
-  duration: 15
+  duration: 6
   range: 10
   cool: 30
   speed: 12

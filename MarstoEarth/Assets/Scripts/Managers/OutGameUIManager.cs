@@ -7,6 +7,7 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
     public GameObject[] PCMO;
     public UnityEngine.UI.Button settingButton;
     public GameExplainUI gameExplainUICon;
+    public GameObject pediaObject;
 
     protected override void Awake()
     {
@@ -26,6 +27,10 @@ public class OutGameUIManager : Singleton<OutGameUIManager>
     private void Start()
     {
         settingButton.onClick.AddListener(OutGameSettingOn);
+        if(MapInfo.storyValue > 0)
+        {
+            pediaObject.SetActive(true);
+        }
     }
 
     public void OutGameSettingOn()

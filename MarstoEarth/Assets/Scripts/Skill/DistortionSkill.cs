@@ -44,14 +44,15 @@ namespace Skill
                     var transform = caster.transform;
                     firstPos = transform.position;
                     dir = ((Player)caster).InputDir.normalized;
+                    
                     if (dir.magnitude < 0.1f)
                     {
-                        dir = transform.forward;
+                        dir = transform.forward;                    
                     }
-
-                    distortion.Init(0.4f);
+                    dir= dir*( caster.speed* 0.15f);
+                    distortion.Init(0.3f);
                     caster.AddBuff(distortion);
-                    //caster.impact += dir * ((skillInfo.range + caster.range * 0.5f) * 7);
+                    
 
                     caster.SkillEffect();
                     break;
