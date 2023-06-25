@@ -307,8 +307,7 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void DropItem(Vector3 spawnPoint, EnemyPool rank)
     {
-        // int randValue = rand.Next(0, 400);
-        int randValue = 399;
+        int randValue = rand.Next(0, 400);
         if (MapInfo.storyValue == 0)
             dropValue = 1;
         else
