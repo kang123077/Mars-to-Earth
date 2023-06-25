@@ -17,7 +17,6 @@ enum PoolType
     Item,
 }
 
-
 public class SpawnManager : Singleton<SpawnManager>
 {
     public Player player;
@@ -25,6 +24,7 @@ public class SpawnManager : Singleton<SpawnManager>
     public IObjectPool<Projectile.Projectile> projectileManagedPool;
     public Projectile.Projectile projectilePrefab;
     public Item.UsingItem ItemPrefab;
+    public Item.StoryItem StoryItemPrefab;
     public List<Monster> monsterPool;
     public bool spawnInstantiateFinished;
     public LightController outsideLight;
@@ -33,8 +33,7 @@ public class SpawnManager : Singleton<SpawnManager>
     private int curNormal = 3;
     private int curElite = 1;
     private int curBoss = 1;
-
-    public StoryItem StoryItem;
+    private int dropValue;
 
     public int curMonsterCount
     {
@@ -89,7 +88,7 @@ public class SpawnManager : Singleton<SpawnManager>
                 return copyPrefab;
             },
             actionOnRelease: (pt) => pt.gameObject.SetActive(false), defaultCapacity: 20, maxSize: 40);
-        
+
         /*
          * 스토리 도감 로딩-> 
          */
@@ -233,8 +232,6 @@ public class SpawnManager : Singleton<SpawnManager>
         target.gameObject.SetActive(true);
     }
 
-
-
     public void ReleaseMonster(Monster target)
     {
         target.gameObject.SetActive(false);
@@ -310,13 +307,26 @@ public class SpawnManager : Singleton<SpawnManager>
 
     public void DropItem(Vector3 spawnPoint, EnemyPool rank)
     {
-        if (weight[(int)rank] < rand.Next(0, 10))
+        // int randValue = rand.Next(0, 400);
+        int randValue = 399;
+        if (MapInfo.storyValue == 0)
+            dropValue = 1;
+        else
+            dropValue = 2 * MapInfo.storyValue;
+        // storyItem
+        if (randValue >= 399 - (int)MapInfo.difficulty / dropValue && MapInfo.storyValue < 4)
+        {
+            DropStoryItem(spawnPoint);
+        }
+        if (weight[(int)rank] * 40 < randValue)
+        {
             return;
+        }
+
+        randValue = rand.Next(0, 3);
+        ItemType type = (ItemType)randValue;
         Item.UsingItem target;
-
-        ItemType type = (ItemType)rand.Next(0, 3);
         int findIdx = itemPool.FindIndex((el) => el.type == type);
-
         if (findIdx < 0)
         {
             target = Instantiate(ItemPrefab, spawnPoint, Quaternion.identity, objectPool[(int)PoolType.Item]);
@@ -330,15 +340,21 @@ public class SpawnManager : Singleton<SpawnManager>
             itemPool.RemoveAt(findIdx);
         }
         target.gameObject.SetActive(true);
+    }
 
+    public void DropStoryItem(Vector3 spawnPoint)
+    {
+        Item.StoryItem target;
+        target = Instantiate(StoryItemPrefab, spawnPoint, Quaternion.identity, objectPool[(int)PoolType.Item]);
+        Instantiate(ResourceManager.Instance.itemInfos[(int)ItemType.Story].thisParticle, target.transform);
     }
 
 #if UNITY_EDITOR
     public void ItemTest()//개발자 모드용
-    {       
-        Item.UsingItem target;       
-            target = Instantiate(ItemPrefab, Vector3.zero, Quaternion.identity, objectPool[(int)PoolType.Item]);
-            Instantiate(ResourceManager.Instance.itemInfos[(int)2].thisParticle, target.transform);
+    {
+        Item.UsingItem target;
+        target = Instantiate(ItemPrefab, Vector3.zero, Quaternion.identity, objectPool[(int)PoolType.Item]);
+        Instantiate(ResourceManager.Instance.itemInfos[(int)2].thisParticle, target.transform);
         target.type = ItemType.Boost;
     }
 #endif

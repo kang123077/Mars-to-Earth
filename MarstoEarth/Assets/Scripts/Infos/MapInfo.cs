@@ -27,6 +27,8 @@ public static class MapInfo
     public static int speedCore = 0;
     // 유저가 지금까지 부활한 적 있는지
     public static bool isRevive = false;
+    // 유저가 지금까지 먹은 스토리 아이템 수
+    public static int storyValue = GetUserStoryValue();
 
     // Pause인지 아닌지 나타내는 bool
     private static bool _gamePause = false;
@@ -79,5 +81,13 @@ public static class MapInfo
         hpCore = 0;
         dmgCore = 0;
         speedCore = 0;
+    }
+
+    public static int GetUserStoryValue()
+    {
+        if (PlayerPrefs.HasKey("storyValue"))
+            return PlayerPrefs.GetInt("storyValue");
+        else
+            return 0;
     }
 }

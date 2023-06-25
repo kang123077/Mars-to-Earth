@@ -262,8 +262,14 @@ namespace Character
             InputDir = new Vector3(xInput, 0, zInput);
             if (Physics.OverlapSphereNonAlloc(position, 1f, itemColliders, 1 << 7) > 0)
             {
-                itemColliders[0].TryGetComponent(out Item.UsingItem getItem);
-                getItem.Use(this);
+                if (itemColliders[0].TryGetComponent(out Item.UsingItem getItem))
+                {
+                    getItem.Use(this);
+                }
+                else if (itemColliders[0].TryGetComponent(out Item.StoryItem storyItem))
+                {
+                    storyItem.Use(this);
+                }
             }
 
             if (onSkill is not null && onSkill.skillInfo.clipLayer == 2)
